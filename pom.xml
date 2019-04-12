@@ -30,6 +30,7 @@
 
         <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 
+        <!--suppress UnresolvedMavenProperty -->
         <skipUTs>${skipTests}</skipUTs>
     </properties>
 
