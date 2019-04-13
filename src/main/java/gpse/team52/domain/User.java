@@ -32,6 +32,13 @@ public class User implements UserDetails {
     private List<String> roles;
 
     /**
+     * Default Constructor required by Spring.
+     */
+    protected User() {
+
+    }
+
+    /**
      * Create a new User.
      * @param username The username.
      * @param firstname The first name.
