@@ -1,6 +1,13 @@
 package gpse.team52.web;
 
+import javax.validation.Valid;
+
+import gpse.team52.contract.UserService;
+import gpse.team52.domain.User;
+import gpse.team52.exception.EmailExistsException;
+import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,13 +15,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-
 /**
  * Responsible for registering a user.
  */
 @Controller
 public class RegisterController {
+    @Autowired
+    private UserService userService;
+
     /**
      * Show the registration form to the user.
      *
@@ -37,10 +45,22 @@ public class RegisterController {
     @PostMapping("/register")
     public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form, final BindingResult result) {
 
-        if (result.hasErrors()) {
-            return new ModelAndView("register", "user", form);
+        if (!result.hasErrors()) {
+            try {
+                User registeredUser = createUserAccount(form);
+
+                return new ModelAndView("register-confirm", "registeredUser", registeredUser);
+            } catch (UsernameExistsException e) {
+                result.rejectValue("username", "register.username.existsError", e.getMessage());
+            } catch (EmailExistsException e) {
+                result.rejectValue("email", "register.email.existsError", e.getMessage());
+            }
         }
 
-        return new ModelAndView("register-confirm");
+        return new ModelAndView("register");
+    }
+
+    private User createUserAccount(UserRegistrationForm form) throws UsernameExistsException, EmailExistsException {
+        return userService.createUser(form, "ROLE_USER");
     }
 }

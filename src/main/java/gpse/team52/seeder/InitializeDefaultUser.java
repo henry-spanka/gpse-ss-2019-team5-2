@@ -1,10 +1,11 @@
 package gpse.team52.seeder;
 
 import gpse.team52.contract.UserService;
-import gpse.team52.domain.User;
+import gpse.team52.exception.EmailExistsException;
+import gpse.team52.exception.UsernameExistsException;
+import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,12 +24,18 @@ public class InitializeDefaultUser implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        UserRegistrationForm form = new UserRegistrationForm();
+        form.setFirstName("Demo");
+        form.setLastName("Admin");
+        form.setEmail("demo.admin@example.org");
+        form.setUsername("admin");
+        form.setPassword("password");
+        form.setPasswordConfirm("password");
+
         try {
-            userService.loadUserByUsername("admin");
-        } catch (UsernameNotFoundException ex) {
-            userService.createUser("admin",
-            "{bcrypt}$2a$10$WoG5Z4YN9Z37EWyNCkltyeFr6PtrSXSLMeFWOeDUwcanht5CIJgPa",
-            "Demo", "Admin", "ROLE_USER");
+            userService.createUser(form, "ROLE_ADMIN");
+        } catch (UsernameExistsException | EmailExistsException e) {
+
         }
     }
 }

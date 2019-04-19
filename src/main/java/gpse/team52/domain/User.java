@@ -1,13 +1,17 @@
 package gpse.team52.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.*;
+
+import gpse.team52.form.UserRegistrationForm;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * User entity.
@@ -16,16 +20,24 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @Column
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID userId;
+
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String firstname;
 
-    @Column
+    @Column(nullable = false)
     private String lastname;
 
-    @Column
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -34,21 +46,23 @@ public class User implements UserDetails {
     /**
      * Default Constructor required by Spring.
      */
-    protected User() {
-
+    public User() {
+        //
     }
 
     /**
-     * Create a new User.
-     * @param username The username.
-     * @param firstname The first name.
-     * @param lastname The last name.
-     * @param password The password.
+     * Create a user from a registration form.
+     *
+     * @param form     The form from which the user details should be retrieved.
+     * @param password The encoded password for the user.
      */
-    public User(final String username, final String firstname, final String lastname, final String password) {
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User(UserRegistrationForm form, String password) {
+        username = form.getUsername();
+        firstname = form.getFirstName();
+        lastname = form.getLastName();
+
+        email = form.getEmail();
+
         this.password = password;
     }
 
@@ -97,6 +111,7 @@ public class User implements UserDetails {
 
     /**
      * Assign a role to a user.
+     *
      * @param role The rule to be added.
      */
     public void addRole(final String role) {
