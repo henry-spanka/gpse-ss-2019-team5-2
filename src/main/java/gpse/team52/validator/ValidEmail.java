@@ -1,10 +1,11 @@
 package gpse.team52.validator;
 
-import gpse.team52.validator.impl.EmailValidator;
+import java.lang.annotation.*;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.*;
+
+import gpse.team52.validator.impl.EmailValidator;
 
 /**
  * Email validator which validates a field.

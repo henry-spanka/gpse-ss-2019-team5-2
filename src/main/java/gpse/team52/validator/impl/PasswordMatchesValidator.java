@@ -1,10 +1,10 @@
 package gpse.team52.validator.impl;
 
-import gpse.team52.form.UserRegistrationForm;
-import gpse.team52.validator.PasswordMatches;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import gpse.team52.form.UserRegistrationForm;
+import gpse.team52.validator.PasswordMatches;
 
 /**
  * Validates that the two fields 'password' and 'passwordConfirm' match.

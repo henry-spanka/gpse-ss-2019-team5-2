@@ -23,11 +23,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         .authorizeRequests()
         .antMatchers("/", "/register", "/recoverpw", "/webjars/**").permitAll()
+        .antMatchers("/h2-console/**").hasRole("ADMIN")
         .anyRequest().authenticated()
+        .and().headers().frameOptions().sameOrigin()
         .and()
         .formLogin()
         .loginPage("/login")
         .permitAll()
+        .and()
+        .csrf()
+        .ignoringAntMatchers("/h2-console/**")
         .and()
         .logout()
         .permitAll();

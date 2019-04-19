@@ -1,11 +1,12 @@
 package gpse.team52.validator;
 
 
-import gpse.team52.validator.impl.PasswordMatchesValidator;
+import java.lang.annotation.*;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.*;
+
+import gpse.team52.validator.impl.PasswordMatchesValidator;
 
 /**
  * Validates that the two fields 'password' and 'passwordConfirm' match.

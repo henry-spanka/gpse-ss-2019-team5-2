@@ -1,18 +1,19 @@
 package gpse.team52.validator.impl;
 
-import gpse.team52.validator.ValidEmail;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import gpse.team52.validator.ValidEmail;
 
 /**
  * Email validator class which validates a field.
  */
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@" +
-    "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@"
+    + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
     @Override
     public void initialize(final ValidEmail constraintAnnotation) {
