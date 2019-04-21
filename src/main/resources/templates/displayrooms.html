@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+        <title>Room Broker</title>
+    </head>
+
+    <body>
+
+        <div layout:fragment="content">
+            <div class="col-md-5 p-2 mx-auto text-center">
+                <div th:each="room : ${roomList}">
+                    <p th:text="${room.name}">Raum</p>
+                    <!--
+                    <dt>
+                       <span th:if="${favoritesList.contains(room.name) }"
+                    </dt>
+                    Wenn der Raum ein Favorit des Erstellers ist, dann Sternchen anzeigen
+                    -->
+                    <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+
+            <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="/webjars/jquery/3.3.1-2/jquery.slim.min.js" crossorigin="anonymous"></script>
+        <script src="/webjars/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>
+
