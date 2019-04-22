@@ -17,8 +17,9 @@
 
         <div layout:fragment="content">
             <div class="col-md-5 p-2 mx-auto text-center">
-                <div th:each="room : ${roomList}">
-                    <p th:text="${room.name}">Raum</p>
+                <div th:each="room : ${roomList}", align="left">
+                    <input type="button" value="Details" style="float: right;"/>
+                    <h3 th:text="${room.name}">Raum</h3>
                     <!--
                     <dt>
                        <span th:if="${favoritesList.contains(room.name) }"
