@@ -1,13 +1,13 @@
 package gpse.team52.web;
 
 import gpse.team52.Room;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -23,13 +23,22 @@ public class RoomdisplayController {
     private List<Room> roomList = new ArrayList<Room>();
     //private Room[] roomList = {room, room2};
 
-    @GetMapping("/displayrooms")
-    public ModelAndView displayrooms() {
-        final ModelAndView modelAndView = new ModelAndView("displayrooms");
+    @GetMapping("/rooms")
+    public ModelAndView rooms() {
+        final ModelAndView modelAndView = new ModelAndView("rooms");
         // Example rooms
         roomList.add(room);
         roomList.add(room2);
         modelAndView.addObject("roomList", roomList);
+        return modelAndView;
+    }
+
+
+    @GetMapping("/rooms/{roomID}")
+    public ModelAndView roomdetails(@PathVariable("roomID") String roomID) {
+        final ModelAndView modelAndView = new ModelAndView("roomdetails");
+        room = new Room(roomID, 3, "testraum");
+        modelAndView.addObject("room", room);
         return modelAndView;
     }
 

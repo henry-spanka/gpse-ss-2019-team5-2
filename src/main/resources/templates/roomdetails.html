@@ -3,9 +3,9 @@
 <body>
 <div layout:fragment="content">
     <div class="row">
-        <div class="col-md-5 p-2 mx-auto text-center">
-            <p th:text="${room.name}">Raum</p>
-            <p th:text="${'Plätze: ' + room.seats + 'Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
+        <div class="col-md-5">
+            <h4 th:text="${room.name}">Raum</h4>
+            <p th:text="${'Plätze: ' + room.seats + ' Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
         </div>
     </div>
 </div>

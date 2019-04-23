@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+
+<body>
+<div layout:fragment="content">
+    <div th:each="room : ${roomList}" class="row my-2 container-fluid">
+        <div class="col-5 offset-3">
+            <h4 th:text="${room.name}">Raum</h4>
+            <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
+            <!--
+            <dt>
+               <span th:if="${favoritesList.contains(room.name) }"
+            </dt>
+            Wenn der Raum ein Favorit des Erstellers ist, dann Sternchen anzeigen
+            -->
+        </div>
+        <div class="col-3 offset-1 mt-2">
+            <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.name})}">Details</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
