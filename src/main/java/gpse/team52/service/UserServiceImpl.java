@@ -14,7 +14,6 @@ import gpse.team52.form.UserRegistrationForm;
 import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,7 +45,7 @@ class UserServiceImpl implements UserService {
     UserServiceImpl(
     final UserRepository userRepository,
     final ConfirmationTokenRepository confirmationTokenRepository,
-    @Lazy final PasswordEncoder passwordEncoder,
+    final PasswordEncoder passwordEncoder,
     final MailService mailService) {
         this.userRepository = userRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
