@@ -1,11 +1,17 @@
 package gpse.team52.service;
 
+import java.util.UUID;
+
 import gpse.team52.contract.UserService;
+import gpse.team52.contract.mail.MailService;
+import gpse.team52.domain.ConfirmationToken;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.EmailNotFoundException;
+import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
+import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -14,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * User Service implementation.
@@ -24,16 +31,27 @@ class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
     private final PasswordEncoder passwordEncoder;
+
+    private final MailService mailService;
 
     /**
      * User Service implementation.
+     *
      * @param userRepository The user data repository.
      */
     @Autowired
-    public UserServiceImpl(final UserRepository userRepository, @Lazy final PasswordEncoder passwordEncoder) {
+    UserServiceImpl(
+    final UserRepository userRepository,
+    final ConfirmationTokenRepository confirmationTokenRepository,
+    @Lazy final PasswordEncoder passwordEncoder,
+    final MailService mailService) {
         this.userRepository = userRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
     }
 
     @Override
@@ -49,7 +67,14 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(UserRegistrationForm form, final String... roles) throws UsernameExistsException, EmailExistsException {
+    public User createUser(final UserRegistrationForm form, final String... roles) throws UsernameExistsException,
+    EmailExistsException {
+        return createUser(form, false, roles);
+    }
+
+    @Override
+    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles) throws UsernameExistsException,
+    EmailExistsException {
         if (emailExists(form.getEmail())) {
             throw new EmailExistsException("Email " + form.getEmail() + " already exists.");
         }
@@ -58,8 +83,9 @@ class UserServiceImpl implements UserService {
             throw new UsernameExistsException("Username " + form.getUsername() + " already exists.");
         }
 
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        final String encodedPassword = passwordEncoder.encode(form.getPassword());
         final User user = new User(form, encodedPassword);
+        user.setEnabled(enabled);
 
         for (final String role : roles) {
             user.addRole(role);
@@ -68,7 +94,32 @@ class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    private boolean emailExists(String email) {
+    public void sendVerificationEmail(final User user) {
+        final ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confirmationTokenRepository.save(confirmationToken);
+
+        final ModelAndView modelAndView = new ModelAndView("email/register-verification.html", "user", user);
+        modelAndView.addObject("token", confirmationToken);
+
+        mailService.sendEmailTemplateToUser(user, "Email Verification", modelAndView);
+    }
+
+    @Override
+    public User validateUserFromToken(final UUID token) throws InvalidConfirmationTokenException {
+        final ConfirmationToken confirmationToken = confirmationTokenRepository.findById(token)
+        .orElseThrow(() -> new InvalidConfirmationTokenException("The token " + token + " is invalid."));
+
+        final User user = confirmationToken.getUser();
+        user.setEnabled(true);
+
+        userRepository.save(user);
+        confirmationTokenRepository.delete(confirmationToken);
+
+        return user;
+    }
+
+    private boolean emailExists(final String email) {
         try {
             loadUserByEmail(email);
         } catch (EmailNotFoundException e) {
@@ -78,7 +129,7 @@ class UserServiceImpl implements UserService {
         return true;
     }
 
-    private boolean usernameExists(String username) {
+    private boolean usernameExists(final String username) {
         try {
             loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {

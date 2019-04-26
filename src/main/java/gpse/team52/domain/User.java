@@ -8,6 +8,9 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import gpse.team52.form.UserRegistrationForm;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * User entity.
  */
 @Entity
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -35,20 +39,19 @@ public class User implements UserDetails {
     private String lastname;
 
     @Column(unique = true, nullable = false)
+    @Getter
     private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private boolean isEnabled = false;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
-
-    /**
-     * Default Constructor required by Spring.
-     */
-    public User() {
-        //
-    }
 
     /**
      * Create a user from a registration form.
@@ -56,7 +59,7 @@ public class User implements UserDetails {
      * @param form     The form from which the user details should be retrieved.
      * @param password The encoded password for the user.
      */
-    public User(UserRegistrationForm form, String password) {
+    public User(final UserRegistrationForm form, final String password) {
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
@@ -93,11 +96,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
         return true;
     }
 

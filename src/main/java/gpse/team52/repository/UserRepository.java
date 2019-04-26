@@ -1,6 +1,7 @@
 package gpse.team52.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import gpse.team52.domain.User;
 import org.springframework.data.repository.CrudRepository;
@@ -8,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * User Repository.
  */
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends CrudRepository<User, UUID> {
     /**
      * Finds a given user by their username.
      * @param username The username to search for.

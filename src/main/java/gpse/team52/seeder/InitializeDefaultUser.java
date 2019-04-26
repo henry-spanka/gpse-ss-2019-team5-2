@@ -24,7 +24,7 @@ public class InitializeDefaultUser implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        UserRegistrationForm form = new UserRegistrationForm();
+        final UserRegistrationForm form = new UserRegistrationForm();
         form.setFirstName("Demo");
         form.setLastName("Admin");
         form.setEmail("demo.admin@example.org");
@@ -33,9 +33,9 @@ public class InitializeDefaultUser implements InitializingBean {
         form.setPasswordConfirm("password");
 
         try {
-            userService.createUser(form, "ROLE_ADMIN");
+            userService.createUser(form, true, "ROLE_ADMIN");
         } catch (UsernameExistsException | EmailExistsException e) {
-
+            // Not an issue as we only need to create the admin user if it doesn't exist already.
         }
     }
 }
