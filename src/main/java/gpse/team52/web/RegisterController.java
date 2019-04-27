@@ -11,6 +11,7 @@ import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +60,8 @@ public class RegisterController {
                 result.rejectValue("username", "register.username.existsError", e.getMessage());
             } catch (EmailExistsException e) {
                 result.rejectValue("email", "register.email.existsError", e.getMessage());
+            } catch (MailException e) {
+                result.rejectValue("email", "register.email.mailSendError", e.getMessage());
             }
         }
 
@@ -86,7 +89,7 @@ public class RegisterController {
     }
 
     private User createUserAccount(final UserRegistrationForm form) throws UsernameExistsException,
-    EmailExistsException {
+    EmailExistsException, MailException {
         final User user = userService.createUser(form, "ROLE_USER");
         userService.sendVerificationEmail(user);
 
