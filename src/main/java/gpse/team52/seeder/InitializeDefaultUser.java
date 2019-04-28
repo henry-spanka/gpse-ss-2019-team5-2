@@ -1,10 +1,11 @@
 package gpse.team52.seeder;
 
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.UserService;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Initializes the Default User in the database.
  */
 @Service
-public class InitializeDefaultUser implements InitializingBean {
+public class InitializeDefaultUser {
 
     private final UserService userService;
 
@@ -21,9 +22,11 @@ public class InitializeDefaultUser implements InitializingBean {
         this.userService = userService;
     }
 
-
-    @Override
-    public void afterPropertiesSet() {
+    /**
+     * Initializes the default admin user if it doesn't exist already.
+     */
+    @PostConstruct
+    public void init() {
         final UserRegistrationForm form = new UserRegistrationForm();
         form.setFirstName("Demo");
         form.setLastName("Admin");
