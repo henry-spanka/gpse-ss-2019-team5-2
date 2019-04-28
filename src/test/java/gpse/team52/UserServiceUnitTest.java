@@ -51,8 +51,8 @@ public class UserServiceUnitTest {
     private User testUser;
     private UserRegistrationForm userRegistrationForm;
 
-    private final String username = "testuser";
-    private final String email = "test.user@example.org";
+    private static final String USERNAME = "testuser";
+    private static final String EMAIL = "test.user@example.org";
 
     @BeforeEach
     public void setUp() {
@@ -61,8 +61,8 @@ public class UserServiceUnitTest {
         userRegistrationForm = new UserRegistrationForm();
         userRegistrationForm.setFirstName("Test");
         userRegistrationForm.setLastName("User");
-        userRegistrationForm.setEmail(email);
-        userRegistrationForm.setUsername(username);
+        userRegistrationForm.setEmail(EMAIL);
+        userRegistrationForm.setUsername(USERNAME);
         userRegistrationForm.setPassword("mysecretpassword");
         userRegistrationForm.setPasswordConfirm("mysecretpassword");
 
@@ -74,14 +74,14 @@ public class UserServiceUnitTest {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.of(testUser));
         when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.of(testUser));
 
-        User user = userService.loadUserByUsername(username);
+        User user = userService.loadUserByUsername(USERNAME);
 
-        assertThat(user.getUsername()).isEqualTo(username);
-        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(user.getUsername()).isEqualTo(USERNAME);
+        assertThat(user.getEmail()).isEqualTo(EMAIL);
 
-        user = userService.loadUserByEmail(email);
+        user = userService.loadUserByEmail(EMAIL);
 
-        assertThat(user.getUsername()).isEqualTo(username);
+        assertThat(user.getUsername()).isEqualTo(USERNAME);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class UserServiceUnitTest {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.ofNullable(null));
         when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.ofNullable(null));
 
-        User user = userService.createUser(userRegistrationForm, "ROLE_USER");
+        final User user = userService.createUser(userRegistrationForm, "ROLE_USER");
 
         assertThat(user.getUsername()).isEqualTo(userRegistrationForm.getUsername());
         assertThat(user.getEmail()).isEqualTo(userRegistrationForm.getEmail());

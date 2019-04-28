@@ -7,6 +7,9 @@ import gpse.team52.validator.ValidEmail;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * User Registration Form from which a valid user can be registered.
+ */
 @PasswordMatches
 public class UserRegistrationForm {
     @NotBlank

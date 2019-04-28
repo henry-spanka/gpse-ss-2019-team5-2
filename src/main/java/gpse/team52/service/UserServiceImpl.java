@@ -38,7 +38,10 @@ public class UserServiceImpl implements UserService {
     /**
      * User Service implementation.
      *
-     * @param userRepository The user data repository.
+     * @param userRepository              The user data repository.
+     * @param confirmationTokenRepository The confirmation token repository.
+     * @param passwordEncoder             The password encoder to use.
+     * @param mailService                 The mail service to use.
      */
     @Autowired
     public UserServiceImpl(
@@ -71,7 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles) throws UsernameExistsException,
+    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles)
+    throws UsernameExistsException,
     EmailExistsException {
         if (emailExists(form.getEmail())) {
             throw new EmailExistsException("Email " + form.getEmail() + " already exists.");
@@ -92,6 +96,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Send a verification email to the user's email address.
+     *
+     * @param user The User to verify.
+     */
     public void sendVerificationEmail(final User user) {
         final ConfirmationToken confirmationToken = new ConfirmationToken(user);
 

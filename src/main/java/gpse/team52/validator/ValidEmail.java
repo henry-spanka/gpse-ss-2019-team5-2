@@ -15,7 +15,24 @@ import gpse.team52.validator.impl.EmailValidator;
 @Constraint(validatedBy = EmailValidator.class)
 @Documented
 public @interface ValidEmail {
+    /**
+     * Error message that indicates the reason why the check failed.
+     *
+     * @return The error message.
+     */
     String message() default "Invalid email";
+
+    /**
+     * Groups.
+     *
+     * @return Nothing.
+     */
     Class<?>[] groups() default {};
+
+    /**
+     * Payload.
+     *
+     * @return Nothing.
+     */
     Class<? extends Payload>[] payload() default {};
 }

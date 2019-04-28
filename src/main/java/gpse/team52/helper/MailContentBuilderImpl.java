@@ -27,6 +27,12 @@ public class MailContentBuilderImpl implements MailContentBuilder {
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * Renders HTML from Thymeleaf templates.
+     *
+     * @param modelAndView The ModelAndView object that should be rendered.
+     * @return The rendered HTML as a String.
+     */
     public String build(final ModelAndView modelAndView) {
         final Map<String, Object> model = modelAndView.getModelMap();
         final Context context = new Context();

@@ -38,7 +38,7 @@ public interface UserService extends UserDetailsService {
     EmailExistsException;
 
     @Override
-    User loadUserByUsername(String s) throws UsernameNotFoundException;
+    User loadUserByUsername(String username) throws UsernameNotFoundException;
 
     /**
      * Find a user by their email.

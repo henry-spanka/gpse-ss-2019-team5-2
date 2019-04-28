@@ -31,13 +31,24 @@ public class MailServiceImpl implements MailService {
      * @param env                The environment for retrieving settings like mailFrom.
      */
     @Autowired
-    public MailServiceImpl(final JavaMailSender mailSender, final MailContentBuilder mailContentBuilder, final Environment env) {
+    public MailServiceImpl(final JavaMailSender mailSender, final MailContentBuilder mailContentBuilder,
+                           final Environment env) {
         this.mailSender = mailSender;
         this.mailContentBuilder = mailContentBuilder;
         this.env = env;
     }
 
-    public void sendEmailMessageToUser(final User user, final String subject, final String message, final boolean html) throws MailException {
+    /**
+     * Sends an email to the users email address.
+     *
+     * @param user    The user to send the mail to (their email).
+     * @param subject The email subject.
+     * @param message The message (body).
+     * @param html    Whether the content type should be html or plain text.
+     * @throws MailException Thrown if the message could not be sent.
+     */
+    public void sendEmailMessageToUser(final User user, final String subject, final String message, final boolean html)
+    throws MailException {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(env.getRequiredProperty("mail.from"));
@@ -49,7 +60,8 @@ public class MailServiceImpl implements MailService {
         mailSender.send(messagePreparator);
     }
 
-    public void sendEmailTemplateToUser(final User user, final String subject, final ModelAndView template) throws MailException {
+    public void sendEmailTemplateToUser(final User user, final String subject, final ModelAndView template)
+    throws MailException {
         sendEmailMessageToUser(user, subject, mailContentBuilder.build(template), true);
     }
 }

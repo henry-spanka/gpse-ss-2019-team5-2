@@ -16,9 +16,21 @@ import gpse.team52.validator.impl.PasswordMatchesValidator;
 @Constraint(validatedBy = PasswordMatchesValidator.class)
 @Documented
 public @interface PasswordMatches {
+    /**
+     * Error message that indicates the reason why the check failed.
+     * @return The error message
+     */
     String message() default "Passwords don't match";
 
+    /**
+     * Groups.
+     * @return Nothing.
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * Payload.
+     * @return Nothing.
+     */
     Class<? extends Payload>[] payload() default {};
 }
