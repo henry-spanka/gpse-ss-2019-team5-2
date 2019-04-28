@@ -47,6 +47,7 @@ public class MailServiceImpl implements MailService {
      * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
+    @Override
     public void sendEmailMessageToUser(final User user, final String subject, final String message, final boolean html)
     throws MailException {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
@@ -60,6 +61,7 @@ public class MailServiceImpl implements MailService {
         mailSender.send(messagePreparator);
     }
 
+    @Override
     public void sendEmailTemplateToUser(final User user, final String subject, final ModelAndView template)
     throws MailException {
         sendEmailMessageToUser(user, subject, mailContentBuilder.build(template), true);

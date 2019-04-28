@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles)
+    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles)//NOPMD
     throws UsernameExistsException,
     EmailExistsException {
         if (emailExists(form.getEmail())) {
@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user The User to verify.
      */
+    @Override
     public void sendVerificationEmail(final User user) {
         final ConfirmationToken confirmationToken = new ConfirmationToken(user);
 

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class InitializeDefaultUser {
 
+    private static final String DEFAULT_PASSWORD = "password";
+
     private final UserService userService;
 
     @Autowired
@@ -32,12 +34,12 @@ public class InitializeDefaultUser {
         form.setLastName("Admin");
         form.setEmail("demo.admin@example.org");
         form.setUsername("admin");
-        form.setPassword("password");
-        form.setPasswordConfirm("password");
+        form.setPassword(DEFAULT_PASSWORD);
+        form.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
             userService.createUser(form, true, "ROLE_ADMIN");
-        } catch (UsernameExistsException | EmailExistsException e) {
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
         }
     }

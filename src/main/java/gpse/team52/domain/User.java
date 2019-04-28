@@ -5,7 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
@@ -22,6 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @NoArgsConstructor
 public class User implements UserDetails {
+
+    private static final long serialVersionUID = 7179581269044235932L;
 
     @Id
     @GeneratedValue(generator = "uuid2")

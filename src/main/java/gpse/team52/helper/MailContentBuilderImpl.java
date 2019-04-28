@@ -33,6 +33,7 @@ public class MailContentBuilderImpl implements MailContentBuilder {
      * @param modelAndView The ModelAndView object that should be rendered.
      * @return The rendered HTML as a String.
      */
+    @Override
     public String build(final ModelAndView modelAndView) {
         final Map<String, Object> model = modelAndView.getModelMap();
         final Context context = new Context();

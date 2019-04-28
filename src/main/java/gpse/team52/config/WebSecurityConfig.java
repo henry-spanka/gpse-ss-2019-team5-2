@@ -12,12 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String H2_CONSOLE_URL_MATCHER = "h2-console/**";
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
         .authorizeRequests()
         .antMatchers("/", "/register", "/confirm-account", "/recoverpw", "/webjars/**").permitAll()
-        .antMatchers("/h2-console/**").hasRole("ADMIN")
+        .antMatchers(H2_CONSOLE_URL_MATCHER).hasRole("ADMIN")
         .anyRequest().authenticated()
         .and().headers().frameOptions().sameOrigin()
         .and()
@@ -26,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .and()
         .csrf()
-        .ignoringAntMatchers("/h2-console/**")
+        .ignoringAntMatchers(H2_CONSOLE_URL_MATCHER)
         .and()
         .logout()
         .permitAll();

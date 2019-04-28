@@ -21,6 +21,8 @@ public interface UserService extends UserDetailsService {
      * @param form  The registration form which containers the user's details.
      * @param roles The roles to assign to the user.
      * @return The persisted user in the database.
+     * @throws UsernameExistsException Thrown if the username already exists in the database.
+     * @throws EmailExistsException    Thrown if the email already exists in the database.
      */
     User createUser(UserRegistrationForm form, String... roles) throws UsernameExistsException, EmailExistsException;
 

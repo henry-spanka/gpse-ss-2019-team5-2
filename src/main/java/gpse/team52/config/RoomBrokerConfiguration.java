@@ -18,7 +18,7 @@ public class RoomBrokerConfiguration {
     @Autowired
     public void configureGlobal(final UserDetailsService userDetailsService,
                                 final PasswordEncoder passwordEncoder,
-                                final AuthenticationManagerBuilder auth) throws Exception {
+                                final AuthenticationManagerBuilder auth) throws Exception { //NOPMD
         auth.userDetailsService(userDetailsService)
         .passwordEncoder(passwordEncoder);
     }
