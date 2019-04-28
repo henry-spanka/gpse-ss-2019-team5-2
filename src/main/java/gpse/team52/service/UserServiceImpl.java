@@ -15,7 +15,6 @@ import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Service
 @Primary
-class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -42,7 +41,7 @@ class UserServiceImpl implements UserService {
      * @param userRepository The user data repository.
      */
     @Autowired
-    UserServiceImpl(
+    public UserServiceImpl(
     final UserRepository userRepository,
     final ConfirmationTokenRepository confirmationTokenRepository,
     final PasswordEncoder passwordEncoder,
@@ -54,13 +53,13 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(final String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User name " + username + " not found."));
     }
 
     @Override
-    public UserDetails loadUserByEmail(final String email) throws EmailNotFoundException {
+    public User loadUserByEmail(final String email) throws EmailNotFoundException {
         return userRepository.findByEmail(email)
         .orElseThrow(() -> new EmailNotFoundException("Email " + email + " not found."));
     }

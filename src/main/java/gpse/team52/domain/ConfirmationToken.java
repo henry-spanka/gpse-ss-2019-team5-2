@@ -33,4 +33,14 @@ public class ConfirmationToken {
     public ConfirmationToken(final User user) {
         this.user = user;
     }
+
+    /**
+     * Generate a new confirmation token for a user.
+     * @param user The user to generate the token for.
+     * @param token The token to use.
+     */
+    public ConfirmationToken(final User user, UUID token) {
+        this.user = user;
+        this.token = token;
+    }
 }

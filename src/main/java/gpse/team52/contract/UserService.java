@@ -8,8 +8,8 @@ import gpse.team52.exception.EmailNotFoundException;
 import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * User Service Contract.
@@ -37,6 +37,9 @@ public interface UserService extends UserDetailsService {
     User createUser(UserRegistrationForm form, boolean enabled, String... roles) throws UsernameExistsException,
     EmailExistsException;
 
+    @Override
+    User loadUserByUsername(String s) throws UsernameNotFoundException;
+
     /**
      * Find a user by their email.
      *
@@ -44,7 +47,7 @@ public interface UserService extends UserDetailsService {
      * @return The User.
      * @throws EmailNotFoundException Thrown if the user cannot be found.
      */
-    UserDetails loadUserByEmail(String email) throws EmailNotFoundException;
+    User loadUserByEmail(String email) throws EmailNotFoundException;
 
     /**
      * Send a verification email to the user's email address.
