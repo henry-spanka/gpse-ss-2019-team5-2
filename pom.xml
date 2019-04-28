@@ -81,6 +81,11 @@
             <version>1.18.6</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <!-- JUnit 5 -->
         <dependency>
