@@ -3,9 +3,15 @@
 <body>
 <div layout:fragment="content">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 offset-md-2">
             <h4 th:text="${room.name}">Raum</h4>
             <p th:text="${'Plätze: ' + room.seats + ' Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
+            <p th:text="${'sonstige Informationen: ' + room.ID}">Raumnummer Lage Standort etc.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5 ml-auto">
+            <a class="btn btn-outline-info" th:href="@{/rooms/}">Zurück</a>
         </div>
     </div>
 </div>

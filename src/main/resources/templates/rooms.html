@@ -3,19 +3,35 @@
 
 <body>
 <div layout:fragment="content">
+
     <div th:each="room : ${roomList}" class="row my-2 container-fluid">
         <div class="col-5 offset-3">
             <h4 th:text="${room.name}">Raum</h4>
             <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
-            <!--
+        </div>
+        <!--
             <dt>
                <span th:if="${favoritesList.contains(room.name) }"
             </dt>
             Wenn der Raum ein Favorit des Erstellers ist, dann Sternchen anzeigen
             -->
-        </div>
         <div class="col-3 offset-1 mt-2">
-            <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.name})}">Details</a>
+            <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.ID})}">Details</a>
+        </div>
+    </div>
+
+    <div class="row my-1">
+        <div class="col-3 offset-5">
+            <a class="btn btn-primary btn-lg btn-block" th:href="@{/}">Meetingparameter ändern</a>
+        </div>
+    </div>
+
+    <div class="row align-bottom justify-content-around my-1">
+        <div class="col-2 offset-md-4">
+            <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Abbrechen</a>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-success btn-lg btn-block" th:href="@{/rooms/}">Bestätigen</a>
         </div>
     </div>
 </div>
