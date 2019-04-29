@@ -1,21 +1,48 @@
 package gpse.team52;
 
+import lombok.Getter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Room {
 
-    private final int ID;
-    private String name;
+    @Id
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    private int roomID;
+
+    @Column
+    private String roomName;
+
+    @Column
     private int seats;
+
+    @Column
+    private int extraSeats;
+
+    @Column(unique = true, nullable = false)
+    @Getter
+    private String roomEmail;
+
+    //TODO needs to be changed to any list or class or whatever
+    @Column
     private String equipment;
 
+    //TODO add: layout/lageplan, location (and class location), belegungsplan
+    //@Column
+    //private Location location;
+
     public Room(String name, int seats, String equipment, int id) {
-        this.name = name;
+        this.roomName = name;
         this.seats = seats;
         this.equipment =  equipment;
-        this.ID = id;
+        this.roomID = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoomName() {
+        return roomName;
     }
     public String getEquipment() {
         return equipment;
@@ -23,6 +50,6 @@ public class Room {
     public int getSeats() {
         return seats;
     }
-    public int getID() { return ID; }
+    public int getRoomID() { return roomID; }
 
 }

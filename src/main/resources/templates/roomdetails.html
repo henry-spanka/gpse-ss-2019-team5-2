@@ -4,9 +4,9 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h4 th:text="${room.name}">Raum</h4>
+            <h4 th:text="${room.roomName}">Raum</h4>
             <p th:text="${'Plätze: ' + room.seats + ' Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
-            <p th:text="${'sonstige Informationen: ' + room.ID}">Raumnummer Lage Standort etc.</p>
+            <p th:text="${'sonstige Informationen: ' + room.roomID}">Raumnummer Lage Standort etc.</p>
         </div>
     </div>
     <div class="row">
