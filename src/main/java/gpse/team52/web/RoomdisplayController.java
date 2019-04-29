@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +19,8 @@ public class RoomdisplayController {
     public RoomdisplayController() {
         // should get a list of rooms to choose for meeting, just set any default
         //Example rooms
-        roomList.add(new Room("name", 5, "description", 100));
-        roomList.add(new Room("name2", 2, "description2", 101));
+        roomList.add(new Room(100, "mail100", "name", 5, 6, "description"));
+        roomList.add(new Room(101, "mail101", "name2", 2, 2, "description2"));
     }
 
     @GetMapping("/rooms")
@@ -41,9 +40,10 @@ public class RoomdisplayController {
         return modelAndView;
     }
 
+    //TODO use database instead
     private Room getRoom(String roomID) {
         for (Room room : roomList) {
-            if (room.getID() == Integer.parseInt(roomID)) {
+            if (room.getRoomID() == Integer.parseInt(roomID)) {
                 return room;
             }
         }

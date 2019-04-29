@@ -10,21 +10,21 @@ import javax.persistence.Id;
 public class Room {
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "roomId", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private int roomID;
 
-    @Column
+    @Column(unique = true, nullable = false)
+    private String roomEmail;
+
+    @Column(nullable = false)
     private String roomName;
 
-    @Column
+    @Column(nullable = false)
     private int seats;
 
     @Column
     private int extraSeats;
 
-    @Column(unique = true, nullable = false)
-    @Getter
-    private String roomEmail;
 
     //TODO needs to be changed to any list or class or whatever
     @Column
@@ -34,11 +34,14 @@ public class Room {
     //@Column
     //private Location location;
 
-    public Room(String name, int seats, String equipment, int id) {
+    //TODO change constructor, add variables
+    public Room(int id, String email, String name, int seats, int extraSeats, String equipment) {
         this.roomName = name;
         this.seats = seats;
         this.equipment =  equipment;
         this.roomID = id;
+        this.roomEmail = email;
+        this.extraSeats = extraSeats;
     }
 
     public String getRoomName() {
@@ -51,5 +54,11 @@ public class Room {
         return seats;
     }
     public int getRoomID() { return roomID; }
+    public int getExtraSeats() {
+        return extraSeats;
+    }
+    public String getRoomEmail() {
+        return roomEmail;
+    }
 
 }
