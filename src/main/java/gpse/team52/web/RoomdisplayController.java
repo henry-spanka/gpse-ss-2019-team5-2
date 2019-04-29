@@ -15,9 +15,9 @@ import java.util.List;
 public class RoomdisplayController {
 
 
-
     private List<Room> roomList = new ArrayList<Room>();
-    public RoomdisplayController(){
+
+    public RoomdisplayController() {
         // should get a list of rooms to choose for meeting, just set any default
         //Example rooms
         roomList.add(new Room("name", 5, "description", 100));
@@ -25,10 +25,10 @@ public class RoomdisplayController {
     }
 
     @GetMapping("/rooms")
-    public ModelAndView rooms() {
+    public ModelAndView rooms(final @RequestParam(name = "noroom", required = false) String noroom) {
         final ModelAndView modelAndView = new ModelAndView("rooms");
-        // Example rooms
         modelAndView.addObject("roomList", roomList);
+        modelAndView.addObject("noroom", noroom != null);
         return modelAndView;
     }
 
@@ -41,13 +41,20 @@ public class RoomdisplayController {
         return modelAndView;
     }
 
-    private Room getRoom(String roomID){
+    private Room getRoom(String roomID) {
         for (Room room : roomList) {
             if (room.getID() == Integer.parseInt(roomID)) {
                 return room;
             }
         }
         return null;
+    }
+
+    @GetMapping("/rooms/confirm")
+    public ModelAndView confirm() {
+        final ModelAndView modelAndView = new ModelAndView("confirmbooking");
+        // addObject(room) benötigt, und Meeting auch hinzufügen!
+        return modelAndView;
     }
 
 }
