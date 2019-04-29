@@ -1,0 +1,16 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+        <div class="alert alert-light" role="alert">
+            Sorry to see you go! Have a nice day!
+        </div>
+        <form th:method="post" th:action="@{/logout}">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Logout Now!</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
