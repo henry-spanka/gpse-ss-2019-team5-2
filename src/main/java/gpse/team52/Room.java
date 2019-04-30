@@ -2,14 +2,13 @@ package gpse.team52;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Room {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roomId", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private int roomID;
 
