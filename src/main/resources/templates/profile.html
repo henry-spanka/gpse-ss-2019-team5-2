@@ -8,12 +8,23 @@
             </div>
             <div class="row">
                 <div class="col-md-5 p-2 mx-auto text-center">
-                    <p>E-Mail:</p>
-                    <p>Position:</p>
-                    <p>Standort:</p>
+                    <p>E-Mail:
+                        <span class ="text">MaxMustermann@capgemini.com</span>
+                    </p>
+
+                    <p>Position:
+                        <span class ="text">Lead Developer</span>
+                    </p>
+
+                    <p>Location:
+                        <span class ="text">Düsseldorf</span>
+                    </p>
+
                     <div class="col-md-5 p-2 mx-auto text-center">
 
-                        <button type="button" class="btn btn-primary">Profile Settings</button>
+                        <div class="form-group mt-4 mb-2">
+                            <a th:href="@{/editProfile}" class="btn btn-primary">Edit Profile</a>
+                        </div>
 
                     </div>
 
