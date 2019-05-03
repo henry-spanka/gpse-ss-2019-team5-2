@@ -15,10 +15,17 @@ public class Meeting {
      * Unique id for each individual meeting.
      */
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID id;
+
+    @Getter
+    @Setter
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "userId")
+    private User owner;
 
     /**
      * Date and time for the beginning of the meeting.
@@ -43,6 +50,9 @@ public class Meeting {
     @Column(nullable = false)
     private String title;
 
+    /**
+     * Description of the meeting
+     */
     @Getter
     @Setter
     @Column
