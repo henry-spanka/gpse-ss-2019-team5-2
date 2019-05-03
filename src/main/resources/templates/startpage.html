@@ -7,43 +7,44 @@
 
 <body>
 <div layout:fragment="content">
-    <div class="container">
+    <div class="container py-3">
         <div class="page-header">
             <h3 class="text-center">Upcomming Meetings</h3>
         </div>
+        <hr>
         <p class="text-center">Today - 29. April 2019</p>
-        <a href="">
-            <div class="card bg-info text-white mb-3 text-center">
-                <div class="card-block">
-                    <h4 class="card-title">Sprint Meeting</h4>
-                    <p class="card-text">09:00 - 10:30 | Hoersaal</p>
-                    <br class="card-text">Creator: Maria Musterfrau</br>
-                </div>
+        <div class="row mb-2">
+            <div class="col-1">
             </div>
-        </a>
-        <a href="">
-            <div class="card bg-info text-white mb-3 text-center">
-                <div class="card-block">
-                    <h4 class="card-title">Client Meeting</h4>
-                    <p class="card-text">12:00 - 12:30 | Ibiza</p>
-                    <br class="card-text">Creator: Max Mustermann</br>
-                </div>
+            <div class="col-10">
+                <a href="" class="btn btn-primary btn-block">Sprint Meeting<br/>
+                    <small>09:00 - 10:30 at Hoersaal</small>
+                </a>
             </div>
-        </a>
+        </div>
+        <div class="row mb-2">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+                <a href="" class="btn btn-primary btn-block">Client Meeting<br/>
+                    <small>12:00 - 12:30 at Ibiza</small>
+                </a>
+            </div>
+        </div>
+        <hr>
         <p class="text-center">Tomorrow - 30. April 2019</p>
-        <a href="">
-            <div class="card bg-info text-white mb-3 text-center">
-                <div class="card-block">
-                    <h4 class="card-title">Chairman Meeting</h4>
-                    <p class="card-text">16:00 - 17:00 | Korfu</p>
-                    <br class="card-text">Creator: Max Mustermann</br>
-                </div>
+        <div class="row mb-2">
+            <div class="col-1">
             </div>
-        </a>
-        <div class="row">
-            <div class="col-md-6 text-center">
-                <button type="button" class="btn btn-primary">Inspect All Meetings</button>
+            <div class="col-10">
+                <a href="" class="btn btn-primary btn-block">Chairman Meeting<br/>
+                    <small>16:00 - 17:00 at Korfu</small>
+                </a>
             </div>
+        </div>
+        <hr>
+        <div class="mt-4 mb-2 text-center">
+            <a th:href="@{/chronik}" class="btn btn-primary">Show All Meetings</a>
         </div>
     </div>
 </div>
