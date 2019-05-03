@@ -1,12 +1,36 @@
+
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
 <body>
-<div class = "container">
-    <div class ="input-group input-group-lg">
-    <span class = "input-group-addon">Your name</span>
-    <input type ="text" class = "form-control" placeholder = "Full name">
+<div layout:fragment="content">
+    <div class = "col-md-5 p-2 mx-auto text-center">
+        <div class ="input-group input-group-sm">
+            <p>
+                <span class = "input-group-addon">Full Name</span>
+                <input type ="text" class = "form-control" placeholder = "Full Name">
+            </p>
+            <p>
+            <span class = "input-group-addon">E-mail</span>
+            <input type ="text" class = "form-control" placeholder = "E-mail">
+            </p>
+            <p>
+            <span class = "input-group-addon">Position</span>
+            <input type ="text" class = "form-control" placeholder = "Position">
+            </p>
+            <p>
+            <span class = "input-group-addon">Location</span>
+            <input type ="text" class = "form-control" placeholder = "Location">
+            </p>
+           <p>
+               <a th:href="@{/profile}" class="btn btn-primary">Save & Exit</a>
+            </p>
+
+
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+
 
