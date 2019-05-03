@@ -1,5 +1,6 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.StartMeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,18 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class StartPageController {
-
-    private final StartMeetingService startMeetingService;
-
     @Autowired
-    public StartPageController(final StartMeetingService startMeetingService) {
-        this.startMeetingService = startMeetingService;
-    }
+    private MeetingService service;
 
     @RequestMapping("/start")
     public ModelAndView showStart() {
         final ModelAndView modelAndView = new ModelAndView("startpage");
 
+        modelAndView.addObject("meetings", service.getAllMeetings());
         return modelAndView;
     }
 
