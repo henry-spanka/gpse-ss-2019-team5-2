@@ -1,53 +1,70 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Meeting entity
+ */
 @Entity
+@NoArgsConstructor
 public class Meeting {
     /**
      * Unique id for each individual meeting.
      */
     @Id
-    @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private Long meetingId;
 
     /**
      * Date and time for the beginning of the meeting.
      */
-    @Getter
     @Column
     private LocalDateTime startAt;
 
     /**
      * Date and time for the ending of the meeting.
      */
-    @Getter
     @Column
     private LocalDateTime endAt;
 
     /**
      * Title of the meeting.
      */
-    @Getter
     @Column
     private String title;
 
     /**
      * The number of participants for the meeting.
      */
-    @Getter
     @Column
     private Long participantsNumber;
-
-    protected Meeting() {
-    }
 
     public Meeting(final String title, final Long participantsNumber) {
         this.title = title;
         this.participantsNumber = participantsNumber;
+    }
+
+    public Long getMeetingId() {
+        return meetingId;
+    }
+
+    public LocalDateTime getStartAt() {
+        return startAt;
+    }
+
+    public LocalDateTime getEndAt() {
+        return endAt;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Long getParticipantsNumber() {
+        return participantsNumber;
     }
 }
