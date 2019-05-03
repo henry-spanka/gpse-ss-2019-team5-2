@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Could not confirm Account!</h4>
+            <p>The URL may be invalid or the token has already expired.</p>
+            <hr>
+            <p class="mb-0">To register head back to the <a th:href="@{/register}">Register Page</a></p>
+        </div>
+
+        <div th:if="!${error}" class="alert alert-secondary" role="alert">
+            <h4 class="alert-heading">Account confirmed!</h4>
+            <p>Thank you for confirming your account.</p>
+            <hr>
+            <p class="mb-0">To login head back to the <a th:href="@{/login}">Login Page</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
