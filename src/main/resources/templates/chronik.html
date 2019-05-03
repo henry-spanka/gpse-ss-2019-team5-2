@@ -3,69 +3,29 @@
 <body>
 <div layout:fragment="content">
     <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-outline-secondary btn-sm float-right"><--</button>
+        <div class="col pt-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm float-right"><i class="fas fa-arrow-left"></i></button>
         </div>
     </div>
     <hr>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/blue_200x200.png" class="rounded float-left" alt="Blue Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Tolles Treffen</h5>
-                <p class="small">Besenkammer | Organisator: Julius Ellermann
+    <div class="row border-bottom my-1" th:each="meeting : ${meetings}">
+        <div class="col-2">
+            <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                 style="width:50px;height:50px;">
+        </div>
+        <div class="col-8">
+            <h5 th:text="${meeting.getTitle()}">Tolles Treffen</h5>
+            <p class="small" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')} +' | '+ ${meeting.getDuration() + 'min'}">Besenkammer | Organisator: Julius Ellermann
                 <br>
                 02.05.2019 | 09:15 - 09:45</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left"
+                    title="More Info">
                 <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
-            </div>
+                <i class="fas fa-info fa-lg"></i>
+            </button>
         </div>
-        <div class="border-top my-1"></div> <!-- instead of <hr> (smaller margin) -->
-
-        <!-- replace these two entries for real data -->
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/red_200x200.png" class="rounded float-left" alt="Red Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Nicht so tolles Treffen</h5>
-                <p class="small">Hörsaal | Organisator: Lukas Dyballa
-                    <br>
-                    02.05.2019 | 12:30 - 14:00</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
-                    <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
-            </div>
-        </div>
-        <div class="border-top my-1"></div>
-
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/test_200x200.png" class="rounded float-left" alt="Test Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Geheimes Treffen</h5>
-                <p class="small">Hinterhof | Organisator: ???
-                    <br>
-                    02.05.2019 | 23:15 - 23:30</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
-                    <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
-            </div>
-        </div>
-        <div class="border-top my-1"></div>
     </div>
 </div>
 </body>
