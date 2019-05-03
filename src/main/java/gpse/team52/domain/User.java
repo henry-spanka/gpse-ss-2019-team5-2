@@ -114,6 +114,10 @@ public class User implements UserDetails {
         return lastname;
     }
 
+    public String getFullName() {
+        return firstname + ' ' + lastname;
+    }
+
     /**
      * Assign a role to a user.
      *

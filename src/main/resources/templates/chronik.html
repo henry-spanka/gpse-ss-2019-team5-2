@@ -2,70 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
 <body>
 <div layout:fragment="content">
-    <div class="row">
+    <div class="row border-bottom mb-3 pt-1">
         <div class="col">
-            <button type="button" class="btn btn-outline-secondary btn-sm float-right"><--</button>
+            <a class="btn btn-sm float-right"><i class="fas fa-angle-double-left fa-3x"></i></a>
         </div>
     </div>
-    <hr>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/blue_200x200.png" class="rounded float-left" alt="Blue Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Tolles Treffen</h5>
-                <p class="small">Besenkammer | Organisator: Julius Ellermann
-                <br>
-                02.05.2019 | 09:15 - 09:45</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
-                <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
-            </div>
-        </div>
-        <div class="border-top my-1"></div> <!-- instead of <hr> (smaller margin) -->
-
-        <!-- replace these two entries for real data -->
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/red_200x200.png" class="rounded float-left" alt="Red Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Nicht so tolles Treffen</h5>
-                <p class="small">Hörsaal | Organisator: Lukas Dyballa
+    <div id="accordion">
+    <div class="media border-bottom pb-2 mt-1" th:each="meeting : ${meetings}">
+        <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+             style="width:50px;height:50px;">
+        <div class="media-body collapsed" th:data-target="${'#'+ meeting.getId()}" data-toggle="collapse">
+            <h5 class="mt-0" th:text="${meeting.getTitle()}">Tolles Treffen</h5>
+            <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')} +' | '+ ${meeting.getDuration() + 'min'}">Besenkammer | Organisator: Julius Ellermann
                     <br>
-                    02.05.2019 | 12:30 - 14:00</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
-                    <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
+                    02.05.2019 | 09:15 - 09:45</p>
+            <div class="collapse" data-parent="#accordion" th:id="${meeting.getId()}">
+                <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}"></p>
             </div>
         </div>
-        <div class="border-top my-1"></div>
-
-        <div class="row">
-            <div class="col">
-                <img src="static/pictures/test_200x200.png" class="rounded float-left" alt="Test Image" style="width:50px;height:50px;">
-            </div>
-            <div class="col-8">
-                <h5>Geheimes Treffen</h5>
-                <p class="small">Hinterhof | Organisator: ???
-                    <br>
-                    02.05.2019 | 23:15 - 23:30</p>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="tooltip" data-placement="left" title="More Info">
-                    <!-- Need JavaScript for tooltip toggle (see Bootstrap doc) -->
-                    i
-                </button>
-            </div>
-        </div>
-        <div class="border-top my-1"></div>
+    </div>
     </div>
 </div>
 </body>
