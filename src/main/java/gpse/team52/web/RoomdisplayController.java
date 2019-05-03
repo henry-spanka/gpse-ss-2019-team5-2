@@ -51,7 +51,7 @@ public class RoomdisplayController {
     }
 
     @GetMapping("/rooms/confirm")
-    public ModelAndView confirm() {
+    public ModelAndView confirm() { //add  this: @RequestParam(name = "room", required = true) String room
         final ModelAndView modelAndView = new ModelAndView("confirmbooking");
         // addObject(room) benötigt, und Meeting auch hinzufügen!
         return modelAndView;

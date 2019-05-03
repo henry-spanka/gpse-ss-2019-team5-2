@@ -8,11 +8,13 @@
             Bitte wählen sie einen Raum aus!
         </div>
 
-        <div th:each="room : ${roomList}" class="row my-2 container-fluid">
-            <div class="col-6 offset-md-3 btn-light">
+        <div th:each="room : ${roomList}" class="row my-2 container-fluid btn-group" role="group">
+
+            <button type="button" class="col-6 offset-md-3 btn-light">
                 <h4 th:text="${room.roomName}">Raum</h4>
-                <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
-            </div>
+                <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
+                    Ausstattung</p>
+            </button>
             <!--
                 <dt>
                    <span th:if="${favoritesList.contains(room.name) }"
@@ -22,7 +24,9 @@
             <div class="col-2 mt-2">
                 <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a>
             </div>
+
         </div>
+
 
         <div class="row my-1">
             <div class="col-2 offset-5">
@@ -35,7 +39,8 @@
                 <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Abbrechen</a>
             </div>
             <div class="col-2">
-                <a class="btn btn-success btn-lg btn-block" th:href="@{/rooms/confirm}">Bestätigen</a>
+                <a class="btn btn-success btn-lg btn-block"
+                       th:href="@{/rooms/confirm}">Bestätigen</a>
             </div>
         </div>
 
