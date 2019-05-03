@@ -4,6 +4,6 @@ import gpse.team52.domain.Meeting;
 
 import java.util.List;
 
-public class StartMeetingService {
+public interface StartMeetingService {
     List<Meeting> getMeetings();
 }
