@@ -10,14 +10,20 @@
 
         <div class="container">
 
+            <div class="col-md-5 p-2 mx-auto text-center">
+                <h2 style="font-size: 25px">Raum auswählen</h2>
+            </div>
+
             <div th:each="room : ${roomList}" class="row my-2">
-                <div class="col-6 offset-md-3">
-                    <h4 th:text="${room.roomName}">Raum</h4>
-                    <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
+                <div class="col-md-6 offset-md-3 col-sm-8">
+                    <h2 style="font-size: 20px" th:text="${room.roomName}">Raum</h2>
+                    <p style="font-size: 15px" th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
                         Ausstattung</p>
                 </div>
-                <div class="col-2 mt-2">
-                    <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a>
+                <div class="float-right"> <!-- col-md-2 col-sm-2 mt-2  -->
+                    <a class="btn btn-sm" th:href="@{/rooms/{id}(id=${room.roomID})}">
+                        <i class="fas fa-info fa-2x">what</i>
+                    </a>
                 </div>
             </div>
 

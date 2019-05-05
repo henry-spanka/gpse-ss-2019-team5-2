@@ -13,7 +13,6 @@ import java.util.List;
 @Controller
 public class RoomdisplayController {
 
-
     private List<Room> roomList = new ArrayList<Room>();
 
     public RoomdisplayController() {
