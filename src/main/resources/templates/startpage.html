@@ -11,39 +11,20 @@
             <h3 class="text-center">Upcomming Meetings</h3>
         </div>
         <hr>
-        <p class="text-center">Today - 29. April 2019</p>
-        <div class="row mb-2">
-            <div class="col-1">
+        <div class="media border-bottom pb-2 mt-1" th:each="meeting : ${meetings}">
+            <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                 style="width:50px;height:50px;">
+            <div class="media-body collapsed" th:data-target="${'#'+ meeting.getId()}" data-toggle="collapse">
+                <h5 class="mt-0" th:text="${meeting.getTitle()}">Tolles Treffen</h5>
+                <p class="small my-0"
+                   th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')} +' | '+ ${meeting.getDuration() + 'min'}">
+                    Besenkammer | Organisator: Julius Ellermann
+                    <br>
+                    02.05.2019 | 09:15 - 09:45</p>
+                <div class="collapse" data-parent="#accordion" th:id="${meeting.getId()}">
+                    <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}"></p>
+                </div>
             </div>
-            <div class="col-10">
-                <a href="" class="btn btn-primary btn-block">Sprint Meeting<br/>
-                    <small>09:00 - 10:30 at Hoersaal</small>
-                </a>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-1">
-            </div>
-            <div class="col-10">
-                <a href="" class="btn btn-primary btn-block">Client Meeting<br/>
-                    <small>12:00 - 12:30 at Ibiza</small>
-                </a>
-            </div>
-        </div>
-        <hr>
-        <p class="text-center">Tomorrow - 30. April 2019</p>
-        <div class="row mb-2">
-            <div class="col-1">
-            </div>
-            <div class="col-10">
-                <a href="" class="btn btn-primary btn-block">Chairman Meeting<br/>
-                    <small>16:00 - 17:00 at Korfu</small>
-                </a>
-            </div>
-        </div>
-        <hr>
-        <div class="mt-4 mb-2 text-center">
-            <a th:href="@{/chronik}" class="btn btn-primary">Show All Meetings</a>
         </div>
     </div>
 </div>
