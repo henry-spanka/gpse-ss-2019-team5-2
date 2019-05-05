@@ -20,14 +20,33 @@
                     <p style="font-size: 15px" th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
                         Ausstattung</p>
                 </div>
-                <div class="float-right"> <!-- col-md-2 col-sm-2 mt-2  -->
-                    <a class="btn btn-sm" th:href="@{/rooms/{id}(id=${room.roomID})}">
-                        <i class="fas fa-info fa-2x">what</i>
-                    </a>
-                </div>
+                <span class="float-right"> <!-- col-md-2 col-sm-2 mt-2 -->
+                    <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a>
+                </span>
             </div>
 
         </div>
+
+<!-- -------change things here--------- -->
+        <div class="row my-1">
+            <div class="col-2 offset-5">
+                <a class="btn btn-primary btn-lg btn-block" th:href="@{/}">Meeting ändern</a>
+            </div>
+        </div>
+
+        <div class="row align-bottom my-1">
+            <div class="col-2 offset-md-4">
+                <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Abbrechen</a>
+                <!-- <button class="button" style="border-radius: 8px; background-color:
+limegreen; border: none; padding: 10px 40px; font-size: 16px">Bestätigen</button> -->
+
+            </div>
+            <div class="col-2">
+                <a class="btn btn-success btn-lg btn-block"
+                   th:href="@{/rooms/confirm}">Bestätigen</a>
+            </div>
+        </div>
+
     </form>
 </div>
 </body>
