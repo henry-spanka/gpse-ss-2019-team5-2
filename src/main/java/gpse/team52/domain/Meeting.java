@@ -33,5 +33,8 @@ public class Meeting {
     @OneToMany
     protected User attendant;
 
+    public Meeting (){
+
+    }
 
 }
