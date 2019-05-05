@@ -4,48 +4,25 @@
 <body>
 <div layout:fragment="content">
     <form th:method="post" th:action="@{/rooms}">
-        <div class="alert alert-danger" role="alert" th:if="${noroom}">
+        <div class="alert alert-danger" role="alert" th:if="${error}">
             Bitte wählen sie einen Raum aus!
         </div>
 
-        <div th:each="room : ${roomList}" class="row my-2 container-fluid btn-group" role="group">
+        <div class="container">
 
-            <button type="button" class="col-6 offset-md-3 btn-light">
-                <h4 th:text="${room.roomName}">Raum</h4>
-                <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
-                    Ausstattung</p>
-            </button>
-            <!--
-                <dt>
-                   <span th:if="${favoritesList.contains(room.name) }"
-                </dt>
-                Wenn der Raum ein Favorit des Erstellers ist, dann Sternchen anzeigen
-                -->
-            <div class="col-2 mt-2">
-                <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a>
+            <div th:each="room : ${roomList}" class="row my-2">
+                <div class="col-6 offset-md-3">
+                    <h4 th:text="${room.roomName}">Raum</h4>
+                    <p th:text="${'Plätze: ' + room.seats + ' | Ausstattung: ' + room.equipment}">Plätze und
+                        Ausstattung</p>
+                </div>
+                <div class="col-2 mt-2">
+                    <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a>
+                </div>
             </div>
 
         </div>
-
-
-        <div class="row my-1">
-            <div class="col-2 offset-5">
-                <a class="btn btn-primary btn-lg btn-block" th:href="@{/}">Meeting ändern</a>
-            </div>
-        </div>
-
-        <div class="row align-bottom my-1">
-            <div class="col-2 offset-md-4">
-                <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Abbrechen</a>
-            </div>
-            <div class="col-2">
-                <a class="btn btn-success btn-lg btn-block"
-                       th:href="@{/rooms/confirm}">Bestätigen</a>
-            </div>
-        </div>
-
     </form>
-
 </div>
 </body>
 </html>

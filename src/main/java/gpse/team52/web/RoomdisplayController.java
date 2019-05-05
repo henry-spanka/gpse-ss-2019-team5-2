@@ -23,11 +23,16 @@ public class RoomdisplayController {
         roomList.add(new Room(101, "mail101", "name2", 2, 2, "description2"));
     }
 
+    /**
+     *
+     * @param error
+     * @return Page with rooms to choose from
+     */
     @GetMapping("/rooms")
-    public ModelAndView rooms(final @RequestParam(name = "noroom", required = false) String noroom) {
+    public ModelAndView rooms(final @RequestParam(name = "error", required = false) String error) {
         final ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("roomList", roomList);
-        modelAndView.addObject("noroom", noroom != null);
+        modelAndView.addObject("error", error != null);
         return modelAndView;
     }
 
