@@ -1,4 +1,4 @@
 /**
- * Package, welches die zur Domäne gehörenden Klassen enthält, wie z.B. Domänen-Objekte, Services und Repository-Interfaces.
+ * Package, welches die zur Domäne gehörenden Klassen enthält.
  */
 package gpse.team52.domain;

@@ -90,3 +90,6 @@ hs_err_pid*
 # MavenWrapper
 !maven-wrapper.jar
 !maven-wrapper.properties
+
+# Vagrant
+.vagrant
