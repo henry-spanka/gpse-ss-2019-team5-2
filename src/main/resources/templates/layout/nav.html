@@ -2,13 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
         <header th:fragment="logged-in">
-            <div class="navbar navbar-dark bg-dark shadow-sm">
+            <nav class="navbar navbar-dark bg-dark">
                 <div class="container d-flex justify-content-between">
-                    <a href="#" class="navbar-brand d-flex align-items-center">
+                    <a href="/start" class="navbar-brand d-flex align-items-center">
                         <strong>Roomed</strong>
                     </a>
+                    <button class="navbar-toggler p-0 broder-0" type="button" data-toggle="offcanvas">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                 </div>
-            </div>
+            </nav>
         </header>
     </body>
 </html>
