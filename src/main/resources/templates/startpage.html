@@ -14,7 +14,7 @@
         <div class="media border-bottom pb-2 mt-1" th:each="meeting : ${meetings}">
             <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
                  style="width:50px;height:50px;">
-            <div class="media-body collapsed" th:data-target="${'#'+ meeting.getId()}" data-toggle="collapse">
+            <div class="media-body collapsed mx-2" th:data-target="${'#'+ meeting.getId()}" data-toggle="collapse">
                 <h5 class="mt-0" th:text="${meeting.getTitle()}">Tolles Treffen</h5>
                 <p class="small my-0"
                    th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')} +' | '+ ${meeting.getDuration() + 'min'}">
