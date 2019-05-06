@@ -28,7 +28,7 @@ public class RoomdisplayController {
      * @return Page with rooms to choose from
      */
     @GetMapping("/rooms")
-    public ModelAndView rooms(final @RequestParam(name = "error", required = false) String error) {
+    public ModelAndView rooms(@RequestParam(name = "error", required = false) String error) {
         final ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("roomList", roomList);
         modelAndView.addObject("error", error != null);
@@ -54,10 +54,12 @@ public class RoomdisplayController {
         return null;
     }
 
+    //TODO get this working!
     @GetMapping("/rooms/confirm")
-    public ModelAndView confirm() { //add  this: @RequestParam(name = "room", required = true) String room
+    public ModelAndView confirm() { // @RequestParam(name = "room", required = true) String room, @RequestParam(name = "meeting", required = true) String meeting
+        String room = "100"; // any test data, remove!!
         final ModelAndView modelAndView = new ModelAndView("confirmbooking");
-        // addObject(room) benötigt, und Meeting auch hinzufügen!
+        modelAndView.addObject(getRoom(room));//benötigt, und Meeting auch hinzufügen!
         return modelAndView;
     }
 

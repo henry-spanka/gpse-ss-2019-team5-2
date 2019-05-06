@@ -4,14 +4,14 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h4 th:text="${room.roomName}">Raum</h4>
-            <p th:text="${'Plätze: ' + room.seats + ' Ausstattung: ' + room.equipment}">Plätze und Ausstattung</p>
-            <p th:text="${'sonstige Informationen: ' + room.roomID}">Raumnummer Lage Standort etc.</p>
+            <h4 th:text="${room.roomName}">Room</h4>
+            <p th:text="${'Seats: ' + room.seats + ' Equipment: ' + room.equipment}">Seats and equipment</p>
+            <p th:text="${'More information: ' + room.roomID}">more details</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 ml-auto">
-            <a class="btn btn-outline-info" th:href="@{/rooms/}">Zurück</a>
+        <div class="col-md-5 ml-auto col-sm-2">
+            <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>
         </div>
     </div>
 </div>
