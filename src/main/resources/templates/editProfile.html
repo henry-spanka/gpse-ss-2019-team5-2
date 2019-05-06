@@ -7,7 +7,7 @@
         <p class ="input-group input-group-sm">
             <p>
                 <span class = "input-group-addon">Full Name</span>
-                <input type ="text" class = "form-control" placeholder = "Max Mustermann">
+                <input type ="text" class = "form-control" th:placeholder="${fullName}">
             </p>
             <p>
             <span class = "input-group-addon">E-mail</span>
@@ -31,6 +31,8 @@
         <a th:href="@{/profile}" class="btn btn-primary">Save & Exit</a>
 
             </p>
+
+
 
 
         </div>

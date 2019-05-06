@@ -9,10 +9,10 @@
             <div class="row">
                 <div class="col-md-5 p-2 mx-auto text-center">
                     <p>
-                        <h2 th:text="${username}">Name</h2>
+                        <h2 th:text="${fullName}">Max Mustermann</h2>
                     </p>
                     <p>E-Mail:
-                        <span class ="text">MaxMustermann@capgemini.com</span>
+                        <span th:text="${email}">MaxMustermann@capgemini.com</span>
                     </p>
 
                     <p>Position:
