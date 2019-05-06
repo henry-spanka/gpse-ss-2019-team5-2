@@ -2,9 +2,7 @@ package gpse.team52.web;
 
 import gpse.team52.Room;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -55,9 +53,9 @@ public class RoomdisplayController {
     }
 
     //TODO get this working!
-    @GetMapping("/rooms/confirm")
-    public ModelAndView confirm() { // @RequestParam(name = "room", required = true) String room, @RequestParam(name = "meeting", required = true) String meeting
-        String room = "100"; // any test data, remove!!
+    @RequestMapping("/rooms/confirm")
+    public ModelAndView confirm(@RequestParam(name = "room", required = true) String room) { // , @RequestParam(name = "meeting", required = true) String meeting
+        //String room = "100"; // any test data, remove!!
         final ModelAndView modelAndView = new ModelAndView("confirmbooking");
         modelAndView.addObject(getRoom(room));//benötigt, und Meeting auch hinzufügen!
         return modelAndView;

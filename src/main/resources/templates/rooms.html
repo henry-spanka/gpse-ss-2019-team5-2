@@ -3,7 +3,8 @@
 
 <body>
 <div layout:fragment="content">
-    <form> <!--th:method="get" th:action="@{/rooms/confirm}" action="/rooms/confirm" th:object -->
+    <form th:method="post" th:action="@{/rooms/confirm}">
+        <!--th:method="post" th:action="@{/rooms/confirm}" action="/rooms/confirm" th:object -->
         <div class="alert alert-danger" role="alert" th:if="${error}">
             Please choose a room!
         </div>
@@ -14,26 +15,44 @@
                 <h2 style="font-size: 25px">Select a room</h2>
             </div>
 
+
             <div class="table-responsive">
                 <table class="table">
                     <tbody>
                     <tr th:each="room : ${roomList}">
-                        <td>
-                            <h2 style="font-size: 20px" th:text="${room.roomName}">Room</h2>
-                            <p style="font-size: 15px"
-                               th:text="${'Seats: ' + room.seats + ' | Equipment: ' + room.equipment}">Seats and
-                                equipment</p>
-                        </td>
+                        <div class="form-check">
+                            <!-- maybe replace custom-control with form-check -->
+                            <td>
+
+                                <label class="form-check-label" for="${room.roomID}" style="font-size: 20px"
+                                       th:text="${room.roomName}"><input type="checkbox" class="form-check-input" id="${room.roomID}" name="roombox"/>Room
+                                </label>
+                                <p style="font-size: 15px"
+                                   th:text="${'Seats: ' + room.seats + ' | Equipment: ' + room.equipment}">Seats and
+                                    equipment</p>
+                            </td>
+                        </div>
+
                         <td> <!-- class="col-md-2 col-sm-5 mt-2" -->
                             <!-- <a class="btn btn-outline-info" th:href="@{/rooms/{id}(id=${room.roomID})}">Details</a> style="display: inline"-->
                             <a class="btn btn-sm" th:href="@{/rooms/{id}(id=${room.roomID})}"><i
                                 class="fas fa-info fa-2x"></i></a>
                         </td>
                     </tr>
+                    <!--
+                    <div class="form-check">
+                        <tr>
+                            <td>
+                                <label class="form-check-label" style="font-size: 20px"><input type="checkbox" class="form-check-input"/>Room</label>
+                                <p style="font-size: 15px">Seats and equipment</p>
+                            </td>
+                        </tr>
+                    </div>
+                    -->
                     </tbody>
                 </table>
-
             </div>
+
         </div>
 
         <!-- -------change things here--------- -->
@@ -41,7 +60,8 @@
             <div class="row align-bottom my-1">
                 <div class="offset-md-3 col-md-6 col-sm-6 text-center">
                     <a class="btn" style="background-color: crimson" th:href="@{/}">Cancel</a>
-                    <a class="btn" style="background-color:limegreen" th:href="@{/rooms/confirm}">Submit</a> <!-- th:type="submit"  -->
+                    <a type="submit" class="btn" style="background-color:limegreen" th:href="@{/rooms/confirm}">Submit</a>
+                    <!-- !submit data for real! -->
                     <a class="btn mt-sm-4 mt-md-0" th:href="@{/}" style="background-color: dodgerblue">Back</a>
                     <!-- <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Cancel</a> -->
                 </div>
