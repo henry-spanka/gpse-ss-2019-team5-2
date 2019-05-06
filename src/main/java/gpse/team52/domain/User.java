@@ -102,7 +102,6 @@ public class User implements UserDetails {
     }
 
     @Override
-
     public boolean isCredentialsNonExpired() {
         return true;
     }
@@ -111,14 +110,12 @@ public class User implements UserDetails {
         return firstname;
     }
 
-
     public String getLastname() {
         return lastname;
     }
 
-
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return firstname + ' ' + lastname;
     }
 
     /**

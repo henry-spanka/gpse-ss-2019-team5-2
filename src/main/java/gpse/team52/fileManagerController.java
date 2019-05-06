@@ -11,5 +11,4 @@ public class fileManagerController {
         final ModelAndView modelAndView = new ModelAndView("fileManager");
         return modelAndView;
     }
-
 }
