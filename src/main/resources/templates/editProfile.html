@@ -7,19 +7,19 @@
         <p class ="input-group input-group-sm">
             <p>
                 <span class = "input-group-addon">Full Name</span>
-                <input type ="text" class = "form-control" th:placeholder="${fullName}">
+                <input type ="text" class = "form-control" th:text="${fullName}">
             </p>
             <p>
             <span class = "input-group-addon">E-mail</span>
-            <input type ="text" class = "form-control" placeholder = "MaxMustermann@capgemini.com">
+            <input type ="text" class = "form-control disabled" th:text="${email}" disabled>
             </p>
             <p>
             <span class = "input-group-addon">Position</span>
-            <input type ="text" class = "form-control" placeholder = "Lead Developer">
+            <input type ="text" class = "form-control" value= "Lead Developer">
             </p>
             <p>
             <span class = "input-group-addon">Location</span>
-            <input type ="text" class = "form-control" placeholder = "Düsseldorf">
+            <input type ="text" class = "form-control" value="Düsseldorf">
             </p>
            <p>
                <span class = "input-group-addon">Select a file as a profile picture</span>
