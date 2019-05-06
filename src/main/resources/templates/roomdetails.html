@@ -4,14 +4,17 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h4 th:text="${room.roomName}">Room</h4>
-            <p th:text="${'Seats: ' + room.seats + ' Equipment: ' + room.equipment}">Seats and equipment</p>
-            <p th:text="${'More information: ' + room.roomID}">more details</p>
+            <h4 th:text="${room.roomName}">Raum</h4>
+            <!--
+            <p th:text="${'seats: ' + room.seats + ' equipment: ' + equipment.getEquipmentName()}">Plätze und Ausstattung</p>
+            <p th:text="${'other information about the room: extra seats:' + room.extraSeats +            ', mail :' + ', location:' + room.location}">Raumnummer Lage Standort etc.</p>            <p th:text="${'other information about the equipment: needed consumable:' + equipment.consumable +
+            ', defect:' + equipment.defect}">verbrauchsgegenstände, ob kaputt oder nicht</p>
+            -->
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 ml-auto col-sm-2">
-            <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>
+        <div class="col-md-5 ml-auto">
+            <a class="btn btn-outline-info" th:href="@{/rooms/}">Zurück</a>
         </div>
     </div>
 </div>

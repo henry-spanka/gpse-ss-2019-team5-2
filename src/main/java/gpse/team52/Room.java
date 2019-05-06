@@ -29,25 +29,26 @@ public class Room {
     @Column
     private String equipment;
 
-    //TODO add: layout/lageplan, location (and class location), belegungsplan
-    //@Column
-    //private Location location;
+    @Column(nullable = false)
+    private String location;
+
+    //TODO schauen ob layout klappt
+    @Column(name="layout")
+    private byte[] layout;
 
     //TODO change constructor, add variables
-    public Room(int id, String email, String name, int seats, int extraSeats, String equipment) {
+    public Room(int id, String email, String name, int seats, int extraSeats, String location) {
         this.roomName = name;
         this.seats = seats;
-        this.equipment =  equipment;
         this.roomID = id;
         this.roomEmail = email;
         this.extraSeats = extraSeats;
+        this.location = location;
+        this.layout = layout;
     }
 
     public String getRoomName() {
         return roomName;
-    }
-    public String getEquipment() {
-        return equipment;
     }
     public int getSeats() {
         return seats;
@@ -58,6 +59,12 @@ public class Room {
     }
     public String getRoomEmail() {
         return roomEmail;
+    }
+    public String getLocation() {
+        return location;
+    }
+    public byte[] getLayout() {
+        return layout;
     }
 
 }
