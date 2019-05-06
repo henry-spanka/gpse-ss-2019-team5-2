@@ -1,14 +1,22 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    </head>
     <body>
         <header th:fragment="logged-in">
-            <div class="navbar navbar-dark bg-dark shadow-sm">
+            <nav class="navbar navbar-dark" style="background-color: #4B0082;">
                 <div class="container d-flex justify-content-between">
-                    <a href="#" class="navbar-brand d-flex align-items-center">
-                        <strong>Room Broker</strong>
+                    <button class="navbar-toggler p-0 broder-0" type="button" data-toggle="offcanvas">
+                        <i class="fas fa-bars fa-lg" style="color:white"></i>
+                    </button>
+                    <a href="/start" class="navbar-brand d-flex align-items-center">
+                        <strong>Roomed</strong>
+                    </a>
+                    <a href="/chronik">
+                        <i class="far fa-calendar-plus fa-lg" style="color:white"></i>
                     </a>
                 </div>
-            </div>
+            </nav>
         </header>
     </body>
 </html>
