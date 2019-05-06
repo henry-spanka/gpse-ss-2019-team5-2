@@ -16,7 +16,7 @@ public class ProfileController {
         final ModelAndView modelAndView = new ModelAndView("profile");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         modelAndView.addObject("username", userDetails.getUsername());
-        modelAndView.addObject("e-mail", userDetails.)
+        modelAndView.addObject("e-mail", userDetails);
 
         return modelAndView;
     }

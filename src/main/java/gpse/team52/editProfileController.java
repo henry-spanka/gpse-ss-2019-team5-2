@@ -9,8 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class editProfileController {
     @GetMapping("/editProfile")
-    public ModelAndView editProfile() {
+    public ModelAndView editProfile(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        modelAndView.addObject("username",userDetails.getUsername());
         return modelAndView;
     }
 
