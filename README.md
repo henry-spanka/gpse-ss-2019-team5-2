@@ -4,7 +4,7 @@
 
 # Roomed
 
-Easy to use Room Management system to schedule meetings within the organization.
+Easy to use Room Management system to schedule meetings within an organization.
 
 # Setup / Installation
 
