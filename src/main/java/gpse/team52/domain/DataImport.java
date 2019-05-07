@@ -36,14 +36,18 @@ public class DataImport {
 
 
             while ((line = inBuffer.readLine()) != null) {
+
                 String[] subSet = line.split(";");
                 if (subSet.length != 8) {
 
                     throw new Exception();
-                }
+                }else{
+                    
+
+
                 for (int i = 0; i < subSet.length; i++) {
                     System.out.println(subSet[i]);
-                }
+                }}
 
             }
         } catch (Exception e) {
