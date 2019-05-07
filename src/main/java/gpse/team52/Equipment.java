@@ -1,6 +1,7 @@
 package gpse.team52;
 
-//import lombok.Getter;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,41 +13,28 @@ public class Equipment {
     @Column(name = "equipmentId", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private int equipmentID;
 
+    @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String equipmentName;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String consumable;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private int getRoomID;
 
-    @Column()
+    @Getter
+    @Setter
+    @Column
     private boolean defect;
 
     public Equipment() {
-        this.equipmentName = equipmentName;
-        this.consumable = consumable;
-        this.getRoomID = getRoomID;
-        this.defect = defect;
-    }
+            }
 
-    public Equipment(int equipmentID, String equipmentName, String consumable, int getRoomID, boolean defect) {
-    }
 
-    public String getEquipmentName() {
-        return equipmentName;
-    }
-
-    public String getConsumable() {
-        return consumable;
-    }
-
-    public int getGetRoomID() {
-        return getRoomID;
-    }
-
-    public Boolean getDefect() {
-        return defect;
-    }
 }
