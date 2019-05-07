@@ -29,6 +29,9 @@ java -jar <artifactname>.jar
 
 By default Roomed can be accessed at http://localhost:8080.
 
+Default user: `admin`  
+Default password: `password`
+
 ---
 
 #### Configuration
