@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class RootToDashboardRedirectConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/", "/dashboard");
+        //registry.addRedirectViewController("/", "/dashboard");
+        registry.addRedirectViewController("/", "/startpage");
     }
 }
