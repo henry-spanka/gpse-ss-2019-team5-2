@@ -3,6 +3,7 @@ package gpse.team52.domain;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import gpse.team52.*;
 
 
 public class DataImport {
@@ -42,7 +43,7 @@ public class DataImport {
 
                     throw new Exception();
                 }else{
-                    
+                Room room = new Room();
 
 
                 for (int i = 0; i < subSet.length; i++) {
