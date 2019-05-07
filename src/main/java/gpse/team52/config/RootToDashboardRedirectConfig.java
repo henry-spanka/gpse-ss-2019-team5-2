@@ -12,6 +12,6 @@ public class RootToDashboardRedirectConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
         //registry.addRedirectViewController("/", "/dashboard");
-        registry.addRedirectViewController("/", "/startpage");
+        registry.addRedirectViewController("/", "/start");
     }
 }
