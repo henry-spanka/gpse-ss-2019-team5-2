@@ -45,6 +45,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastname;
 
+    @Column(nullable = true)
+    private String location;
+
     @Column(unique = true, nullable = false)
     @Getter
     private String email;
@@ -70,9 +73,7 @@ public class User implements UserDetails {
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
-
         email = form.getEmail();
-
         this.password = password;
     }
 
@@ -90,6 +91,12 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+
+    public String getLocation() {return location;}
+
+
+    public void setLocation(String location) {this.location = location;}
 
     @Override
     public boolean isAccountNonExpired() {
@@ -110,9 +117,19 @@ public class User implements UserDetails {
         return firstname;
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
     public String getLastname() {
         return lastname;
     }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+
 
     public String getFullName() {
         return firstname + ' ' + lastname;
