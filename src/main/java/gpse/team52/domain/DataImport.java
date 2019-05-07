@@ -6,13 +6,16 @@ import java.io.FileReader;
 
 
 public class DataImport {
+
+    /*This method handles the import of user files*/
     static public void csvUserImport(String path) {
         try {
             FileReader reader = new FileReader(path);
             BufferedReader inBuffer = new BufferedReader(reader);
-            String line = inBuffer.readLine();
+            String line = null;
 
-            while (line != null) {
+
+            while ((line = inBuffer.readLine()) != null) {
                 System.out.println(line);
 
 
@@ -26,11 +29,13 @@ public class DataImport {
 
     static public void csvRoomImport(String path) {
         try {
+            int counter = 0;
             FileReader reader = new FileReader(path);
             BufferedReader inBuffer = new BufferedReader(reader);
-            String line = inBuffer.readLine();
+            String line = null;
 
-            while (line != null) {
+
+            while ((line = inBuffer.readLine()) != null) {
                 String[] subSet = line.split(";");
                 if (subSet.length != 8) {
 
@@ -39,7 +44,7 @@ public class DataImport {
                 for (int i = 0; i < subSet.length; i++) {
                     System.out.println(subSet[i]);
                 }
-                break;
+
             }
         } catch (Exception e) {
             System.out.println(" Exception");
