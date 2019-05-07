@@ -33,7 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class UserServiceUnitTest {
+class UserServiceUnitTest {
     private UserService userService;
 
     @Mock
@@ -86,16 +86,12 @@ public class UserServiceUnitTest {
 
     @Test
     public void invalidUserCannotBeFound() {
-        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.ofNullable(null));
-        when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.ofNullable(null));
+        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.empty());
 
-        assertThatExceptionOfType(EmailNotFoundException.class).isThrownBy(() -> {
-            userService.loadUserByEmail(userRegistrationForm.getEmail());
-        });
+        assertThatExceptionOfType(EmailNotFoundException.class).isThrownBy(() -> userService.loadUserByEmail(userRegistrationForm.getEmail()));
 
-        assertThatExceptionOfType(UsernameNotFoundException.class).isThrownBy(() -> {
-            userService.loadUserByUsername(userRegistrationForm.getUsername());
-        });
+        assertThatExceptionOfType(UsernameNotFoundException.class).isThrownBy(() -> userService.loadUserByUsername(userRegistrationForm.getUsername()));
     }
 
 
@@ -115,18 +111,16 @@ public class UserServiceUnitTest {
     public void invalidValidationTokenThrowsException() {
         final UUID uuid = UUID.randomUUID();
 
-        when(confirmationTokenRepository.findById(uuid)).thenReturn(Optional.ofNullable(null));
+        when(confirmationTokenRepository.findById(uuid)).thenReturn(Optional.empty());
 
-        assertThatExceptionOfType(InvalidConfirmationTokenException.class).isThrownBy(() -> {
-            userService.validateUserFromToken(uuid);
-        });
+        assertThatExceptionOfType(InvalidConfirmationTokenException.class).isThrownBy(() -> userService.validateUserFromToken(uuid));
     }
 
     @Test
     public void userCanBeRegistered() throws UsernameExistsException, EmailExistsException {
         when(userRepository.save(any())).then(returnsFirstArg());
-        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.ofNullable(null));
-        when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.ofNullable(null));
+        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.empty());
 
         final User user = userService.createUser(userRegistrationForm, "ROLE_USER");
 
@@ -134,7 +128,7 @@ public class UserServiceUnitTest {
         assertThat(user.getEmail()).isEqualTo(userRegistrationForm.getEmail());
         assertThat(user.getFirstname()).isEqualTo(userRegistrationForm.getFirstName());
         assertThat(user.getLastname()).isEqualTo(userRegistrationForm.getLastName());
-        assertThat(user.getAuthorities()).toString().matches("[ROLE_USER]");
+        assertThat(user.getAuthorities().toString()).isEqualTo("[ROLE_USER]");
         assertThat(user.isEnabled()).isFalse();
     }
 
@@ -142,18 +136,14 @@ public class UserServiceUnitTest {
     public void userCannotBeRegisteredIfEmailExists() {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.of(testUser));
 
-        assertThatExceptionOfType(EmailExistsException.class).isThrownBy(() -> {
-            userService.createUser(userRegistrationForm, "ROLE_USER");
-        });
+        assertThatExceptionOfType(EmailExistsException.class).isThrownBy(() -> userService.createUser(userRegistrationForm, "ROLE_USER"));
     }
 
     @Test
     public void userCannotBeRegisteredIfUsernameExists() {
-        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.ofNullable(null));
+        when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.empty());
         when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.of(testUser));
 
-        assertThatExceptionOfType(UsernameExistsException.class).isThrownBy(() -> {
-            userService.createUser(userRegistrationForm, "ROLE_USER");
-        });
+        assertThatExceptionOfType(UsernameExistsException.class).isThrownBy(() -> userService.createUser(userRegistrationForm, "ROLE_USER"));
     }
 }

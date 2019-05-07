@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Responsible for registering a user.
  */
+@SuppressWarnings("checkstyle:multiplestringliterals")
 @Controller
 public class RegisterController {
     @Autowired

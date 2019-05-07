@@ -1,14 +1,24 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * Meeting Entity.
+ */
 @Entity
 public class Meeting {
     /**
@@ -51,7 +61,7 @@ public class Meeting {
     private String title;
 
     /**
-     * Description of the meeting
+     * Description of the meeting.
      */
     @Getter
     @Setter
@@ -73,8 +83,9 @@ public class Meeting {
         this.participantsNumber = participantsNumber;
     }
 
+    @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {
-        return (int)(Duration.between(startAt, endAt).getSeconds() / 60);
+        return (int) (Duration.between(startAt, endAt).getSeconds() / 60);
     }
 
 }

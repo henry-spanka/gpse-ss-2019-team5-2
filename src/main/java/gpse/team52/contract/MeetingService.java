@@ -1,10 +1,13 @@
 package gpse.team52.contract;
 
+import java.time.LocalDateTime;
+
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
 
-import java.time.LocalDateTime;
-
+/**
+ * Meeting Service.
+ */
 public interface MeetingService {
 
     Meeting createMeeting(String title, int participants, LocalDateTime start, LocalDateTime end, User owner);
