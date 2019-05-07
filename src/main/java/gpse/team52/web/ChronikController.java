@@ -16,6 +16,7 @@ public class ChronikController {
 
     /**
      * Show upcoming meetings.
+     * @return Chronic View.
      */
     @GetMapping("/chronik")
     public ModelAndView dashboard() {
