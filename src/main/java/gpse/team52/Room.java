@@ -3,6 +3,7 @@ package gpse.team52;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Room {
@@ -27,7 +28,7 @@ public class Room {
 
     //TODO needs to be changed to any list or class or whatever
     @Column
-    private String equipment;
+    private List<Equipment> equipment;
 
     @Column(nullable = false)
     private String location;
