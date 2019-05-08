@@ -37,18 +37,35 @@ public class InitializeDefaultMeetings {
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
-        final UserRegistrationForm form = new UserRegistrationForm();
-        form.setFirstName("Julius");
-        form.setLastName("Ellermann");
-        form.setEmail("jellermann@example.org");
-        form.setUsername("julius");
-        form.setPassword(DEFAULT_PASSWORD);
-        form.setPasswordConfirm(DEFAULT_PASSWORD);
+        final UserRegistrationForm form1 = new UserRegistrationForm();
+        form1.setFirstName("Julius");
+        form1.setLastName("Ellermann");
+        form1.setEmail("jellermann@example.org");
+        form1.setUsername("julius");
+        form1.setPassword(DEFAULT_PASSWORD);
+        form1.setPasswordConfirm(DEFAULT_PASSWORD);
 
-        User user;
+        User user1;
 
         try {
-            user = userService.createUser(form, true, "ROLE_USER"); //NOPMD
+            user1 = userService.createUser(form1, true, "ROLE_USER"); //NOPMD
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
+            // Not an issue as we only need to create the admin user if it doesn't exist already.
+            return;
+        }
+
+        final UserRegistrationForm form2 = new UserRegistrationForm();
+        form2.setFirstName("Lukas");
+        form2.setLastName("Dyballa");
+        form2.setEmail("ldyballan@example.org");
+        form2.setUsername("lukas");
+        form2.setPassword(DEFAULT_PASSWORD);
+        form2.setPasswordConfirm(DEFAULT_PASSWORD);
+
+        User user2;
+
+        try {
+            user2 = userService.createUser(form2, true, "ROLE_USER"); //NOPMD
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
@@ -58,18 +75,18 @@ public class InitializeDefaultMeetings {
         meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));
         meeting1.setEndAt(LocalDateTime.of(2019, 5, 10, 11, 45));
         meeting1.setDescription("Tolle Beschreibung");
-        meeting1.setOwner(user);
+        meeting1.setOwner(user1);
 
         final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18);
         meeting2.setStartAt(LocalDateTime.of(2019, 5, 11, 14, 0));
         meeting2.setEndAt(LocalDateTime.of(2019, 5, 11, 15, 0));
         meeting2.setDescription("Nicht so tolle Beschreibung");
-        meeting2.setOwner(user);
+        meeting2.setOwner(user2);
 
         final Meeting meeting3 = new Meeting("Geheimes Meeting", 3);
         meeting3.setStartAt(LocalDateTime.of(2019, 5, 12, 23, 0));
         meeting3.setEndAt(LocalDateTime.of(2019, 5, 12, 23, 30));
-        meeting3.setOwner(user);
+        meeting3.setOwner(user1);
 
         meetingService.createMeeting(
         meeting1.getTitle(), meeting1.getParticipantsNumber(),
