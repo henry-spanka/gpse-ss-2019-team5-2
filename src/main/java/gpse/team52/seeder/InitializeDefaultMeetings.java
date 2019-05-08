@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import javax.annotation.PostConstruct;
 
 import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
@@ -15,24 +15,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Initializes the Default User in the database.
+ * Initializes Default Meetings in the database.
  */
 @Service
 public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
-    private final MeetingService meetingService;
 
+    private final MeetingService meetingService;
     private final UserService userService;
+    private final RoomService roomService;
 
     @Autowired
-    public InitializeDefaultMeetings(final MeetingService meetingService, final UserService userService) {
+    public InitializeDefaultMeetings(
+    final MeetingService meetingService, final UserService userService, final RoomService roomService) {
         this.meetingService = meetingService;
         this.userService = userService;
+        this.roomService = roomService;
     }
 
     /**
-     * Initializes the default admin user if it doesn't exist already.
+     * Initializes users for testing meeting features.
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
@@ -41,7 +44,7 @@ public class InitializeDefaultMeetings {
         form1.setFirstName("Julius");
         form1.setLastName("Ellermann");
         form1.setEmail("jellermann@example.org");
-        form1.setUsername("julius");
+        form1.setUsername("jellermann");
         form1.setPassword(DEFAULT_PASSWORD);
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
 
@@ -58,7 +61,7 @@ public class InitializeDefaultMeetings {
         form2.setFirstName("Lukas");
         form2.setLastName("Dyballa");
         form2.setEmail("ldyballan@example.org");
-        form2.setUsername("lukas");
+        form2.setUsername("ldyballa");
         form2.setPassword(DEFAULT_PASSWORD);
         form2.setPasswordConfirm(DEFAULT_PASSWORD);
 
@@ -71,33 +74,37 @@ public class InitializeDefaultMeetings {
             return;
         }
 
-        final Meeting meeting1 = new Meeting("Tolles Meeting", 23);
+        Location location1 = roomService.createLocation("Bielefeld");
+        Location location2 = roomService.createLocation("Gütersloh");
+        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1);
+        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2);
+
+        final Meeting meeting1 = new Meeting("Tolles Meeting", 23, room1);
         meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));
         meeting1.setEndAt(LocalDateTime.of(2019, 5, 10, 11, 45));
         meeting1.setDescription("Tolle Beschreibung");
         meeting1.setOwner(user1);
+        meeting1.addParticipant(new Participant(user1));
 
-        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18);
+        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18, room2);
         meeting2.setStartAt(LocalDateTime.of(2019, 5, 11, 14, 0));
         meeting2.setEndAt(LocalDateTime.of(2019, 5, 11, 15, 0));
         meeting2.setDescription("Nicht so tolle Beschreibung");
         meeting2.setOwner(user2);
+        meeting2.addParticipant(new Participant(user2));
 
-        final Meeting meeting3 = new Meeting("Geheimes Meeting", 3);
+        final Meeting meeting3 = new Meeting("Geheimes Meeting", 3, room1);
         meeting3.setStartAt(LocalDateTime.of(2019, 5, 12, 23, 0));
         meeting3.setEndAt(LocalDateTime.of(2019, 5, 12, 23, 30));
         meeting3.setOwner(user1);
+        meeting3.addParticipant(new Participant(user1));
+        meeting3.addParticipant(new Participant("externerkunde@example.de",
+        "Günther", "Schmidt"));
 
-        meetingService.createMeeting(
-        meeting1.getTitle(), meeting1.getParticipantsNumber(),
-        meeting1.getStartAt(), meeting1.getEndAt(), meeting1.getOwner());
+        meetingService.createMeeting(meeting1);
 
-        meetingService.createMeeting(
-        meeting2.getTitle(), meeting2.getParticipantsNumber(),
-        meeting2.getStartAt(), meeting2.getEndAt(), meeting2.getOwner());
+        meetingService.createMeeting(meeting2);
 
-        meetingService.createMeeting(
-        meeting3.getTitle(), meeting3.getParticipantsNumber(),
-        meeting3.getStartAt(), meeting3.getEndAt(), meeting3.getOwner());
+        meetingService.createMeeting(meeting3);
     }
 }

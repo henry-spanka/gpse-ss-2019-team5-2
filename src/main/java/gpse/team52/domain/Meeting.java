@@ -2,24 +2,24 @@ package gpse.team52.domain;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Meeting Entity.
  */
 @Entity
+@NoArgsConstructor
 public class Meeting {
     /**
      * Unique id for each individual meeting.
@@ -36,6 +36,13 @@ public class Meeting {
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "userId")
     private User owner;
+
+    @Getter
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    //@ElementCollection
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    //@JoinColumn(nullable = false, name = "participantId")
+    private List<Participant> participants = new ArrayList<>();
 
     /**
      * Date and time for the beginning of the meeting.
@@ -75,12 +82,16 @@ public class Meeting {
     @Column
     private int participantsNumber;
 
-    protected Meeting() {
-    }
+    @Getter
+    @ManyToOne(targetEntity = Room.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "roomId")
+    private Room room;
 
-    public Meeting(final String title, final int participantsNumber) {
+
+    public Meeting(final String title, final int participantsNumber, Room room) {
         this.title = title;
         this.participantsNumber = participantsNumber;
+        this.room = room;
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
@@ -88,4 +99,9 @@ public class Meeting {
         return (int) (Duration.between(startAt, endAt).getSeconds() / 60);
     }
 
+    public void addParticipant(Participant participant) {
+        participants.add(participant);
+        participant.setMeeting(this);
+        return;
+    }
 }
