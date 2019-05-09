@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,20 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     @Override
-    public Meeting createMeeting(final String title, final int participants, final LocalDateTime start,
-                                 final LocalDateTime end, final User owner) {
-        final Meeting meeting = new Meeting(title, participants);
+    public Meeting createMeeting(final String title, final int participants,
+                                 final LocalDateTime start,
+                                 final LocalDateTime end,
+                                 final User owner, final Room room) {
+        final Meeting meeting = new Meeting(title, participants, room);
         meeting.setStartAt(start);
         meeting.setEndAt(end);
         meeting.setOwner(owner);
 
+        return createMeeting(meeting);
+    }
+
+    @Override
+    public Meeting createMeeting(Meeting meeting) {
         return repository.save(meeting);
     }
 
