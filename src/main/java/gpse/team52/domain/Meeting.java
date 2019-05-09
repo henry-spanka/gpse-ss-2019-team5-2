@@ -12,8 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Meeting Entity.
@@ -28,20 +26,24 @@ public class Meeting {
     @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", nullable = false, updatable = false,
+    columnDefinition = "BINARY(16)")
     private UUID meetingId;
 
+    /**
+     * Owner of the meeting.
+     */
     @Getter
     @Setter
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "userId")
     private User owner;
 
+    /**
+     * List of participants for the meeting.
+     */
     @Getter
-    //@LazyCollection(LazyCollectionOption.FALSE)
-    //@ElementCollection
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
-    //@JoinColumn(nullable = false, name = "participantId")
     private List<Participant> participants = new ArrayList<>();
 
     /**
@@ -82,13 +84,17 @@ public class Meeting {
     @Column
     private int participantsNumber;
 
+    /**
+     * Room where the meeting takes place.
+     */
     @Getter
     @ManyToOne(targetEntity = Room.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "roomId")
     private Room room;
 
 
-    public Meeting(final String title, final int participantsNumber, Room room) {
+    public Meeting(final String title, final int participantsNumber,
+                   final Room room) {
         this.title = title;
         this.participantsNumber = participantsNumber;
         this.room = room;
@@ -99,7 +105,7 @@ public class Meeting {
         return (int) (Duration.between(startAt, endAt).getSeconds() / 60);
     }
 
-    public void addParticipant(Participant participant) {
+    public void addParticipant(final Participant participant) {
         participants.add(participant);
         participant.setMeeting(this);
         return;

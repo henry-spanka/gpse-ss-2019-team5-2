@@ -15,20 +15,22 @@ public class RoomServiceImpl implements RoomService {
     private final LocationRepository locationRepository;
 
     @Autowired
-    public RoomServiceImpl(final RoomRepository roomRepository, final LocationRepository locationRepository) {
+    public RoomServiceImpl(final RoomRepository roomRepository,
+                           final LocationRepository locationRepository) {
         this.roomRepository = roomRepository;
         this.locationRepository = locationRepository;
     }
 
     @Override
-    public Room createRoom(int seats, int expandableSeats, String email, Location location) {
+    public Room createRoom(final int seats, final int expandableSeats,
+                           final String email, final Location location) {
         final Room room = new Room(seats, expandableSeats, email, location);
 
         return roomRepository.save(room);
     }
 
     @Override
-    public Location createLocation(String name) {
+    public Location createLocation(final String name) {
         final Location location = new Location(name);
 
         return locationRepository.save(location);

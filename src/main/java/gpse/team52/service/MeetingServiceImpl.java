@@ -25,8 +25,10 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     @Override
-    public Meeting createMeeting(final String title, final int participants, final LocalDateTime start,
-                                 final LocalDateTime end, final User owner, final Room room) {
+    public Meeting createMeeting(final String title, final int participants,
+                                 final LocalDateTime start,
+                                 final LocalDateTime end,
+                                 final User owner, final Room room) {
         final Meeting meeting = new Meeting(title, participants, room);
         meeting.setStartAt(start);
         meeting.setEndAt(end);

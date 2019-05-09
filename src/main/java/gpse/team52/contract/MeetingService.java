@@ -12,7 +12,8 @@ import gpse.team52.domain.User;
 public interface MeetingService {
 
     Meeting createMeeting(String title, int participants,
-                          LocalDateTime start, LocalDateTime end, User owner, Room room);
+                          LocalDateTime start, LocalDateTime end,
+                          User owner, Room room);
 
     Meeting createMeeting(Meeting meeting);
 
