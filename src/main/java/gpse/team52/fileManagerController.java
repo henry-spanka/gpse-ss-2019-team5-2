@@ -4,11 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Dashboard.
+ */
 @Controller
-public class fileManagerController {
-    @GetMapping("/fileManager")
+public class DashboardController {
+    @GetMapping("/dashboard")
     public ModelAndView dashboard() {
-        final ModelAndView modelAndView = new ModelAndView("fileManager");
-        return modelAndView;
+
+        return new ModelAndView("dashboard");
     }
 }

@@ -6,11 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Displaying the Chronic to the user.
+ */
 @Controller
 public class ChronikController {
-
     @Autowired
     private MeetingService service;
+
+    /**
+     * Show upcoming meetings.
+     * @return Chronic View.
+     */
     @GetMapping("/chronik")
     public ModelAndView dashboard() {
         final ModelAndView modelAndView = new ModelAndView("chronik");
