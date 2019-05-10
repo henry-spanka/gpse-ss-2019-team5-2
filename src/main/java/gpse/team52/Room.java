@@ -27,8 +27,8 @@ public class Room {
 
 
     //TODO needs to be changed to any list or class or whatever
-    @Column
-    private List<Equipment> equipment;
+    //@Column
+    //private List<Equipment> equipment;
 
     @Column(nullable = false)
     private String location;

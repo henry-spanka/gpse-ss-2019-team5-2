@@ -17,7 +17,7 @@
 
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="example">
                     <tbody>
                     <tr th:each="room : ${roomList}">
                         <div class="form-check">
@@ -70,4 +70,18 @@
     </form>
 </div>
 </body>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var table = $('#example').DataTable();
+
+        $('#example tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#button').click( function () {
+            alert( table.rows('.selected').data().length +' row(s) selected' );
+        } );
+    } );
+</script>
 </html>
