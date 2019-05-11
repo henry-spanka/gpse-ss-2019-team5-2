@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Datamanagement</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
+        <form th:method="post" th:action="@{/datamanagement}">
+                <div class="form-group">
+                    <label for="URL">URL</label>
+                    <input type="text" class="form-control" id="URL" name="URL" placeholder="URL">
+                </div>
+                    <div class="form-group">
+                        <fieldset>
+                            <div class="some-class">
+                                <input type="radio" class="radio" name="x" value="y" id="y"/>
+                                <label for="y">Rooms</label>
+                                <input type="radio" class="radio" name="x" value="z" id="z"/>
+                                <label for="z">User</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
