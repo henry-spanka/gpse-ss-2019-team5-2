@@ -36,17 +36,24 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID userId;
 
+    @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String firstname;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String lastname;
 
     @Column(unique = true, nullable = false)
     @Getter
+    @Setter
     private String email;
 
     @Column(nullable = false)
