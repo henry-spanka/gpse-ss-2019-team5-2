@@ -31,7 +31,8 @@
                         <td>
                             <!-- <span th:if="${room.isFavourite()}" class="enhanced">insert Star</span> -->
                         </td>
-                        <td> <!-- class="col-md-2 col-sm-5 mt-2" data-toggle="modal" data-target="#" th:attrappend="data-target=${'' + room.roomID}"-->
+                        <td>
+                            <!-- class="col-md-2 col-sm-5 mt-2" data-toggle="modal" data-target="#" th:attrappend="data-target=${'' + room.roomID}"-->
                             <a class="btn btn-sm" th:href="@{/rooms/{id}(id=${room.roomID})}"><i
                                 class="fas fa-info fa-2x"></i></a>
                         </td>
@@ -62,21 +63,6 @@
                 </div>
             </div>
         </div>
-        <!--
-                <script th:inline="javascript">
-                    $(document).ready(function() {
-                        var table = $('#example').DataTable();
-
-                        $('#example tbody').on( 'click', 'tr', function () {
-                            $(this).toggleClass('selected');
-                        } );
-
-                        $('#button').click( function () {
-                            alert( table.rows('.selected').data().length +' row(s) selected' );
-                        } );
-                    } );
-                </script>
-        -->
     </form>
 </div>
 </body>

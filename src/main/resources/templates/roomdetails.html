@@ -6,8 +6,8 @@
         <div class="col-md-6 offset-md-3">
             <h4 th:text="${room.roomName}">Raum</h4>
             <p th:text="${'seats: ' + room.seats}">Plätze </p>
-            <p th:text="${'other information about the room: extra seats:' + room.extraSeats + ', mail :' +
-            room.roomEmail + ', location:' + room.location}">Raumnummer Lage Standort etc.</p>
+            <p th:text="${'other information about the room: extra seats: ' + room.extraSeats + ', mail: ' +
+            room.roomEmail + ', location: ' + room.location}">Raumnummer Lage Standort etc.</p>
             <div th:each="equipment: ${equipmentList}">
                 <p th:text="${'equipment: ' + equipment.getEquipmentName()}">Plätze und
                     Ausstattung</p>
@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="col-md-5 ml-auto">
-                    <a class="btn btn-outline-info" th:href="@{/rooms/}">Zurück</a>
+                    <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>
                 </div>
             </div>
         </div>
