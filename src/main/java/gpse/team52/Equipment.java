@@ -19,19 +19,16 @@ public class Equipment {
     private String consumable;
 
     @Column(nullable = false)
-    private int getRoomID;
+    private int roomID;
 
     @Column()
     private boolean defect;
 
-    public Equipment() {
+    public Equipment(int equipmentID, String equipmentName, String consumable, int getRoomID, boolean defect) {
         this.equipmentName = equipmentName;
         this.consumable = consumable;
-        this.getRoomID = getRoomID;
+        this.roomID = getRoomID;
         this.defect = defect;
-    }
-
-    public Equipment(int equipmentID, String equipmentName, String consumable, int getRoomID, boolean defect) {
     }
 
     public String getEquipmentName() {
@@ -42,8 +39,8 @@ public class Equipment {
         return consumable;
     }
 
-    public int getGetRoomID() {
-        return getRoomID;
+    public int getRoomID() {
+        return roomID;
     }
 
     public Boolean getDefect() {
