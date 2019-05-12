@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Service
 public class MailServiceImpl implements MailService {
-    private JavaMailSender mailSender;
-    private MailContentBuilder mailContentBuilder;
-    private Environment env;
+    private final JavaMailSender mailSender;
+    private final MailContentBuilder mailContentBuilder;
+    private final Environment env;
 
     /**
      * Creates a new MailService.
