@@ -5,6 +5,18 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.List;
 
+//TODO: - set attributes correct for database
+// - set little star if room is a favourite
+// - use database to access data in controller
+// - roomdetails page
+// - testdata (room, equipment) for database
+// - unit tests for functions submit, cancel, back
+// - submit data for real at last submit step
+// - add equipment
+// - merge into develop and fix any f problems
+// - (get back from last step and detailed information with rooms still selected)
+
+
 @Entity
 public class Room {
 

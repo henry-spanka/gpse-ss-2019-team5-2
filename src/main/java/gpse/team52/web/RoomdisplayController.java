@@ -31,16 +31,12 @@ public class RoomdisplayController {
     }
 
     /**
-     *
-     * @param error
      * @return Page with rooms to choose from
      */
     @GetMapping("/rooms")
-    public ModelAndView rooms(@RequestParam(name = "error", required = false) String error) {
+    public ModelAndView rooms() {
         final ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("roomList", roomList);
-        //modelAndView.addObject("equipmentList", equipmentList);
-        modelAndView.addObject("error", error != null);
         return modelAndView;
     }
 
@@ -48,7 +44,8 @@ public class RoomdisplayController {
     @GetMapping("/rooms/{roomID}")
     public ModelAndView roomdetails(@PathVariable("roomID") String roomID) {
         final ModelAndView modelAndView = new ModelAndView("roomdetails");
-        Room room = getRoom(roomID);
+        Room room = getRoom(roomID); // should add some error handling, if the get method fails
+        //modelAndView.addObject("equipmentList", equipmentList);
         modelAndView.addObject("room", room);
         return modelAndView;
     }
@@ -56,7 +53,7 @@ public class RoomdisplayController {
     //TODO use database instead
     private Room getRoom(String roomID) {
         for (Room room : roomList) {
-            if (room.getRoomID() == Integer.parseInt(roomID)) {
+            if (roomID != null && room.getRoomID() == Integer.parseInt(roomID)) {
                 return room;
             }
         }
@@ -73,12 +70,24 @@ public class RoomdisplayController {
     }
      */
 
-    //TODO get this working!
     @RequestMapping("/rooms/confirm")
-    public ModelAndView confirm(@RequestParam(name = "room", required = true) String room) { // , @RequestParam(name = "meeting", required = true) String meeting
-        //String room = "100"; // any test data, remove!!
+    public ModelAndView confirm(
+    @RequestParam(name = "roomID", required = false) String roomID,
+    @RequestParam(name = "error", required = false) String error) { // , @RequestParam(name = "meeting", required = true) String meeting
+        if(roomID == null){ //return rooms-page with alert message
+            final ModelAndView roomsError = new ModelAndView("rooms");
+            roomsError.addObject("roomList", roomList);
+            roomsError.addObject("error", true);
+            return roomsError;
+        }
+        // else return confirmation page
         final ModelAndView modelAndView = new ModelAndView("confirmbooking");
-        modelAndView.addObject(getRoom(room));//benötigt, und Meeting auch hinzufügen!
+        String[] chosen = roomID.split(",");
+        List<Room> chosenRooms = new ArrayList<Room>();
+        for(int i = 0; i < chosen.length; i++){
+            chosenRooms.add(getRoom(chosen[i]));
+        }
+        modelAndView.addObject("chosenRooms", chosenRooms);//benötigt, und Meeting auch hinzufügen!
         return modelAndView;
     }
 
