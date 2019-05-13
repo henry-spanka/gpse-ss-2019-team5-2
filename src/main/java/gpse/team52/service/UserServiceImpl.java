@@ -130,6 +130,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public void changeFirstname(User user,String firstname) {
+
+        user.setFirstname(firstname);
+
+    }
+
     private boolean emailExists(final String email) {
         try {
             loadUserByEmail(email);
