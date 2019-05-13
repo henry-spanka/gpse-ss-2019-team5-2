@@ -1,4 +1,4 @@
-package gpse.team52;
+package gpse.team52.domain;
 
 import lombok.Getter;
 

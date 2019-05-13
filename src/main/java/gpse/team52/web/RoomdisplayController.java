@@ -1,7 +1,7 @@
 package gpse.team52.web;
 
-import gpse.team52.Equipment;
-import gpse.team52.Room;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Room;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
