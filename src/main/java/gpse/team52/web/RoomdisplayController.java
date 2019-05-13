@@ -16,6 +16,8 @@ public class RoomdisplayController {
     private List<Equipment> equipmentList = new ArrayList<Equipment>();
 
     public RoomdisplayController() {
+        //TODO: auf passende räume und equipments zugreifen
+        
         // should get a list of rooms to choose for meeting, just set any default
         //Example rooms
         roomList.add(new Room(100, "mail100", "name", 5, 6, "description"));
@@ -51,7 +53,7 @@ public class RoomdisplayController {
     //TODO use database instead
     private Room getRoom(String roomID) {
         for (Room room : roomList) {
-            if (roomID != null && room.getRoomID() == Integer.parseInt(roomID)) {
+            if (!roomID.equals(null) && room.getRoomID().equals(Integer.parseInt(roomID))) {
                 return room;
             }
         }

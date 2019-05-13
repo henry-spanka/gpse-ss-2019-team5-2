@@ -1,9 +1,9 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.UUID;
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -21,9 +21,10 @@ import java.util.List;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roomId", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-    private int roomID;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID roomID;
 
     @Column(unique = true, nullable = false)
     private String roomEmail;
@@ -50,10 +51,9 @@ public class Room {
     private byte[] layout;
 
     //TODO change constructor, add variables
-    public Room(int id, String email, String name, int seats, int extraSeats, String location) {
+    public Room(String email, String name, int seats, int extraSeats, String location) {
         this.roomName = name;
         this.seats = seats;
-        this.roomID = id;
         this.roomEmail = email;
         this.extraSeats = extraSeats;
         this.location = location;
@@ -66,7 +66,7 @@ public class Room {
     public int getSeats() {
         return seats;
     }
-    public int getRoomID() { return roomID; }
+    public UUID getRoomID() { return roomID; }
     public int getExtraSeats() {
         return extraSeats;
     }
