@@ -68,5 +68,5 @@ public interface UserService extends UserDetailsService {
      */
     User validateUserFromToken(UUID token) throws InvalidConfirmationTokenException;
 
-    void changeFirstname(User user,String firstname);
+    User updateUser(User user);
 }

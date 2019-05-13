@@ -125,9 +125,9 @@ public class User implements UserDetails {
         return lastname;
     }
 
-
-
-
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
     public String getFullName() {
         return firstname + ' ' + lastname;

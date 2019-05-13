@@ -8,11 +8,15 @@
       method="post">
     <div class="row">
         <div class="col-md-5 p-2 mx-auto text-center">
-             <label for ="firstname">Firstname:</label>
+                <label for ="firstname">Firstname:</label>
                 <input type = "text" id ="firstname" th:field ="*{firstname}"/>
+                <p>
                 <label for = "lastname">Lastname:</label>
                 <input type="text" id ="lastname" th:field ="*{lastname}"/>
+                </p>
+                <p>
                 <input type = "submit" value = "Save&Exit"/>
+                </p>
         </div>
     </div>
 </div>
