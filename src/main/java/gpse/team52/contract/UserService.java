@@ -67,4 +67,6 @@ public interface UserService extends UserDetailsService {
      * @throws InvalidConfirmationTokenException Thrown if the token has an invalid format or is expired.
      */
     User validateUserFromToken(UUID token) throws InvalidConfirmationTokenException;
+
+    User updateUser(User user);
 }
