@@ -56,12 +56,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @SuppressWarnings("checkstyle:multiplestringliterals")
     public User loadUserByUsername(final String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User name " + username + " not found."));
     }
 
     @Override
+    @SuppressWarnings("checkstyle:multiplestringliterals")
     public User loadUserByEmail(final String email) throws EmailNotFoundException {
         return userRepository.findByEmail(email)
         .orElseThrow(() -> new EmailNotFoundException("Email " + email + " not found."));
@@ -74,6 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @SuppressWarnings("checkstyle:multiplestringliterals")
     public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles)//NOPMD
     throws UsernameExistsException,
     EmailExistsException {

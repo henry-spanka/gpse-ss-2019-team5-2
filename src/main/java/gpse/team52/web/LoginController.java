@@ -16,6 +16,7 @@ public class LoginController {
      * @param logout Set if the user successfully logged out and was redirected to the login page.
      * @return Login Page.
      */
+    @SuppressWarnings("checkstyle:multiplestringliterals")
     @GetMapping("/login")
     public ModelAndView login(
     final @RequestParam(name = "error", required = false) String error,
