@@ -7,14 +7,22 @@
 <body>
 <div layout:fragment="content">
     <div class="container py-3">
-        <div class="page-header">
-            <h3 class="text-center">Upcomming Meetings</h3>
+        <div class="text-center">
+            <div class="btn-group btn-group-toggle" data-toggle="daybuttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="today" autocomplete="off" checked> Today
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="tomorrow" autocomplete="off"> Tomorrow
+                </label>
+            </div>
         </div>
         <hr>
         <div class="media border-bottom pb-2 mt-1" th:each="meeting : ${meetings}">
             <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
                  style="width:50px;height:50px;">
-            <div class="media-body collapsed mx-2" th:data-target="${'#'+ meeting.getMeetingId()}" data-toggle="collapse">
+            <div class="media-body collapsed mx-2" th:data-target="${'#'+ meeting.getMeetingId()}"
+                 data-toggle="collapse">
                 <h5 class="mt-0" th:text="${meeting.getTitle()}">Tolles Treffen</h5>
                 <p class="small my-0"
                    th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')} +' | '+ ${meeting.getDuration() + 'min'}">
