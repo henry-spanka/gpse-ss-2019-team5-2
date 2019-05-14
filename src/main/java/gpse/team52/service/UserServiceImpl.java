@@ -130,6 +130,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    public User updateUser(final User user) {
+
+        return userRepository.save(user);
+    }
+
     private boolean emailExists(final String email) {
         try {
             loadUserByEmail(email);
