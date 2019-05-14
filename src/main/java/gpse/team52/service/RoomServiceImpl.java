@@ -35,4 +35,7 @@ public class RoomServiceImpl implements RoomService {
 
         return locationRepository.save(location);
     }
+
+    @Override
+    public Iterable<Location> getAllLocations() { return locationRepository.findAll(); }
 }

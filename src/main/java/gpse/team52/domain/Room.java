@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Room {
 
     /**
-     * Unique Id for each romm.
+     * Unique Id for each room.
      */
     @Id
     @Getter
