@@ -17,7 +17,7 @@ public class InitializeDefaultUser {
 
     private static final String DEFAULT_PASSWORD = "password";
 
-    private final EquipmentService equipmentService;
+    private final UserService userService;
 
     @Autowired
     public InitializeDefaultUser(final UserService userService) {

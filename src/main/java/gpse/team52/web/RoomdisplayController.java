@@ -1,84 +1,65 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.EquipmentService;
+import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Room;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class RoomdisplayController {
 
-    private List<Room> roomList = new ArrayList<Room>();
-    private List<Equipment> equipmentList = new ArrayList<Equipment>();
+    @Autowired
+    private RoomService roomService;
 
     public RoomdisplayController() {
-        //TODO: auf passende räume und equipments zugreifen
-        
-        // should get a list of rooms to choose for meeting, just set any default
-        //Example rooms
-        roomList.add(new Room(100, "mail100", "name", 5, 6, "description"));
-        roomList.add(new Room(101, "mail101", "name2", 2, 2, "description2"));
-        // test equipment
-        equipmentList.add(new Equipment(100, "table_1", "chalk", 100, false));
-        equipmentList.add(new Equipment(101, "table_2", "chalk", 101, false));
-        equipmentList.add(new Equipment(102, "whiteboard_1", "pen", 100, true));
-        equipmentList.add(new Equipment(103, "whiteboard_2", "pen", 101, false));
-        equipmentList.add(new Equipment(104, "beamer_1", "", 100, true));
     }
 
     /**
-     * @return Page with rooms to choose from
+     * @return Page with available rooms to choose from
      */
     @GetMapping("/rooms")
     public ModelAndView rooms() {
         final ModelAndView modelAndView = new ModelAndView("rooms");
-        modelAndView.addObject("roomList", roomList);
+        modelAndView.addObject("roomList", roomService.getAllRooms());
         return modelAndView;
     }
 
+    /**
+     *
+     * @param roomID room to display details
+     * @return Details about specified room
+     */
     @GetMapping("/rooms/{roomID}")
-    public ModelAndView roomdetails(@PathVariable("roomID") String roomID) {
+    public ModelAndView roomdetails(@PathVariable("roomID") UUID roomID) {
         final ModelAndView modelAndView = new ModelAndView("roomdetails");
-        Room room = getRoom(roomID); // should add some error handling, if the get method fails
+        Room room = roomService.getRoom(roomID).orElseThrow(); // should add some error handling, if the get method fails, use database instead
         modelAndView.addObject("room", room);
-        List<Equipment> equipment = getEquipment(roomID);
+        List<Equipment> equipment = room.getEquipment();
         modelAndView.addObject("equipmentList", equipment);
         return modelAndView;
     }
 
-    //TODO use database instead
-    private Room getRoom(String roomID) {
-        for (Room room : roomList) {
-            if (!roomID.equals(null) && room.getRoomID().equals(Integer.parseInt(roomID))) {
-                return room;
-            }
-        }
-        return null;
-    }
-
-    private List<Equipment> getEquipment(String roomID) {
-        List<Equipment> roomEquipmentList = new ArrayList<Equipment>();
-        int intRoomID = Integer.parseInt(roomID);
-        for (Equipment equipment : equipmentList) {
-            if (equipment.getRoomID() == intRoomID) {
-                roomEquipmentList.add(equipment);
-            }
-        }
-        System.out.println(roomID + roomEquipmentList);
-        return roomEquipmentList;
-    }
-
+    /**
+     *
+     * @param roomID rooms which are selected
+     * @param error if no room was selected
+     * @return Page to check and submit data or, in case of error, page with rooms to choose from
+     */
     @RequestMapping("/rooms/confirm")
     public ModelAndView confirm(
     @RequestParam(name = "roomID", required = false) String roomID,
     @RequestParam(name = "error", required = false) String error) { // , @RequestParam(name = "meeting", required = true) String meeting
         if (roomID == null) { //return rooms-page with alert message
             final ModelAndView roomsError = new ModelAndView("rooms");
-            roomsError.addObject("roomList", roomList);
+            roomsError.addObject("roomList", roomService.getAllRooms());
             roomsError.addObject("error", true);
             return roomsError;
         }
@@ -87,7 +68,7 @@ public class RoomdisplayController {
         String[] chosen = roomID.split(",");
         List<Room> chosenRooms = new ArrayList<Room>();
         for (int i = 0; i < chosen.length; i++) {
-            chosenRooms.add(getRoom(chosen[i]));
+            chosenRooms.add(roomService.getRoom(UUID.fromString(chosen[i])).orElseThrow());
         }
         modelAndView.addObject("chosenRooms", chosenRooms);//benötigt, und Meeting auch hinzufügen!
         return modelAndView;

@@ -18,9 +18,9 @@ public class InitializeDefaultEquipment {
         this.equipmentService = equipmentService;
     }
 //TODO: rausfinden wie man die passende roomID hinterlegt
-    final Equipment equipment1 = new Equipment("table_1", "chalk", 100, false);
-    final Equipment equipment2 = new Equipment( "table_2", "chalk", 101, false);
-    final Equipment equipment3 = new Equipment( "whiteboard_1", "pen", 100, true);
-    final Equipment equipment4 = new Equipment("whiteboard_2", "pen", 101, false);
-    final Equipment equipment5 = new Equipment("beamer_1", "", 100, true);
+    final Equipment equipment1 = new Equipment("table_1", "chalk", false);
+    final Equipment equipment2 = new Equipment( "table_2", "chalk", false);
+    final Equipment equipment3 = new Equipment( "whiteboard_1", "pen", true);
+    final Equipment equipment4 = new Equipment("whiteboard_2", "pen", false);
+    final Equipment equipment5 = new Equipment("beamer_1", "", true);
 }

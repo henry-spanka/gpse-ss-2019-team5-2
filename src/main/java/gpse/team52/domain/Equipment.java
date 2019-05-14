@@ -2,72 +2,47 @@ package gpse.team52.domain;
 
 //import lombok.Getter;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class Equipment {
 
+
+    // TODO weitere Tabelle für Verbundung von Ruam und Ausstattung machen (weil unterschiedliche Räume, unterschieliche Ausstattung und ZUstand und so)
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID equipmentID;
 
+    @Getter
     @Column(unique = true, nullable = false)
     private String equipmentName;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String consumable;
 
-    public void setEquipmentID(UUID equipmentID) {
-        this.equipmentID = equipmentID;
-    }
+    @Setter
+    @Getter
+    @ManyToMany(mappedBy = "equipment")
+    private List<Room> rooms;
 
-    @Column(nullable = false)
-    private int roomID;
-
+    @Getter
+    @Setter
     @Column()
     private boolean defect;
 
-    public Equipment( String equipmentName, String consumable, int getRoomID, boolean defect) {
+    public Equipment(String equipmentName, String consumable, boolean defect) {
         this.equipmentName = equipmentName;
         this.consumable = consumable;
-        this.roomID = getRoomID;
-        this.defect = defect;
-    }
-
-    public String getEquipmentName() {
-        return equipmentName;
-    }
-
-    public void setEquipmentName(String equipmentName) {
-        this.equipmentName = equipmentName;
-    }
-
-    public String getConsumable() {
-        return consumable;
-    }
-
-    public void setConsumable(String consumable) {
-        this.consumable = consumable;
-    }
-
-    public int getRoomID() {
-        return roomID;
-    }
-
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
-    }
-
-    public Boolean getDefect() {
-        return defect;
-    }
-
-    public void setDefect(boolean defect) {
         this.defect = defect;
     }
 }

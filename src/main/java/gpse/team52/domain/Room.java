@@ -1,10 +1,15 @@
 package gpse.team52.domain;
 
+import lombok.Getter;
 import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import java.util.UUID;
-
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
 // - use database to access data in controller
@@ -17,74 +22,6 @@ import java.util.UUID;
 // - (get back from last step and detailed information with rooms still selected)
 
 
-@Entity
-public class Room {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-    private UUID roomID;
-
-    @Column(unique = true, nullable = false)
-    private String roomEmail;
-
-    @Column(nullable = false)
-    private String roomName;
-
-    @Column(nullable = false)
-    private int seats;
-
-    @Column
-    private int extraSeats;
-
-
-    //TODO needs to be changed to any list or class or whatever
-    //@Column
-    //private List<Equipment> equipment;
-
-    @Column(nullable = false)
-    private String location;
-
-    //TODO schauen ob layout klappt
-    @Column(name="layout")
-    private byte[] layout;
-
-    //TODO change constructor, add variables
-    public Room(String email, String name, int seats, int extraSeats, String location) {
-        this.roomName = name;
-        this.seats = seats;
-        this.roomEmail = email;
-        this.extraSeats = extraSeats;
-        this.location = location;
-        this.layout = layout;
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-    public int getSeats() {
-        return seats;
-    }
-    public UUID getRoomID() { return roomID; }
-    public int getExtraSeats() {
-        return extraSeats;
-    }
-    public String getRoomEmail() {
-        return roomEmail;
-    }
-    public String getLocation() {
-        return location;
-    }
-    public byte[] getLayout() {
-        return layout;
-    }
-
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.UUID;
-
 /**
  * Room Entity.
  */
@@ -92,7 +29,7 @@ import java.util.UUID;
 public class Room {
 
     /**
-     * Unique Id for each romm.
+     * Unique Id for each room.
      */
     @Id
     @Getter
@@ -100,7 +37,7 @@ public class Room {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false,
     columnDefinition = "BINARY(16)")
-    private UUID roomId;
+    private UUID roomID;
 
     /**
      * Number of fix seats in a room.
@@ -121,7 +58,14 @@ public class Room {
      */
     @Getter
     @Column(unique = true, nullable = false)
-    private String email;
+    private String roomEmail;
+
+    /**
+     * Name of a room.
+     */
+    @Getter
+    @Column(nullable = true) //TODO nullable should be false!
+    private String roomName;
 
     /**
      * Location of the room.
@@ -131,6 +75,17 @@ public class Room {
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
 
+
+    //TODO schauen ob layout klappt
+    @Column(name="layout")
+    private byte[] layout;
+    //TODO needs to be changed to any list or class or whatever
+
+    @Getter
+    @ManyToMany(targetEntity = Equipment.class)
+    @JoinColumn(nullable = false, name = "equipmentId")
+    private List<Equipment> equipment;
+
     protected Room() {
     }
 
@@ -138,7 +93,7 @@ public class Room {
                 final String email, final Location location) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
-        this.email = email;
+        this.roomEmail = email;
         this.location = location;
     }
 }

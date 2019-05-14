@@ -22,10 +22,10 @@
                                 <input type="checkbox" class="custom-control-input" th:id="${room.roomID}"
                                        th:value="${room.roomID}" name="roomID"/>
                                 <label class="custom-control-label" th:for="${room.roomID}" style="font-size: 20px"
-                                       th:text="${room.roomName}">Room</label>
+                                       th:text="${room.getRoomEmail()}">Room</label>
                             </div>
                             <p style="font-size: 15px"
-                               th:text="${'Seats and more: ' + room.seats}">Seats and
+                               th:text="${'Seats and more: ' + room.getSeats()}">Seats and
                                 equipment</p>
                         </td>
                         <td>
@@ -37,16 +37,6 @@
                                 class="fas fa-info fa-2x"></i></a>
                         </td>
                     </tr>
-                    <!--
-                    <div class="form-check">
-                        <tr>
-                            <td>
-                                <label class="form-check-label" style="font-size: 20px"><input type="checkbox" class="form-check-input"/>Room</label>
-                                <p style="font-size: 15px">Seats and equipment</p>
-                            </td>
-                        </tr>
-                    </div>
-                    -->
                     </tbody>
                 </table>
             </div>

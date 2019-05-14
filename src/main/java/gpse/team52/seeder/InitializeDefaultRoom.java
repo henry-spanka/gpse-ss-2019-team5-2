@@ -1,6 +1,7 @@
 package gpse.team52.seeder;
 
 import gpse.team52.contract.RoomService;
+import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,6 @@ public class InitializeDefaultRoom {
         this.roomService = roomService;
     }
 
-    final Room room1 = new Room("mail100", "name", 5, 6, "description");
-    final Room room2 = new Room("mail101", "name2", 2, 2, "description2");
+    final Room room1 = new Room(3, 0, "mail100", new Location("Bielefeld"));
+    final Room room2 = new Room(4, 2, "mail101", new Location("Düsseldorf"));
 }

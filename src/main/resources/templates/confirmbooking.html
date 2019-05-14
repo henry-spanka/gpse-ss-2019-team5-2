@@ -8,7 +8,7 @@
                 <h4>Please check your selection!</h4>
                 <!-- <h2 style="font-size: 20px" th:text="${meeting.name}">Meeting</h2> -->
                 <div th:each="room : ${chosenRooms}">
-                    <h2 style="font-size: 20px" th:text="${room.roomName}">Room</h2>
+                    <h2 style="font-size: 20px" th:text="${room.roomEmail}">Room</h2>
                     <p th:text="${'Seats: ' + room.seats + ' Equipment: '}">Seats and equipment</p>
                     <p th:text="${'More information: ' + room.roomID}"> more info</p>
                 </div>
