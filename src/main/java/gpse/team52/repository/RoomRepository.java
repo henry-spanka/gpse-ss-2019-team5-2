@@ -5,5 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
+/**
+ * Room repository interface.
+ */
 public interface RoomRepository extends CrudRepository<Room, UUID> {
 }

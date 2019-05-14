@@ -40,7 +40,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public Meeting createMeeting(final Meeting meeting) {
-        if(meeting.getDescription() == null) {
+        if (meeting.getDescription() == null) {
             meeting.setDescription("-");
         }
         return meetingRepository.save(meeting);

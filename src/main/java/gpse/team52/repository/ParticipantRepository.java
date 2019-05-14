@@ -5,5 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
+/**
+ * Participant repository.
+ */
 public interface ParticipantRepository extends CrudRepository<Participant, UUID> {
 }

@@ -26,6 +26,12 @@ public class InitializeDefaultMeetings {
     private final UserService userService;
     private final RoomService roomService;
 
+    /**
+     * Constructor for the used services.
+     * @param meetingService Service for meetings
+     * @param userService Service for user
+     * @param roomService Service for rooms
+     */
     @Autowired
     public InitializeDefaultMeetings(
     final MeetingService meetingService, final UserService userService, final RoomService roomService) {

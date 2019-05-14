@@ -5,5 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
+/**
+ * Location repository interface.
+ */
 public interface LocationRepository extends CrudRepository<Location, UUID> {
 }

@@ -17,6 +17,7 @@
                 <div>
                     <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
                     <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
+                        + ' - ' + ${#temporals.format(meeting.getEndAt(), 'HH:mm')}
                         + ' | ' + ${meeting.getDuration() + 'min'}">DD.MM.YYYY HH:MM | ??min</p>
                     <p class="small my-0" th:text="${meeting.getRoom().getEmail() + ' | '
                         + meeting.getRoom().getLocation().getName()}">Room | Location</p>
@@ -32,11 +33,11 @@
                     <p class="small my-0" th:text="${'Seats: ' + meeting.getRoom().getSeats()
                     + ' | Expandable: ' + meeting.getRoom().getExpandableSeats()}"></p>
                     <p class="small my-0">---AUSSTATTUNG---</p>
-                    <!--
+
                     <p class="small my-0">Participants:</p>
                     <div th:each="participant : ${participants}">
                         <p class="small my-0" th:text="${participant.getFirstName() + ' ' + participant.getLastName()}"></p>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,6 +8,9 @@ import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Room service.
+ */
 @Service
 public class RoomServiceImpl implements RoomService {
 
