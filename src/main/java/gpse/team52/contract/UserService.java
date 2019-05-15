@@ -68,5 +68,8 @@ public interface UserService extends UserDetailsService {
      */
     User validateUserFromToken(UUID token) throws InvalidConfirmationTokenException;
 
+    Iterable<User> getAllUsers();
+
     User updateUser(User user);
+
 }
