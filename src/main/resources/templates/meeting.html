@@ -32,11 +32,20 @@
                     </p>
                     <p class="small my-0" th:text="${'Seats: ' + meeting.getRoom().getSeats()
                     + ' | Expandable: ' + meeting.getRoom().getExpandableSeats()}"></p>
-                    <p class="small my-0">---AUSSTATTUNG---</p>
 
-                    <p class="small my-0">Participants:</p>
-                    <div th:each="participant : ${participants}">
-                        <p class="small my-0" th:text="${participant.getFirstName() + ' ' + participant.getLastName()}"></p>
+                    <br>
+                    <p class="small my-0 font-weight-bold">Ausstattung:</p>
+                    <div th:each="equipment : ${equipments}">
+                        <p class="small my-0 pl-3" th:text="'-' + ${equipment.getEquipmentName()}"></p>
+                    </div>
+
+                    <div th:if="${participants != null && !participants.isEmpty()}">
+                        <br>
+                        <p class="small my-0 font-weight-bold">Participants:</p>
+                        <div th:each="participant : ${participants}">
+                            <p class="small my-0 pl-3" th:text="'-' + ${participant.getFirstName() + ' '
+                            + participant.getLastName()}"></p>
+                        </div>
                     </div>
                 </div>
             </div>

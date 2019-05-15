@@ -28,6 +28,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Room update(Room room) {
+        return roomRepository.save(room);
+    }
+
+    @Override
     public Room createRoom(final int seats, final int expandableSeats,
                            final String email, final Location location) {
         final Room room = new Room(seats, expandableSeats, email, location);

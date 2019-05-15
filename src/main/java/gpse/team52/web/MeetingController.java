@@ -4,6 +4,7 @@ import java.util.List;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.UserService;
+import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
@@ -37,6 +38,9 @@ public class MeetingController {
 
         Meeting meeting = meetingService.getMeetingById(id);
         modelAndView.addObject("meeting", meeting);
+
+        List<Equipment> equipments = meeting.getRoom().getEquipment();
+        modelAndView.addObject("equipments", equipments);
 
         User user = (User) authentication.getPrincipal();
         if (user.getUsername() == meeting.getOwner().getUsername()) {

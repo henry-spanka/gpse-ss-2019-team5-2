@@ -1,5 +1,7 @@
 package gpse.team52.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,7 +83,7 @@ public class Room {
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
     @JoinColumn(nullable = false, name = "equipmentId")
-    private List<Equipment> equipment;
+    private List<Equipment> equipment = new ArrayList<>();
 
     protected Room() {
     }
@@ -99,5 +101,17 @@ public class Room {
         this.expandableSeats = expandableSeats;
         this.roomEmail = email;
         this.location = location;
+    }
+
+    public void addEquipment(Equipment equipment) {
+        this.equipment.add(equipment);
+    }
+
+    public void addEquipment(List<Equipment> equipment) {
+        this.equipment.addAll(equipment);
+    }
+
+    public void addEquipment(Equipment... equipments) {
+        addEquipment(Arrays.asList(equipments));
     }
 }
