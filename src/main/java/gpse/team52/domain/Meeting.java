@@ -92,7 +92,12 @@ public class Meeting {
     @JoinColumn(nullable = false, name = "roomId")
     private Room room;
 
-
+    /**
+     * Construcor for Meeting with parameters.
+     * @param title Title of the meeting
+     * @param participantsNumber Number of participants of the meeting
+     * @param room Room where the meeting takes place
+     */
     public Meeting(final String title, final int participantsNumber,
                    final Room room) {
         this.title = title;
@@ -100,11 +105,19 @@ public class Meeting {
         this.room = room;
     }
 
+    /**
+     * Calculates duration of the meeting.
+     * @return
+     */
     @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {
         return (int) (Duration.between(startAt, endAt).getSeconds() / 60);
     }
 
+    /**
+     * Add a new participant to a meeting.
+     * @param participant The participant that is added
+     */
     public void addParticipant(final Participant participant) {
         participants.add(participant);
         participant.setMeeting(this);

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Room service.
+ */
 @Service
 public class RoomServiceImpl implements RoomService {
 

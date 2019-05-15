@@ -6,6 +6,9 @@ import gpse.team52.domain.Room;
 import java.util.Optional;
 import java.util.UUID;
 
+    /**
+     * Room service.
+     */
 public interface RoomService {
     Room createRoom(int seats, int expandableSeats, String email, Location location);
     Location createLocation(String name);

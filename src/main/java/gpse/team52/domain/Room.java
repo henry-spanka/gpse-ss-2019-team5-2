@@ -89,6 +89,13 @@ public class Room {
     protected Room() {
     }
 
+    /**
+     * Constructor for a room.
+     * @param seats Define number of seats
+     * @param expandableSeats Define number of optional seats
+     * @param email Email address of the room
+     * @param location Location of the room
+     */
     public Room(final int seats, final int expandableSeats,
                 final String email, final Location location) {
         this.seats = seats;
