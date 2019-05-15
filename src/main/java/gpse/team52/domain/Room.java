@@ -1,15 +1,12 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
 // - use database to access data in controller

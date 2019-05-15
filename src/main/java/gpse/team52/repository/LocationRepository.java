@@ -1,9 +1,9 @@
 package gpse.team52.repository;
 
+import java.util.UUID;
+
 import gpse.team52.domain.Location;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.UUID;
 
 /**
  * Location repository interface.

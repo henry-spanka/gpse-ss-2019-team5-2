@@ -1,5 +1,7 @@
 package gpse.team52.web;
 
+import java.util.List;
+
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Meeting;
@@ -11,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * Meeting controller.

@@ -1,17 +1,19 @@
 package gpse.team52.web;
 
-import gpse.team52.contract.EquipmentService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class RoomdisplayController {

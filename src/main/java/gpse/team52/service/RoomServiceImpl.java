@@ -1,5 +1,8 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
@@ -7,9 +10,6 @@ import gpse.team52.repository.LocationRepository;
 import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Room service.
