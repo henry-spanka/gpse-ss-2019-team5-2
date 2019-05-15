@@ -1,6 +1,7 @@
 package gpse.team52.contract;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
@@ -18,4 +19,8 @@ public interface MeetingService {
     Meeting createMeeting(Meeting meeting);
 
     Iterable<Meeting> getAllMeetings();
+
+    Meeting getMeetingById(UUID id);
+
+    Meeting getMeetingById(String id);
 }

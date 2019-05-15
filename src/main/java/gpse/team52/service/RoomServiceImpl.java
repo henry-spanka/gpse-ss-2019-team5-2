@@ -1,5 +1,8 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
@@ -8,6 +11,9 @@ import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Room service.
+ */
 @Service
 public class RoomServiceImpl implements RoomService {
 
@@ -38,4 +44,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Iterable<Location> getAllLocations() { return locationRepository.findAll(); }
+
+    public Iterable<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
+    @Override
+    public Optional<Room> getRoom(UUID roomID) {
+        return roomRepository.findById(roomID);
+    }
+
 }

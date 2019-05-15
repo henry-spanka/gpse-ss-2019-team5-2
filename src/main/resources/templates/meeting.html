@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<head>
+    <title>Roomed - Meeting</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container py-3">
+        <div class="page-header">
+            <h3 class="text-center">Meeting</h3>
+        </div>
+        <hr>
+        <div class="media border-bottom pb-2 mt-1">
+            <img src="/static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                 style="width:50px;height:50px;">
+            <div class="media-body ml-2">
+                <div>
+                    <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
+                    <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
+                        + ' - ' + ${#temporals.format(meeting.getEndAt(), 'HH:mm')}
+                        + ' | ' + ${meeting.getDuration() + 'min'}">DD.MM.YYYY HH:MM | ??min</p>
+                    <p class="small my-0" th:text="${meeting.getRoom().getRoomEmail() + ' | '
+                        + meeting.getRoom().getLocation().getName()}">Room | Location</p>
+                    <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
+                        Owner: Max Mustermann
+                    </p>
+                    <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
+                        Participants: ??
+                    </p>
+                    <p class="small my-0" th:text="${'Description: ' + meeting.getDescription()}">
+                        Description: -
+                    </p>
+                    <p class="small my-0" th:text="${'Seats: ' + meeting.getRoom().getSeats()
+                    + ' | Expandable: ' + meeting.getRoom().getExpandableSeats()}"></p>
+                    <p class="small my-0">---AUSSTATTUNG---</p>
+
+                    <p class="small my-0">Participants:</p>
+                    <div th:each="participant : ${participants}">
+                        <p class="small my-0" th:text="${participant.getFirstName() + ' ' + participant.getLastName()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
