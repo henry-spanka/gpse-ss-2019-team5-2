@@ -32,4 +32,14 @@ public class MeetingCreatorController {
 
         return modelAndView;
     }
+
+    @GetMapping("/addParticipants")
+    public ModelAndView addParticipants() {
+        final ModelAndView modelAndView = new ModelAndView("addParticipants");
+
+        modelAndView.addObject("users", userService.getAllUsers());
+
+        return modelAndView;
+    }
+
 }

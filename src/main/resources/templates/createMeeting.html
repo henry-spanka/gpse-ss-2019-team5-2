@@ -8,13 +8,10 @@
     <link rel="stylesheet" href="/webjars/font-awesome/5.8.1/css/all.min.css" crossorigin="anonymous">
     <style>
         input[type=time] {
-            width: 100%;
-            padding: 12px 20px;
             margin: 8px 0;
-            box-sizing: border-box;
-            border: none;
-            background-color: #3CBC8D;
-            color: white;
+        }
+        input[type=date]{
+            margin: 8px 0;
         }
     </style>
 </head>
@@ -38,60 +35,16 @@
                 <div class="container" style="margin-top:25px">
                     <div class="row">
                         <div class="col-sm"><input class="form-control" type="date" name="date" id="theDate"
-                                                   style="background: royalblue; border: none; color: white; margin-top: 7px">
+                                                   style="background: #4B0082; border: none; color: white;">
                             <script>
                                 document.querySelector("#theDate").valueAsDate = new Date();
                             </script>
                         </div>
                         <div class="col-sm"><input class="form-control" type="time" name="time-start" id="time-start"
-                                                   style="background: royalblue; border: none; color: white;" value="now"></div>
-                        <script>
-                            $(function(){
-                                var d = new Date(),
-                                    h = d.getHours(),
-                                    m = d.getMinutes();
-                                if(h < 10) h = '0' + h;
-                                if(m < 10) m = '0' + m;
-                                $('input[type="time"][value="now"]').each(function(){
-                                    $(this).attr({'value': h + ':' + m});
-                                });
-                            });
-                        </script>
-                        <div class="col-sm"><input class="form-control" type="time" name="time-end"
-                                                   style="background: royalblue; border: none; color: white;"></div>
-                        <div class="col-sm form-group form-check text-center">
-                            <input type="checkbox" name="checkbox" value="checked" class="form-check-input"
-                                   id="checkOne" style="margin-top: 22px">
-                            <label class="form-check-label" for="checkOne" style="margin-top: 15px">Now</label>
-                        </div>
+                                                   style="background: #4B0082; border: none; color: white"></div>
+                        <div class="col-sm"><input class="form-control" type="time" name="time-end" id="time-end"
+                                                   style="background: #4B0082; border: none; color: white;"></div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
-                    <input class="form-control" type="number" placeholder="Number of participants"
-                           id="numberOfParticipants" min="2" style="width: 100%">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
-                    <div><label for="newParticipants">Add Participants</label></div>
-                    <input class="form-control" list="participants" id="newParticipants"
-                           placeholder="<Add new participants>" style="width: 100%">
-                    <datalist id="participants">
-                        <option th:each="user, iterStat : ${users}" th:value="${user.getFullName()}"></option>
-                    </datalist>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
-                    <div><label for="group">Add a Group</label></div>
-                    <input class="form-control" list="groups" id="group" placeholder="<Choose a group>"
-                           style="width: 100%">
-                    <datalist id="groups">
-                        <option value="Group 5.1"></option>
-                        <option value="Group 5.2"></option>
-                    </datalist>
                 </div>
             </div>
             <div class="form-group">
@@ -125,14 +78,16 @@
                     </datalist>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
+            <div class="container" align="center" style="margin-top: 25px">
+                <div class="form-group">
+                    <a th:href="@{/addParticipants}" class="button"
+                            style="border-radius: 8px; background-color: limegreen; color: black; border: none; padding: 10px 40px; font-size: 16px;">
+                        Add Participants
+                    </a>
+                </div>
+                <div class="form-group">
                     <button class="button"
-                            style="border-radius: 8px; background-color: limegreen; border: none; padding: 10px 40px; font-size: 16px; float: left">
-                        Create
-                    </button>
-                    <button class="button"
-                            style="border-radius: 8px; background-color: crimson; border: none; padding: 10px 40px; font-size: 16px; float: right ">
+                            style="border-radius: 8px; background-color: crimson; border: none; padding: 10px 40px; font-size: 16px; ">
                         Cancel
                     </button>
                 </div>
