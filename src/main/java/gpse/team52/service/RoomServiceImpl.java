@@ -8,6 +8,9 @@ import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 /**
  * Room service.
  */
@@ -38,4 +41,15 @@ public class RoomServiceImpl implements RoomService {
 
         return locationRepository.save(location);
     }
+
+    @Override
+    public Iterable<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
+    @Override
+    public Optional<Room> getRoom(UUID roomID) {
+        return roomRepository.findById(roomID);
+    }
+
 }
