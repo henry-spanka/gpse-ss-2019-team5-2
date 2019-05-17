@@ -78,9 +78,9 @@ public class Room {
 
 
     //TODO schauen ob layout klappt
-    @Lob
-    @Column(name = "layout")
-    private byte[] layout;
+    @Getter
+    @Column(unique = true, nullable = false)
+    private String layoutName;
     //TODO needs to be changed to any list or class or whatever
 
     @Getter
@@ -101,12 +101,13 @@ public class Room {
      * @param location        Location of the room
      */
     public Room(final int seats, final int expandableSeats, final String roomName,
-                final String email, final Location location) {
+                final String email, final Location location, final String layoutName) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
         this.roomName = roomName;
         this.roomEmail = email;
         this.location = location;
+        this.layoutName = layoutName;
     }
 
     public void addEquipment(Equipment equipment) {
@@ -119,5 +120,9 @@ public class Room {
 
     public void addEquipment(Equipment... equipments) {
         addEquipment(Arrays.asList(equipments));
+    }
+
+    public String getLayoutPath(){
+        return "static/pictures/layout" + layoutName + ".png";
     }
 }

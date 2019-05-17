@@ -11,7 +11,7 @@ import gpse.team52.domain.Room;
      */
 public interface RoomService {
 
-    Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location);
+    Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location, String layoutName);
 
     Room update(Room room);
 
