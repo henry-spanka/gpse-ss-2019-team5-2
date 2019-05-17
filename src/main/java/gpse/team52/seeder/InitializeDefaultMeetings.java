@@ -42,6 +42,7 @@ public class InitializeDefaultMeetings {
         this.meetingService = meetingService;
         this.userService = userService;
         this.roomService = roomService;
+        this.equipmentService = equipmentService;
     }
 
     /**
@@ -94,8 +95,8 @@ public class InitializeDefaultMeetings {
         Equipment equipment1 = equipmentService.createEquipment("whiteboard");
         Equipment equipment2 = equipmentService.createEquipment("beamer");
         Equipment equipment3 = equipmentService.createEquipment("flipchart");
-        room1.addEquipment(equipment1, equipment2, equipment3);
-        room2.addEquipment(equipment3);
+        //room1.addEquipment(equipment1, equipment2, equipment3);
+        //room2.addEquipment(equipment3);
 
         roomService.update(room1);
         roomService.update(room2);

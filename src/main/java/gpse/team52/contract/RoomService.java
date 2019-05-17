@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface RoomService {
     // TODO check here
-    //  Room update(Room room);
+    Room update(Room room);
     Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location);
     Location createLocation(String name);
 
