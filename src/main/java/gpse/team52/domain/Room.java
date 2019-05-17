@@ -1,6 +1,7 @@
 package gpse.team52.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
@@ -64,6 +65,7 @@ public class Room {
      * Name of a room.
      */
     @Getter
+    @Setter
     @Column(nullable = true) //TODO nullable should be false!
     private String roomName;
 
@@ -77,6 +79,7 @@ public class Room {
 
 
     //TODO schauen ob layout klappt
+    @Lob
     @Column(name="layout")
     private byte[] layout;
     //TODO needs to be changed to any list or class or whatever
