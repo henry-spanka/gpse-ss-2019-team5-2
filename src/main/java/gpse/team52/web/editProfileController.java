@@ -13,8 +13,8 @@ public class editProfileController {
     public ModelAndView editProfile(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
         User user = (User) authentication.getPrincipal();
-        modelAndView.addObject("fullName",user.getFirstname()+" "+user.getLastname());
-        modelAndView.addObject("email",user.getEmail());
+        modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
+        modelAndView.addObject("email", user.getEmail());
         return modelAndView;
     }
 
