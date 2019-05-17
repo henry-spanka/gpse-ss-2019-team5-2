@@ -89,10 +89,11 @@ public class Room {
     protected Room() {
     }
 
-    public Room(final int seats, final int expandableSeats,
+    public Room(final int seats, final int expandableSeats, final String roomName,
                 final String email, final Location location) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
+        this.roomName = roomName;
         this.roomEmail = email;
         this.location = location;
     }

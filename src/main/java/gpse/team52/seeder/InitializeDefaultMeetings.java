@@ -76,8 +76,10 @@ public class InitializeDefaultMeetings {
 
         Location location1 = roomService.createLocation("Bielefeld");
         Location location2 = roomService.createLocation("Gütersloh");
-        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1);
-        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2);
+        Room room1 = roomService.createRoom(12, 2, "BielefeldRoom",
+        "bielefeldroom@example.de", location1);
+        Room room2 = roomService.createRoom(8, 0, "GüterslohRoom",
+        "guetersloh@example.de", location2);
 
         final Meeting meeting1 = new Meeting("Tolles Meeting", 23, room1);
         meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));

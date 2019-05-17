@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RoomService {
-    Room createRoom(int seats, int expandableSeats, String email, Location location);
+    Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location);
     Location createLocation(String name);
     Iterable<Room> getAllRooms();
     Optional<Room> getRoom(UUID roomID);
