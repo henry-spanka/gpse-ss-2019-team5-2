@@ -1,13 +1,26 @@
 package gpse.team52.contract;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 
-import java.time.LocalDateTime;
-
+/**
+ * Meeting Service.
+ */
 public interface MeetingService {
 
-    Meeting createMeeting(String title, int participants, LocalDateTime start, LocalDateTime end, User owner);
+    Meeting createMeeting(String title, int participants,
+                          LocalDateTime start, LocalDateTime end,
+                          User owner, Room room);
+
+    Meeting createMeeting(Meeting meeting);
 
     Iterable<Meeting> getAllMeetings();
+
+    Meeting getMeetingById(UUID id);
+
+    Meeting getMeetingById(String id);
 }

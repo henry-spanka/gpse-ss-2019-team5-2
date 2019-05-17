@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(classes = RoomBrokerApplication.class)
 public class RoomBrokerApplicationIT {
 
+    @SuppressWarnings("EmptyMethod")
     @Test
     public void contextLoads() {
         //Tests Application-Start.

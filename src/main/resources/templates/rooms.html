@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+
+<body>
+<div layout:fragment="content">
+    <form th:method="post" th:action="@{/rooms/confirm}">
+        <!-- action="/rooms/confirm" th:object -->
+        <div class="container">
+            <div class="col-md-5 p-2 mx-auto text-center">
+                <div class="alert alert-danger" role="alert" th:if="${error}">
+                    Please choose a room!
+                </div>
+                <h2 style="font-size: 25px">Select a room</h2>
+            </div>
+            <div class="table table-responsive text-nowrap">
+                <table class="table table-hover" data-toggle="table" id="example">
+                    <tbody>
+                    <tr th:each="room : ${roomList}">
+                        <!-- maybe replace custom-control with form-check -->
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" th:id="${room.roomID}"
+                                       th:value="${room.roomID}" name="roomID"/>
+                                <label class="custom-control-label" th:for="${room.roomID}" style="font-size: 20px"
+                                       th:text="${room.getRoomEmail()}">Room</label>
+                            </div>
+                            <p style="font-size: 15px"
+                               th:text="${'Seats and more: ' + room.getSeats()}">Seats and
+                                equipment</p>
+                        </td>
+                        <td>
+                            <!-- <span th:if="${room.isFavourite()}" class="enhanced">insert Star</span> -->
+                        </td>
+                        <td>
+                            <!-- class="col-md-2 col-sm-5 mt-2" data-toggle="modal" data-target="#" th:attrappend="data-target=${'' + room.roomID}"-->
+                            <a class="btn btn-sm" th:href="@{/rooms/{id}(id=${room.roomID})}"><i
+                                class="fas fa-info fa-2x"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- -------change things here--------- -->
+        <div class="container" style="margin-top: 20px">
+            <div class="row align-bottom my-1">
+                <div class="offset-md-3 col-md-6 col-sm-6 text-center">
+                    <a class="btn" style="background-color: crimson" th:href="@{/}">Cancel</a>
+                    <input type="submit" class="btn" style="background-color:limegreen" value="Submit">
+                    <!-- th:href="@{/rooms/confirm}" -->
+                    <a class="btn mt-sm-4 mt-md-0" th:href="@{/}" style="background-color: dodgerblue">Back</a>
+                    <!-- <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Cancel</a> -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>
+
+<!--
+<div class="modal" th:id="${room.roomID}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            !-- Modal Header --
+            <div class="modal-header">
+                <h4 class="modal-title" th:text="${room.roomName}"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            !-- Modal body --
+            <div class="modal-body" th:text="${room.roomID}"></div>
+            !-- Modal footer --
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+-->

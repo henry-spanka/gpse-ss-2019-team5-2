@@ -1,6 +1,7 @@
 package gpse.team52.helper;
 
 import java.util.Map;
+import java.util.Objects;
 
 import gpse.team52.contract.mail.MailContentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ import org.thymeleaf.spring5.expression.ThymeleafEvaluationContext;
 @Service
 public class MailContentBuilderImpl implements MailContentBuilder {
 
-    private TemplateEngine templateEngine;
+    private final TemplateEngine templateEngine;
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Autowired
     public MailContentBuilderImpl(final TemplateEngine templateEngine, final ApplicationContext applicationContext) {
@@ -41,7 +42,7 @@ public class MailContentBuilderImpl implements MailContentBuilder {
         context.setVariable(ThymeleafEvaluationContext.THYMELEAF_EVALUATION_CONTEXT_CONTEXT_VARIABLE_NAME,
         new ThymeleafEvaluationContext(applicationContext, null));
 
-        return templateEngine.process(modelAndView.getViewName(), context);
+        return templateEngine.process(Objects.requireNonNull(modelAndView.getViewName()), context);
     }
 
 }
