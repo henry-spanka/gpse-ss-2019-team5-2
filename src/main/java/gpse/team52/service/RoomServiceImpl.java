@@ -11,6 +11,9 @@ import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 /**
  * Room service.
  */
@@ -27,15 +30,16 @@ public class RoomServiceImpl implements RoomService {
         this.locationRepository = locationRepository;
     }
 
+    //TODO check here
     @Override
     public Room update(Room room) {
         return roomRepository.save(room);
     }
 
     @Override
-    public Room createRoom(final int seats, final int expandableSeats,
+    public Room createRoom(final int seats, final int expandableSeats, final String roomName,
                            final String email, final Location location) {
-        final Room room = new Room(seats, expandableSeats, email, location);
+        final Room room = new Room(seats, expandableSeats,roomName ,email, location);
 
         return roomRepository.save(room);
     }
@@ -50,6 +54,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Iterable<Location> getAllLocations() { return locationRepository.findAll(); }
 
+    @Override
     public Iterable<Room> getAllRooms() {
         return roomRepository.findAll();
     }

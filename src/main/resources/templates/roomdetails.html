@@ -11,9 +11,6 @@
             <div th:each="equipment: ${equipmentList}">
                 <p th:text="${'equipment: ' + equipment.getEquipmentName()}">Plätze und
                     Ausstattung</p>
-                <p th:text="${'other information about the equipment: needed consumable:' + equipment.consumable +
-             ', defect:' + equipment.defect}">verbrauchsgegenstände, ob kaputt oder nicht</p>
-                <!--  -->
             </div>
             <div class="row">
                 <div class="col-md-5 ml-auto">

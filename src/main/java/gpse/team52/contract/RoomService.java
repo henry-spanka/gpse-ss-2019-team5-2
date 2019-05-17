@@ -1,18 +1,15 @@
 package gpse.team52.contract;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
 
-    /**
-     * Room service.
-     */
-public interface RoomService {
-    Room update(Room room);
+import java.util.Optional;
+import java.util.UUID;
 
-    Room createRoom(int seats, int expandableSeats, String email, Location location);
+public interface RoomService {
+    // TODO check here
+    //  Room update(Room room);
+    Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location);
     Location createLocation(String name);
 
     Iterable<Location> getAllLocations();
