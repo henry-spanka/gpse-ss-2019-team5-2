@@ -122,6 +122,11 @@ public class Room {
         addEquipment(Arrays.asList(equipments));
     }
 
+    /*TODO: passt der pfad?
+    TODO: pfad zu ressources passend einfügen
+    TODO: wie wird es in die html geladen?
+    TODO: im controller anpassen das er das da tut
+     */
     public String getLayoutPath(){
         return "static/pictures/layout" + layoutName + ".png";
     }
