@@ -1,16 +1,19 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.security.PublicKey;
-import java.util.UUID;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * Location Entity.
+ */
 @Entity
 @NoArgsConstructor
 public class Location {

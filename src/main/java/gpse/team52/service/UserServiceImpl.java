@@ -154,4 +154,7 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
+    @Override
+    public Iterable<User> getAllUsers() { return userRepository.findAll(); }
 }

@@ -1,16 +1,18 @@
 package gpse.team52.domain;
 
-//import lombok.Getter;
-
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
+@NoArgsConstructor
 public class Equipment {
 
 
@@ -27,22 +29,10 @@ public class Equipment {
 
     @Setter
     @Getter
-    @Column(nullable = false)
-    private String consumable;
-
-    @Setter
-    @Getter
     @ManyToMany(mappedBy = "equipment")
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
-    @Getter
-    @Setter
-    @Column()
-    private boolean defect;
-
-    public Equipment(String equipmentName, String consumable, boolean defect) {
+    public Equipment(String equipmentName) {
         this.equipmentName = equipmentName;
-        this.consumable = consumable;
-        this.defect = defect;
     }
 }
