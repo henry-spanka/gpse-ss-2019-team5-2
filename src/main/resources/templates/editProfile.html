@@ -1,29 +1,29 @@
-
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
 <body>
 <div layout:fragment="content">
-<form th:action="@{/editProfile}"
-      th:object="${createUserCmd}"
-      method="post">
-    <div class="row">
-        <div class="col-md-5 p-2 mx-auto text-center">
+    <form th:action="@{/editProfile}"
+          th:object="${createUserCmd}"
+          method="post">
+        <div class="row">
+            <div class="col-md-5 p-2 mx-auto text-center">
                 <label for ="firstname">Firstname:</label>
                 <input type = "text" id ="firstname" th:field ="*{firstname}"/>
                 <p>
-                <label for = "lastname">Lastname:</label>
-                <input type="text" id ="lastname" th:field ="*{lastname}"/>
+                    <label for = "lastname">Lastname:</label>
+                    <input type="text" id ="lastname" th:field ="*{lastname}"/>
                 </p>
                 <p>
-                <input type = "submit" value = "Save&Exit"/>
+                    <label for = "location">Location:</label>
+                    <input type="text" id ="location" th:field ="*{location}"/>
                 </p>
+                <p>
+                    <input type = "submit" value = "Save&Exit"/>
+                </p>
+            </div>
         </div>
-    </div>
 </div>
 
 </form>
 </body>
 </html>
-
-
-

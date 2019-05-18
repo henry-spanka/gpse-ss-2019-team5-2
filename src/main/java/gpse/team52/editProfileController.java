@@ -32,15 +32,14 @@ public class editProfileController {
         return modelAndView;
     }
 
-        @PostMapping("/editProfile")
-        public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
-            user.setFirstname(createUserCmd.getFirstname());
-            user.setLastname(createUserCmd.getLastname());
-            System.out.println(createUserCmd.getFirstname());
-            System.out.println(createUserCmd.getLastname());
-            userService.updateUser(user);
-            return new ModelAndView("redirect:/profile");
-        }
+    @PostMapping("/editProfile")
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
+        user.setFirstname(createUserCmd.getFirstname());
+        user.setLastname(createUserCmd.getLastname());
+        user.setLocation(createUserCmd.getLocation());
+        userService.updateUser(user);
+        return new ModelAndView("redirect:/profile");
+    }
 
 
 

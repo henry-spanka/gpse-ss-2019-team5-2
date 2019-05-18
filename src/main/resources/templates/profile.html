@@ -1,39 +1,38 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
-    <body>
-        <div layout:fragment="content">
-            <div class = "text-center">
-                <img src="https://www.niwa.co.nz/sites/niwa.co.nz/files/user-profile-placeholder.jpg"
-                     id="profilePicture" class="center-block" alt="Insert Profile Picture">
-            </div>
-            <div class="row">
-                <div class="col-md-5 p-2 mx-auto text-center">
-                    <p>
-                        <h2 th:text="${fullName}">Max Mustermann</h2>
-                    </p>
-                    <p>E-Mail:
-                        <span th:text="${email}">MaxMustermann@capgemini.com</span>
-                    </p>
+<body>
+<div layout:fragment="content">
+    <div class = "text-center">
+        <img src="https://www.niwa.co.nz/sites/niwa.co.nz/files/user-profile-placeholder.jpg"
+             id="profilePicture" class="center-block" alt="Insert Profile Picture">
+    </div>
+    <div class="row">
+        <div class="col-md-5 p-2 mx-auto text-center">
+            <p>
+            <h2 th:text="${fullName}">Max Mustermann</h2>
+            </p>
+            <p>E-Mail:
+                <span th:text="${email}">MaxMustermann@capgemini.com</span>
+            </p>
 
-                    <p>Position:
-                        <span class ="text">Lead Developer</span>
-                    </p>
+            <p>Role:
+                <span th:text="${role}">MaxMustermann@capgemini.com</span>
+            </p>
 
-                    <p>Location:
-                        <span class ="text">Düsseldorf</span>
-                    </p>
+            <p>Location:
+                <span th:text="${location}">default loacation</span>
+            </p>
 
-                    <div class="col-md-5 p-2 mx-auto text-center">
+            <div class="col-md-5 p-2 mx-auto text-center">
 
-                        <div class="form-group mt-4 mb-2">
-                            <a th:href="@{/editProfile}" class="btn btn-primary">Edit Profile</a>
-                        </div>
-
-                    </div>
-
+                <div class="form-group mt-4 mb-2">
+                    <a th:href="@{/editProfile}" class="btn btn-primary">Edit Profile</a>
                 </div>
-            </div>
-        </div>
-    </body>
-</html>
 
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
