@@ -1,6 +1,7 @@
 package gpse.team52.service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
@@ -16,11 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MeetingServiceImpl implements MeetingService {
 
-    private final MeetingRepository repository;
+    private final MeetingRepository meetingRepository;
 
     @Autowired
     public MeetingServiceImpl(final MeetingRepository repository) {
-        this.repository = repository;
+        this.meetingRepository = repository;
     }
 
 
@@ -38,12 +39,26 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(Meeting meeting) {
-        return repository.save(meeting);
+    public Meeting createMeeting(final Meeting meeting) {
+        if (meeting.getDescription() == null) {
+            meeting.setDescription("-");
+        }
+        return meetingRepository.save(meeting);
     }
 
     @Override
     public Iterable<Meeting> getAllMeetings() {
-        return repository.findAll();
+        return meetingRepository.findAll();
+    }
+
+    @Override
+    public Meeting getMeetingById(final UUID id) {
+        return meetingRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("No meeting with id: " + id + " found"));
+    }
+
+    @Override
+    public Meeting getMeetingById(final String id) {
+        return getMeetingById(UUID.fromString(id));
     }
 }

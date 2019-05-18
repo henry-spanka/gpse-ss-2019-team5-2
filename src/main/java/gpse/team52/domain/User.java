@@ -5,12 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
@@ -31,6 +26,7 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 7179581269044235932L;
 
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
@@ -44,6 +40,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String lastname;
+
+    @Column(nullable = true)
+    private String location;
 
     @Column(unique = true, nullable = false)
     @Getter
@@ -70,9 +69,7 @@ public class User implements UserDetails {
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
-
         email = form.getEmail();
-
         this.password = password;
     }
 
@@ -89,6 +86,16 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+
+    public String getLocation() {
+        return location;
+    }
+
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override
@@ -110,8 +117,16 @@ public class User implements UserDetails {
         return firstname;
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
     public String getLastname() {
         return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getFullName() {

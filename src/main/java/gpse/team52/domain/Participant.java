@@ -1,16 +1,19 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import java.util.UUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * Participant Enitity.
  */
+@NoArgsConstructor
 @Entity
 public class Participant {
 
@@ -65,6 +68,12 @@ public class Participant {
         this.user = user;
     }
 
+    /**
+     * Constructor for a participant.
+     * @param email Email of the participant
+     * @param firstName First name of the participant
+     * @param lastName Last name of the participant
+     */
     public Participant(@NotNull final String email, @NotNull final String firstName,
                        @NotNull final String lastName) {
         this.email = email;
@@ -72,6 +81,10 @@ public class Participant {
         this.lastName = lastName;
     }
 
+    /**
+     * Custom getter for first name.
+     * @return
+     */
     public String getFirstName() {
         if (firstName == null) {
             return user.getFirstname();
@@ -80,6 +93,10 @@ public class Participant {
         return firstName;
     }
 
+    /**
+     * Custom getter for last name.
+     * @return
+     */
     public  String getLastName() {
         if (lastName == null) {
             return user.getLastname();
@@ -88,6 +105,10 @@ public class Participant {
         return lastName;
     }
 
+    /**
+     * Custom getter for email.
+     * @return
+     */
     public String getEmail() {
         if (email == null) {
             return user.getEmail();
