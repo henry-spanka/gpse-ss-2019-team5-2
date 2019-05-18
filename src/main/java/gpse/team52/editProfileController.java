@@ -2,7 +2,9 @@ package gpse.team52;
 
 import gpse.team52.Command.CreateUserCmd;
 import gpse.team52.contract.UserService;
+import gpse.team52.domain.Location;
 import gpse.team52.domain.User;
+import gpse.team52.repository.LocationRepository;
 import org.h2.command.ddl.CreateUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
+
 @Controller
 public class editProfileController {
 
@@ -22,18 +28,26 @@ public class editProfileController {
     @GetMapping("/editProfile")
     public ModelAndView editProfile(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
+
         User user = (User) authentication.getPrincipal();
         modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
         modelAndView.addObject("email", user.getEmail());
+
         CreateUserCmd userCmd = new CreateUserCmd();
         userCmd.setFirstname(user.getFirstname());
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
+
+        ArrayList<String>locNames = new ArrayList<String>();
+
+
+
         return modelAndView;
     }
 
     @PostMapping("/editProfile")
-    public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user,
+                                    @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         user.setLocation(createUserCmd.getLocation());

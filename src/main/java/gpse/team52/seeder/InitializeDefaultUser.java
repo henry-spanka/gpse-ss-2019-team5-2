@@ -36,6 +36,7 @@ public class InitializeDefaultUser {
         form.setUsername("admin");
         form.setPassword(DEFAULT_PASSWORD);
         form.setPasswordConfirm(DEFAULT_PASSWORD);
+        form.setLocation("Düsseldorf");
 
         try {
             userService.createUser(form, true, "ROLE_ADMIN");
