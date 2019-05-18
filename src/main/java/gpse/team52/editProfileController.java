@@ -1,6 +1,7 @@
 package gpse.team52;
 
 import gpse.team52.Command.CreateUserCmd;
+import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.User;
@@ -25,6 +26,9 @@ public class editProfileController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private LocationService locationService;
+
     @GetMapping("/editProfile")
     public ModelAndView editProfile(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
@@ -38,7 +42,12 @@ public class editProfileController {
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
 
-        ArrayList<String>locNames = new ArrayList<String>();
+
+        ArrayList<Location>locNames = new ArrayList<Location>();
+        locationService.getAllLocations().forEach(locNames::add);
+        modelAndView.addObject("locationNames",locNames);
+
+
 
 
 
