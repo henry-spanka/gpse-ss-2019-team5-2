@@ -4,8 +4,6 @@ package gpse.team52.domain;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import gpse.team52.*;
-
 public class DataImport {
 
     /*This method handles the import of user files*/
@@ -52,7 +50,8 @@ public class DataImport {
                 } else {
 
                     Room room = new Room();
-                    room.setLocation(subSet[0]);
+                    Location location = new Location(subSet[0]);
+                    room.setLocation(location);
                     room.setRoomName(subSet[1]);
 
                     //number persons split for extra seats
@@ -61,17 +60,15 @@ public class DataImport {
                         room.setSeats(Integer.parseInt(seats[0]));
                     } else if (seats.length == 2) {
                         room.setSeats(Integer.parseInt(seats[0]));
-                        room.setExtraSeats(Integer.parseInt(seats[1]));
+                        room.setExpandableSeats(Integer.parseInt(seats[1]));
                     }
                     //3 spliting for different equiptment items
 
                     String[] equiptments = subSet[3].split(",");
                     for (int i = 0; i < equiptments.length; i++) {
                         Equipment equipment = new Equipment();
-                        room.addEquiptment(equipment);
-                        equipment.setEquipmentName(equiptments[i]);
-                        equipment.setGetRoomID(room.getRoomID());
-                    }
+                        room.addEquipment (equipment);
+                       equipment.addRoom(room);}
 
 
                         room.setTelephone(subSet[4]);
@@ -81,7 +78,7 @@ public class DataImport {
 
                     room.setOffice(subSet[6]);
 
-                    room.setMailAdress(subSet[7]);
+                    room.setRoomEmail(subSet[7]);
 
                 }
 

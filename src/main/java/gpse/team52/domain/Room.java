@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -42,6 +43,7 @@ public class Room {
      * Number of fix seats in a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int seats;
 
@@ -49,6 +51,7 @@ public class Room {
      * Number of optional seats for a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int expandableSeats;
 
@@ -56,6 +59,7 @@ public class Room {
      * Email address of a room.
      */
     @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String roomEmail;
 
@@ -63,6 +67,7 @@ public class Room {
      * Name of a room.
      */
     @Getter
+    @Setter
     @Column(nullable = true) //TODO nullable should be false!
     private String roomName;
 
@@ -70,6 +75,7 @@ public class Room {
      * Location of the room.
      */
     @Getter
+    @Setter
     @ManyToOne(targetEntity = Location.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
@@ -84,6 +90,21 @@ public class Room {
     @ManyToMany(targetEntity = Equipment.class)
     @JoinColumn(nullable = false, name = "equipmentId")
     private List<Equipment> equipment = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @Column
+    private String telephone;
+
+    @Getter
+    @Setter
+    @Column
+    private String notes;
+
+    @Getter
+    @Setter
+    @Column
+    private String office;
 
     protected Room() {
     }

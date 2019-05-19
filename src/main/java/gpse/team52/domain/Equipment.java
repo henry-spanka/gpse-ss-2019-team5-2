@@ -35,4 +35,7 @@ public class Equipment {
     public Equipment(String equipmentName) {
         this.equipmentName = equipmentName;
     }
+    public void addRoom(Room room){
+        rooms.add(room);
+    }
 }
