@@ -1,21 +1,17 @@
 package gpse.team52.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.*;
 
+import lombok.Setter;
 import lombok.Getter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 
-import javax.persistence.*;
-import java.util.UUID;
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
 // - use database to access data in controller
@@ -71,7 +67,7 @@ public class Room {
      */
     @Getter
     @Setter
-    @Column(nullable = true) //TODO nullable should be false!
+    @Column(nullable = false) //TODO nullable should be false!
     private String roomName;
 
     /**
@@ -84,15 +80,13 @@ public class Room {
 
 
     //TODO schauen ob layout klappt
-    @Lob
-    @Column(name="layout")
+    @Column(name = "layout")
     private byte[] layout;
-    //TODO needs to be changed to any list or class or whatever
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
     @JoinColumn(nullable = false, name = "equipmentId")
-    private List<Equipment> equipment;
+    private List<Equipment> equipment = new ArrayList<>();
 
     protected Room() {
     }
@@ -103,14 +97,15 @@ public class Room {
      * @param expandableSeats Define number of optional seats
      * @param email Email address of the room
      * @param location Location of the room
+     * @param roomName
      */
-    public Room(final int seats, final int expandableSeats, final String roomName,
-                final String email, final Location location) {
+    public Room(final int seats, final int expandableSeats,
+                final String email, final Location location, String roomName) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
-        this.roomName = roomName;
         this.roomEmail = email;
         this.location = location;
+        this.roomName = roomName;
     }
 
     public void addEquipment(Equipment equipment) {

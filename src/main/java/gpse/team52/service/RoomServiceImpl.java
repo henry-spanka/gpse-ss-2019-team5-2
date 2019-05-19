@@ -5,14 +5,12 @@ import java.util.UUID;
 
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Location;
+import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
 import gpse.team52.repository.LocationRepository;
 import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Room service.
@@ -30,24 +28,22 @@ public class RoomServiceImpl implements RoomService {
         this.locationRepository = locationRepository;
     }
 
-    //TODO check here
     @Override
     public Room update(Room room) {
         return roomRepository.save(room);
     }
 
     @Override
-    public Room createRoom(final int seats, final int expandableSeats, final String roomName,
-                           final String email, final Location location) {
-        final Room room = new Room(seats, expandableSeats,roomName ,email, location);
-
+    public Room createRoom(final int seats, final int expandableSeats,
+                           final String email, final Location location, String roomName) {
+        final Room room = new Room(seats, expandableSeats, email, location, roomName);
         return roomRepository.save(room);
     }
 
+    // TODO ? extra service for location ?
     @Override
     public Location createLocation(final String name) {
         final Location location = new Location(name);
-
         return locationRepository.save(location);
     }
 
@@ -64,4 +60,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(roomID);
     }
 
+    public Iterable<Room> getAvailableRooms(Meeting meeting) {
+        return null; // TODO implement method to find all available rooms for a meeting
+    }
 }
