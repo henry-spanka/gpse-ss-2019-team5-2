@@ -18,8 +18,8 @@ import org.passay.WhitespaceRule;
  * Validates the Complexity of passwords.
  */
 public class PasswordComplexityValidator implements ConstraintValidator<ValidPassword, String> {
-    public static final int MIN_LENGTH = 8;
-    public static final int MAX_LENGTH = 30;
+    private static final int MIN_LENGTH = 8;
+    private static final int MAX_LENGTH = 30;
 
     @Override
     public void initialize(final ValidPassword arg0) {

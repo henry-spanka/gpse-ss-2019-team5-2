@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h4 th:text="${room.roomEmail}">Raum</h4>
+            <p th:text="${'seats: ' + room.seats}">Plätze </p>
+            <p th:text="${'other information about the room: extra seats: ' + room.expandableSeats + ', mail: ' +
+            room.roomEmail + ', location: ' + room.location.getName()}">Raumnummer Lage Standort etc.</p>
+            <div th:each="equipment: ${equipmentList}">
+                <p th:text="${'equipment: ' + equipment.getEquipmentName()}">Plätze und
+                    Ausstattung</p>
+            </div>
+            <div class="row">
+                <div class="col-md-5 ml-auto">
+                    <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

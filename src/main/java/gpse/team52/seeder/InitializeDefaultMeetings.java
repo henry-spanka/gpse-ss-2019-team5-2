@@ -1,77 +1,130 @@
 package gpse.team52.seeder;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.PostConstruct;
 
+import gpse.team52.contract.EquipmentService;
 import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 /**
- * Initializes the Default User in the database.
+ * Initializes Default Meetings in the database.
  */
 @Service
 public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
-    private MeetingService meetingService;
 
-    private UserService userService;
+    private final MeetingService meetingService;
+    private final UserService userService;
+    private final RoomService roomService;
+    private final EquipmentService equipmentService;
 
+    /**
+     * Constructor for the used services.
+     * @param meetingService Service for meetings
+     * @param userService Service for user
+     * @param roomService Service for rooms
+     * @param equipmentService Service for equipment
+     */
     @Autowired
-    public InitializeDefaultMeetings(final MeetingService meetingService, final UserService userService) {
+    public InitializeDefaultMeetings(
+    final MeetingService meetingService, final UserService userService,
+    final RoomService roomService, final EquipmentService equipmentService) {
         this.meetingService = meetingService;
         this.userService = userService;
+        this.roomService = roomService;
+        this.equipmentService = equipmentService;
     }
 
     /**
-     * Initializes the default admin user if it doesn't exist already.
+     * Initializes users for testing meeting features.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
-        final UserRegistrationForm form = new UserRegistrationForm();
-        form.setFirstName("Julius");
-        form.setLastName("Ellermann");
-        form.setEmail("jellermann@example.org");
-        form.setUsername("julius");
-        form.setPassword(DEFAULT_PASSWORD);
-        form.setPasswordConfirm(DEFAULT_PASSWORD);
+        final UserRegistrationForm form1 = new UserRegistrationForm();
+        form1.setFirstName("Julius");
+        form1.setLastName("Ellermann");
+        form1.setEmail("jellermann@example.org");
+        form1.setUsername("jellermann");
+        form1.setPassword(DEFAULT_PASSWORD);
+        form1.setPasswordConfirm(DEFAULT_PASSWORD);
 
-        User user;
+        User user1;
 
         try {
-            user = userService.createUser(form, true, "ROLE_USER");
+            user1 = userService.createUser(form1, true, "ROLE_USER"); //NOPMD
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
         }
 
-        final Meeting meeting1 = new Meeting("Tolles Meeting", 23);
-        meeting1.setStartAt(LocalDateTime.of(2019,05, 10, 10, 15));
-        meeting1.setEndAt(LocalDateTime.of(2019,05, 10, 11, 45));
+        final UserRegistrationForm form2 = new UserRegistrationForm();
+        form2.setFirstName("Lukas");
+        form2.setLastName("Dyballa");
+        form2.setEmail("ldyballan@example.org");
+        form2.setUsername("ldyballa");
+        form2.setPassword(DEFAULT_PASSWORD);
+        form2.setPasswordConfirm(DEFAULT_PASSWORD);
+
+        User user2;
+
+        try {
+            user2 = userService.createUser(form2, true, "ROLE_USER"); //NOPMD
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
+            // Not an issue as we only need to create the admin user if it doesn't exist already.
+            return;
+        }
+
+        Location location1 = roomService.createLocation("Bielefeld");
+        Location location2 = roomService.createLocation("Gütersloh");
+        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1);
+        Room room2 = roomService.createRoom(8, 0, "gueterslohroom@example.de", location2);
+
+        Equipment equipment1 = equipmentService.createEquipment("whiteboard");
+        Equipment equipment2 = equipmentService.createEquipment("beamer");
+        Equipment equipment3 = equipmentService.createEquipment("flipchart");
+        room1.addEquipment(equipment1, equipment2, equipment3);
+        room2.addEquipment(equipment3);
+
+        roomService.update(room1);
+        roomService.update(room2);
+
+        final Meeting meeting1 = new Meeting("Tolles Meeting", 23, room1);
+        meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));
+        meeting1.setEndAt(LocalDateTime.of(2019, 5, 10, 11, 45));
         meeting1.setDescription("Tolle Beschreibung");
-        meeting1.setOwner(user);
+        meeting1.setOwner(user1);
+        meeting1.addParticipant(new Participant(user1));
 
-        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18);
-        meeting2.setStartAt(LocalDateTime.of(2019,05, 11, 14, 00));
-        meeting2.setEndAt(LocalDateTime.of(2019,05, 11, 15, 00));
+        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18, room2);
+        meeting2.setStartAt(LocalDateTime.of(2019, 5, 11, 14, 0));
+        meeting2.setEndAt(LocalDateTime.of(2019, 5, 11, 15, 0));
         meeting2.setDescription("Nicht so tolle Beschreibung");
-        meeting2.setOwner(user);
+        meeting2.setOwner(user2);
+        meeting2.addParticipant(new Participant(user2));
 
-        final Meeting meeting3 = new Meeting("Geheimes Meeting", 3);
-        meeting3.setStartAt(LocalDateTime.of(2019,05, 12, 23, 00));
-        meeting3.setEndAt(LocalDateTime.of(2019,05, 12, 23, 30));
-        meeting3.setOwner(user);
+        final Meeting meeting3 = new Meeting("Geheimes Meeting", 3, room1);
+        meeting3.setStartAt(LocalDateTime.of(2019, 5, 12, 23, 0));
+        meeting3.setEndAt(LocalDateTime.of(2019, 5, 12, 23, 30));
+        meeting3.setOwner(user1);
+        meeting3.addParticipant(new Participant(user1));
+        meeting3.addParticipant(new Participant("externerkunde@example.de",
+        "Günther", "Schmidt"));
 
-        meetingService.createMeeting(meeting1.getTitle(), meeting1.getParticipantsNumber(), meeting1.getStartAt(), meeting1.getEndAt(), meeting1.getOwner());
-        meetingService.createMeeting(meeting2.getTitle(), meeting2.getParticipantsNumber(), meeting2.getStartAt(), meeting2.getEndAt(), meeting2.getOwner());
-        meetingService.createMeeting(meeting3.getTitle(), meeting3.getParticipantsNumber(), meeting3.getStartAt(), meeting3.getEndAt(), meeting3.getOwner());
+        meetingService.createMeeting(meeting1);
+
+        meetingService.createMeeting(meeting2);
+
+        meetingService.createMeeting(meeting3);
     }
 }

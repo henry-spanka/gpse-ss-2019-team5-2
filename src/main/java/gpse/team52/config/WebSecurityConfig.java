@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final String H2_CONSOLE_URL_MATCHER = "/h2-console/**";
+    private static final String H2_CONSOLE_URL_MATCHER = "/h2-console/**";
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
