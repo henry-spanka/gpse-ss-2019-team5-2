@@ -20,9 +20,8 @@ import org.hibernate.annotations.ManyToAny;
 // - unit tests for functions submit, cancel, back
 // - submit data for real at last submit step
 // - add equipment
-// - merge into develop and fix any f problems
+// - Belegungsplan für Räume
 // - (get back from last step and detailed information with rooms still selected)
-
 
 /**
  * Room Entity.
@@ -85,7 +84,7 @@ public class Room {
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
-    @JoinColumn(nullable = false, name = "equipmentId")
+    @JoinColumn(nullable = false, name = "equipment")
     private List<Equipment> equipment = new ArrayList<>();
 
     protected Room() {

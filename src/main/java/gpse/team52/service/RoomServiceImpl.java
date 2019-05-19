@@ -35,7 +35,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room createRoom(final int seats, final int expandableSeats,
-                           final String email, final Location location, String roomName) {
+                           final String email, final Location location, final String roomName) {
         final Room room = new Room(seats, expandableSeats, email, location, roomName);
         return roomRepository.save(room);
     }
@@ -46,7 +46,6 @@ public class RoomServiceImpl implements RoomService {
         final Location location = new Location(name);
         return locationRepository.save(location);
     }
-
     @Override
     public Iterable<Location> getAllLocations() { return locationRepository.findAll(); }
 
