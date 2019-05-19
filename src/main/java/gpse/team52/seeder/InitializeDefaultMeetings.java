@@ -87,8 +87,8 @@ public class InitializeDefaultMeetings {
 
         Location location1 = roomService.createLocation("Bielefeld");
         Location location2 = roomService.createLocation("Gütersloh");
-        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1);
-        Room room2 = roomService.createRoom(8, 0, "gueterslohroom@example.de", location2);
+        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "Hörsaal");
+        Room room2 = roomService.createRoom(8, 0, "gueterslohroom@example.de", location2, "Konferenzraum");
 
         Equipment equipment1 = equipmentService.createEquipment("whiteboard");
         Equipment equipment2 = equipmentService.createEquipment("beamer");

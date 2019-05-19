@@ -44,12 +44,8 @@ public class MeetingController {
 
         User user = (User) authentication.getPrincipal();
         if (user.getUsername() == meeting.getOwner().getUsername()) {
-            System.out.println(user.getUsername());
-
-        List<Participant> participants = meeting.getParticipants();
-        System.out.println(participants.get(0).getFirstName());
-        modelAndView.addObject("participants", participants);
-
+            List<Participant> participants = meeting.getParticipants();
+            modelAndView.addObject("participants", participants);
         }
 
         return modelAndView;
