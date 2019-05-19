@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import gpse.team52.*;
+
 public class DataImport {
 
     /*This method handles the import of user files*/
@@ -33,67 +34,64 @@ public class DataImport {
             FileReader reader = new FileReader(path);
             BufferedReader inBuffer = new BufferedReader(reader);
             String line = null;
+            Boolean isFirstLineHeader = true;
 
-
+            System.out.println("hal");
             while ((line = inBuffer.readLine()) != null) {
-
+                if(isFirstLineHeader){
+                    isFirstLineHeader=false;
+                    System.out.println("lo");
+                    continue;
+                }
                 String[] subSet = line.split(";");
+
                 if (subSet.length != 8) {
+                    System.out.println(subSet.length);
 
                     throw new Exception();
                 } else {
+
                     Room room = new Room();
+                    room.setLocation(subSet[0]);
+                    room.setRoomName(subSet[1]);
 
-                    for (int i = 0; i < subSet.length; i++) {
-                        switch (i) {
-                            case 0:
-                                room.setLocation(subSet[i]);
-                                break;
-                            case 1:
-                                room.setRoomName(subSet[i]);
-                                break;
-                            case 2:
-                                String[] seats = subSet[i].split("\\+");
-                                if (seats.length == 1) {
-                                    room.setSeats(Integer.parseInt(seats[0]));
-                                } else if (seats.length == 2) {
-                                    room.setSeats(Integer.parseInt(seats[0]));
-                                    room.setExtraSeats(Integer.parseInt(seats[1]));
-                                }
-                                break;
-                            case 3:
-                                Equipment equipment = new Equipment();
-                                // room.setExtraSeats(subSet[i]);
-                                break;
-                            case 4:
-                                room.setLocation(subSet[i]);
-                                break;
-                            case 5:
-                                room.setLocation(subSet[i]);
-                                break;
-                            case 6:
-                                room.setLocation(subSet[i]);
-                                break;
-                            case 7:
-                                room.setLocation(subSet[i]);
-                                break;
-
-
-                        }
-
-                        System.out.println(subSet[i]);
+                    //number persons split for extra seats
+                    String[] seats = subSet[2].split("\\+");
+                    if (seats.length == 1) {
+                        room.setSeats(Integer.parseInt(seats[0]));
+                    } else if (seats.length == 2) {
+                        room.setSeats(Integer.parseInt(seats[0]));
+                        room.setExtraSeats(Integer.parseInt(seats[1]));
                     }
+                    //3 spliting for different equiptment items
+
+                    String[] equiptments = subSet[3].split(",");
+                    for (int i = 0; i < equiptments.length; i++) {
+                        Equipment equipment = new Equipment();
+                        room.addEquiptment(equipment);
+                        equipment.setEquipmentName(equiptments[i]);
+                        equipment.setGetRoomID(room.getRoomID());
+                    }
+
+
+                        room.setTelephone(subSet[4]);
+
+
+                    room.setNotes(subSet[5]);
+
+                    room.setOffice(subSet[6]);
+
+                    room.setMailAdress(subSet[7]);
+
                 }
 
+
             }
+
+
         } catch (Exception e) {
-            System.out.println(" Exception");
+            System.out.println(" Exception: file is not a csv file or the layout does not fit.");
         }
     }
-
-
-    public static void main(final String... args) {
-        System.out.println("Gal");
-        csvRoomImport("C:\\Users\\stell\\Desktop\\UniBielefeld\\SS19\\Software-Gruppen-Projekt\\Test.txt");
-    }
+    
 }
