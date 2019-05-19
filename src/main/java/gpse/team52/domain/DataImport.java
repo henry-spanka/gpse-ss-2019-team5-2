@@ -93,5 +93,5 @@ public class DataImport {
             System.out.println(" Exception: file is not a csv file or the layout does not fit.");
         }
     }
-    
+
 }
