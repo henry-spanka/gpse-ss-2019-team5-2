@@ -15,12 +15,16 @@ public class DataImport {
 
 
             while ((line = inBuffer.readLine()) != null) {
-                System.out.println(line);
+                String[] split =line.split(";");
+                if(split.length!=3){
+                    throw new Exception();
+                    }
+
 
 
             }
         } catch (Exception e) {
-            System.out.println("Required format: Username, Firstname, Lastname,  ");
+            System.out.println("Required format: csv containing: firstname, lastname, mail without header; seperated by ; ");
         }
     }
 
@@ -34,11 +38,11 @@ public class DataImport {
             String line = null;
             Boolean isFirstLineHeader = true;
 
-            System.out.println("hal");
+
             while ((line = inBuffer.readLine()) != null) {
                 if(isFirstLineHeader){
                     isFirstLineHeader=false;
-                    System.out.println("lo");
+
                     continue;
                 }
                 String[] subSet = line.split(";");
