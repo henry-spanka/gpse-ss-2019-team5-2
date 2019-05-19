@@ -14,14 +14,17 @@
                     <input type="text" id ="lastname" th:field ="*{lastname}"/>
                 </p>
                 <p>
-                    <div class ="form-group blu-margin">
+                <div class="col-md-7 p-2 mx-auto text-center">
+                    <select class="form-control" th:field="*{location}">
+                        <option value="">Select Location</option>
+                        <option th:each="loc : ${locationNames}"
+                                th:value="${loc.locationId}"
+                                th:text="${loc.name}"
 
-                    <select class="form-control" th:field="${Location}" id = "dropLocNames">
-                        <option value="0">select Location</option>
-                        <option th:each="Location : ${locationNames}" th:value="${locationNames.id}" th:text ="${locationNames.name}"></option>
-
+                        </option>
                     </select>
-                    </div>
+
+                </div>
                 </p>
                 <p>
                     <input type = "submit" value = "Save&Exit"/>

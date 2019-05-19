@@ -25,5 +25,9 @@ public class InitalizeDefaultLocations {
         Location loc1 = new Location("Düsseldorf");
         Location loc2 = new Location("Bonn");
         Location loc3 = new Location("Berlin");
+
+        locationService.createLocation(loc1);
+        locationService.createLocation(loc2);
+        locationService.createLocation(loc3);
     }
 }
