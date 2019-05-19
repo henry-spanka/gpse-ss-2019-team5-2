@@ -1,5 +1,6 @@
 package gpse.team52.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -60,5 +61,16 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public Meeting getMeetingById(final String id) {
         return getMeetingById(UUID.fromString(id));
+    }
+
+
+    /**
+     * Find all meetings on the specified date.
+     * @param startdate chosen date.
+     * @return A list of meetings based on input.
+     */
+    @Override
+    public Iterable<Meeting> fByStartAt(LocalDate startdate, User userid) {
+        return meetingRepository.fByStartAt(startdate, userid);
     }
 }

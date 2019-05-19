@@ -9,6 +9,4 @@ import java.util.UUID;
 public interface ParticipantService {
 
     List<Participant> getAllParticipants();
-
-    Participant getParticipant(UUID userID);
 }

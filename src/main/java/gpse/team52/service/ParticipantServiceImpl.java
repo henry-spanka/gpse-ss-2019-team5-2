@@ -28,9 +28,4 @@ public class ParticipantServiceImpl implements ParticipantService {
 
         return participants;
     }
-
-    @Override
-    public Participant getParticipant(UUID userID) {
-        participantRepository.findById(userID);
-    }
 }

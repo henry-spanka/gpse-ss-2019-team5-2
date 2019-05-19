@@ -1,5 +1,6 @@
 package gpse.team52.contract;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,4 +24,6 @@ public interface MeetingService {
     Meeting getMeetingById(UUID id);
 
     Meeting getMeetingById(String id);
+
+    Iterable<Meeting> fByStartAt(LocalDate startdate, User userid);
 }

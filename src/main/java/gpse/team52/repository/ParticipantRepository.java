@@ -1,6 +1,5 @@
 package gpse.team52.repository;
 
-import java.util.List;
 import java.util.UUID;
 
 import gpse.team52.domain.Participant;

@@ -1,7 +1,6 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.core.Authentication;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -34,9 +32,8 @@ public class StartPageController {
     public ModelAndView showStart(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("startpage");
         User user = (User) authentication.getPrincipal();
-        UUID userid = user.getUserId();
-        meetingService.getAllMeetings().forEach();
-        //modelAndView.addObject("meetingstoday", meetingService.
+        LocalDate today = LocalDate.now();
+        modelAndView.addObject("meetingstoday", meetingService.fByStartAt(today, user));
         //modelAndView.addObject("meetingstomorrow", meetingService.
         //modelAndView.addObject("meetingsaftertomorrow", meetingService.
         //modelAndView.addObject("meetings", meetingService.getAllMeetings());
