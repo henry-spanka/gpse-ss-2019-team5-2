@@ -18,7 +18,7 @@
                     <select class="form-control" th:field="*{location}">
                         <option value="">Select Location</option>
                         <option th:each="loc : ${locationNames}"
-                                th:value="${loc.locationId}"
+                                th:value="${loc.name}"
                                 th:text="${loc.name}"
 
                         </option>
