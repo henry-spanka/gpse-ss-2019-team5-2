@@ -48,9 +48,6 @@ public class editProfileController {
         modelAndView.addObject("locationNames",locNames);
 
 
-
-
-
         return modelAndView;
     }
 

@@ -48,12 +48,13 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String location;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = true)
     @Getter
     private String email;
 
-    @Column(unique = true, nullable = true)
+    @Column(unique = false, nullable = true)
     @Getter
+    @Setter
     private String picture;
 
     @Column(nullable = false)
@@ -79,6 +80,7 @@ public class User implements UserDetails {
         lastname = form.getLastName();
         email = form.getEmail();
         location = form.getLocation();
+        picture = form.getPicture();
         this.password = password;
     }
 
@@ -133,6 +135,7 @@ public class User implements UserDetails {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
 
     public String getFullName() {
         return firstname + ' ' + lastname;

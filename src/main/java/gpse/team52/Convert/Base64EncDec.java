@@ -5,10 +5,29 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 public class Base64EncDec {
 
+   static String DEFAULT_PIC = "";
+
+    public Base64EncDec() {
+        DEFAULT_PIC=setDefaultPic();
+    }
+
+    public  String setDefaultPic() {
+        String def = "";
+        try {
+            URL res = getClass().getClassLoader().getResource("user_profile_placeholder.jpg");
+            File pic = Paths.get(res.toURI()).toFile();
+            def = encoder(pic.getAbsolutePath());
+        } catch(Exception e) {
+            // Not an issue since the default picture is always in Resources
+        }
+        return def;
+    }
 
     public static String encoder(String imagePath) {
         String base64Image = "";
@@ -37,4 +56,5 @@ public class Base64EncDec {
             System.out.println("Exception while reading the Image " + ioe);
         }
     }
+
 }

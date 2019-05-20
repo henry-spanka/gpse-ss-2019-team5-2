@@ -2,6 +2,7 @@ package gpse.team52.service;
 
 import java.util.UUID;
 
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
@@ -95,6 +96,9 @@ public class UserServiceImpl implements UserService {
         for (final String role : roles) {
             user.addRole(role);
         }
+        Base64EncDec base = new Base64EncDec();
+        user.setPicture(base.setDefaultPic());
+
 
         return userRepository.save(user);
     }

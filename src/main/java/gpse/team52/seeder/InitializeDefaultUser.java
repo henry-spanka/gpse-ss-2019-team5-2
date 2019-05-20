@@ -1,13 +1,20 @@
 package gpse.team52.seeder;
 
 import javax.annotation.PostConstruct;
+import javax.print.URIException;
 
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 /**
  * Initializes the Default User in the database.
@@ -37,6 +44,13 @@ public class InitializeDefaultUser {
         form.setPassword(DEFAULT_PASSWORD);
         form.setPasswordConfirm(DEFAULT_PASSWORD);
         form.setLocation("Düsseldorf");
+        try {
+            URL res = getClass().getClassLoader().getResource("user_profile_placeholder.jpg");
+            File pic = Paths.get(res.toURI()).toFile();
+            form.setPicture(Base64EncDec.encoder(pic.getAbsolutePath()));
+        } catch(Exception e) {
+            // Not an issue since the default picture is always in Resources
+        }
 
         try {
             userService.createUser(form, true, "ROLE_ADMIN");
