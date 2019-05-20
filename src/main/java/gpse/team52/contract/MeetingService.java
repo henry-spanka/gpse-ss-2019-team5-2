@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 
@@ -25,5 +26,5 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
-    Iterable<Meeting> fByStartAt(LocalDate startdate, User userid);
+    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
 }

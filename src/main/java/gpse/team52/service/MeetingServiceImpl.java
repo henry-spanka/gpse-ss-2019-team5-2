@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.repository.MeetingRepository;
@@ -63,14 +64,8 @@ public class MeetingServiceImpl implements MeetingService {
         return getMeetingById(UUID.fromString(id));
     }
 
-
-    /**
-     * Find all meetings on the specified date.
-     * @param startdate chosen date.
-     * @return A list of meetings based on input.
-     */
     @Override
-    public Iterable<Meeting> fByStartAt(LocalDate startdate, User userid) {
-        return meetingRepository.fByStartAt(startdate, userid);
+    public Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end) {
+        return meetingRepository.findByStartAtBetween(start, end);
     }
 }
