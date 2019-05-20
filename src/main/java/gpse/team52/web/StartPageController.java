@@ -13,7 +13,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Responsible for managing the start page for each individual user.
@@ -42,12 +41,12 @@ public class StartPageController {
         LocalDateTime endtoday = today.plusDays(1).atStartOfDay();
 
         LocalDate tomorrow = LocalDate.now().plusDays(1);
-        LocalDateTime starttomorrow = today.atStartOfDay();
-        LocalDateTime endtomorrow = today.plusDays(1).atStartOfDay();
+        LocalDateTime starttomorrow = tomorrow.atStartOfDay();
+        LocalDateTime endtomorrow = tomorrow.plusDays(1).atStartOfDay();
 
         LocalDate aftertomorrow = LocalDate.now().plusDays(2);
-        LocalDateTime startaftertomorrow = today.atStartOfDay();
-        LocalDateTime endaftertomorrow = today.plusDays(1).atStartOfDay();
+        LocalDateTime startaftertomorrow = aftertomorrow.atStartOfDay();
+        LocalDateTime endaftertomorrow = aftertomorrow.plusDays(1).atStartOfDay();
 
         ArrayList<Meeting>meetingstoday = new ArrayList<Meeting>();
         ArrayList<Meeting>meetingstomorrow = new ArrayList<Meeting>();
