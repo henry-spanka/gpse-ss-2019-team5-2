@@ -12,8 +12,6 @@ import gpse.team52.domain.*;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
-import org.cryptacular.io.ClassPathResource;
-import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,10 +88,10 @@ public class InitializeDefaultMeetings {
         Location location1 = roomService.createLocation("Bielefeld");
         Location location2 = roomService.createLocation("Gütersloh");
 
-        Room room1 = roomService.createRoom(12, 2, "BielefeldRoom",
-        "bielefeldroom@example.de", location1, "layoutBlue");
-        Room room2 = roomService.createRoom(8, 0, "GüterslohRoom",
-        "guetersloh@example.de", location2, "layoutRed");
+        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
+        "layoutBlue");
+        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
+        "layoutRed");
 
  // TODO check here
         Equipment equipment1 = equipmentService.createEquipment("whiteboard");

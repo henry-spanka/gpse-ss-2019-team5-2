@@ -29,10 +29,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room createRoom(final int seats, final int expandableSeats, final String roomName,
-                           final String email, final Location location, final String layoutName) {
-        final Room room = new Room(seats, expandableSeats, roomName, email, location, layoutName);
-
+    public Room createRoom(final int seats, final int expandableSeats, final String email, final Location location, final String roomName,
+                           final String layoutName) {
+        final Room room = new Room(seats, expandableSeats, email, location, roomName,layoutName);
+//TODO hier das auch so übernehmen mit dem Raum Konstruktor, und im RoomService auch
         return roomRepository.save(room);
     }
 

@@ -10,7 +10,7 @@ import java.util.UUID;
      */
 public interface RoomService {
 
-    Room createRoom(int seats, int expandableSeats, String roomName, String email, Location location, String layoutName);
+    Room createRoom(int seats, int expandableSeats, String email, Location location, String roomName, String layoutName);
 
     Room update(Room room);
 

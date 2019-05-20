@@ -1,17 +1,16 @@
 package gpse.team52.domain;
 
-
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
-
-import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.*;
+
+import lombok.Setter;
+import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -78,13 +77,10 @@ public class Room {
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
 
-
     //TODO schauen ob layout klappt
-
     @Getter
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String layoutName;
-    //TODO needs to be changed to any list or class or whatever
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
@@ -96,16 +92,16 @@ public class Room {
 
     /**
      * Constructor for a room.
-     *
-     * @param seats           Define number of seats
+     * @param seats Define number of seats
      * @param expandableSeats Define number of optional seats
-     * @param roomName        Name of the Room
-     * @param email           Email address of the room
-     * @param location        Location of the room
-     * @param layoutName      Name of the layout of a room
+     * @param email Email address of the room
+     * @param location Location of the room
+     * @param roomName
      */
-    public Room(final int seats, final int expandableSeats, final String roomName,
-                final String email, final Location location, final String layoutName) {
+    public Room(final int seats, final int expandableSeats,
+                final String email, final Location location, final String roomName, final String layoutName) {
+        //TODO Konstruktor mit Raumnamen und LayoutNamen am Schluss, ich versuche das überall zu fixen
+        // kann sein, dass ich was übersehe
         this.seats = seats;
         this.expandableSeats = expandableSeats;
         this.roomEmail = email;
