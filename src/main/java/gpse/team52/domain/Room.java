@@ -82,9 +82,8 @@ public class Room {
     //TODO schauen ob layout klappt
 
     @Getter
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String layoutName;
-    //TODO needs to be changed to any list or class or whatever
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
