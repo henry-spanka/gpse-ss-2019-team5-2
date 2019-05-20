@@ -1,10 +1,13 @@
 package gpse.team52.domain;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +21,8 @@ import java.util.UUID;
 // - unit tests for functions submit, cancel, back
 // - submit data for real at last submit step
 // - add equipment
-// - merge into develop and fix any f problems
+// - Belegungsplan für Räume
 // - (get back from last step and detailed information with rooms still selected)
-
 
 /**
  * Room Entity.
@@ -65,7 +67,7 @@ public class Room {
      */
     @Getter
     @Setter
-    @Column(nullable = true) //TODO nullable should be false!
+    @Column(nullable = false) //TODO nullable should be false!
     private String roomName;
 
     /**
@@ -78,6 +80,7 @@ public class Room {
 
 
     //TODO schauen ob layout klappt
+
     @Getter
     @Column(unique = true, nullable = false)
     private String layoutName;
@@ -85,29 +88,30 @@ public class Room {
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
-    @JoinColumn(nullable = false, name = "equipmentId")
+    @JoinColumn(nullable = false, name = "equipment")
     private List<Equipment> equipment = new ArrayList<>();
 
     protected Room() {
     }
-
 
     /**
      * Constructor for a room.
      *
      * @param seats           Define number of seats
      * @param expandableSeats Define number of optional seats
+     * @param roomName        Name of the Room
      * @param email           Email address of the room
      * @param location        Location of the room
+     * @param layoutName      Name of the layout of a room
      */
     public Room(final int seats, final int expandableSeats, final String roomName,
                 final String email, final Location location, final String layoutName) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
-        this.roomName = roomName;
         this.roomEmail = email;
         this.location = location;
         this.layoutName = layoutName;
+        this.roomName = roomName;
     }
 
     public void addEquipment(Equipment equipment) {
