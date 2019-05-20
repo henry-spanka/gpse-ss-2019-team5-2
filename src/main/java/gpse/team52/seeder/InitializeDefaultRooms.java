@@ -66,12 +66,16 @@ public class InitializeDefaultRooms {
         Location guetersloh = roomService.createLocation("Gütersloh");
         Location duesseldorf = roomService.createLocation("Düsseldorf");
 
-        Room roomA = roomService.createRoom(12, 2, "bf@example.de", bielefeld, "BielefeldRoom");
-        Room roomB = roomService.createRoom(8, 0, "gt@example.de", guetersloh, "GüterslohRoom");
-        Room roomC = roomService.createRoom(20, 0, "dd@example.org", duesseldorf, "DüsseldorfRoom");
+        Room roomA = roomService.createRoom(12, 2, "BielefeldRoom",
+        "bf@example.de", bielefeld, "layoutBlue");
+        Room roomB = roomService.createRoom(8, 0, "GüterslohRoom",
+        "gt@example.de", guetersloh, "layoutRed");
+        Room roomC = roomService.createRoom(20, 0, "DüsseldorfRoom",
+        "dd@example.org", duesseldorf, "layoutBlue");
         //TODO add equipment
 
         roomService.update(roomA);
         roomService.update(roomB);
+        roomService.update(roomC);
     }
 }

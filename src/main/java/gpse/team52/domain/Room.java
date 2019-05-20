@@ -132,6 +132,6 @@ public class Room {
     TODO: im controller anpassen das er das da tut
      */
     public String getLayoutPath(){
-        return "static/pictures/layout" + layoutName + ".png";
+        return "static/pictures/layout/" + layoutName + ".png";
     }
 }
