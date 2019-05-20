@@ -42,7 +42,7 @@ public class editProfileController {
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
 
-
+        //get All Location and and convert iterable list to an array list of Locations
         ArrayList<Location>locNames = new ArrayList<Location>();
         locationService.getAllLocations().forEach(locNames::add);
         modelAndView.addObject("locationNames",locNames);

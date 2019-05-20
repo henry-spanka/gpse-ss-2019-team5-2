@@ -52,6 +52,10 @@ public class User implements UserDetails {
     @Getter
     private String email;
 
+    @Column(unique = true, nullable = true)
+    @Getter
+    private String picture;
+
     @Column(nullable = false)
     private String password;
 

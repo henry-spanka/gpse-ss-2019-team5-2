@@ -33,6 +33,11 @@ public class UserRegistrationForm {
     @Setter
     private String location;
 
+    @NotBlank
+    @Getter
+    @Setter
+    private String picture;
+
     @ValidEmail
     @NotBlank
     @Getter
