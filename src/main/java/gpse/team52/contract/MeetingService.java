@@ -18,6 +18,8 @@ public interface MeetingService {
 
     Meeting createMeeting(Meeting meeting);
 
+    Meeting createMeeting(Meeting meeting, Room room, int participants);
+
     Iterable<Meeting> getAllMeetings();
 
     Meeting getMeetingById(UUID id);
