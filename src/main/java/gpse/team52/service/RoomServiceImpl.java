@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import gpse.team52.contract.RoomService;
+import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
-import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
 import gpse.team52.repository.LocationRepository;
 import gpse.team52.repository.RoomRepository;
@@ -60,7 +60,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(roomID);
     }
 
-    public Iterable<Room> getAvailableRooms(Meeting meeting) {
+    public Iterable<Room> getAvailableRooms(Location location, int seats, int start, int end, Equipment equipment) {
         return null; // TODO implement method to find all available rooms for a meeting
     }
 }

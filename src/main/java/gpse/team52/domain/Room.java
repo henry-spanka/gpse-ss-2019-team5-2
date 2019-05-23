@@ -87,6 +87,10 @@ public class Room {
     @JoinColumn(nullable = false, name = "equipment")
     private List<Equipment> equipment = new ArrayList<>();
 
+    // TODO belegungsplan oder so
+    @Getter
+    private List<Meeting> occupancy = new ArrayList<>();
+
     protected Room() {
     }
 
@@ -96,7 +100,7 @@ public class Room {
      * @param expandableSeats Define number of optional seats
      * @param email Email address of the room
      * @param location Location of the room
-     * @param roomName
+     * @param roomName Name of the room
      */
     public Room(final int seats, final int expandableSeats,
                 final String email, final Location location, final String roomName, final String layoutName) {
