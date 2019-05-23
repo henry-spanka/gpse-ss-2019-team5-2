@@ -103,21 +103,21 @@ public class InitializeDefaultMeetings {
         roomService.update(room1);
         roomService.update(room2);
 
-        final Meeting meeting1 = new Meeting("Tolles Meeting", 23, room1);
+        final Meeting meeting1 = new Meeting("Tolles Meeting");
         meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));
         meeting1.setEndAt(LocalDateTime.of(2019, 5, 10, 11, 45));
         meeting1.setDescription("Tolle Beschreibung");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
 
-        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting", 18, room2);
+        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting");
         meeting2.setStartAt(LocalDateTime.of(2019, 5, 11, 14, 0));
         meeting2.setEndAt(LocalDateTime.of(2019, 5, 11, 15, 0));
         meeting2.setDescription("Nicht so tolle Beschreibung");
         meeting2.setOwner(user2);
         meeting2.addParticipant(new Participant(user2));
 
-        final Meeting meeting3 = new Meeting("Geheimes Meeting", 3, room1);
+        final Meeting meeting3 = new Meeting("Geheimes Meeting");
         meeting3.setStartAt(LocalDateTime.of(2019, 5, 12, 23, 0));
         meeting3.setEndAt(LocalDateTime.of(2019, 5, 12, 23, 30));
         meeting3.setOwner(user1);
@@ -125,10 +125,10 @@ public class InitializeDefaultMeetings {
         meeting3.addParticipant(new Participant("externerkunde@example.de",
         "Günther", "Schmidt"));
 
-        meetingService.createMeeting(meeting1);
+        meetingService.createMeeting(meeting1, room1, 23);
 
-        meetingService.createMeeting(meeting2);
+        meetingService.createMeeting(meeting2, room2, 18);
 
-        meetingService.createMeeting(meeting3);
+        meetingService.createMeeting(meeting3, room1, 3);
     }
 }

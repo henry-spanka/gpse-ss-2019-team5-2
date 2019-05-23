@@ -1,9 +1,6 @@
 package gpse.team52.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -77,6 +74,13 @@ public class Room {
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
 
+    /**
+     * Meetings held in this room.
+     */
+    @Getter
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<MeetingRoom> meetings;
+
     //TODO schauen ob layout klappt
     @Getter
     @Column(nullable = false)
@@ -84,12 +88,8 @@ public class Room {
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
-    @JoinColumn(nullable = false, name = "equipment")
+    @JoinColumn(nullable = false, name = "equipmentId")
     private List<Equipment> equipment = new ArrayList<>();
-
-    // TODO belegungsplan oder so
-    @Getter
-    private List<Meeting> occupancy = new ArrayList<>();
 
     protected Room() {
     }
