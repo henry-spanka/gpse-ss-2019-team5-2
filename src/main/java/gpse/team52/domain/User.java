@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 7179581269044235932L;
 
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
@@ -88,10 +89,14 @@ public class User implements UserDetails {
     }
 
 
-    public String getLocation() {return location;}
+    public String getLocation() {
+        return location;
+    }
 
 
-    public void setLocation(String location) {this.location = location;}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
