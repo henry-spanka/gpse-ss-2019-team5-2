@@ -1,12 +1,11 @@
 package gpse.team52.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
-import gpse.team52.domain.Participant;
+import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.repository.MeetingRepository;
@@ -32,12 +31,13 @@ public class MeetingServiceImpl implements MeetingService {
                                  final LocalDateTime start,
                                  final LocalDateTime end,
                                  final User owner, final Room room) {
-        final Meeting meeting = new Meeting(title, participants, room);
+        final Meeting meeting = new Meeting(title);
+
         meeting.setStartAt(start);
         meeting.setEndAt(end);
         meeting.setOwner(owner);
 
-        return createMeeting(meeting);
+        return createMeeting(meeting, room, participants);
     }
 
     @Override
@@ -45,7 +45,17 @@ public class MeetingServiceImpl implements MeetingService {
         if (meeting.getDescription() == null) {
             meeting.setDescription("-");
         }
+
         return meetingRepository.save(meeting);
+    }
+
+    @Override
+    public Meeting createMeeting(Meeting meeting, Room room, int participants) {
+        MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants);
+
+        meeting.addRoom(meetingRoom);
+
+        return createMeeting(meeting);
     }
 
     @Override

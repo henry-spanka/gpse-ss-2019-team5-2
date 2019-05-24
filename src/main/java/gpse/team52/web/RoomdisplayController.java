@@ -21,28 +21,29 @@ public class RoomdisplayController {
     @Autowired
     private RoomService roomService;
 
-    public RoomdisplayController() {
-    }
-
     /**
      * @return Page with available rooms to choose from
      */
     @GetMapping("/rooms")
     public ModelAndView rooms() {
         final ModelAndView modelAndView = new ModelAndView("rooms");
-        modelAndView.addObject("roomList", roomService.getAllRooms());
+        // TODO instead of all rooms, get only the ones which are suitable
+        Iterable<Room> roomList = roomService.getAllRooms();
+        modelAndView.addObject("roomList", roomList);
         return modelAndView;
     }
 
     /**
-     *
+     * Details for each room
      * @param roomID room to display details
      * @return Details about specified room
      */
     @GetMapping("/rooms/{roomID}")
     public ModelAndView roomdetails(@PathVariable("roomID") UUID roomID) {
         final ModelAndView modelAndView = new ModelAndView("roomdetails");
-        Room room = roomService.getRoom(roomID).orElseThrow(); // should add some error handling, if the get method fails, use database instead
+        Room room = roomService.getRoom(roomID).orElseThrow();
+        // should add some error handling, if the get method fails
+
         modelAndView.addObject("room", room);
         List<Equipment> equipment = room.getEquipment();
         modelAndView.addObject("equipmentList", equipment);
@@ -50,7 +51,7 @@ public class RoomdisplayController {
     }
 
     /**
-     *
+     * Shows page to confirm selected rooms and parameters of meeting
      * @param roomID rooms which are selected
      * @param error if no room was selected
      * @return Page to check and submit data or, in case of error, page with rooms to choose from

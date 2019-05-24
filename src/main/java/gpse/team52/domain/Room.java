@@ -1,14 +1,12 @@
 package gpse.team52.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.persistence.*;
 
 import lombok.Getter;
 import org.hibernate.annotations.GenericGenerator;
+
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
 // - use database to access data in controller
@@ -63,7 +61,7 @@ public class Room {
      * Name of a room.
      */
     @Getter
-    @Column(nullable = true) //TODO nullable should be false!
+    @Column(nullable = false) //TODO nullable should be false!
     private String roomName;
 
     /**
@@ -74,11 +72,16 @@ public class Room {
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
 
+    /**
+     * Meetings held in this room.
+     */
+    @Getter
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<MeetingRoom> meetings;
 
     //TODO schauen ob layout klappt
-    @Column(name="layout")
+    @Column(name = "layout")
     private byte[] layout;
-    //TODO needs to be changed to any list or class or whatever
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
@@ -94,13 +97,15 @@ public class Room {
      * @param expandableSeats Define number of optional seats
      * @param email Email address of the room
      * @param location Location of the room
+     * @param roomName
      */
     public Room(final int seats, final int expandableSeats,
-                final String email, final Location location) {
+                final String email, final Location location, String roomName) {
         this.seats = seats;
         this.expandableSeats = expandableSeats;
         this.roomEmail = email;
         this.location = location;
+        this.roomName = roomName;
     }
 
     public void addEquipment(Equipment equipment) {

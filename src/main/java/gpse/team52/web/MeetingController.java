@@ -1,5 +1,6 @@
 package gpse.team52.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gpse.team52.contract.MeetingService;
@@ -39,17 +40,15 @@ public class MeetingController {
         Meeting meeting = meetingService.getMeetingById(id);
         modelAndView.addObject("meeting", meeting);
 
-        List<Equipment> equipments = meeting.getRoom().getEquipment();
+        //List<Equipment> equipments = meeting.getRoom().getEquipment();
+        List<Equipment> equipments = new ArrayList<>();
+
         modelAndView.addObject("equipments", equipments);
 
         User user = (User) authentication.getPrincipal();
         if (user.getUsername() == meeting.getOwner().getUsername()) {
-            System.out.println(user.getUsername());
-
-        List<Participant> participants = meeting.getParticipants();
-        System.out.println(participants.get(0).getFirstName());
-        modelAndView.addObject("participants", participants);
-
+            List<Participant> participants = meeting.getParticipants();
+            modelAndView.addObject("participants", participants);
         }
 
         return modelAndView;
