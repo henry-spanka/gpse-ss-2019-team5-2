@@ -22,11 +22,14 @@
                                 <input type="checkbox" class="custom-control-input" th:id="${room.roomID}"
                                        th:value="${room.roomID}" name="roomID"/>
                                 <label class="custom-control-label" th:for="${room.roomID}" style="font-size: 20px"
-                                       th:text="${room.getRoomEmail()}">Room</label>
+                                       th:text="${room.getRoomName()}">Room</label>
                             </div>
-                            <p style="font-size: 15px"
-                               th:text="${'Seats and more: ' + room.getSeats()}">Seats and
-                                equipment</p>
+                            <p class="small my-0"
+                               th:text="${'Mail: ' + room.getRoomEmail()}">Mail
+                            </p>
+                            <p class="small my-0"
+                               th:text="${'Seats: ' + room.getSeats()}">Seats
+                            </p>
                         </td>
                         <td>
                             <!-- <span th:if="${room.isFavourite()}" class="enhanced">insert Star</span> -->
