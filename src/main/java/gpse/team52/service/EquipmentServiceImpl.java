@@ -20,6 +20,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public Iterable<Equipment> getAllEquipments() {
-        return null;
+        return equipmentRepository.findAll();
     }
 }

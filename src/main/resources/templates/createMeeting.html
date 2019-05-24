@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/main}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,6 +14,19 @@
         input[type=date]{
             margin: 8px 0;
         }
+        .btn {
+            padding: 14px 24px;
+            border: 0 none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 24px;
+        }
+
+        .btn-primary {
+            background: #4B0082;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -21,11 +35,11 @@
         <div class="col-md-5 p-2 mx-auto text-center">
             <h2 style="font-size: 20px">Create new Meeting</h2>
         </div>
-        <form method="post">
+        <form th:action="@{/addAttributes}" method="post">
             <div class="form-group">
                 <div class="container">
                     <div><label for="location">Location</label></div>
-                    <input list="locations" class="form-control" type="text" id="location" style="width: 100%">
+                    <input list="locations" class="form-control" type="text" id="location" style="width: 100%" th:value="*{location}">
                     <datalist id="locations">
                         <option th:each="location, iterStat : ${locations}" th:value="${location.getName()}"></option>
                     </datalist>
@@ -50,22 +64,12 @@
             <div class="form-group">
                 <div class="container" style="margin-top: 25px">
                     <div><label>Room attributes</label></div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="attributesOption1">
-                        <label class="form-check-label" for="attributesOption1">Surfacehub</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="attributesOption2">
-                        <label class="form-check-label" for="attributesOption2">Projector</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="attributesOption3">
-                        <label class="form-check-label" for="attributesOption3">Telephone</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="attributesOption4">
-                        <label class="form-check-label" for="attributesOption4">Video</label>
-                    </div>
+                    <tr th:each="equipment, iterStat: ${equipments}">
+                        <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" th:id="${equipment.getEquipmentID()}" th:value="${equipment.getEquipmentID()}">
+                        <label class="form-check-label" th:for="${equipment.getEquipmentID()}" th:text="${equipment.getEquipmentName()}">Test</label>
+                        </div>
+                    </tr>
                 </div>
             </div>
             <div class="form-group">
@@ -80,16 +84,14 @@
             </div>
             <div class="container" align="center" style="margin-top: 25px">
                 <div class="form-group">
-                    <a th:href="@{/addParticipants}" class="button"
-                            style="border-radius: 8px; background-color: limegreen; color: black; border: none; padding: 10px 40px; font-size: 16px;">
+                    <a th:href="@{/addParticipants}" class="btn btn-primary">
                         Add Participants
                     </a>
                 </div>
                 <div class="form-group">
-                    <button class="button"
-                            style="border-radius: 8px; background-color: crimson; border: none; padding: 10px 40px; font-size: 16px; ">
+                    <a href="/start" class="btn btn-primary">
                         Cancel
-                    </button>
+                    </a>
                 </div>
             </div>
         </form>

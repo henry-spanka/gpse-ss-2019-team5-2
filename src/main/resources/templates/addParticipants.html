@@ -6,6 +6,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/webjars/font-awesome/5.8.1/css/all.min.css" crossorigin="anonymous">
+    <style>
+        .btn {
+            padding: 14px 24px;
+            border: 0 none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 24px;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background: #4B0082;
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -28,6 +44,62 @@
                     <datalist id="participants">
                         <option th:each="user, iterStat : ${users}" th:value="${user.getFullName()}"></option>
                     </datalist>
+                    <a class="btn btn-primary" style="margin-top:8px; padding: 7px 12px; font-size: 80%; color: #ffffff;" onclick="" >
+                        Add participant
+                    </a>
+                    <script th:inline="javascript">
+
+                        function testFunc() {
+                            var curParticipant = document.getElementById("newParticipants").value;
+                            var curUser;
+                            var curUserIndex;
+
+                            /*<![CDATA[*/
+                            var users = /*[[${users}]]*/ null;
+
+                            var curUserMail = /*[[${users[1].getEmail()}]]*/ null;
+                            curUser = /*[[${users[1].getFullName()}]]*/ null;
+                            var length = users.length;
+                            var i;
+                            for(i=0; i < 4; i++) {
+                                var curUser = users[i];
+                                var curUserName = /*[[${users[1].getFullName()}]]*/ null;
+                                if (curUserName == curParticipant) {
+                                    curUserIndex = i;
+                                    curUserMail = /*[[${users[1].getEmail()}]]*/ null;
+                                    break;
+                                }
+                            }
+
+                            var myTable = document.getElementById("testId");
+
+                            var currentIndex = myTable.rows.length;
+                            var currentRow = myTable.insertRow(-1);
+
+                            /*
+                            var usernameBox = document.createElement("input");
+                            linksBox.setAttribute("name", "links" + currentIndex);
+
+                            var emailBox = document.createElement("input");
+                            keywordsBox.setAttribute("name", "keywords" + currentIndex);
+
+                            var violationsBox = document.createElement("input");
+                            violationsBox.setAttribute("name", "violationtype" + currentIndex);
+
+                            var addRowBox = document.createElement("input");
+                            addRowBox.setAttribute("type", "button");
+                            addRowBox.setAttribute("value", "Add another line");
+                            addRowBox.setAttribute("onclick", "addField();");
+                            addRowBox.setAttribute("class", "button");
+                            */
+
+                            var currentCell = currentRow.insertCell(-1);
+                            currentCell.innerHTML = curUserName;
+                            currentCell = currentRow.insertCell(-1);
+                            currentCell.innerHTML = curUserMail;
+                            /*]]>*/
+                        }
+                    </script>
                 </div>
             </div>
             <div class="form-group">
@@ -43,14 +115,31 @@
             </div>
             <div class="form-group">
                 <div class="container" style="margin-top: 25px">
-                    <button class="button"
-                            style="border-radius: 8px; background-color: limegreen; border: none; padding: 10px 40px; font-size: 16px; float: left">
+                    <h3>Participants</h3>
+                    <div class="table">
+                    <table class="table" style="border: 1px solid gray ;border-collapse: collapse" id="testId">
+                        <tr class="table table-hover">
+                            <th>Username</th>
+                            <th>E-Mail</th>
+                        </tr>
+                        <tr>
+                            <td>Max Mustermann</td>
+                            <td>maxmuster@mail.com</td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+            <div class="container" align="center" style="margin-top: 25px">
+                <div class="form-group">
+                    <a class="btn btn-primary" style="color: #ffffff">
                         Create
-                    </button>
-                    <button class="button"
-                            style="border-radius: 8px; background-color: crimson; border: none; padding: 10px 40px; font-size: 16px; float: right ">
+                    </a>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-primary" style="color: #ffffff">
                         Cancel
-                    </button>
+                    </a>
                 </div>
             </div>
         </form>
