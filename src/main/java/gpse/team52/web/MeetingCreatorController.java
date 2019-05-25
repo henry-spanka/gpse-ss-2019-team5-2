@@ -23,7 +23,7 @@ public class MeetingCreatorController {
     @Autowired
     private RoomService roomService;
 
-    @PostMapping("/createMeeting/book")
+    @PostMapping("/createMeeting/confirm")
     public ModelAndView bookMeeting(
     @ModelAttribute("meeting")
     @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})

@@ -6,7 +6,7 @@
         <h2 class="text-center" th:text="|Select Rooms for &quot;${meeting.getName()}&quot;|">
             Select Rooms for Sample Meeting
         </h2>
-        <form th:method="post" th:action="@{/createMeeting/book}" th:object="${meeting}">
+        <form th:method="post" th:action="@{/createMeeting/confirm}" th:object="${meeting}">
             <div class="card">
                 <div class="card-header">
                     <div class="row no-gutters">
