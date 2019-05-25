@@ -1,13 +1,12 @@
 package gpse.team52.web;
 
-import javax.validation.Valid;
-
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.form.MeetingCreationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +23,36 @@ public class MeetingCreatorController {
     @Autowired
     private RoomService roomService;
 
-    @PostMapping("/createMeeting")
-    public ModelAndView showRoomSelectionForm(@ModelAttribute("meeting") @Valid MeetingCreationForm meeting, final BindingResult bindingResult) {
+    @PostMapping("/createMeeting/book")
+    public ModelAndView bookMeeting(
+    @ModelAttribute("meeting")
+    @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})
+    MeetingCreationForm meeting,
+    final BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            //
+        }
+
+        System.out.println(meeting.getRooms());
+
+        ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
+        modelAndView.addObject("meeting", meeting);
+        modelAndView.addObject("rooms", roomService.getAllRooms());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/createMeeting")
+    public ModelAndView showRoomSelectionForm(
+    @ModelAttribute("meeting") @Validated({MeetingCreationForm.ValidateMeetingDetails.class}) MeetingCreationForm meeting,
+    final BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            meeting.setLocationDetails(roomService.findByLocationIdFromString(meeting.getLocations()));
+
+            ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
+            modelAndView.addObject("meeting", meeting);
+            modelAndView.addObject("rooms", roomService.getAllRooms());
+
+            return modelAndView;
         }
 
         return generateMeetingCreationView(meeting);

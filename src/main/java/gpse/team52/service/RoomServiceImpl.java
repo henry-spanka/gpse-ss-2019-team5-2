@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
@@ -72,5 +73,15 @@ public class RoomServiceImpl implements RoomService {
         Iterable<Room> availableRooms = roomRepository.findByLocationAndSeatsGreaterThanEqual(location, seats);
 
         return availableRooms; // TODO implement method to find all available rooms for a meeting
+    }
+
+    @Override
+    public List<Location> findByLocationId(List<UUID> uuidList) {
+        return locationRepository.findAllByLocationIdIn(uuidList);
+    }
+
+    @Override
+    public List<Location> findByLocationIdFromString(List<String> uuidList) {
+        return findByLocationId(uuidList.stream().map(UUID::fromString).collect(Collectors.toList()));
     }
 }

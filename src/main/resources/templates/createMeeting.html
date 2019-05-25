@@ -54,7 +54,7 @@
                 <div class="card-header" th:text="|Options for ${location.getName()}|"></div>
                 <div class="card-body form-group form-row">
                     <div class="col-12 col-md-3">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-user"></i>
                         <label th:for="|participants-${location.getLocationId()}|">Participants</label>
                         <input class="form-control" type="number" min="1"
                                th:field="*{participants[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
@@ -97,10 +97,10 @@
             </div>
             <div class="form-row">
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Create</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Next</button>
                 </div>
             </div>
-            <div class="form-row mt-4 mb-2">
+            <div class="form-row mt-3 mb-2">
                 <div class="col-12">
                     <a th:href="@{/}" class="btn btn-secondary btn-sm btn-block">Back</a>
                 </div>

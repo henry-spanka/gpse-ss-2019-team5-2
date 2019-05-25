@@ -37,7 +37,7 @@ public class RoomdisplayController {
     @RequestParam(name = "date", required = false) Date date,
     @RequestParam(name = "equipment", required = false) List<Equipment> equipment
     ) {
-        final ModelAndView modelAndView = new ModelAndView("rooms");
+        final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
 
         // TODO instead of all rooms, get only the ones which are suitable
         // Iterable<Room> roomList = roomService.getAvailableRooms(location, seats, date, start, end,equipment);
@@ -80,7 +80,7 @@ public class RoomdisplayController {
     public ModelAndView confirm(
     @RequestParam(name = "roomID", required = false) String roomID) { // , @RequestParam(name = "meeting", required = true) String meeting
         if (roomID == null) { //return rooms-page with alert message
-            final ModelAndView roomsError = new ModelAndView("rooms");
+            final ModelAndView roomsError = new ModelAndView("selectMeetingRooms");
             roomsError.addObject("roomList", roomService.getAllRooms());
             roomsError.addObject("error", true);
             return roomsError;
