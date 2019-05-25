@@ -85,10 +85,13 @@ public class InitializeDefaultMeetings {
             return;
         }
 
-        Location location1 = roomService.createLocation("Bielefeld");
-        Location location2 = roomService.createLocation("Gütersloh");
-        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "Hörsaal");
-        Room room2 = roomService.createRoom(8, 0, "gueterslohroom@example.de", location2, "Konferenzraum");
+        Location location1 = roomService.getLocation("Bielefeld").orElseThrow();
+        Location location2 = roomService.getLocation("Gütersloh").orElseThrow();
+
+        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
+        "layoutBlue");
+        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
+        "layoutRed");
 
         Equipment equipment1 = equipmentService.createEquipment("whiteboard");
         Equipment equipment2 = equipmentService.createEquipment("beamer");
