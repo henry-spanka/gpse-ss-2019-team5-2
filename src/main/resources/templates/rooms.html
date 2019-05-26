@@ -13,7 +13,7 @@
                 <div class="alert alert-danger" role="alert" th:if="${error}">
                     Please choose a room!
                 </div>
-                <h2 style="font-size: 25px">Select a room</h2> <!-- TODO only display this if there are rooms to choose from -->
+                <h2 th:unless="${noRoom}" style="font-size: 25px">Select a room</h2>
             </div>
             <div class="table table-responsive text-nowrap">
                 <table class="table table-hover" data-toggle="table" id="example">
@@ -50,9 +50,9 @@
         <div class="container" style="margin-top: 20px">
             <div class="row align-bottom my-1">
                 <div class="offset-md-3 col-md-6 col-sm-6 text-center">
-                    <a class="btn" style="background-color: crimson" th:href="@{/}">Cancel</a>
-                    <input type="submit" class="btn" style="background-color:limegreen" value="Submit">
-                    <a class="btn mt-sm-4 mt-md-0" th:href="@{/}" style="background-color: dodgerblue">Back</a>
+                    <a class="btn" style="background-color: crimson" th:href="@{/start}">Cancel</a>
+                    <input th:unless="${noRoom}" type="submit" class="btn" style="background-color:limegreen" value="Submit"> <!-- TODO change it to disabled maybe? -->
+                    <a class="btn mt-sm-4 mt-md-0" th:href="@{/createMeeting}" style="background-color: dodgerblue">Back</a>
                 </div>
             </div>
         </div>

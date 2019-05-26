@@ -23,6 +23,15 @@ public class RoomdisplayController {
     @Autowired
     private RoomService roomService;
 
+    public RoomdisplayController(){
+        Location location;
+        Date date;
+        List<Equipment> equipment;
+        int start;
+        int end;
+        int seats;
+    }
+
     /**
      * @return Page with available rooms to choose from
      */
@@ -42,10 +51,11 @@ public class RoomdisplayController {
         // TODO instead of all rooms, get only the ones which are suitable
         // Iterable<Room> roomList = roomService.getAvailableRooms(location, seats, date, start, end,equipment);
         //!! TEST !!
-        //location = roomService.getLocation("Bielefeld").orElseThrow();
-        Iterable<Room> roomList = roomService.getAllRooms();
+        location = roomService.getLocation("Bielefeld").orElseThrow();
+        //Iterable<Room> roomList = roomService.getAllRooms();
+        Iterable<Room> roomList = roomService.getAvailableRooms(location, 21, date, 3, 4, equipment);
         //!! TEST !!
-        final List<Room> rooms = new ArrayList<>(); // is there no other way to check whether an iterable is empty?
+        List<Room> rooms = new ArrayList<>(); // is there no other way to check whether an iterable is empty?
         roomList.forEach(rooms::add);
         if(rooms.isEmpty()) {
             modelAndView.addObject("noRoom", true);
@@ -80,8 +90,8 @@ public class RoomdisplayController {
     public ModelAndView confirm(
     @RequestParam(name = "roomID", required = false) String roomID) { // , @RequestParam(name = "meeting", required = true) String meeting
         if (roomID == null) { //return rooms-page with alert message
-            final ModelAndView roomsError = new ModelAndView("rooms");
-            roomsError.addObject("roomList", roomService.getAllRooms());
+            final ModelAndView roomsError = new ModelAndView("rooms"); // change to this.rooms( add params of meeting here)
+            roomsError.addObject("roomList", roomService.getAllRooms()); // TODO get only available rooms, or change it so that /rooms is used
             roomsError.addObject("error", true);
             return roomsError;
         }
