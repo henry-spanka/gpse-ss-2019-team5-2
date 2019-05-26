@@ -5,6 +5,7 @@ import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
+import gpse.team52.form.NewPasswordForm;
 import gpse.team52.form.PasswordResetMailForm;
 import gpse.team52.form.UserRegistrationForm;
 import gpse.team52.repository.UserRepository;
@@ -59,5 +60,36 @@ public class ForgotPasswordController {
         userService.sendPasswordResetEmail(email);
 
         return new ModelAndView("forgotpasswordconfirm");
+    }
+
+    /**
+     * Try to confirm a users account (their email).
+     * @param token The token sent to their email address.
+     * @return Confirmation or error page.
+     */
+    @GetMapping("/forgotpasswordsetnew")
+    public ModelAndView setNewPassword(final @RequestParam("token") String token,
+                                       final @ModelAttribute("user") @Valid NewPasswordForm form,
+                                       final BindingResult result) {
+
+        final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew");
+
+        try {
+            final User user = userService.findUserFromPasswordResetToken(UUID.fromString(token));
+            modelAndView.addObject("user", user)
+            .addObject("error", false);
+            user.setPassword(form.getPassword());
+            System.out.println("Password changed for user: " + user.getFullName() + " changed to: " + user.getPassword());
+        } catch (InvalidConfirmationTokenException | IllegalArgumentException e) {
+            modelAndView.addObject("error", true);
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/forgotpasswordsetnew")
+    public ModelAndView setNewPasswordConfirm() {
+
+        return new ModelAndView("forgotpasswordsetnewconfirm");
     }
 }

@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
      * User Service implementation.
      *  @param userRepository              The user data repository.
      * @param confirmationTokenRepository The confirmation token repository.
-     * @param forgotPasswordTokenRepository
+     * @param forgotPasswordTokenRepository The password reset token repository.
      * @param passwordEncoder             The password encoder to use.
      * @param mailService                 The mail service to use.
      */
@@ -141,7 +141,6 @@ public class UserServiceImpl implements UserService {
         }
         catch (EmailNotFoundException e) {
             System.out.println("No user matching the email adress: " + email);
-            return;
         }
     }
 
@@ -156,6 +155,18 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         confirmationTokenRepository.delete(confirmationToken);
 
+        return user;
+    }
+
+    @Override
+    public User findUserFromPasswordResetToken(final UUID token) throws InvalidConfirmationTokenException {
+
+        final ForgotPasswordToken forgotPasswordToken = forgotPasswordTokenRepository.findById(token)
+        .orElseThrow(() -> new InvalidConfirmationTokenException("The token " + token + " is invalid"));
+
+        final User user = forgotPasswordToken.getUser();
+
+        forgotPasswordTokenRepository.delete(forgotPasswordToken);
         return user;
     }
 

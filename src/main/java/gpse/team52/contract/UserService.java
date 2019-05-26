@@ -76,6 +76,8 @@ public interface UserService extends UserDetailsService {
      */
     User validateUserFromToken(UUID token) throws InvalidConfirmationTokenException;
 
+    User findUserFromPasswordResetToken(UUID token) throws InvalidConfirmationTokenException;
+
     Iterable<User> getAllUsers();
 
     User updateUser(User user);
