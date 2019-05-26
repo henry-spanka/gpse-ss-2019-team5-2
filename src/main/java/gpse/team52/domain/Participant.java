@@ -2,7 +2,14 @@ package gpse.team52.domain;
 
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -15,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @NoArgsConstructor
 @Entity
-public class Participant {
+public class Participant { //NOPMD
 
     /**
      * Unique Id for every participant.

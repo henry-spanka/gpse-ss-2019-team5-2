@@ -8,7 +8,12 @@ import gpse.team52.contract.EquipmentService;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Location;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
@@ -22,6 +27,8 @@ import org.springframework.stereotype.Service;
 public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
+
+    private static final String DEFAULT_USER_ROLE = "ROLE_USER";
 
     private final MeetingService meetingService;
     private final UserService userService;
@@ -62,7 +69,7 @@ public class InitializeDefaultMeetings {
         User user1;
 
         try {
-            user1 = userService.createUser(form1, true, "ROLE_USER"); //NOPMD
+            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE);
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
@@ -79,24 +86,23 @@ public class InitializeDefaultMeetings {
         User user2;
 
         try {
-            user2 = userService.createUser(form2, true, "ROLE_USER"); //NOPMD
+            user2 = userService.createUser(form2, true, DEFAULT_USER_ROLE);
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
         }
 
-        Location location1 = roomService.createLocation("Bielefeld");
-        Location location2 = roomService.createLocation("Gütersloh");
+        final Location location1 = roomService.getLocation("Bielefeld").orElseThrow();
+        final Location location2 = roomService.getLocation("Gütersloh").orElseThrow();
 
-        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
+        final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
-        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
+        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
         "layoutRed");
 
- // TODO check here
-        Equipment equipment1 = equipmentService.createEquipment("whiteboard");
-        Equipment equipment2 = equipmentService.createEquipment("beamer");
-        Equipment equipment3 = equipmentService.createEquipment("flipchart");
+        final Equipment equipment1 = equipmentService.createEquipment("whiteboard");
+        final Equipment equipment2 = equipmentService.createEquipment("beamer");
+        final Equipment equipment3 = equipmentService.createEquipment("flipchart");
         room1.addEquipment(equipment1, equipment2, equipment3);
         room2.addEquipment(equipment3);
 
