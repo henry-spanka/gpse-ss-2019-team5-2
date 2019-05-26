@@ -136,6 +136,8 @@ public class UserServiceImpl implements UserService {
 
             final ModelAndView modelAndView = new ModelAndView("email/forgotpassword-verification.html", "user", user);
             modelAndView.addObject("token", forgotPasswordToken);
+
+            mailService.sendEmailTemplateToUser(user, "Password Reset", modelAndView);
         }
         catch (EmailNotFoundException e) {
             System.out.println("No user matching the email adress: " + email);
