@@ -104,22 +104,22 @@ public class InitializeDefaultMeetings {
         roomService.update(room2);
 
         final Meeting meeting1 = new Meeting("Daily Scum");
-        meeting1.setStartAt(LocalDateTime.of(2019, 5, 24, 10, 15));
-        meeting1.setEndAt(LocalDateTime.of(2019, 5, 24, 11, 45));
+        meeting1.setStartAt(LocalDateTime.of(2019, 5, 26, 10, 15));
+        meeting1.setEndAt(LocalDateTime.of(2019, 5, 26, 11, 45));
         meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
 
         final Meeting meeting2 = new Meeting("Budget Meeting");
-        meeting2.setStartAt(LocalDateTime.of(2019, 5, 25, 14, 0));
-        meeting2.setEndAt(LocalDateTime.of(2019, 5, 25, 15, 0));
+        meeting2.setStartAt(LocalDateTime.of(2019, 5, 27, 14, 0));
+        meeting2.setEndAt(LocalDateTime.of(2019, 5, 27, 15, 0));
         meeting2.setDescription("Budget evaluation with coe");
         meeting2.setOwner(user2);
         meeting2.addParticipant(new Participant(user2));
 
         final Meeting meeting3 = new Meeting("Weekly Review");
-        meeting3.setStartAt(LocalDateTime.of(2019, 5, 26, 23, 0));
-        meeting3.setEndAt(LocalDateTime.of(2019, 5, 26, 23, 30));
+        meeting3.setStartAt(LocalDateTime.of(2019, 5, 28, 23, 0));
+        meeting3.setEndAt(LocalDateTime.of(2019, 5, 28, 23, 30));
         meeting3.setOwner(user1);
         meeting3.addParticipant(new Participant(user1));
         meeting3.addParticipant(new Participant("externerkunde@example.de",

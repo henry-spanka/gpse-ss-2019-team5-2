@@ -52,6 +52,7 @@ public class StartPageController {
         LocalDateTime endaftertomorrow = aftertomorrow.plusDays(1).atStartOfDay();
 
 
+        //TODO Filter these meetings for the logged in User
         ArrayList<Meeting> meetingstoday = new ArrayList<Meeting>();
         ArrayList<Meeting> meetingstomorrow = new ArrayList<Meeting>();
         ArrayList<Meeting> meetingsaftertomorrow = new ArrayList<Meeting>();
@@ -59,10 +60,14 @@ public class StartPageController {
         meetingService.findByStartAtBetween(starttomorrow, endtomorrow).forEach(meetingstomorrow::add);
         meetingService.findByStartAtBetween(startaftertomorrow, endaftertomorrow).forEach(meetingsaftertomorrow::add);
 
-        //TODO day buttons get bugged when empty meetinglist should be shown
+        //TODO day buttons get bugged when empty meetinglist should be shown, maybe add message when no meetings are found
+        //TODO accordions share same counter for collapsing, causing problems when changing day
         modelAndView.addObject("meetings1", meetingstoday);
         modelAndView.addObject("meetings2", meetingstomorrow);
         modelAndView.addObject("meetings3", meetingsaftertomorrow);
+
+        String emptyday = "There are no meetings for today!";
+        modelAndView.addObject("emptytday", emptyday);
 
         //dynamic names for upcomming days
         String daytom;
