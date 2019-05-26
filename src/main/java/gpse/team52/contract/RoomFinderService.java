@@ -1,14 +1,17 @@
 package gpse.team52.contract;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 import gpse.team52.domain.Room;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 
+/**
+ * Interface for the room finder.
+ */
 public interface RoomFinderService {
-    HashMap<String, List<Room>> find(MeetingCreationForm meetingCreationForm);
+    Map<String, List<Room>> find(MeetingCreationForm meetingCreationForm);
+
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 }

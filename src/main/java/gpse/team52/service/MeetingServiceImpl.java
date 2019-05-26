@@ -53,8 +53,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(Meeting meeting, Room room, int participants) {
-        MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants);
+    public Meeting createMeeting(final Meeting meeting, final Room room, final int participants) {
+        final MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants);
 
         meeting.addRoom(meetingRoom);
 
@@ -62,14 +62,16 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(MeetingCreationForm meetingForm, List<Room> rooms, Map<String, Integer> participants, User owner) {
+    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
+                                 final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());
         meeting.setStartAt(meetingForm.getStartDateTime());
         meeting.setEndAt(meetingForm.getEndDateTime());
         meeting.setOwner(owner);
 
-        for (Room room: rooms) {
-            MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants.get(room.getLocation().getLocationId().toString()));
+        for (final Room room: rooms) {
+            final MeetingRoom meetingRoom = new MeetingRoom(meeting, room,
+            participants.get(room.getLocation().getLocationId().toString())); //NOPMD
             meeting.addRoom(meetingRoom);
         }
 

@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Meeting Creator Controller.
+ */
 @Controller
-@SessionAttributes("meeting")
+@SessionAttributes("meeting") //NOPMD
 public class MeetingCreatorController {
 
     @Autowired
@@ -41,15 +44,23 @@ public class MeetingCreatorController {
     @Autowired
     private RoomFinderService roomFinderService;
 
+    /**
+     * Creates a new meeting from the user selected input.
+     * @param meeting The meeting form which contains all the meeting information.
+     * @param bindingResult Result of the validation.
+     * @param authentication User Authentication context.
+     * @param sessionStatus Session status.
+     * @return Redirects to start on success otherwise shows room selection view.
+     */
     @PostMapping("/createMeeting/confirm")
     public ModelAndView bookMeeting(
-    @ModelAttribute("meeting")
+    final @ModelAttribute("meeting")
     @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})
     MeetingCreationForm meeting,
-    final BindingResult bindingResult, Authentication authentication, SessionStatus sessionStatus) {
+    final BindingResult bindingResult, final Authentication authentication, final SessionStatus sessionStatus) {
         if (!bindingResult.hasErrors()) {
             try {
-                User user = (User) authentication.getPrincipal();
+                final User user = (User) authentication.getPrincipal();
                 createMeeting(meeting, user);
                 sessionStatus.setComplete();
 
@@ -62,9 +73,16 @@ public class MeetingCreatorController {
         return generateRoomSelectionView(meeting);
     }
 
+    /**
+     * Shows all available rooms to the user.
+     * @param meeting The meeting form which contains the basic meeting information.
+     * @param bindingResult Result of the validation.
+     * @return Shows room selection view.
+     */
     @PostMapping("/createMeeting")
     public ModelAndView showRoomSelectionForm(
-    @ModelAttribute("meeting") @Validated({MeetingCreationForm.ValidateMeetingDetails.class}) MeetingCreationForm meeting,
+    final @ModelAttribute("meeting")
+    @Validated(MeetingCreationForm.ValidateMeetingDetails.class) MeetingCreationForm meeting,
     final BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             meeting.setLocationDetails(roomService.findByLocationIdFromString(meeting.getLocations()));
@@ -76,7 +94,7 @@ public class MeetingCreatorController {
     }
 
     @GetMapping("/createMeeting")
-    public ModelAndView showCreationForm(@ModelAttribute("meeting") MeetingCreationForm meeting) {
+    public ModelAndView showCreationForm(final @ModelAttribute("meeting") MeetingCreationForm meeting) {
         return generateMeetingCreationView(meeting);
     }
 
@@ -85,7 +103,7 @@ public class MeetingCreatorController {
         return new MeetingCreationForm();
     }
 
-    private ModelAndView generateMeetingCreationView(MeetingCreationForm meeting) {
+    private ModelAndView generateMeetingCreationView(final MeetingCreationForm meeting) {
         final ModelAndView modelAndView = new ModelAndView("createMeeting");
 
         modelAndView.addObject("meeting", meeting);
@@ -96,21 +114,22 @@ public class MeetingCreatorController {
         return modelAndView;
     }
 
-    private ModelAndView generateRoomSelectionView(MeetingCreationForm meeting) {
-        ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
+    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
+        final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomFinderService.find(meeting));
 
         return modelAndView;
     }
 
-    private Meeting createMeeting(MeetingCreationForm meeting, User user) throws NoRoomAvailableException {
+    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException {
         List<Room> rooms;
 
         if (meeting.getRooms() == null || meeting.noRoomsSelected()) {
             rooms = roomFinderService.findBest(meeting);
         } else {
-            rooms = meeting.getRooms().stream().map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
+            rooms = meeting.getRooms().stream()
+            .map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
         }
 
         return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);

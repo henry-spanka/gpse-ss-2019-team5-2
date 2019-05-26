@@ -33,9 +33,9 @@ public class RoomdisplayController {
     @RequestParam(name = "end", required = false) int end,
     @RequestParam(name = "participants", required = false) int seats,
      */
-    @RequestParam(name = "location", required = false) Location location,
-    @RequestParam(name = "date", required = false) Date date,
-    @RequestParam(name = "equipment", required = false) List<Equipment> equipment
+    final @RequestParam(name = "location", required = false) Location location,
+    final @RequestParam(name = "date", required = false) Date date,
+    final @RequestParam(name = "equipment", required = false) List<Equipment> equipment
     ) {
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
 
@@ -43,7 +43,7 @@ public class RoomdisplayController {
         // Iterable<Room> roomList = roomService.getAvailableRooms(location, seats, date, start, end,equipment);
         //!! TEST !!
         //location = roomService.getLocation("Bielefeld").orElseThrow();
-        Iterable<Room> roomList = roomService.getAllRooms();
+        final Iterable<Room> roomList = roomService.getAllRooms();
         //!! TEST !!
         final List<Room> rooms = new ArrayList<>(); // is there no other way to check whether an iterable is empty?
         roomList.forEach(rooms::add);
@@ -60,13 +60,13 @@ public class RoomdisplayController {
      * @return Details about specified room
      */
     @GetMapping("/rooms/{roomID}")
-    public ModelAndView roomdetails(@PathVariable("roomID") UUID roomID) {
+    public ModelAndView roomdetails(final @PathVariable("roomID") UUID roomID) {
         final ModelAndView modelAndView = new ModelAndView("roomdetails");
-        Room room = roomService.getRoom(roomID).orElseThrow(() -> new IllegalArgumentException("No meeting with id: " + roomID + " found"));
+        final Room room = roomService.getRoom(roomID).orElseThrow(() -> new IllegalArgumentException("No meeting with id: " + roomID + " found"));
         // should add some error handling, if the get method fails
 
         modelAndView.addObject("room", room);
-        List<Equipment> equipment = room.getEquipment();
+        final List<Equipment> equipment = room.getEquipment();
         modelAndView.addObject("equipmentList", equipment);
         return modelAndView;
     }
@@ -78,7 +78,7 @@ public class RoomdisplayController {
      */
     @RequestMapping("/rooms/confirm")
     public ModelAndView confirm(
-    @RequestParam(name = "roomID", required = false) String roomID) { // , @RequestParam(name = "meeting", required = true) String meeting
+    final @RequestParam(name = "roomID", required = false) String roomID) { // , @RequestParam(name = "meeting", required = true) String meeting
         if (roomID == null) { //return rooms-page with alert message
             final ModelAndView roomsError = new ModelAndView("selectMeetingRooms");
             roomsError.addObject("roomList", roomService.getAllRooms());
@@ -87,8 +87,8 @@ public class RoomdisplayController {
         }
         // else return confirmation page
         final ModelAndView modelAndView = new ModelAndView("confirmbooking");
-        String[] chosen = roomID.split(",");
-        List<Room> chosenRooms = new ArrayList<Room>();
+        final String[] chosen = roomID.split(",");
+        final List<Room> chosenRooms = new ArrayList<>();
         for (int i = 0; i < chosen.length; i++) {
             chosenRooms.add(roomService.getRoom(UUID.fromString(chosen[i])).orElseThrow());
         }

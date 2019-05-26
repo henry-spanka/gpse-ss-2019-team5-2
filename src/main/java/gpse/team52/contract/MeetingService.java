@@ -23,7 +23,8 @@ public interface MeetingService {
 
     Meeting createMeeting(Meeting meeting, Room room, int participants);
 
-    Meeting createMeeting(MeetingCreationForm meetingForm, List<Room> rooms, Map<String, Integer> participants, User owner);
+    Meeting createMeeting(MeetingCreationForm meetingForm, List<Room> rooms,
+                          Map<String, Integer> participants, User owner);
 
     Iterable<Meeting> getAllMeetings();
 

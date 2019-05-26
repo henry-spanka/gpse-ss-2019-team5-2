@@ -20,16 +20,16 @@ public class LocationsHaveParticipantsValidator implements ConstraintValidator<L
 
     @Override
     public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-        MeetingCreationForm creationForm = (MeetingCreationForm) obj;
+        final MeetingCreationForm creationForm = (MeetingCreationForm) obj;
 
-        Map<String, Integer> participants = creationForm.getParticipants();
+        final Map<String, Integer> participants = creationForm.getParticipants();
 
         if (creationForm.getLocations() != null) {
-            for (String locationId : creationForm.getLocations()) {
+            for (final String locationId : creationForm.getLocations()) {
                 if (participants == null || !participants.containsKey(locationId)) {
                     addConstraintViolation(context, "participants[" + locationId + "]");
                 } else {
-                    Integer value = participants.get(locationId);
+                    final Integer value = participants.get(locationId);
 
                     if (value == null || value <= 0) {
                         addConstraintViolation(context, "participants[" + locationId + "]");
@@ -41,7 +41,7 @@ public class LocationsHaveParticipantsValidator implements ConstraintValidator<L
         return !hasErrors;
     }
 
-    private void addConstraintViolation(ConstraintValidatorContext context, String node) {
+    private void addConstraintViolation(final ConstraintValidatorContext context, final String node) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
         .addPropertyNode(node).addConstraintViolation();

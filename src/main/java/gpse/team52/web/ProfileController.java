@@ -9,9 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProfileController {
     @GetMapping("/profile")
-    public ModelAndView profile(Authentication authentication) {
+    public ModelAndView profile(final Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("profile");
-         User user = (User) authentication.getPrincipal();
+         final User user = (User) authentication.getPrincipal();
          modelAndView.addObject("fullName",user.getFirstname()+" "+user.getLastname());
          modelAndView.addObject("email",user.getEmail());
         return modelAndView;

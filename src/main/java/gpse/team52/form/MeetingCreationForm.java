@@ -21,30 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @LocationsHaveParticipants(groups = {MeetingCreationForm.ValidateMeetingDetails.class})
 public class MeetingCreationForm {
-    public interface ValidateMeetingDetails {
-        //
-    }
-
-    public interface ValidateRoomSelection {
-        //
-    }
-
-    /**
-     * Set the default start/end time on object creation.
-     */
-    public MeetingCreationForm() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        currentDateTime = currentDateTime.withSecond(0).withNano(0).plusMinutes((75 - currentDateTime.getMinute()) % 15);
-
-        startDate = currentDateTime.toLocalDate();
-        startTime = currentDateTime.toLocalTime();
-
-        LocalDateTime endDateTime = currentDateTime.plusMinutes(90);
-
-        endDate = endDateTime.toLocalDate();
-        endTime = endDateTime.toLocalTime();
-    }
-
     @Getter
     @Setter
     @NotBlank(groups = {ValidateMeetingDetails.class})
@@ -98,6 +74,37 @@ public class MeetingCreationForm {
     @Setter
     private List<Location> locationDetails;
 
+    /**
+     * Validation Group interface.
+     */
+    public interface ValidateMeetingDetails {
+        //
+    }
+
+    /**
+     * Validation Group interface.
+     */
+    public interface ValidateRoomSelection {
+        //
+    }
+
+    /**
+     * Set the default start/end time on object creation.
+     */
+    public MeetingCreationForm() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        currentDateTime = currentDateTime.withSecond(0).withNano(0)
+        .plusMinutes((75 - currentDateTime.getMinute()) % 15);
+
+        startDate = currentDateTime.toLocalDate();
+        startTime = currentDateTime.toLocalTime();
+
+        final LocalDateTime endDateTime = currentDateTime.plusMinutes(90);
+
+        endDate = endDateTime.toLocalDate();
+        endTime = endDateTime.toLocalTime();
+    }
+
     public LocalDateTime getStartDateTime() {
         return startDate.atTime(startTime);
     }
@@ -110,13 +117,18 @@ public class MeetingCreationForm {
         return (int) (Duration.between(getStartDateTime(), getEndDateTime()).getSeconds() / 60);
     }
 
-    public Location getLocation(String uuid) {
+    public Location getLocation(final String uuid) {
         return locationDetails.stream()
         .filter(location -> location.getLocationId().toString().equals(uuid)).findFirst().orElseThrow();
     }
 
-    public int getParticipant(String uuid) {
-        Integer noParticipants = participants.get(uuid);
+    /**
+     * Get the number of participants the user has selected for the given location.
+     * @param uuid The location.
+     * @return Number of participants.
+     */
+    public int getParticipant(final String uuid) {
+        final Integer noParticipants = participants.get(uuid);
 
         if (noParticipants == null) {
             throw new NoSuchElementException("Hash key could not be found.");
@@ -125,6 +137,10 @@ public class MeetingCreationForm {
         return noParticipants;
     }
 
+    /**
+     * Calculates the total number of participants across all locations.
+     * @return Total number of participants.
+     */
     public int getTotalParticipants() {
         return participants.values().stream().mapToInt(i -> i == null ? 0 : i).sum();
     }
