@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 /**
- * Responsible for registering a user.
+ * Responsible for recovering a users password by mail.
  */
 @SuppressWarnings("checkstyle:multiplestringliterals")
 @Controller
