@@ -7,6 +7,7 @@ import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.PasswordResetMailForm;
 import gpse.team52.form.UserRegistrationForm;
+import gpse.team52.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,10 @@ public class ForgotPasswordController {
     public ModelAndView sendForgotPasswordMail(final @ModelAttribute("user") @Valid PasswordResetMailForm form,
                                  final BindingResult result) {
 
-        System.out.println(form.getEmail());
+        String email = form.getEmail();
+        System.out.println(email);
+
+        userService.sendPasswordResetEmail(email);
 
         return new ModelAndView("forgotpasswordconfirm");
     }

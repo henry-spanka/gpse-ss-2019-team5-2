@@ -58,6 +58,14 @@ public interface UserService extends UserDetailsService {
      */
     void sendVerificationEmail(User user);
 
+
+    /**
+     * Send a password reset email to the user's email address.
+     *
+     * @param email The User which password to reset.
+     */
+    void sendPasswordResetEmail(String email);
+
     /**
      * Validate a users account by the token sent to their email address.
      * This function will also remove the token from the database.
