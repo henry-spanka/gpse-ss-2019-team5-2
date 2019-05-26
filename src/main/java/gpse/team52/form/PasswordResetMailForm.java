@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * Password Reset Mail Form to read the mail of the account the user wants to reset the password of.
  */
-@PasswordMatches
+
 public class PasswordResetMailForm {
 
     @ValidEmail

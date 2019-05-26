@@ -40,4 +40,20 @@ public class ForgotPasswordController {
 
         return new ModelAndView("forgotpassword", "user", passwordResetMailForm);
     }
+
+    /**
+     * Try to register a user.
+     *
+     * @param form   The registration form received from the user.
+     * @param result The result of the validation of the form.
+     * @return A confirmation or an error.
+     */
+    @PostMapping("/recoverpw")
+    public ModelAndView sendForgotPasswordMail(final @ModelAttribute("user") @Valid PasswordResetMailForm form,
+                                 final BindingResult result) {
+
+        System.out.println(form.getEmail());
+
+        return new ModelAndView("forgotpasswordconfirm");
+    }
 }
