@@ -19,6 +19,7 @@ public class Equipment {
     // TODO weitere Tabelle für Verbindung von Raum und Ausstattung machen
     //  (weil unterschiedliche Räume, unterschiedliche Ausstattung und Zustand und so)
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")

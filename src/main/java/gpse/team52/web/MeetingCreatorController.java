@@ -1,5 +1,6 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.form.MeetingCreationForm;
@@ -23,6 +24,9 @@ public class MeetingCreatorController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private RoomFinderService roomFinderService;
+
     @PostMapping("/createMeeting/confirm")
     public ModelAndView bookMeeting(
     @ModelAttribute("meeting")
@@ -30,15 +34,10 @@ public class MeetingCreatorController {
     MeetingCreationForm meeting,
     final BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
+            //
         }
 
-        System.out.println(meeting.getRooms());
-
-        ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
-        modelAndView.addObject("meeting", meeting);
-        modelAndView.addObject("rooms", roomService.getAllRooms());
-
-        return modelAndView;
+        return generateRoomSelectionView(meeting);
     }
 
     @PostMapping("/createMeeting")
@@ -48,11 +47,7 @@ public class MeetingCreatorController {
         if (!bindingResult.hasErrors()) {
             meeting.setLocationDetails(roomService.findByLocationIdFromString(meeting.getLocations()));
 
-            ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
-            modelAndView.addObject("meeting", meeting);
-            modelAndView.addObject("rooms", roomService.getAllRooms());
-
-            return modelAndView;
+            return generateRoomSelectionView(meeting);
         }
 
         return generateMeetingCreationView(meeting);
@@ -74,6 +69,15 @@ public class MeetingCreatorController {
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("users", userService.getAllUsers());
         modelAndView.addObject("locations", roomService.getAllLocations());
+        modelAndView.addObject("equipments", roomService.getAllEquipment());
+
+        return modelAndView;
+    }
+
+    private ModelAndView generateRoomSelectionView(MeetingCreationForm meeting) {
+        ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
+        modelAndView.addObject("meeting", meeting);
+        modelAndView.addObject("rooms", roomFinderService.find(meeting));
 
         return modelAndView;
     }

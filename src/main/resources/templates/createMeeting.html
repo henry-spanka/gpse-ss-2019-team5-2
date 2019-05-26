@@ -66,9 +66,8 @@
                         <select th:id="|equipment-${location.getLocationId()}|" class="form-control selectpicker"
                                 data-live-search="true" multiple
                                 th:field="*{equipment[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
-                            <option value="1">Beamer</option>
-                            <option value="2">Flipchart</option>
-                            <option value="3">Whiteboard</option>
+                            <option th:each="equipment : ${equipments}" th:value="${equipment.getEquipmentID()}"
+                                    th:text="${equipment.getEquipmentName()}"></option>
                         </select>
                         <div class="invalid-feedback" th:errors="*{equipment[__${location.getLocationId()}__]}"></div>
                     </div>

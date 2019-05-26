@@ -27,6 +27,8 @@ public interface RoomService {
 
     Optional<Room> getRoom(UUID roomID);
 
+    Iterable<Equipment> getAllEquipment();
+
     // method to get rooms suitable for meeting
     Iterable<Room> getAvailableRooms(Location location, int seats, Date date, int start, int end, List<Equipment> equipment);
 
