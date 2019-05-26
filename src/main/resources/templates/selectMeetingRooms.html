@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-2 px-2">
+                        <div class="row mt-2 px-2" th:if="${not rooms.get(location).isEmpty()}">
                             <table class="table table-sm mb-0">
                                 <thead>
                                 <tr>
@@ -80,6 +80,14 @@
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row no-gutters mb-2" th:unless="${not rooms.get(location).isEmpty()}">
+                            <div class="col-1">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="col-11">
+                                <p class="mb-0 d-inline">Unfortunately no rooms are available at the selected time.</p>
+                            </div>
                         </div>
                         <hr class="mt-0">
                     </div>
