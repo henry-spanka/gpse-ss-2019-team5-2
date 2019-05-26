@@ -16,7 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class Equipment {
 
 
-    // TODO weitere Tabelle für Verbundung von Ruam und Ausstattung machen (weil unterschiedliche Räume, unterschieliche Ausstattung und ZUstand und so)
+    // TODO weitere Tabelle für Verbindung von Raum und Ausstattung machen
+    //  (weil unterschiedliche Räume, unterschiedliche Ausstattung und Zustand und so)
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

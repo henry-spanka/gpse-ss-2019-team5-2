@@ -1,9 +1,11 @@
 package gpse.team52.contract;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 
@@ -18,9 +20,13 @@ public interface MeetingService {
 
     Meeting createMeeting(Meeting meeting);
 
+    Meeting createMeeting(Meeting meeting, Room room, int participants);
+
     Iterable<Meeting> getAllMeetings();
 
     Meeting getMeetingById(UUID id);
 
     Meeting getMeetingById(String id);
+
+    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
 }

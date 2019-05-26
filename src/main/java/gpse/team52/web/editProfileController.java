@@ -17,6 +17,7 @@ public class editProfileController {
 
     @Autowired
     private UserService userService;
+
     @GetMapping("/editProfile")
     public ModelAndView editProfile(Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
@@ -30,16 +31,15 @@ public class editProfileController {
         return modelAndView;
     }
 
-        @PostMapping("/editProfile")
-        public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
-            user.setFirstname(createUserCmd.getFirstname());
-            user.setLastname(createUserCmd.getLastname());
-            System.out.println(createUserCmd.getFirstname());
-            System.out.println(createUserCmd.getLastname());
-            userService.updateUser(user);
-            return new ModelAndView("redirect:/profile");
-        }
-
+    @PostMapping("/editProfile")
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
+        user.setFirstname(createUserCmd.getFirstname());
+        user.setLastname(createUserCmd.getLastname());
+        System.out.println(createUserCmd.getFirstname());
+        System.out.println(createUserCmd.getLastname());
+        userService.updateUser(user);
+        return new ModelAndView("redirect:/profile");
+    }
 
 
 }
