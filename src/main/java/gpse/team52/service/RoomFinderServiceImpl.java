@@ -8,6 +8,7 @@ import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Room;
+import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.RoomRepository;
@@ -46,6 +47,23 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Room> findBest(MeetingCreationForm meeting) throws NoRoomAvailableException {
+        List<Room> rooms = new ArrayList<>();
+
+        HashMap<String, List<Room>> availableRooms = find(meeting);
+
+        try {
+            for (String location : meeting.getLocations()) {
+                rooms.add(availableRooms.get(location).iterator().next());
+            }
+        } catch (NoSuchElementException e) {
+            throw new NoRoomAvailableException("No room available.");
+        }
+
+        return rooms;
     }
 
     private void filterUnavailableRooms(List<Room> rooms, LocalDateTime start, LocalDateTime end) {

@@ -7,6 +7,9 @@
             Select Rooms for Sample Meeting
         </h2>
         <form th:method="post" th:action="@{/createMeeting/confirm}" th:object="${meeting}">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('rooms')}">
+                No available rooms found.
+            </div>
             <div class="card">
                 <div class="card-header">
                     <div class="row no-gutters">

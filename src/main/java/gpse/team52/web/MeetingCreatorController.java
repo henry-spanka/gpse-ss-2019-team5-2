@@ -1,10 +1,20 @@
 package gpse.team52.web;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
+import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -20,6 +31,9 @@ public class MeetingCreatorController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MeetingService meetingService;
 
     @Autowired
     private RoomService roomService;
@@ -32,9 +46,17 @@ public class MeetingCreatorController {
     @ModelAttribute("meeting")
     @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})
     MeetingCreationForm meeting,
-    final BindingResult bindingResult) {
+    final BindingResult bindingResult, Authentication authentication, SessionStatus sessionStatus) {
         if (!bindingResult.hasErrors()) {
-            //
+            try {
+                User user = (User) authentication.getPrincipal();
+                createMeeting(meeting, user);
+                sessionStatus.setComplete();
+
+                return new ModelAndView("redirect:/");
+            } catch (NoRoomAvailableException e) {
+                bindingResult.rejectValue("rooms", "meeting.create.noRoomsAvailable", e.getMessage());
+            }
         }
 
         return generateRoomSelectionView(meeting);
@@ -80,5 +102,17 @@ public class MeetingCreatorController {
         modelAndView.addObject("rooms", roomFinderService.find(meeting));
 
         return modelAndView;
+    }
+
+    private Meeting createMeeting(MeetingCreationForm meeting, User user) throws NoRoomAvailableException {
+        List<Room> rooms;
+
+        if (meeting.getRooms() == null || meeting.noRoomsSelected()) {
+            rooms = roomFinderService.findBest(meeting);
+        } else {
+            rooms = meeting.getRooms().stream().map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
+        }
+
+        return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
     }
 }

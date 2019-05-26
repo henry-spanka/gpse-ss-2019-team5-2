@@ -4,10 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -130,5 +127,13 @@ public class MeetingCreationForm {
 
     public int getTotalParticipants() {
         return participants.values().stream().mapToInt(i -> i == null ? 0 : i).sum();
+    }
+
+    public boolean noRoomsSelected() {
+        if (rooms == null) {
+            return true;
+        }
+
+        return rooms.stream().allMatch(Objects::isNull);
     }
 }
