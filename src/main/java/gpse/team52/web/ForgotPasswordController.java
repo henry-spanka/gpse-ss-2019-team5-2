@@ -5,6 +5,7 @@ import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
+import gpse.team52.form.PasswordResetMailForm;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -25,5 +26,18 @@ import java.util.UUID;
 @SuppressWarnings("checkstyle:multiplestringliterals")
 @Controller
 public class ForgotPasswordController {
+    @Autowired
+    private UserService userService;
 
+    /**
+     * Show the forgot password email form to the user.
+     *
+     * @return Forgot password view.
+     */
+    @GetMapping("/recoverpw")
+    public ModelAndView showRecoverPassword() {
+        final PasswordResetMailForm passwordResetMailForm = new PasswordResetMailForm();
+
+        return new ModelAndView("forgotpassword", "user", passwordResetMailForm);
+    }
 }
