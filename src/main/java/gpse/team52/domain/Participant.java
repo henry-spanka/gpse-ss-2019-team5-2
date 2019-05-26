@@ -1,5 +1,6 @@
 package gpse.team52.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -39,6 +40,7 @@ public class Participant { //NOPMD
      * If participant is intern user, this column is filled.
      */
     @Getter
+    @Setter
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true, name = "userId")
     private User user;
@@ -46,18 +48,21 @@ public class Participant { //NOPMD
     /**
      * Email of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String email;
 
     /**
      * First name of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String firstName;
 
     /**
      * Last name of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String lastName;
 
@@ -126,5 +131,26 @@ public class Participant { //NOPMD
 
     public boolean isUser() {
         return user != null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Participant participant = (Participant) obj;
+
+        return Objects.equals(getFirstName(), participant.getFirstName())
+        && Objects.equals(getLastName(), participant.getLastName())
+        && Objects.equals(getEmail(), participant.getEmail());
     }
 }
