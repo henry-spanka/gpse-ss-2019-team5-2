@@ -1,13 +1,22 @@
 package gpse.team52.domain;
 
 
+import gpse.team52.contract.mail.MailService;
+import gpse.team52.service.mail.MailServiceImpl;
+import org.springframework.mail.MailException;
+import org.springframework.web.servlet.ModelAndView;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class DataImport {
 
-    /*This method handles the import of user files*/
-    static public void csvUserImport(String path) {
+   // private final MailServiceImpl mailService = new MailServiceImpl() ;
+
+    /*This method handles the import of user files
+    * when a csv file containing firstname, lastname and mail adress
+    * is uploded the person gets an email*/
+     public void csvUserImport(String path) {
+
         try {
             FileReader reader = new FileReader(path);
             BufferedReader inBuffer = new BufferedReader(reader);
@@ -19,10 +28,25 @@ public class DataImport {
                 if(split.length!=3){
                     throw new Exception();
                     }
+                final ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
+
+
+                  /*  @Override
+                    public void sendEmailMessageToUser(User user, String subject, String message, boolean html) throws MailException {
+
+                    }*/
+
+                   /* @Override
+                    public void sendEmailTemplateToUser(User user, String subject, ModelAndView template) throws MailException {
+
+                    }*/
+                }
+
+               // mailService.sendEmailTemplateToUser(user, "Email Verification", modelAndView);
 
 
 
-            }
+
         } catch (Exception e) {
             System.out.println("Required format: csv containing: firstname, lastname, mail without header; seperated by ; ");
         }
