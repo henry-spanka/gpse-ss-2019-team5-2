@@ -28,8 +28,6 @@ public class UserRegistrationForm {
     @Setter
     private String username;
 
-
-
     @ValidEmail
     @NotBlank
     @Getter

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+        <h2>Create new Meeting</h2>
+        <form th:method="post" th:action="@{/createMeeting}" th:object="${meeting}">
+            <div class="form-row form-group mt-2">
+                <div class="col-12">
+                    <i class="fas fa-signature"></i>
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" id="name" th:field="*{name}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-8">
+                    <i class="fas fa-hourglass-start"></i>
+                    <label for="startDate">Start Date</label>
+                    <input class="form-control" type="date" id="startDate" th:field="*{startDate}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{startDate}"></div>
+                </div>
+                <div class="col-4 align-self-end">
+                    <input class="form-control" type="time" id="startTime" th:field="*{startTime}" value="now" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{startTime}"></div>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-8">
+                    <i class="fas fa-hourglass-end"></i>
+                    <label for="endDate">End Date</label>
+                    <input class="form-control" type="date" id="endDate" th:field="*{endDate}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{endDate}"></div>
+                </div>
+                <div class="col-4 align-self-end">
+                    <input class="form-control" type="time" id="endTime" value="now" th:field="*{endTime}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:errors="*{endTime}"></div>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-12">
+                    <i class="fas fa-globe-europe"></i>
+                    <label for="locations">Locations</label>
+                    <select id="locations" class="form-control selectpicker" data-live-search="true" th:field="*{locations}"
+                            multiple th:errorclass="is-invalid">
+                        <option th:each="location, iterStat : ${locations}" th:value="${location.getLocationId()}"
+                                th:text="${location.getName()}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{locations}"></div>
+                </div>
+            </div>
+            <div th:class="|card mt-4 location-${location.getLocationId()}|" th:each="location : ${locations}"
+                 th:classappend="${meeting.getLocations() == null || !meeting.getLocations().contains(location.getLocationId().toString())} ? 'd-none' : ''">
+                <div class="card-header" th:text="|Options for ${location.getName()}|"></div>
+                <div class="card-body form-group form-row">
+                    <div class="col-12 col-md-3">
+                        <i class="fas fa-user"></i>
+                        <label th:for="|participants-${location.getLocationId()}|">Participants</label>
+                        <input class="form-control" type="number" min="1"
+                               th:field="*{participants[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
+                        <div class="invalid-feedback" th:errors="*{participants[__${location.getLocationId()}__]}"></div>
+                    </div>
+                    <div class="col-12 col-md-6 offset-md-3 mt-2 mt-md-0">
+                        <i class="fas fa-chalkboard"></i>
+                        <label th:for="|equipment-${location.getLocationId()}|">Required Equipment</label>
+                        <select th:id="|equipment-${location.getLocationId()}|" class="form-control selectpicker"
+                                data-live-search="true" multiple
+                                th:field="*{equipment[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
+                            <option th:each="equipment : ${equipments}" th:value="${equipment.getEquipmentID()}"
+                                    th:text="${equipment.getEquipmentName()}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{equipment[__${location.getLocationId()}__]}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="container" style="margin-top: 25px">
+                    <div><label for="newParticipants">Add Participants</label></div>
+                    <input class="form-control" list="participants" id="newParticipants"
+                           placeholder="<Add new participants>" style="width: 100%" multiple>
+                    <datalist id="participants">
+                        <option th:each="user, iterStat : ${users}" th:value="${user.getFullName()}"></option>
+                    </datalist>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="container" style="margin-top: 25px">
+                    <div><label for="group">Add a Group</label></div>
+                    <input class="form-control" list="groups" id="group" placeholder="<Choose a group>"
+                           style="width: 100%">
+                    <datalist id="groups">
+                        <option value="Group 5.1"></option>
+                        <option value="Group 5.2"></option>
+                    </datalist>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Next</button>
+                </div>
+            </div>
+            <div class="form-row mt-3 mb-2">
+                <div class="col-12">
+                    <a th:href="@{/}" class="btn btn-secondary btn-sm btn-block">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        $('#locations').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+            var selected = $(this).find('option').eq(clickedIndex).val();
+
+            if (isSelected) {
+                $('.location-' + selected).removeClass("d-none");
+            } else {
+                $('.location-' + selected).addClass("d-none");
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>
