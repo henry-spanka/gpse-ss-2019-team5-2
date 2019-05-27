@@ -103,7 +103,7 @@
                                     </form>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr th:if="${meeting.getParticipants().isEmpty()}">
                                 <td scope="row"></td>
                                 <td scope="row" class="text-center">No Participants.</td>
                                 <td scope="row"></td>
