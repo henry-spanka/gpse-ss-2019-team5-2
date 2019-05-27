@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/main}">
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+        <div class="alert alert-secondary" role="alert">
+            <!--/*@thymesVar id="user" type="gpse.team52.domain.User"*/-->
+            <h4 class="alert-heading" th:text="|Hello here will be the firstname|"></h4>
+            <p>You have been added to the Roomed Application.</p>
+            <p>Please click the link to register!</p>
+            <hr>
+
+            <!-- link to register. Possibly with the mail adress already filled out/-->
+
+            <!--/*@thymesVar id="token" type="gpse.team52.domain.ConfirmationToken"*/-->
+            <a class="mb-0" th:href="${@environment.getRequiredProperty('app.url')} + @{~/confirm-account(token=${token.getToken()})}">Verify Email</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
