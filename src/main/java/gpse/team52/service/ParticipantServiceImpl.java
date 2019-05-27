@@ -32,12 +32,12 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-<<<<<<< HEAD
-    public Iterable<Participant> findByUser(User user){
+    public Iterable<Participant> findByUser(User user) {
         return participantRepository.findByUser(user);
-=======
+    }
+
+    @Override
     public void deleteById(final UUID id) {
         participantRepository.deleteById(id);
->>>>>>> develop
     }
 }

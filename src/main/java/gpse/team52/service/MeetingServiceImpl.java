@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
-<<<<<<< HEAD
-import gpse.team52.domain.*;
-=======
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Participant;
@@ -16,7 +13,6 @@ import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
->>>>>>> develop
 import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,13 +99,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-<<<<<<< HEAD
     public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart) {
         return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
-=======
-    public Iterable<Meeting> findByStartAtBetween(final LocalDateTime start, final LocalDateTime end) {
-        return meetingRepository.findByStartAtBetween(start, end);
->>>>>>> develop
     }
 
     /**

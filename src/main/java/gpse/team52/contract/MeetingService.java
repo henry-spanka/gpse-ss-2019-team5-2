@@ -35,13 +35,9 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
-<<<<<<< HEAD
-    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart);
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
 
-=======
-    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
 
     Meeting addParticipants(Meeting meeting, List<Participant> participants)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
->>>>>>> develop
 }
