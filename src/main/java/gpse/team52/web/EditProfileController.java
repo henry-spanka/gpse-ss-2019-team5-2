@@ -4,8 +4,10 @@ import gpse.team52.Command.CreateUserCmd;
 import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
+import gpse.team52.domain.DBFile;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.User;
+import gpse.team52.service.DBFileStorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,16 +20,31 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
     @Controller
     public class EditProfileController {
+
+        private static final Logger logger = LoggerFactory.getLogger(EditProfileController.class);
+
+        @Autowired
+        private DBFileStorageServiceImpl DBFileStorageService;
 
         @Autowired
         private UserService userService;
@@ -59,10 +76,8 @@ import java.util.UUID;
         @PostMapping("/editProfile")
         public ModelAndView editProfile(@AuthenticationPrincipal final User user,
                                         @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
-                                        @RequestParam("user_profile_default.jpg") MultipartFile file) {
+                                        @RequestParam("file") MultipartFile file) {
 
-            File pbPicFile = Base64EncDec.convertToFile(file);
-            user.setPicture(file.getOriginalFilename());
             user.setFirstname(createUserCmd.getFirstname());
             user.setLastname(createUserCmd.getLastname());
             user.setLocation(createUserCmd.getLocation());
