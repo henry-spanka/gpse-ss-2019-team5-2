@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <form th:method="post" th:action="@{/start}">
+
+    <div class="container form-group" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-auto offset-md-4">
+                <h4>Please check your selection!</h4>
+                <!-- <h2 style="font-size: 20px" th:text="${meeting.name}">Meeting</h2> -->
+                <div th:each="room : ${chosenRooms}">
+                    <h2 style="font-size: 20px" th:text="${room.roomEmail}">Room</h2>
+                    <p th:text="${'Seats: ' + room.seats + ' Equipment: '}">Seats and equipment</p>
+                    <p th:text="${'More information: ' + room.roomID}"> more info</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container form-group" style="margin-top: 20px">
+        <div class="row align-bottom my-1">
+            <div class="offset-md-3 col-md-6 col-sm-6 text-center">
+                <a class="btn" style="background-color: crimson" th:href="@{/}">Cancel</a>
+                <input type="submit" class="btn" style="background-color:limegreen" value="Submit"> <!-- TODO add MeetingRoom (and Meeting) to DB -->
+                <!-- make sure to really submit the chosen rooms -->
+                <a class="btn mt-sm-4 mt-md-0" th:href="@{/rooms}" style="background-color: dodgerblue">Back</a>
+                <!-- <a class="btn btn-danger btn-lg btn-block" th:href="@{/}">Cancel</a> -->
+            </div>
+        </div>
+    </div>
+
+    </form>
+</div>
+</body>
+</html>

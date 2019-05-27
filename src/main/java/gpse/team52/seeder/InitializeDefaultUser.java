@@ -16,11 +16,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 
-/**
- * Initializes the Default User in the database.
+
+
+/* Initializes the Default User in the database.
  */
 @Service
-public class    InitializeDefaultUser {
+public class InitializeDefaultUser {
 
     private static final String DEFAULT_PASSWORD = "password";
 
