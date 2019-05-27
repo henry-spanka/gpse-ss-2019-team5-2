@@ -29,7 +29,7 @@ public class InitializeDefaultRooms {
      * @param roomService Service for rooms
      */
     @Autowired
-   public InitializeDefaultRooms(final UserService userService,
+    public InitializeDefaultRooms(final UserService userService,
                                   final RoomService roomService) {
         this.userService = userService;
         this.roomService = roomService;
@@ -40,7 +40,7 @@ public class InitializeDefaultRooms {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
-   public void init() {
+    public void init() {
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Pia");
         form1.setLastName("Hippel");
