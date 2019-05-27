@@ -43,14 +43,7 @@ public class InitializeDefaultUser {
         form.setUsername("admin");
         form.setPassword(DEFAULT_PASSWORD);
         form.setPasswordConfirm(DEFAULT_PASSWORD);
-        form.setLocation("Düsseldorf");
-        try {
-            URL res = getClass().getClassLoader().getResource("user_profile_placeholder.jpg");
-            File pic = Paths.get(res.toURI()).toFile();
-            form.setPicture(Base64EncDec.encoder(pic.getAbsolutePath()));
-        } catch(Exception e) {
-            // Not an issue since the default picture is always in Resources
-        }
+
 
         try {
             userService.createUser(form, true, "ROLE_ADMIN");

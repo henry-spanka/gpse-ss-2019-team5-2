@@ -96,8 +96,7 @@ public class UserServiceImpl implements UserService {
         for (final String role : roles) {
             user.addRole(role);
         }
-        Base64EncDec base = new Base64EncDec();
-        user.setPicture(base.setDefaultPic());
+
 
 
         return userRepository.save(user);

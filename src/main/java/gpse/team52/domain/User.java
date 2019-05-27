@@ -79,8 +79,7 @@ public class User implements UserDetails {
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
-        location = form.getLocation();
-        picture = form.getPicture();
+
         this.password = password;
     }
 

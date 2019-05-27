@@ -1,6 +1,7 @@
 package gpse.team52;
 
 import gpse.team52.Command.CreateUserCmd;
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Location;
@@ -15,8 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,7 +60,11 @@ public class editProfileController {
 
     @PostMapping("/editProfile")
     public ModelAndView editProfile(@AuthenticationPrincipal final User user,
-                                    @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
+                                    @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
+                                    @RequestParam("user_profile_default.jpg") MultipartFile file) {
+
+        File pbPicFile = Base64EncDec.convertToFile(file);
+        user.setPicture(file.getOriginalFilename());
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         user.setLocation(createUserCmd.getLocation());

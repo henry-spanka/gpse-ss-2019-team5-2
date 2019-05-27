@@ -4,6 +4,7 @@
 <div layout:fragment="content">
     <form th:action="@{/editProfile}"
           th:object="${createUserCmd}"
+          enctype="multipart/form-data"
           method="post">
         <div class="row">
             <div class="col-md-5 p-2 mx-auto text-center">
@@ -24,7 +25,13 @@
                         </option>
                     </select>
 
-                </div>
+                <input type="file" name="user_profile_default.jpg" accept="image/jpeg"/>
+                <p>
+                    Upload a picture for your profile
+                </p>
+
+
+            </div>
                 </p>
                 <p>
                     <input type = "submit" value = "Save&Exit"/>

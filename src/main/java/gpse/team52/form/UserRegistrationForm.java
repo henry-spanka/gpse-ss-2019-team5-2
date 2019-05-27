@@ -28,15 +28,7 @@ public class UserRegistrationForm {
     @Setter
     private String username;
 
-    @NotBlank
-    @Getter
-    @Setter
-    private String location;
 
-    @NotBlank
-    @Getter
-    @Setter
-    private String picture;
 
     @ValidEmail
     @NotBlank
