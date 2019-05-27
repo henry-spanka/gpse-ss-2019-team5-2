@@ -6,7 +6,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
@@ -68,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setOwner(owner);
 
         for (final Room room: rooms) {
-            final MeetingRoom meetingRoom = new MeetingRoom(meeting, room,
+            final MeetingRoom meetingRoom = new MeetingRoom(meeting, room, //NOPMD
             participants.get(room.getLocation().getLocationId().toString())); //NOPMD
             meeting.addRoom(meetingRoom);
         }
@@ -93,13 +97,21 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end) {
+    public Iterable<Meeting> findByStartAtBetween(final LocalDateTime start, final LocalDateTime end) {
         return meetingRepository.findByStartAtBetween(start, end);
     }
 
+    /**
+     * Add a list of participants to a meeting.
+     * @param meeting The meeting.
+     * @param participants The participants list.
+     * @return The saved meeting.
+     * @throws ParticipantAlreadyExistsException Thrown if the participant already exists.
+     */
     @Override
-    public Meeting addParticipants(Meeting meeting, List<Participant> participants) throws ParticipantAlreadyExistsException {
-        for (Participant participant : participants) {
+    public Meeting addParticipants(final Meeting meeting, final List<Participant> participants)
+    throws ParticipantAlreadyExistsException {
+        for (final Participant participant : participants) {
             if (meeting.getParticipants().contains(participant)) {
                 throw new ParticipantAlreadyExistsException("Already participating in the meeting.");
             }

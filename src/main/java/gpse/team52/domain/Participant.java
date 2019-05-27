@@ -134,7 +134,7 @@ public class Participant { //NOPMD
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -147,10 +147,15 @@ public class Participant { //NOPMD
             return false;
         }
 
-        Participant participant = (Participant) obj;
+        final Participant participant = (Participant) obj;
 
         return Objects.equals(getFirstName(), participant.getFirstName())
         && Objects.equals(getLastName(), participant.getLastName())
         && Objects.equals(getEmail(), participant.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, firstName, lastName);
     }
 }

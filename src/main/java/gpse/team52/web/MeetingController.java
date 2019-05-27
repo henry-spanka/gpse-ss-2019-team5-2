@@ -59,7 +59,8 @@ public class MeetingController {
      */
     @PostMapping("/meeting/{id}")
     public ModelAndView addParticipant(@PathVariable("id") final String id,
-                                       @ModelAttribute("addParticipants") @Valid final MeetingAddParticipantsForm addParticipants,
+                                       @ModelAttribute("addParticipants")
+                                       @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,
                                        final Authentication authentication) {
         final Meeting meeting = meetingService.getMeetingById(id);
@@ -82,11 +83,12 @@ public class MeetingController {
         return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal(), addParticipants);
     }
 
-    private ModelAndView generateMeetingOverviewView(Meeting meeting, User user) {
+    private ModelAndView generateMeetingOverviewView(final Meeting meeting, final User user) {
         return generateMeetingOverviewView(meeting, user, new MeetingAddParticipantsForm());
     }
 
-    private ModelAndView generateMeetingOverviewView(Meeting meeting, User user, MeetingAddParticipantsForm form) {
+    private ModelAndView generateMeetingOverviewView(final Meeting meeting, final User user,
+                                                     final MeetingAddParticipantsForm form) {
         final ModelAndView modelAndView = new ModelAndView("meeting");
 
         modelAndView.addObject("meeting", meeting);
@@ -97,9 +99,9 @@ public class MeetingController {
         return modelAndView;
     }
 
-    private void addAllParticipants(Meeting meeting, MeetingAddParticipantsForm form)
+    private void addAllParticipants(final Meeting meeting, final MeetingAddParticipantsForm form)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException {
-        List<Participant> participants = new ArrayList<>();
+        final List<Participant> participants = new ArrayList<>();
 
         if (form.getParticipants() != null) {
             addExistingParticipants(participants, form.getParticipants());
@@ -116,15 +118,16 @@ public class MeetingController {
         meetingService.addParticipants(meeting, participants);
     }
 
-    private void addExistingParticipants(List<Participant> participants, List<String> userList) {
-        for (String userId : userList) {
-            User user = userService.getUserById(userId).orElseThrow();
+    private void addExistingParticipants(final List<Participant> participants, final List<String> userList) {
+        for (final String userId : userList) {
+            final User user = userService.getUserById(userId).orElseThrow();
 
-            participants.add(new Participant(user));
+            participants.add(new Participant(user)); //NOPMD
         }
     }
 
-    private void addExternalParticipant(List<Participant> participants, String firstName, String lastName, String email) {
+    private void addExternalParticipant(final List<Participant> participants, final String firstName,
+                                        final String lastName, final String email) {
         participants.add(new Participant(email, firstName, lastName));
     }
 }

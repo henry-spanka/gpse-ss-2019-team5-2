@@ -157,12 +157,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(UUID id) {
+    public Optional<User> getUserById(final UUID id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public Optional<User> getUserById(String id) {
+    public Optional<User> getUserById(final String id) {
         return getUserById(UUID.fromString(id));
     }
 

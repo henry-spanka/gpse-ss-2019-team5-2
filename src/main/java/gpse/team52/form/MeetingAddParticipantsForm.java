@@ -8,6 +8,9 @@ import gpse.team52.validator.ValidEmail;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Form to add new participants to a meeting.
+ */
 public class MeetingAddParticipantsForm {
     @Getter
     @Setter
@@ -28,10 +31,14 @@ public class MeetingAddParticipantsForm {
     @ValidEmail(nullable = true, empty = true)
     private String email;
 
+    /**
+     * Checks whether an attempt has been made to fill external fields.
+     * @return True or false to indicate an attempt.
+     */
     public boolean externalFilled() {
-        return (firstName != null && !firstName.isEmpty())
-            || (lastName != null && !lastName.isEmpty())
-            || (email != null && !email.isEmpty());
+        return firstName != null && !firstName.isEmpty()
+            || lastName != null && !lastName.isEmpty()
+            || email != null && !email.isEmpty();
     }
 
     public boolean externalComplete() {
