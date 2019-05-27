@@ -175,6 +175,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User setUserNewPassword(User user, String password) {
+        final String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
+    }
+
     private boolean emailExists(final String email) {
         try {
             loadUserByEmail(email);

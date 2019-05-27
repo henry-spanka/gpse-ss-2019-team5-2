@@ -82,4 +82,5 @@ public interface UserService extends UserDetailsService {
 
     User updateUser(User user);
 
+    User setUserNewPassword(User user, String password);
 }

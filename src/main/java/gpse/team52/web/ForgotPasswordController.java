@@ -64,32 +64,37 @@ public class ForgotPasswordController {
 
     /**
      * Try to confirm a users account (their email).
-     * @param token The token sent to their email address.
      * @return Confirmation or error page.
      */
     @GetMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPassword(final @RequestParam("token") String token,
-                                       final @ModelAttribute("user") @Valid NewPasswordForm form,
-                                       final BindingResult result) {
+    public ModelAndView setNewPassword(@RequestParam("token") String token) {
 
-        final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew");
+        NewPasswordForm form = new NewPasswordForm();
+
+
+        ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew", "user", form);
+        modelAndView.addObject("token", token);
+        return modelAndView;
+    }
+
+    @PostMapping("/forgotpasswordsetnew")
+    public ModelAndView setNewPasswordConfirm(final @RequestParam("token") String token,
+                                              @ModelAttribute("user") @Valid NewPasswordForm form,
+                                              final BindingResult result) {
+
+
+        ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnewconfirm");
 
         try {
             final User user = userService.findUserFromPasswordResetToken(UUID.fromString(token));
             modelAndView.addObject("user", user)
             .addObject("error", false);
-            user.setPassword(form.getPassword());
+            userService.setUserNewPassword(user, form.getPassword());
             System.out.println("Password changed for user: " + user.getFullName() + " changed to: " + user.getPassword());
         } catch (InvalidConfirmationTokenException | IllegalArgumentException e) {
             modelAndView.addObject("error", true);
         }
 
         return modelAndView;
-    }
-
-    @PostMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPasswordConfirm() {
-
-        return new ModelAndView("forgotpasswordsetnewconfirm");
     }
 }
