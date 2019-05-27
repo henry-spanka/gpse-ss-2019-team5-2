@@ -4,10 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
-import gpse.team52.domain.Room;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end) {
-        return meetingRepository.findByStartAtBetween(start, end);
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart) {
+        return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 }

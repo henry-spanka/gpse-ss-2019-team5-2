@@ -12,6 +12,6 @@ import java.util.UUID;
  */
 public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
 
-    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart);
 
 }

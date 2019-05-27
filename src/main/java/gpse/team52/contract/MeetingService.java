@@ -28,5 +28,6 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
-    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart);
+
 }

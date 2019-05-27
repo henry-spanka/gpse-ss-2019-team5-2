@@ -1,7 +1,9 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.ParticipantService;
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
 public class StartPageController {
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private ParticipantService participantService;
 
     public StartPageController(final MeetingService meetingService) {
         this.meetingService = meetingService;
@@ -51,14 +55,16 @@ public class StartPageController {
         LocalDateTime startaftertomorrow = aftertomorrow.atStartOfDay();
         LocalDateTime endaftertomorrow = aftertomorrow.plusDays(1).atStartOfDay();
 
+        ArrayList<Participant> participants = new ArrayList<>();
+        participantService.findByUser(user).forEach(participants::add);
 
         //TODO Filter these meetings for the logged in User
-        ArrayList<Meeting> meetingstoday = new ArrayList<Meeting>();
-        ArrayList<Meeting> meetingstomorrow = new ArrayList<Meeting>();
-        ArrayList<Meeting> meetingsaftertomorrow = new ArrayList<Meeting>();
-        meetingService.findByStartAtBetween(starttoday, endtoday).forEach(meetingstoday::add);
-        meetingService.findByStartAtBetween(starttomorrow, endtomorrow).forEach(meetingstomorrow::add);
-        meetingService.findByStartAtBetween(startaftertomorrow, endaftertomorrow).forEach(meetingsaftertomorrow::add);
+        ArrayList<Meeting> meetingstoday = new ArrayList<>();
+        ArrayList<Meeting> meetingstomorrow = new ArrayList<>();
+        ArrayList<Meeting> meetingsaftertomorrow = new ArrayList<>();
+        meetingService.findByStartAtBetweenAndParticipantsIn(starttoday, endtoday, participants).forEach(meetingstoday::add);
+        meetingService.findByStartAtBetweenAndParticipantsIn(starttomorrow, endtomorrow, participants).forEach(meetingstomorrow::add);
+        meetingService.findByStartAtBetweenAndParticipantsIn(startaftertomorrow, endaftertomorrow, participants).forEach(meetingsaftertomorrow::add);
 
         if (!meetingstoday.isEmpty()) {
             modelAndView.addObject("meetings1", meetingstoday);
