@@ -82,16 +82,23 @@
                         <table class="table table-sm mb-0">
                             <thead>
                             <tr>
+                                <th scope="col"></th>
                                 <th class="pl-2" scope="col"><i class="fas fa-signature"></i></th>
-                                <th scope="col"><i class="fas fa-users"></i></th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
+                            <tr th:each="participant : ${meeting.getParticipants()}">
+                                <td scope="row">
+                                    <i class="far fa-user" th:unless="${participant.isUser()}"></i>
+                                    <i class="fas fa-user" th:if="${participant.isUser()}"></i>
+                                </td>
+                                <td scope="row" th:text="${participant.getFullName()}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm py-1 float-right">
+                                        <span class="fas fa-user-times"></span>
+                                    </button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

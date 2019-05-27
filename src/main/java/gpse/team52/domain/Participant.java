@@ -129,6 +129,10 @@ public class Participant { //NOPMD
         return email;
     }
 
+    public String getFullName() {
+        return getFirstName() + ' ' + getLastName();
+    }
+
     public boolean isUser() {
         return user != null;
     }
