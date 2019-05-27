@@ -94,11 +94,19 @@
                                     <i class="fas fa-user" th:if="${participant.isUser()}"></i>
                                 </td>
                                 <td scope="row" th:text="${participant.getFullName()}"></td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm py-1 float-right">
-                                        <span class="fas fa-user-times"></span>
-                                    </button>
+                                <td scope="row">
+                                    <form th:method="delete"
+                                          th:action="@{/meeting/{id}/participant/{pId}(id=${meeting.getMeetingId()},pId=${participant.getParticipantId()})}">
+                                        <button type="submit" class="btn btn-secondary btn-sm py-1 float-right">
+                                            <span class="fas fa-user-times"></span>
+                                        </button>
+                                    </form>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"></td>
+                                <td scope="row" class="text-center">No Participants.</td>
+                                <td scope="row"></td>
                             </tr>
                             </tbody>
                         </table>

@@ -2,6 +2,7 @@ package gpse.team52.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import gpse.team52.contract.ParticipantService;
 import gpse.team52.domain.Participant;
@@ -26,5 +27,10 @@ public class ParticipantServiceImpl implements ParticipantService {
         participantRepository.findAll().forEach(participants::add);
 
         return participants;
+    }
+
+    @Override
+    public void deleteById(final UUID id) {
+        participantRepository.deleteById(id);
     }
 }
