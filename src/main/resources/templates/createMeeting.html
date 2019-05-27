@@ -35,11 +35,11 @@
         <div class="col-md-5 p-2 mx-auto text-center">
             <h2 style="font-size: 20px">Create new Meeting</h2>
         </div>
-        <form th:action="@{/addAttributes}" method="post">
+        <form th:action="@{/addParticipants}" th:method="post">
             <div class="form-group">
                 <div class="container">
                     <div><label for="location">Location</label></div>
-                    <input list="locations" class="form-control" type="text" id="location" style="width: 100%" th:value="*{location}">
+                    <input list="locations" class="form-control" type="text" id="location" style="width: 100%" name="location">
                     <datalist id="locations">
                         <option th:each="location, iterStat : ${locations}" th:value="${location.getName()}"></option>
                     </datalist>
@@ -66,7 +66,7 @@
                     <div><label>Room attributes</label></div>
                     <tr th:each="equipment, iterStat: ${equipments}">
                         <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" th:id="${equipment.getEquipmentID()}" th:value="${equipment.getEquipmentID()}">
+                        <input class="form-check-input" name="equipment" type="checkbox" th:id="${equipment.getEquipmentID()}" th:value="${equipment.getEquipmentID()}">
                         <label class="form-check-label" th:for="${equipment.getEquipmentID()}" th:text="${equipment.getEquipmentName()}">Test</label>
                         </div>
                     </tr>
@@ -84,9 +84,8 @@
             </div>
             <div class="container" align="center" style="margin-top: 25px">
                 <div class="form-group">
-                    <a th:href="@{/addParticipants}" class="btn btn-primary">
-                        Add Participants
-                    </a>
+                    <input type="submit" th:href="@{/addParticipants}" class="btn btn-primary" value="Add Participants">
+                    </input>
                 </div>
                 <div class="form-group">
                     <a href="/start" class="btn btn-primary">

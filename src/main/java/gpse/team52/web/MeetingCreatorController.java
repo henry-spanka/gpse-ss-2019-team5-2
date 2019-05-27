@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NamedStoredProcedureQuery;
+import java.sql.Time;
+import java.util.Date;
 
 @Controller
 public class MeetingCreatorController {
@@ -29,17 +31,6 @@ public class MeetingCreatorController {
     @Autowired
     private MeetingService meetingService;
 
-    @PostMapping("/addParticipants")
-    public void checkBoxAction (@RequestParam String checkbox){
-
-    }
-
-    @RequestMapping(value = "/addAttributes", method = RequestMethod.POST)
-    public String addAttributes(@RequestAttribute("meeting") Meeting newMeeting, Model model) {
-        meetingService.createMeeting(newMeeting);
-        return "createMeeting";
-    }
-
     @GetMapping("/createMeeting")
     public ModelAndView createMeeting() {
         final ModelAndView modelAndView = new ModelAndView("createMeeting");
@@ -51,6 +42,18 @@ public class MeetingCreatorController {
         return modelAndView;
     }
 
+    @RequestMapping("/addParticipants")
+    public ModelAndView addParticipants(
+    @RequestParam(name = "location", required = false) String location,
+    @RequestParam(name = "date", required = false) String date,
+    @RequestParam(name = "time-start", required = false) String time_start,
+    @RequestParam(name = "time-end", required = false) String time_end,
+    @RequestParam(name = "equipment", required = false) String equipment) {
+        final ModelAndView modelAndView = new ModelAndView("addParticipants");
+        modelAndView.addObject("users", userService.getAllUsers());
+        return modelAndView;
+    }
+/*
     @GetMapping("/addParticipants")
     public ModelAndView addParticipants() {
         final ModelAndView modelAndView = new ModelAndView("addParticipants");
@@ -59,5 +62,5 @@ public class MeetingCreatorController {
 
         return modelAndView;
     }
-
+*/
 }
