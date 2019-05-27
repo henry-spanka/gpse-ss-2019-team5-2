@@ -60,11 +60,15 @@ public class StartPageController {
         meetingService.findByStartAtBetween(starttomorrow, endtomorrow).forEach(meetingstomorrow::add);
         meetingService.findByStartAtBetween(startaftertomorrow, endaftertomorrow).forEach(meetingsaftertomorrow::add);
 
-        //TODO day buttons get bugged when empty meetinglist should be shown, maybe add message when no meetings are found
-        //TODO accordions share same counter for collapsing, causing problems when changing day
-        modelAndView.addObject("meetings1", meetingstoday);
-        modelAndView.addObject("meetings2", meetingstomorrow);
-        modelAndView.addObject("meetings3", meetingsaftertomorrow);
+        if (!meetingstoday.isEmpty()) {
+            modelAndView.addObject("meetings1", meetingstoday);
+        }
+        if (!meetingstomorrow.isEmpty()) {
+            modelAndView.addObject("meetings2", meetingstomorrow);
+        }
+        if (!meetingsaftertomorrow.isEmpty()) {
+            modelAndView.addObject("meetings3", meetingsaftertomorrow);
+        }
 
         String emptyday = "There are no meetings for today!";
         modelAndView.addObject("emptytday", emptyday);

@@ -40,107 +40,120 @@
         </script>
         <hr>
         <div class="accordion" id="accordion">
-            <div th:if="${not #lists.isEmpty(meetings1)}">
-                <div class="media border-bottom pb-2 mt-1" id="meeting1" th:each="meeting, iterStat : ${meetings1}">
-                    <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
-                         style="width:50px;height:50px;">
-                    <div class="media-body ml-2">
-                        <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
-                            <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
-                            <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
+            <div id="meeting1">
+                <div th:if="${meetings1 != null}">
+                    <div class="media border-bottom pb-2 mt-1" th:each="meeting, iterStat : ${meetings1}">
+                        <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                             style="width:50px;height:50px;">
+                        <div class="media-body ml-2">
+                            <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
+                                <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
+                                <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
                         + ' - ' + ${#temporals.format(meeting.getEndAt(), 'HH:mm')}
                         + ' | ' + ${meeting.getDuration() + 'min'}">DD.MM.YYYY HH:MM | ??min</p>
-                            <div th:each="meetingRoom : ${meeting.getRooms()}">
-                                <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
+                                <div th:each="meetingRoom : ${meeting.getRooms()}">
+                                    <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
                         + meetingRoom.getRoom().getLocation().getName()}">Room | Location</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
+                            <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
                         <span class="float-right">
                             <a th:href="@{meeting/{meeting_id}(meeting_id=${meeting.getMeetingId()})}"
                                class="btn btn-sm" style="display: inline">
                                 <i class="fas fa-info fa-2x"></i>
                             </a>
                         </span>
-                            <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
-                                Owner: Max Mustermann
-                            </p>
-                            <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
-                                Participants: ??
-                            </p>
+                                <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
+                                    Owner: Max Mustermann
+                                </p>
+                                <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
+                                    Participants: ??
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div th:unless="${meetings1 != null}">
+                    <h1 align="center">There are no Meetings for today!</h1>
+                </div>
             </div>
-            <div th:if="${not #lists.isEmpty(meetings2)}">
-                <div class="media border-bottom pb-2 mt-1" id="meeting2" th:each="meeting, iterStat : ${meetings2}"
-                     style="display: none">
-                    <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
-                         style="width:50px;height:50px;">
-                    <div class="media-body ml-2">
-                        <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
-                            <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
-                            <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
+            <div id="meeting2" style="display: none">
+                <div th:if="${meetings2 != null}">
+                    <div class="media border-bottom pb-2 mt-1" th:each="meeting, iterStat : ${meetings2}">
+                        <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                             style="width:50px;height:50px;">
+                        <div class="media-body ml-2">
+                            <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
+                                <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
+                                <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
                         + ' - ' + ${#temporals.format(meeting.getEndAt(), 'HH:mm')}
                         + ' | ' + ${meeting.getDuration() + 'min'}">DD.MM.YYYY HH:MM | ??min</p>
-                            <div th:each="meetingRoom : ${meeting.getRooms()}">
-                                <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
+                                <div th:each="meetingRoom : ${meeting.getRooms()}">
+                                    <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
                         + meetingRoom.getRoom().getLocation().getName()}">Room | Location</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
+                            <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
                         <span class="float-right">
                             <a th:href="@{meeting/{meeting_id}(meeting_id=${meeting.getMeetingId()})}"
                                class="btn btn-sm" style="display: inline">
                                 <i class="fas fa-info fa-2x"></i>
                             </a>
                         </span>
-                            <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
-                                Owner: Max Mustermann
-                            </p>
-                            <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
-                                Participants: ??
-                            </p>
+                                <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
+                                    Owner: Max Mustermann
+                                </p>
+                                <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
+                                    Participants: ??
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div th:unless="${meetings2 != null}">
+                    <h1 align="center">There are no Meetings for tomorrow!</h1>
+                </div>
             </div>
-            <div th:if="${not #lists.isEmpty(meetings3)}">
-                <div class="media border-bottom pb-2 mt-1" id="meeting3" th:each="meeting, iterStat : ${meetings3}"
-                     style="display: none">
-                    <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
-                         style="width:50px;height:50px;">
-                    <div class="media-body ml-2">
-                        <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
-                            <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
-                            <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
+            <div id="meeting3" style="display: none">
+                <div th:if="${meetings3 != null}">
+                    <div class="media border-bottom pb-2 mt-1" th:each="meeting, iterStat : ${meetings3}">
+                        <img src="static/pictures/blue_200x200.png" class="rounded-circle" alt="Blue Image"
+                             style="width:50px;height:50px;">
+                        <div class="media-body ml-2">
+                            <div data-toggle="collapse" th:data-target="${'#accordion'+ iterStat.count}">
+                                <h5 class="mt-0" th:text="${meeting.getTitle()}">Meeting Title</h5>
+                                <p class="small my-0" th:text="${#temporals.format(meeting.getStartAt(), 'dd.MM.yyyy HH:mm')}
                         + ' - ' + ${#temporals.format(meeting.getEndAt(), 'HH:mm')}
                         + ' | ' + ${meeting.getDuration() + 'min'}">DD.MM.YYYY HH:MM | ??min</p>
-                            <div th:each="meetingRoom : ${meeting.getRooms()}">
-                                <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
+                                <div th:each="meetingRoom : ${meeting.getRooms()}">
+                                    <p class="small my-0" th:text="${meetingRoom.getRoom().getRoomEmail() + ' | '
                         + meetingRoom.getRoom().getLocation().getName()}">Room | Location</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
+                            <div class="collapse" data-parent="#accordion" th:id="${'accordion' + iterStat.count}">
                         <span class="float-right">
                             <a th:href="@{meeting/{meeting_id}(meeting_id=${meeting.getMeetingId()})}"
                                class="btn btn-sm" style="display: inline">
                                 <i class="fas fa-info fa-2x"></i>
                             </a>
                         </span>
-                            <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
-                                Owner: Max Mustermann
-                            </p>
-                            <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
-                                Participants: ??
-                            </p>
+                                <p class="small my-0" th:text="${'Owner: ' + meeting.getOwner().getFullName()}">
+                                    Owner: Max Mustermann
+                                </p>
+                                <p class="small my-0" th:text="${'Participants: ' + meeting.getParticipantsNumber()}">
+                                    Participants: ??
+                                </p>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div th:unless="${meetings3 != null}">
+                    <h1 align="center">There are no Meetings for the selected day!</h1>
                 </div>
             </div>
         </div>
         <div class="mt-4 mb-2 text-center">
-            <a th:href="@{/chronik}" class="btn btn.round btn-custom">Show All Meetings</a>
+            <a th:href="@{/chronik}" class="btn btn.round btn-bottom">Show All Meetings</a>
         </div>
     </div>
 </div>
