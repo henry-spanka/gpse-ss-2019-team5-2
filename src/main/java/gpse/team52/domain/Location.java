@@ -29,7 +29,7 @@ public class Location {
     @Column
     private String name;
 
-    public Location(String name) {
+    public Location(final String name) {
         this.name = name;
     }
 }

@@ -1,6 +1,6 @@
 package gpse.team52.web;
 
-import gpse.team52.Command.CreateUserCmd;
+import gpse.team52.form.UserProfileForm;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class editProfileController {
+public class EditProfileController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/editProfile")
-    public ModelAndView editProfile(Authentication authentication) {
+    public ModelAndView editProfile(final Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("editProfile");
-        User user = (User) authentication.getPrincipal();
+        final User user = (User) authentication.getPrincipal();
         modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
         modelAndView.addObject("email", user.getEmail());
-        CreateUserCmd userCmd = new CreateUserCmd();
+        final UserProfileForm userCmd = new UserProfileForm();
         userCmd.setFirstname(user.getFirstname());
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
@@ -32,14 +32,12 @@ public class editProfileController {
     }
 
     @PostMapping("/editProfile")
-    public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd) {
-        user.setFirstname(createUserCmd.getFirstname());
-        user.setLastname(createUserCmd.getLastname());
-        System.out.println(createUserCmd.getFirstname());
-        System.out.println(createUserCmd.getLastname());
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user, @ModelAttribute("createUserCmd") final UserProfileForm userProfileForm) {
+        user.setFirstname(userProfileForm.getFirstname());
+        user.setLastname(userProfileForm.getLastname());
+        System.out.println(userProfileForm.getFirstname());
+        System.out.println(userProfileForm.getLastname());
         userService.updateUser(user);
         return new ModelAndView("redirect:/profile");
     }
-
-
 }

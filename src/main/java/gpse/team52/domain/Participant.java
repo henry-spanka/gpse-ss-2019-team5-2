@@ -1,8 +1,16 @@
 package gpse.team52.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -15,7 +23,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @NoArgsConstructor
 @Entity
-public class Participant {
+public class Participant { //NOPMD
 
     /**
      * Unique Id for every participant.
@@ -32,6 +40,7 @@ public class Participant {
      * If participant is intern user, this column is filled.
      */
     @Getter
+    @Setter
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true, name = "userId")
     private User user;
@@ -39,18 +48,21 @@ public class Participant {
     /**
      * Email of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String email;
 
     /**
      * First name of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String firstName;
 
     /**
      * Last name of extern participants.
      */
+    @Setter
     @Column(nullable = true)
     private String lastName;
 
@@ -117,7 +129,37 @@ public class Participant {
         return email;
     }
 
+    public String getFullName() {
+        return getFirstName() + ' ' + getLastName();
+    }
+
     public boolean isUser() {
         return user != null;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Participant participant = (Participant) obj;
+
+        return Objects.equals(getFirstName(), participant.getFirstName())
+        && Objects.equals(getLastName(), participant.getLastName())
+        && Objects.equals(getEmail(), participant.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, firstName, lastName);
     }
 }
