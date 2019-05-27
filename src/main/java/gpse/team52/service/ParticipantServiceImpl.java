@@ -1,5 +1,9 @@
 package gpse.team52.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import gpse.team52.contract.ParticipantService;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
@@ -7,10 +11,6 @@ import gpse.team52.domain.User;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ParticipantServiceImpl implements ParticipantService {
@@ -32,7 +32,12 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
+<<<<<<< HEAD
     public Iterable<Participant> findByUser(User user){
         return participantRepository.findByUser(user);
+=======
+    public void deleteById(final UUID id) {
+        participantRepository.deleteById(id);
+>>>>>>> develop
     }
 }
