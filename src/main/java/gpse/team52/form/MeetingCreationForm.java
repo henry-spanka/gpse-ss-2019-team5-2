@@ -145,6 +145,10 @@ public class MeetingCreationForm {
         return participants.values().stream().mapToInt(i -> i == null ? 0 : i).sum();
     }
 
+    /**
+     * Are any non-null room values present in the list.
+     * @return boolean.
+     */
     public boolean noRoomsSelected() {
         if (rooms == null) {
             return true;

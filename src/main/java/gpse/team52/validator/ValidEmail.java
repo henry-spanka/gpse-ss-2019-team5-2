@@ -35,4 +35,16 @@ public @interface ValidEmail {
      * @return Nothing.
      */
     Class<? extends Payload>[] payload() default {};
+
+    /**
+     * Whether null is an allowed option.
+     * @return Nothing.
+     */
+    boolean nullable() default false;
+
+    /**
+     * Whether an empty email is allowed.
+     * @return Nothing.
+     */
+    boolean empty() default false;
 }

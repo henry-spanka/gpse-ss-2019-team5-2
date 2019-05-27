@@ -15,8 +15,13 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
+    private boolean nullable = false;
+    private boolean empty = false;
+
     @Override
     public void initialize(final ValidEmail constraintAnnotation) {
+        nullable = constraintAnnotation.nullable();
+        empty = constraintAnnotation.empty();
     }
 
     @Override
@@ -26,7 +31,11 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
     private boolean validateEmail(final String email) {
         if (email == null) {
-            return false;
+            return nullable;
+        }
+
+        if (email.isEmpty()) {
+            return empty;
         }
 
         final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
