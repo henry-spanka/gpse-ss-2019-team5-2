@@ -2,11 +2,17 @@ package gpse.team52.domain;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -78,36 +84,53 @@ public class Meeting {
     private String description;
 
     /**
-     * The number of participants for the meeting.
+     * The rooms where meetings are held.
      */
     @Getter
-    @Column
-    private int participantsNumber;
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    private Set<MeetingRoom> rooms = new HashSet<>();
 
     /**
-     * Room where the meeting takes place.
+     * Constructor for Meeting with parameters.
+     * @param title Title of the meeting
      */
-    @Getter
-    @ManyToOne(targetEntity = Room.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "roomId")
-    private Room room;
-
-
-    public Meeting(final String title, final int participantsNumber,
-                   final Room room) {
+    public Meeting(final String title) {
         this.title = title;
-        this.participantsNumber = participantsNumber;
-        this.room = room;
     }
 
+    /**
+     * Calculates duration of the meeting.
+     * @return
+     */
     @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {
         return (int) (Duration.between(startAt, endAt).getSeconds() / 60);
     }
 
+    /**
+     * Add a new participant to a meeting.
+     * @param participant The participant that is added
+     */
     public void addParticipant(final Participant participant) {
         participants.add(participant);
         participant.setMeeting(this);
-        return;
     }
+
+    /**
+     * Add a meeting room to this meeting.
+     * @param meetingRoom The Room to be added.
+     */
+    public void addRoom(final MeetingRoom meetingRoom) {
+        rooms.add(meetingRoom);
+        meetingRoom.setMeeting(this);
+    }
+
+    /**
+     * Return the total number of participants.
+     * @return Number of participants.
+     */
+    public int getParticipantsNumber() {
+        return rooms.stream().mapToInt(item -> item.getParticipants()).sum();
+    }
+
 }

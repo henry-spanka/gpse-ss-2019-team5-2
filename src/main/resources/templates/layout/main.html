@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="/webjars/font-awesome/5.8.1/css/all.min.css" crossorigin="anonymous">
 
+        <link rel="stylesheet" href="/webjars/bootstrap-select/1.13.8/css/bootstrap-select.min.css" crossorigin="anonymous">
+
         <title>Roomed</title>
         <style>
             .btn {
@@ -24,13 +26,39 @@
                 background: #4B0082;
                 color: #ffffff;
             }
+
+            .btn-primary:hover,
+            .btn-primary:focus,
+            .btn-primary:active,
+            .btn-primary.active,
+            .btn-primary:checked,
+            .btn-primary.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
+            .btn-custom {
+                background: #4B0082;
+                color: #ffffff;
+            }
+
+            .btn-custom:hover,
+            .btn-custom:focus,
+            .btn-custom:active,
+            .btn-custom.active,
+            .btn-custom:checked,
+            .btn-custom.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
         </style>
     </head>
     <body>
         <div th:replace="layout/nav :: logged-in"></div>
 
         <main role="main">
-            <div class="container-fluid" layout:fragment="content">
+            <div class="container-fluid pt-5" layout:fragment="content">
                 <div class="col-md-5 p-2 mx-auto text-center">
                     <p>Placeholder for content</p>
                 </div>
@@ -42,6 +70,7 @@
         <script src="/webjars/jquery/3.3.1-2/jquery.slim.min.js" crossorigin="anonymous"></script>
         <script src="/webjars/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="/webjars/bootstrap-select/1.13.8/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
+        <th:block layout:fragment="script"></th:block>
     </body>
 </html>
- f

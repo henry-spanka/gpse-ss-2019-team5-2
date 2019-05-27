@@ -20,7 +20,7 @@ import java.nio.file.Paths;
  * Initializes the Default User in the database.
  */
 @Service
-public class InitializeDefaultUser {
+public class    InitializeDefaultUser {
 
     private static final String DEFAULT_PASSWORD = "password";
 
@@ -50,5 +50,7 @@ public class InitializeDefaultUser {
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
         }
+
+
     }
 }

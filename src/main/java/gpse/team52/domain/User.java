@@ -26,37 +26,46 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails { //NOPMD
 
     private static final long serialVersionUID = 7179581269044235932L;
 
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID userId;
 
+    @Getter
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String firstname;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String lastname;
 
-    @Column(nullable = true)
+    @Getter
+    @Setter
+    @Column
     private String location;
 
-    @Column(nullable = true)
+    @Getter
+    @Setter
+    @Column
+    private String picture;
+
+    @Column(unique = true, nullable = false)
     @Getter
     private String email;
 
-    @Column(unique = false, nullable = true)
     @Getter
-    @Setter
-    private String picture;
-
     @Column(nullable = false)
     private String password;
 
@@ -79,7 +88,6 @@ public class User implements UserDetails {
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
-
         this.password = password;
     }
 
@@ -87,22 +95,6 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
     }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getLocation() {return location;}
-
-
-    public void setLocation(String location) {this.location = location;}
 
     @Override
     public boolean isAccountNonExpired() {
@@ -118,23 +110,6 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
 
     public String getFullName() {
         return firstname + ' ' + lastname;
@@ -152,6 +127,4 @@ public class User implements UserDetails {
 
         this.roles.add(role);
     }
-
-
 }

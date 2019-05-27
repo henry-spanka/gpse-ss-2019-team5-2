@@ -16,10 +16,11 @@ public class ChronikController {
 
     /**
      * Show upcoming meetings.
+     *
      * @return Chronic View.
      */
     @GetMapping("/chronik")
-    public ModelAndView dashboard() {
+    public ModelAndView chronik() {
         final ModelAndView modelAndView = new ModelAndView("chronik");
 
         modelAndView.addObject("meetings", service.getAllMeetings());

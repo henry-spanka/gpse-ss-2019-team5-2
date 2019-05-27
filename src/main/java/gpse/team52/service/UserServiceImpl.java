@@ -1,5 +1,6 @@
 package gpse.team52.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import gpse.team52.Convert.Base64EncDec;
@@ -156,5 +157,22 @@ public class UserServiceImpl implements UserService {
         }
 
         return true;
+    }
+
+    @Override
+    public Optional<User> getUserById(final UUID id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> getUserById(final String id) {
+        return getUserById(UUID.fromString(id));
+    }
+
+    @Override
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
+
+
     }
 }
