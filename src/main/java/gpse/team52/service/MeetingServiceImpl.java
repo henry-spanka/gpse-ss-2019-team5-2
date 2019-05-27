@@ -77,6 +77,8 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addRoom(meetingRoom);
         }
 
+        meeting.addParticipant(new Participant(owner));
+
         return createMeeting(meeting);
     }
 
