@@ -1,6 +1,8 @@
 package gpse.team52.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
@@ -8,6 +10,7 @@ import gpse.team52.domain.Meeting;
 import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
+import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,10 +53,27 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(Meeting meeting, Room room, int participants) {
-        MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants);
+    public Meeting createMeeting(final Meeting meeting, final Room room, final int participants) {
+        final MeetingRoom meetingRoom = new MeetingRoom(meeting, room, participants);
 
         meeting.addRoom(meetingRoom);
+
+        return createMeeting(meeting);
+    }
+
+    @Override
+    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
+                                 final Map<String, Integer> participants, final User owner) {
+        final Meeting meeting = new Meeting(meetingForm.getName());
+        meeting.setStartAt(meetingForm.getStartDateTime());
+        meeting.setEndAt(meetingForm.getEndDateTime());
+        meeting.setOwner(owner);
+
+        for (final Room room: rooms) {
+            final MeetingRoom meetingRoom = new MeetingRoom(meeting, room,
+            participants.get(room.getLocation().getLocationId().toString())); //NOPMD
+            meeting.addRoom(meetingRoom);
+        }
 
         return createMeeting(meeting);
     }

@@ -2,13 +2,19 @@ package gpse.team52.domain;
 
 import java.util.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import lombok.Setter;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -67,11 +73,7 @@ public class Room {
      */
     @Getter
     @Setter
-<<<<<<< HEAD
-    @Column(nullable = true) //TODO nullable should be false!
-=======
     @Column(nullable = false) //TODO nullable should be false!
->>>>>>> origin/develop
     private String roomName;
 
     /**
@@ -120,11 +122,12 @@ public class Room {
 
     /**
      * Constructor for a room.
-     * @param seats Define number of seats
+     *
+     * @param seats           Define number of seats
      * @param expandableSeats Define number of optional seats
-     * @param email Email address of the room
-     * @param location Location of the room
-     * @param roomName Name of the room
+     * @param email           Email address of the room
+     * @param location        Location of the room
+     * @param roomName        Name of the room
      */
     public Room(final int seats, final int expandableSeats,
                 final String email, final Location location, final String roomName, final String layoutName) {
@@ -138,15 +141,15 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public void addEquipment(Equipment equipment) {
+    public void addEquipment(final Equipment equipment) {
         this.equipment.add(equipment);
     }
 
-    public void addEquipment(List<Equipment> equipment) {
+    public void addEquipment(final List<Equipment> equipment) {
         this.equipment.addAll(equipment);
     }
 
-    public void addEquipment(Equipment... equipments) {
+    public void addEquipment(final Equipment... equipments) {
         addEquipment(Arrays.asList(equipments));
     }
 
@@ -155,7 +158,7 @@ public class Room {
     TODO: wie wird es in die html geladen?
     TODO: im controller anpassen das er das da tut
      */
-    public String getLayoutPath(){
+    public String getLayoutPath() {
         return "static/pictures/layout/" + layoutName + ".png";
     }
 }

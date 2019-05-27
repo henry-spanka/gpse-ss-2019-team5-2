@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails { //NOPMD
 
     private static final long serialVersionUID = 7179581269044235932L;
 
@@ -47,7 +47,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastname;
 
-    @Column(nullable = true)
+    @Getter
+    @Setter
+    @Column
     private String location;
 
     @Column(unique = true, nullable = false)
@@ -55,6 +57,7 @@ public class User implements UserDetails {
     @Setter
     private String email;
 
+    @Getter
     @Column(nullable = false)
     private String password;
 
@@ -86,26 +89,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getLocation() {
-        return location;
-    }
-
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -118,22 +101,6 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getFullName() {
@@ -152,6 +119,4 @@ public class User implements UserDetails {
 
         this.roles.add(role);
     }
-
-
 }

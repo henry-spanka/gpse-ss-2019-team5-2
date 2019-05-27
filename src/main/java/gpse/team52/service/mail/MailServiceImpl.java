@@ -60,6 +60,18 @@ public class MailServiceImpl implements MailService {
 
         mailSender.send(messagePreparator);
     }
+    public void sendEmailMessage (final String mail, final String subject, final String message, final boolean html)
+    throws MailException {
+        final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom(env.getRequiredProperty("mail.from"));
+            messageHelper.setTo(mail);
+            messageHelper.setSubject(subject);
+            messageHelper.setText(message, html);
+        };
+
+        mailSender.send(messagePreparator);
+    }
 
     @Override
     public void sendEmailTemplateToUser(final User user, final String subject, final ModelAndView template)
