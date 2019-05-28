@@ -19,32 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
     @Controller
     public class EditProfileController {
 
-        private static final Logger logger = LoggerFactory.getLogger(EditProfileController.class);
+
 
         @Autowired
-        private DBFileStorageServiceImpl DBFileStorageService;
+        private DBFileStorageServiceImpl dbFileStorageService;
 
         @Autowired
         private UserService userService;
@@ -73,10 +61,20 @@ import java.util.stream.Collectors;
             return modelAndView;
         }
 
+
         @PostMapping("/editProfile")
         public ModelAndView editProfile(@AuthenticationPrincipal final User user,
                                         @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
-                                        @RequestParam("file") MultipartFile file) {
+                                        @RequestParam(value = "file", required = false) MultipartFile file){
+            if(file != null && !file.isEmpty()) {
+                dbFileStorageService.store(file);
+                user.setPicture(file.getName());
+                Path source = dbFileStorageService.load(file.getOriginalFilename());
+                Path destination = Paths.get("../static/pictures");
+                try {
+                    Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+                } catch(Exception e){};
+            }
 
             user.setFirstname(createUserCmd.getFirstname());
             user.setLastname(createUserCmd.getLastname());
@@ -84,7 +82,6 @@ import java.util.stream.Collectors;
             userService.updateUser(user);
             return new ModelAndView("redirect:/profile");
         }
-
 
 
     }

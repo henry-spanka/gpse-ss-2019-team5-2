@@ -32,6 +32,12 @@ public class ProfileController {
         substring(indexRole+1,role.length()-1).toLowerCase());
 
         modelAndView.addObject("location",user.getLocation());
+
+        String userPicName = user.getPicture();
+        if(userPicName == null) {
+            userPicName = "user_profile_default.jpg";
+        }
+        modelAndView.addObject("pbPic", userPicName);
         return modelAndView;
 
 
