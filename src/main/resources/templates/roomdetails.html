@@ -5,13 +5,22 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h4 th:text="${room.roomEmail}">Raum</h4>
-            <p th:text="${'seats: ' + room.seats}">Plätze </p>
-            <p th:text="${'other information about the room: extra seats: ' + room.expandableSeats + ', mail: ' +
-            room.roomEmail + ', location: ' + room.location.getName()}">Raumnummer Lage Standort etc.</p>
+            <p th:text="${'seats: '}">Plätze </p>
+            <p th:text="${room.seats}">Plätze </p>
+            <p th:text="${'other information about the room:'}"></p>
+            <p th:text="${'extra seats:'}"></p>
+            <p th:text="${room.expandableSeats}"></p>
+            <p th:text="${'mail:'}"></p>
+            <p th:text="${room.roomEmail}"></p>
+            <p th:text="${'location:'}"></p>
+            <p th:text="${room.location.getName()}"></p>
+            <p th:text="${'equipment:'}">
+                Ausstattung</p>
             <div th:each="equipment: ${equipmentList}">
-                <p th:text="${'equipment: ' + equipment.getEquipmentName()}">Plätze und
+                <p th:text="${equipment.getEquipmentName()}">
                     Ausstattung</p>
             </div>
+            <img src="@{room.getLayoutPath()}"/>
             <div class="row">
                 <div class="col-md-5 ml-auto">
                     <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>

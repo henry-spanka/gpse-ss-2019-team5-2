@@ -1,13 +1,22 @@
 package gpse.team52.domain;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import lombok.Setter;
 import lombok.Getter;
+import org.apache.commons.compress.utils.IOUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -132,6 +141,6 @@ public class Room {
     TODO: im controller anpassen das er das da tut
      */
     public String getLayoutPath(){
-        return "static/pictures/layout/" + layoutName + ".png";
+        return "/resources/static/pictures/layout/" + layoutName + ".png";
     }
 }
