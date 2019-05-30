@@ -10,6 +10,9 @@ import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of participant service.
+ */
 @Service
 public class ParticipantServiceImpl implements ParticipantService {
 

@@ -117,7 +117,7 @@ public class MeetingServiceImpl implements MeetingService {
         for (int i = 0; i < meetings.size(); i++) {
             List<Participant> participants = meetings.get(i).getParticipants();
             for (int j = 0; j < participants.size(); j++) {
-                if(participants.get(j).isUser()) {
+                if (participants.get(j).isUser()) {
                     if (participants.get(j).getUser().getUserId().equals(user.getUserId())) {
                         finalMeetings.add(meetings.get(i));
                         break;
