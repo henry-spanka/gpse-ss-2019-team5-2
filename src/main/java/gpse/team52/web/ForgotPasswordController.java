@@ -2,17 +2,11 @@ package gpse.team52.web;
 
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.User;
-import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.InvalidConfirmationTokenException;
-import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.NewPasswordForm;
 import gpse.team52.form.PasswordResetMailForm;
-import gpse.team52.form.UserRegistrationForm;
-import gpse.team52.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +22,19 @@ import java.util.UUID;
 @SuppressWarnings("checkstyle:multiplestringliterals")
 @Controller
 public class ForgotPasswordController {
+    /**
+     * The userService required.
+     */
+    private final UserService userService;//NOPMD
+
+    /**
+     * Constructor for the userService
+     * @param userService   The corresponding userService used
+     */
     @Autowired
-    private UserService userService;
+    public ForgotPasswordController(final UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Show the forgot password email form to the user.
@@ -38,24 +43,22 @@ public class ForgotPasswordController {
      */
     @GetMapping("/recoverpw")
     public ModelAndView showRecoverPassword() {
-        final PasswordResetMailForm passwordResetMailForm = new PasswordResetMailForm();
+        final PasswordResetMailForm passwordResetMailForm = new PasswordResetMailForm();//NOPMD
 
-        return new ModelAndView("forgotpassword", "user", passwordResetMailForm);
+        return new ModelAndView("forgotpassword", "user", passwordResetMailForm);//NOPMD
     }
 
     /**
      * Try to register a user.
      *
      * @param form   The registration form received from the user.
-     * @param result The result of the validation of the form.
      * @return A confirmation or an error.
      */
     @PostMapping("/recoverpw")
-    public ModelAndView sendForgotPasswordMail(final @ModelAttribute("user") @Valid PasswordResetMailForm form,
-                                 final BindingResult result) {
+    public ModelAndView sendForgotPasswordMail(final @ModelAttribute("user") @Valid PasswordResetMailForm form) {
 
-        String email = form.getEmail();
-        System.out.println(email);
+        final String email = form.getEmail();
+        //System.out.println(email);
 
         userService.sendPasswordResetEmail(email);
 
@@ -67,34 +70,33 @@ public class ForgotPasswordController {
      * @return Confirmation or error page.
      */
     @GetMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPassword(@RequestParam("token") String token) {
-
-        NewPasswordForm form = new NewPasswordForm();
-
-
-        ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew", "user", form);
+    public ModelAndView setNewPassword(@RequestParam("token") final String token) {//NOPMD
+        final NewPasswordForm form = new NewPasswordForm();
+        final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew", "user", form);
         modelAndView.addObject("token", token);
         return modelAndView;
     }
 
+    /**
+     * Validating the users successful attempt at changing their password.
+     *
+     * @param token The token to verify the user.
+     * @param form  The new password form to set the users new password.
+     * @return Forgot password view.
+     */
     @PostMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPasswordConfirm(final @RequestParam("token") String token,
-                                              @ModelAttribute("user") @Valid NewPasswordForm form,
-                                              final BindingResult result) {
+    public ModelAndView setNewPasswordConfirm(final @RequestParam("token") String token,//NOPMD
+                                              @ModelAttribute("user") @Valid final NewPasswordForm form) {
 
-
-        ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnewconfirm");
-
+        final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnewconfirm");
         try {
             final User user = userService.findUserFromPasswordResetToken(UUID.fromString(token));
-            modelAndView.addObject("user", user)
+            modelAndView.addObject("user", user)//NOPMD
             .addObject("error", false);
             userService.setUserNewPassword(user, form.getPassword());
-            System.out.println("Password changed for user: " + user.getFullName() + " changed to: " + user.getPassword());
         } catch (InvalidConfirmationTokenException | IllegalArgumentException e) {
             modelAndView.addObject("error", true);
         }
-
         return modelAndView;
     }
 }
