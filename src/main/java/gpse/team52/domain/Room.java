@@ -109,6 +109,7 @@ public class Room {
      * @param email           Email address of the room
      * @param location        Location of the room
      * @param roomName        Name of the room
+     * @param layoutName      Layout of the room
      */
     public Room(final int seats, final int expandableSeats,
                 final String email, final Location location, final String roomName, final String layoutName) {

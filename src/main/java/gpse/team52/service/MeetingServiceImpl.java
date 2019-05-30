@@ -1,19 +1,17 @@
 package gpse.team52.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
-import gpse.team52.domain.Participant;
-import gpse.team52.domain.Room;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
+import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +22,13 @@ import org.springframework.stereotype.Service;
 public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
+    private final ParticipantRepository participantRepository;
 
     @Autowired
-    public MeetingServiceImpl(final MeetingRepository repository) {
-        this.meetingRepository = repository;
+    public MeetingServiceImpl(final MeetingRepository meetingRepository,
+                              final ParticipantRepository participantRepository) {
+        this.meetingRepository = meetingRepository;
+        this.participantRepository = participantRepository;
     }
 
 
@@ -101,6 +102,30 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public Iterable<Meeting> findByStartAtBetween(final LocalDateTime start, final LocalDateTime end) {
         return meetingRepository.findByStartAtBetween(start, end);
+    }
+
+    @Override
+    public Iterable<Meeting> findByStartAt() {
+        return meetingRepository.findByOrderByStartAtAsc();
+    }
+
+    @Override
+    public Iterable<Meeting> findByStartAtWithUser(User user) {
+        List<Meeting> finalMeetings = new ArrayList<>();
+
+        List<Meeting> meetings = (List) findByStartAt();
+        for (int i = 0; i < meetings.size(); i++) {
+            List<Participant> participants = meetings.get(i).getParticipants();
+            for (int j = 0; j < participants.size(); j++) {
+                if (participants.get(j).isUser()) {
+                    if (participants.get(j).getUser().getUserId().equals(user.getUserId())) {
+                        finalMeetings.add(meetings.get(i));
+                        break;
+                    }
+                }
+            }
+        }
+        return finalMeetings;
     }
 
     /**

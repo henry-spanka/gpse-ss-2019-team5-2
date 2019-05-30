@@ -1,7 +1,10 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.MeetingService;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,18 +15,24 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ChronikController {
     @Autowired
-    private MeetingService service;
+    private MeetingService meetingService;
 
     /**
      * Show upcoming meetings.
      *
+     * @param authentication Only get meetings where logged in User participates
      * @return Chronic View.
      */
     @GetMapping("/chronik")
-    public ModelAndView chronik() {
+    public ModelAndView chronik(final Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("chronik");
 
-        modelAndView.addObject("meetings", service.getAllMeetings());
+        final User user = (User) authentication.getPrincipal();
+
+        //Iterable<Meeting> meetings = meetingService.findByStartAt();
+        Iterable<Meeting> meetings = meetingService.findByStartAtWithUser(user);
+
+        modelAndView.addObject("meetings", meetings);
 
         return modelAndView;
     }

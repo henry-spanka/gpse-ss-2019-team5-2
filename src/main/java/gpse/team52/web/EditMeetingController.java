@@ -8,12 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Edit meeting controller.
+ */
 @Controller
 public class EditMeetingController {
 
     @Autowired
     private MeetingService meetingService;
 
+    /**
+     * returns page to edit meetings.
+     * @param id meetingId
+     * @return
+     */
     @GetMapping("/meeting/{id}/edit")
     public ModelAndView editMeeting(@PathVariable("id") final String id) {
         final Meeting meeting = meetingService.getMeetingById(id);
