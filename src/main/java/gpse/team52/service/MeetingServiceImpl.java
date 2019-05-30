@@ -6,14 +6,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
-import gpse.team52.domain.Participant;
-import gpse.team52.domain.Room;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
+import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +21,13 @@ import org.springframework.stereotype.Service;
 public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
+    private final ParticipantRepository participantRepository;
 
     @Autowired
-    public MeetingServiceImpl(final MeetingRepository repository) {
-        this.meetingRepository = repository;
+    public MeetingServiceImpl(final MeetingRepository meetingRepository,
+                              final ParticipantRepository participantRepository) {
+        this.meetingRepository = meetingRepository;
+        this.participantRepository = participantRepository;
     }
 
 
@@ -101,6 +101,11 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public Iterable<Meeting> findByStartAtBetween(final LocalDateTime start, final LocalDateTime end) {
         return meetingRepository.findByStartAtBetween(start, end);
+    }
+
+    @Override
+    public Iterable<Meeting> findByStartAt() {
+        return meetingRepository.findByOrderByStartAtAsc();
     }
 
     /**
