@@ -39,6 +39,8 @@ public interface MeetingService {
 
     Iterable<Meeting> findByStartAt();
 
+    Iterable<Meeting> findByStartAtWithUser(User user);
+
     Meeting addParticipants(Meeting meeting, List<Participant> participants)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
 }
