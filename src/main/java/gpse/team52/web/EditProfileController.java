@@ -68,12 +68,7 @@ import java.util.ArrayList;
                                         @RequestParam(value = "file", required = false) MultipartFile file){
             if(file != null && !file.isEmpty()) {
                 dbFileStorageService.store(file);
-                user.setPicture(file.getName());
-                Path source = dbFileStorageService.load(file.getOriginalFilename());
-                Path destination = Paths.get("../static/pictures");
-                try {
-                    Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-                } catch(Exception e){};
+                user.setPicture(file.getOriginalFilename());
             }
 
             user.setFirstname(createUserCmd.getFirstname());

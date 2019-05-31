@@ -35,7 +35,7 @@ public class ProfileController {
 
         String userPicName = user.getPicture();
         if(userPicName == null) {
-            userPicName = "user_profile_default.jpg";
+            userPicName = "default_user_profile.jpg";
         }
         modelAndView.addObject("pbPic", userPicName);
         return modelAndView;
