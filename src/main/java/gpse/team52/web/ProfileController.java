@@ -34,10 +34,11 @@ public class ProfileController {
         modelAndView.addObject("location",user.getLocation());
 
         String userPicName = user.getPicture();
-        if(userPicName == null) {
+        if(userPicName != null) {
             userPicName = "default_user_profile.jpg";
+            modelAndView.addObject("pbPic", userPicName);
         }
-        modelAndView.addObject("pbPic", userPicName);
+
         return modelAndView;
 
 
