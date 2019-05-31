@@ -24,11 +24,8 @@ import java.util.ArrayList;
     @Controller
     public class EditProfileController {
 
-
-
         @Autowired
         private DBFileStorageServiceImpl dbFileStorageService;
-
         @Autowired
         private UserService userService;
         @Autowired
@@ -37,16 +34,15 @@ import java.util.ArrayList;
         @GetMapping("/editProfile")
         public ModelAndView editProfile(Authentication authentication) {
             final ModelAndView modelAndView = new ModelAndView("editProfile");
-
+            //get info of the current logged in user
             User user = (User) authentication.getPrincipal();
             modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
             modelAndView.addObject("email", user.getEmail());
-
+            //Get input from Textfields
             CreateUserCmd userCmd = new CreateUserCmd();
             userCmd.setFirstname(user.getFirstname());
             userCmd.setLastname(user.getLastname());
             modelAndView.addObject("createUserCmd", userCmd);
-
             //get All Location and and convert iterable list to an array list of Locations
             ArrayList<Location> locNames = new ArrayList<Location>();
             locationService.getAllLocations().forEach(locNames::add);
@@ -61,6 +57,7 @@ import java.util.ArrayList;
         public ModelAndView editProfile(@AuthenticationPrincipal final User user,
                                         @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
                                         @RequestParam(value = "file", required = false) MultipartFile file){
+            //check if there is an uploaded pic and change all user info if there is any
             if(file != null && !file.isEmpty()) {
                 dbFileStorageService.store(file);
                 user.setPicture(file.getOriginalFilename());
