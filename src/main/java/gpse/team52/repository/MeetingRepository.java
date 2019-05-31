@@ -16,6 +16,8 @@ import org.springframework.data.repository.query.Param;
 public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
     Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
 
+    Iterable<Meeting> findByOrderByStartAtAsc();
+
     @Query("SELECT r FROM Meeting m JOIN m.rooms r WHERE m.startAt <= :endAt AND m.endAt >= :startAt")
     List<MeetingRoom> getMeetingRoomMappingInTimeFrame(@Param("startAt") LocalDateTime startAt,
                                                        @Param("endAt") LocalDateTime endAt);
