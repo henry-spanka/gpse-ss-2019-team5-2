@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 
+/**
+ * Participant service interface.
+ */
 public interface ParticipantService {
 
     List<Participant> getAllParticipants();

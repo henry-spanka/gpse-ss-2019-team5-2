@@ -38,6 +38,10 @@ public interface MeetingService {
     Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
 
 
+    Iterable<Meeting> findByStartAt();
+
+    Iterable<Meeting> findByStartAtWithUser(User user);
+
     Meeting addParticipants(Meeting meeting, List<Participant> participants)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
 }
