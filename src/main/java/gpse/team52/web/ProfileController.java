@@ -11,23 +11,28 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ProfileController {
+    /**
+     *
+     * @param authentication
+     * @return
+     */
     @GetMapping("/profile")
-    public ModelAndView profile(Authentication authentication) {
+    public ModelAndView profile(final Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("profile");
-        User user = (User) authentication.getPrincipal();
-        modelAndView.addObject("fullName",user.getFirstname()+" "+user.getLastname());
-        modelAndView.addObject("email",user.getEmail());
+        final User user = (User) authentication.getPrincipal();
+        modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
+        modelAndView.addObject("email", user.getEmail());
 
         // Only get the Role name after the "_"
-        String role = user.getAuthorities().toString();
-        int indexRole = role.indexOf("_");
-        modelAndView.addObject("role",user.getAuthorities().toString().
-        substring(indexRole+1,role.length()-1).toLowerCase());
+        final String role = user.getAuthorities().toString();
+        final int indexRole = role.indexOf("_");
+        modelAndView.addObject("role", user.getAuthorities().toString().
+        substring(indexRole +  1, role.length() - 1).toLowerCase());
 
-        modelAndView.addObject("location",user.getLocation());
+        modelAndView.addObject("location", user.getLocation());
 
-        String userPicName = user.getPicture();
-        if(userPicName != null) {
+        final String userPicName = user.getPicture();
+        if (userPicName != null) {
 
             modelAndView.addObject("pbPic", userPicName);
         }
