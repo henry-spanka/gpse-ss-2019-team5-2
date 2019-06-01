@@ -100,8 +100,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetween(final LocalDateTime start, final LocalDateTime end) {
-        return meetingRepository.findByStartAtBetween(start, end);
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart) {
+        return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 
     @Override

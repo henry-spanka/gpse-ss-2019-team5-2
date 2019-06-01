@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import gpse.team52.contract.ParticipantService;
+import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
+import gpse.team52.domain.User;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,11 @@ public class ParticipantServiceImpl implements ParticipantService {
         participantRepository.findAll().forEach(participants::add);
 
         return participants;
+    }
+
+    @Override
+    public Iterable<Participant> findByUser(User user) {
+        return participantRepository.findByUser(user);
     }
 
     @Override
