@@ -1,4 +1,4 @@
-package gpse.team52;
+package gpse.team52.web;
 
 
 import gpse.team52.domain.User;
