@@ -1,5 +1,7 @@
 package gpse.team52.web;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -87,7 +89,8 @@ public class MeetingController {
 
     /**
      * Deletes a participant from the meeting.
-     * @param id Meeting Id.
+     *
+     * @param id  Meeting Id.
      * @param pId Participant Id.
      * @return Redirects back to the meeting detail page.
      */
@@ -111,6 +114,15 @@ public class MeetingController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("regUsers", userService.getAllUsers());
         modelAndView.addObject("addParticipants", form);
+
+        if (checkOwner(user, meeting)) {
+            final boolean isOwner = true;
+            modelAndView.addObject("isOwner", isOwner);
+            if (checkConfirmButton(meeting)) {
+                final boolean activate = true;
+                modelAndView.addObject("activate", activate);
+            }
+        }
 
         return modelAndView;
     }
@@ -145,5 +157,21 @@ public class MeetingController {
     private void addExternalParticipant(final List<Participant> participants, final String firstName,
                                         final String lastName, final String email) {
         participants.add(new Participant(email, firstName, lastName));
+    }
+
+    private boolean checkOwner(final User user, final Meeting meeting) {
+        return user == meeting.getOwner();
+    }
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    private boolean checkConfirmButton(final Meeting meeting) {
+        boolean activate = false;
+        LocalDateTime currenttime = LocalDateTime.now();
+        LocalDateTime meetingtime = meeting.getStartAt();
+        long diff = Duration.between(currenttime, meetingtime).toMinutes();
+        if (diff <= 30 && !meeting.isConfirmed()) {
+            activate = true;
+        }
+        return activate;
     }
 }

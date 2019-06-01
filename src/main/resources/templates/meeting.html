@@ -14,10 +14,12 @@
                     </div>
                     <div class="col-11">
                         <p class="font-weight-bold mb-0 d-inline" th:text="${meeting.getTitle()}"></p>
-                        <div class="float-right d-inline" th:if="${meeting.getOwner().getUserId().equals(user.getUserId())}">
-                        <a th:href="@{{meeting_id}/edit(meeting_id=${meeting.getMeetingId()})}" class="btn btn-primary btn-sm py-1 mb-1">
-                            Edit
-                        </a>
+                        <div class="float-right d-inline"
+                             th:if="${meeting.getOwner().getUserId().equals(user.getUserId())}">
+                            <a th:href="@{{meeting_id}/edit(meeting_id=${meeting.getMeetingId()})}"
+                               class="btn btn-primary btn-sm py-1 mb-1">
+                                Edit
+                            </a>
                         </div>
                     </div>
                 </div>
