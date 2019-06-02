@@ -7,13 +7,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
+import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
+import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Meeting Service Implementation.
@@ -23,12 +27,18 @@ public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final MailService mailService;
 
     @Autowired
     public MeetingServiceImpl(final MeetingRepository meetingRepository,
-                              final ParticipantRepository participantRepository) {
+                              final ParticipantRepository participantRepository,
+                              final ConfirmationTokenRepository confirmationTokenRepository,
+                              final MailService mailService) {
         this.meetingRepository = meetingRepository;
         this.participantRepository = participantRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.mailService = mailService;
     }
 
 
@@ -148,5 +158,35 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         return meetingRepository.save(meeting);
+    }
+
+    @Override
+    public Meeting validateMeetingFromToken(final UUID token) throws InvalidConfirmationTokenException {
+        final ConfirmationToken confirmationToken = confirmationTokenRepository.findById(token)
+        .orElseThrow(() -> new InvalidConfirmationTokenException("The token " + token + " is invalid."));
+
+        final Meeting meeting = confirmationToken.getMeeting();
+        meeting.setConfirmed(true);
+        confirmationTokenRepository.delete(confirmationToken);
+
+        return meeting;
+    }
+
+    /**
+     * Send a confirmation email to the user's email address.
+     *
+     * @param user The User is the owner.
+     * @param meeting The meeting to confirm.
+     */
+    @Override
+    public void sendVerificationEmail(final User user, final Meeting meeting) {
+        final ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confirmationTokenRepository.save(confirmationToken);
+
+        final ModelAndView modelAndView = new ModelAndView("email/confirm-meeting", "meeting", meeting);
+        modelAndView.addObject("token", confirmationToken);
+
+        mailService.sendEmailTemplateToUser(user, "Meeting Confirmation", modelAndView);
     }
 }

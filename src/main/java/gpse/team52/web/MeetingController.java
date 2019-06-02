@@ -15,6 +15,7 @@ import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import gpse.team52.exception.ExternalUserIsIncompleteException;
+import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingAddParticipantsForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class MeetingController {
      * Add new participants to an existing meeting.
      *
      * @param id              The id of the meeting.
+     * @param action          Either add participants or confirm meeting
      * @param addParticipants The participants to add.
      * @param bindingResult   The result of the validation.
      * @param authentication  The logged in user.
@@ -114,6 +116,24 @@ public class MeetingController {
         participantService.deleteById(UUID.fromString(pId));
 
         return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
+    }
+
+    /**
+     * Confirms a meeting via email token.
+     * @param token Given token via email.
+     * @return Redirects to the confirmed page to inform the user.
+     */
+    @GetMapping("/meeting-confirmed")
+    public ModelAndView confirmMeeting(final @RequestParam("token") String token) {
+        final ModelAndView modelAndView = new ModelAndView("meeting-confirmed");
+        try {
+            final Meeting meeting = meetingService.validateMeetingFromToken(UUID.fromString(token));
+            modelAndView.addObject("error", false);
+        } catch (InvalidConfirmationTokenException | IllegalArgumentException e) {
+            modelAndView.addObject("error", true);
+        }
+
+        return modelAndView;
     }
 
     private ModelAndView generateMeetingOverviewView(final Meeting meeting, final User user) {
@@ -177,14 +197,30 @@ public class MeetingController {
         participants.add(new Participant(email, firstName, lastName));
     }
 
+    /**
+     * Method to check if the user is the owner of the meeting.
+     * @param user The user to check for.
+     * @param meeting The meeting to check for.
+     * @return True if user is owner, otherwise false.
+     */
     private boolean checkOwner(final User user, final Meeting meeting) {
         return user.getUserId().equals(meeting.getOwner().getUserId());
     }
 
+    /**
+     * Method to check if the meeting ist laready confirmed.
+     * @param meeting The meeting to check for.
+     * @return True, if the meeting is already confirmed, otherwise false.
+     */
     private boolean checkActivated(final Meeting meeting) {
         return meeting.isConfirmed();
     }
 
+    /**
+     * Method to check if the confirm button should be disabled or not.
+     * @param meeting The meeting to check for.
+     * @return True, if the meeting is soon, so the button can be activated, otherwise false.
+     */
     @SuppressWarnings("checkstyle:magicnumber")
     private boolean checkConfirmButton(final Meeting meeting) {
         boolean activate = false;
