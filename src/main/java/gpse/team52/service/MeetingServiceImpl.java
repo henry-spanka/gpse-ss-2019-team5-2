@@ -72,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setEndAt(meetingForm.getEndDateTime());
         meeting.setOwner(owner);
 
-        for (final Room room: rooms) {
+        for (final Room room : rooms) {
             final MeetingRoom meetingRoom = new MeetingRoom(meeting, room, //NOPMD
             participants.get(room.getLocation().getLocationId().toString())); //NOPMD
             meeting.addRoom(meetingRoom);
@@ -100,7 +100,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart) {
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart) {
         return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 
@@ -130,7 +130,8 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * Add a list of participants to a meeting.
-     * @param meeting The meeting.
+     *
+     * @param meeting      The meeting.
      * @param participants The participants list.
      * @return The saved meeting.
      * @throws ParticipantAlreadyExistsException Thrown if the participant already exists.

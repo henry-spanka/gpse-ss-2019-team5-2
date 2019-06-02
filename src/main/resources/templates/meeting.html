@@ -171,25 +171,26 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                        <button type="submit" name="action" value="add" class="btn btn-primary btn-sm">Add</button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-    <div>
-        <form th:method="post" th:action="@{/meeting/{id}}">
-            <div th:if="${isOwner != null}" class="text-center mt-4 mb-2 ">
+        <div th:if="${isOwner != null}" class="text-center mt-4 mb-2 ">
+            <div th:if="${activated == null}">
                 <div th:if="${activate  != null}">
-                    <button type="submit" class="btn btn-custom ">Confirm Meeting
+                    <button type="submit" name="action" value="confirm" class="btn btn-custom ">Confirm Meeting
                     </button>
                 </div>
                 <div th:unless="${activate  != null}">
                     <button type="button" class="btn btn-custom " disabled>Confirm Meeting</button>
                 </div>
             </div>
-        </form>
-    </div>
+            <div th:unless="${activated  == null}">
+                <button type="button" class="btn btn-success" aria-pressed="true">Meeting is confirmed</button>
+            </div>
+        </div>
+    </form>
 </div>
 <th:block layout:fragment="script">
     <script type="text/javascript">

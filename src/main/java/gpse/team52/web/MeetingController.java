@@ -63,28 +63,42 @@ public class MeetingController {
      */
     @PostMapping("/meeting/{id}")
     public ModelAndView addParticipant(@PathVariable("id") final String id,
+                                       @RequestParam(value = "action") String action,
                                        @ModelAttribute("addParticipants")
                                        @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,
                                        final Authentication authentication) {
         final Meeting meeting = meetingService.getMeetingById(id);
+        if (action.equals("add")) {
+            if (!bindingResult.hasErrors()) {
+                try {
+                    addAllParticipants(meeting, addParticipants);
+                } catch (ParticipantAlreadyExistsException e) {
+                    bindingResult.rejectValue("participants", "meeting.participants.exists", e.getMessage());
+                } catch (ExternalUserIsIncompleteException e) {
+                    bindingResult.rejectValue("firstName", "meeting.participants.externalIncomplete", e.getMessage());
+                }
+            }
 
-        if (!bindingResult.hasErrors()) {
-            try {
-                addAllParticipants(meeting, addParticipants);
-            } catch (ParticipantAlreadyExistsException e) {
-                bindingResult.rejectValue("participants", "meeting.participants.exists", e.getMessage());
-            } catch (ExternalUserIsIncompleteException e) {
-                bindingResult.rejectValue("firstName", "meeting.participants.externalIncomplete", e.getMessage());
+            // Check again as we may have had some errors during persisting them to the database.
+            if (!bindingResult.hasErrors()) {
+                return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal());
             }
         }
 
-        // Check again as we may have had some errors during persisting them to the database.
-        if (!bindingResult.hasErrors()) {
-            return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal());
+        if (action.equals("confirm")) {
+            meeting.setConfirmed(true);
         }
+        return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal());
 
-        return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal(), addParticipants);
+    }
+
+    @PostMapping("/meeting/{id]")
+    public ModelAndView activateMeeting(@PathVariable("id") final String id) {
+        final Meeting meeting = meetingService.getMeetingById(id);
+        meeting.setConfirmed(true);
+
+        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
     }
 
     /**
@@ -98,14 +112,6 @@ public class MeetingController {
     public ModelAndView removeParticipant(@PathVariable("id") final String id, @PathVariable("pId") final String pId) {
         final Meeting meeting = meetingService.getMeetingById(id);
         participantService.deleteById(UUID.fromString(pId));
-
-        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
-    }
-
-    @PostMapping("/meeting/{id]")
-    public ModelAndView activateMeeting(@PathVariable("id") final String id) {
-        final Meeting meeting = meetingService.getMeetingById(id);
-        meeting.setConfirmed(true);
 
         return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
     }
@@ -129,6 +135,10 @@ public class MeetingController {
             if (checkConfirmButton(meeting)) {
                 final boolean activate = true;
                 modelAndView.addObject("activate", activate);
+            }
+            if (checkActivated(meeting)) {
+                final boolean activated = true;
+                modelAndView.addObject("activated", activated);
             }
         }
 
@@ -169,6 +179,10 @@ public class MeetingController {
 
     private boolean checkOwner(final User user, final Meeting meeting) {
         return user.getUserId().equals(meeting.getOwner().getUserId());
+    }
+
+    private boolean checkActivated(final Meeting meeting) {
+        return meeting.isConfirmed();
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
