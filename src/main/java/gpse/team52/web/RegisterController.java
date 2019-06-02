@@ -94,6 +94,7 @@ public class RegisterController {
         final User user = userService.createUser(form, "ROLE_USER");
         userService.sendVerificationEmail(user);
 
+
         return user;
     }
 }

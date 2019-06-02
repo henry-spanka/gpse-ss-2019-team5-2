@@ -3,6 +3,7 @@ package gpse.team52.service;
 import java.util.Optional;
 import java.util.UUID;
 
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
@@ -96,6 +97,8 @@ public class UserServiceImpl implements UserService {
         for (final String role : roles) {
             user.addRole(role);
         }
+
+
 
         return userRepository.save(user);
     }

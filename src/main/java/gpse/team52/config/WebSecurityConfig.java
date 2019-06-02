@@ -36,6 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .permitAll();
+
+        //allow file upload
+        http.csrf().disable().authorizeRequests().anyRequest().authenticated();
+
     }
 
     @Autowired

@@ -1,7 +1,9 @@
 package gpse.team52.seeder;
 
 import javax.annotation.PostConstruct;
+import javax.print.URIException;
 
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
@@ -9,11 +11,17 @@ import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Initializes the Default User in the database.
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
+
+
+
+/* Initializes the Default User in the database.
  */
 @Service
-public class    InitializeDefaultUser {
+public class InitializeDefaultUser {
 
     private static final String DEFAULT_PASSWORD = "password";
 
@@ -36,6 +44,7 @@ public class    InitializeDefaultUser {
         form.setUsername("admin");
         form.setPassword(DEFAULT_PASSWORD);
         form.setPasswordConfirm(DEFAULT_PASSWORD);
+
 
         try {
             userService.createUser(form, true, "ROLE_ADMIN");

@@ -56,6 +56,11 @@ public class User implements UserDetails { //NOPMD
     @Column
     private String location;
 
+    @Getter
+    @Setter
+    @Column
+    private String picture;
+
     @Column(unique = true, nullable = false)
     @Getter
     private String email;
