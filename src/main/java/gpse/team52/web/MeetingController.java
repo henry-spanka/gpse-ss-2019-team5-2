@@ -102,6 +102,14 @@ public class MeetingController {
         return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
     }
 
+    @PostMapping("/meeting/{id]")
+    public ModelAndView activateMeeting(@PathVariable("id") final String id) {
+        final Meeting meeting = meetingService.getMeetingById(id);
+        meeting.setConfirmed(true);
+
+        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
+    }
+
     private ModelAndView generateMeetingOverviewView(final Meeting meeting, final User user) {
         return generateMeetingOverviewView(meeting, user, new MeetingAddParticipantsForm());
     }
@@ -160,7 +168,7 @@ public class MeetingController {
     }
 
     private boolean checkOwner(final User user, final Meeting meeting) {
-        return user == meeting.getOwner();
+        return user.getUserId().equals(meeting.getOwner().getUserId());
     }
 
     @SuppressWarnings("checkstyle:magicnumber")

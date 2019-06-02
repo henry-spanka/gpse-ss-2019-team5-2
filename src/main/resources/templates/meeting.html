@@ -177,6 +177,19 @@
             </div>
         </div>
     </form>
+    <div>
+        <form th:method="post" th:action="@{/meeting/{id}}">
+            <div th:if="${isOwner != null}" class="text-center mt-4 mb-2 ">
+                <div th:if="${activate  != null}">
+                    <button type="submit" class="btn btn-custom ">Confirm Meeting
+                    </button>
+                </div>
+                <div th:unless="${activate  != null}">
+                    <button type="button" class="btn btn-custom " disabled>Confirm Meeting</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <th:block layout:fragment="script">
     <script type="text/javascript">
@@ -184,5 +197,4 @@
     </script>
 </th:block>
 </body>
-
 </html>
