@@ -2,7 +2,7 @@ package gpse.team52.seeder;
 
 import javax.annotation.PostConstruct;
 
-import gpse.team52.contract.RoomService;
+import gpse.team52.contract.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InitializeDefaultLocations {
 
-    private final RoomService roomService;
+    private final LocationService locationService;
 
     /**
      * Initializes locations to use them in DefaultMeetings and DefaultRooms.
@@ -22,9 +22,11 @@ public class InitializeDefaultLocations {
     @PostConstruct
     public void init() {
 
-        roomService.createLocation("Bielefeld");
-        roomService.createLocation("Gütersloh");
-        roomService.createLocation("Düsseldorf");
+        locationService.createLocation("Bielefeld");
+        locationService.createLocation("Gütersloh");
+        locationService.createLocation("Düsseldorf");
+        locationService.createLocation("Ratingen");
+        locationService.createLocation("Mumbai");
 
     }
 }
