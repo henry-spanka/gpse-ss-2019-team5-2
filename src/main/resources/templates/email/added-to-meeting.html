@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/main}">
+<body>
+    <div layout:fragment="content">
+        <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-1">
+                            <i class="fas fa-signature"></i>
+                        </div>
+                        <div class="col-11">
+                            <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                            <p class="font-weight-bold mb-0 d-inline" th:text="${meeting.getTitle()}"></p>
+                        </div>
+                    </div>
+                    <hr class="mt-1 mb-2">
+                    <div class="row no-gutters">
+                        <div class="col-1">
+                            <i class="fas fa-hourglass-start"></i>
+                        </div>
+                        <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                        <div class="col-11" th:text="${#temporals.format(meeting.getStartAt(), 'dd MMM yyyy HH:mm')}">
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-1">
+                            <i class="fas fa-hourglass-end"></i>
+                        </div>
+                        <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                        <div class="col-11" th:text="${#temporals.format(meeting.getEndAt(), 'dd MMM yyyy HH:mm')}">
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-1">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                        <div class="col-11" th:text="|${meeting.getDuration()} minutes|">
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-1">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                        <div class="col-11" th:text="${meeting.getParticipantsNumber()}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                    <div th:each="meetingRoom, iterStat : ${meeting.getRooms()}">
+                        <div class="row no-gutters">
+                            <div class="col-1">
+                                <i class="fas fa-globe-europe"></i>
+                            </div>
+                            <div class="col-11">
+                                <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                                <p class="mb-0 font-weight-bold d-inline"
+                                   th:text="${meetingRoom.getRoom().getRoomName() + ' | ' + meetingRoom.getRoom().getLocation().getName()}"></p>
+                                <div class="float-right">
+                                    <i class="fas fa-user"></i>
+                                    <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                                    <p class="d-inline ml-1" th:text="${meetingRoom.getParticipants()}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+                        <a class="btn btn-primary btn-block" th:href="${@environment.getRequiredProperty('app.url')} + @{~/meeting/{id}(id=${meeting.getMeetingId().toString()})}">View Meeting</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

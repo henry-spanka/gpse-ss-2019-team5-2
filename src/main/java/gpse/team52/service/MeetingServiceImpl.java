@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
@@ -14,6 +15,7 @@ import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Meeting Service Implementation.
@@ -23,12 +25,14 @@ public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
+    private final MailService mailService;
 
     @Autowired
     public MeetingServiceImpl(final MeetingRepository meetingRepository,
-                              final ParticipantRepository participantRepository) {
+                              final ParticipantRepository participantRepository, MailService mailService) {
         this.meetingRepository = meetingRepository;
         this.participantRepository = participantRepository;
+        this.mailService = mailService;
     }
 
 
@@ -144,6 +148,10 @@ public class MeetingServiceImpl implements MeetingService {
             }
             meeting.addParticipant(participant);
             participant.setMeeting(meeting);
+
+            ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
+
+            mailService.sendEmailTemplate(participant, "Added to meeting", mailView);
         }
 
         return meetingRepository.save(meeting);
