@@ -1,5 +1,7 @@
 package gpse.team52.service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,6 +53,11 @@ public class RoomServiceImpl implements RoomService {
     public Iterable<Location> getAllLocations() { return locationRepository.findAll(); }
 
     @Override
+    public Optional<Location> getLocation(String name){
+        return  locationRepository.findByName(name);
+    }
+
+    @Override
     public Iterable<Room> getAllRooms() {
         return roomRepository.findAll();
     }
@@ -60,7 +67,10 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(roomID);
     }
 
-    public Iterable<Room> getAvailableRooms(Location location, int seats, int start, int end, Equipment equipment) {
-        return null; // TODO implement method to find all available rooms for a meeting
+    @Override
+    public Iterable<Room> getAvailableRooms(Location location, int seats, Date date, int start, int end, List<Equipment> equipment) {
+        Iterable<Room> availableRooms = roomRepository.findByLocationAndSeatsGreaterThanEqual(location, seats);
+
+        return availableRooms; // TODO implement method to find all available rooms for a meeting
     }
 }

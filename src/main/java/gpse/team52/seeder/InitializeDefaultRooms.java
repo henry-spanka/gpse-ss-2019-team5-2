@@ -59,15 +59,19 @@ public class InitializeDefaultRooms {
             return;
         }
 
-        Location bielefeld = roomService.createLocation("Bielefeld");
-        Location guetersloh = roomService.createLocation("Gütersloh");
-        Location duesseldorf = roomService.createLocation("Düsseldorf");
+        Location bielefeld = roomService.getLocation("Bielefeld").orElseThrow();
+        Location guetersloh = roomService.getLocation("Gütersloh").orElseThrow();
+        Location duesseldorf = roomService.getLocation("Düsseldorf").orElseThrow();
 
-        Room roomA = roomService.createRoom(12, 2, "bf@example.de", bielefeld, "BielefeldRoom",
+        Room roomA = roomService.createRoom(12, 2, "bf@example.de", bielefeld, "Bielefeld12",
         "layoutBlue");
         Room roomB = roomService.createRoom(8, 0, "gt@example.de", guetersloh, "GüterslohRoom",
         "layoutRed");
         Room roomC = roomService.createRoom(20, 0, "dd@example.org", duesseldorf, "DüsseldorfRoom",
+        "layoutBlue");
+        Room roomD = roomService.createRoom(1, 2, "bf1@example.de", bielefeld, "Bielefeld1",
+        "layoutBlue");
+        Room roomE = roomService.createRoom(20, 2, "bf20@example.de", bielefeld, "Bielefeld20",
         "layoutBlue");
         //TODO add equipment
 
