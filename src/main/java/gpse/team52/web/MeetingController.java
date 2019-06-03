@@ -213,9 +213,9 @@ public class MeetingController {
     @SuppressWarnings("checkstyle:magicnumber")
     private boolean checkConfirmButton(final Meeting meeting) {
         boolean activate = false;
-        LocalDateTime currenttime = LocalDateTime.now();
-        LocalDateTime meetingtime = meeting.getStartAt();
-        long diff = Duration.between(currenttime, meetingtime).toMinutes();
+        final LocalDateTime currenttime = LocalDateTime.now();
+        final LocalDateTime meetingtime = meeting.getStartAt();
+        final long diff = Duration.between(currenttime, meetingtime).toMinutes();
         if (diff <= 30 && !meeting.isConfirmed()) {
             activate = true;
         }

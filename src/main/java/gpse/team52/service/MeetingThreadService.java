@@ -1,5 +1,10 @@
 package gpse.team52.service;
 
+
+import java.time.LocalDateTime;
+import java.time.Duration;
+import java.util.ArrayList;
+
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
@@ -10,9 +15,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Service
 public class MeetingThreadService {
@@ -23,8 +25,15 @@ public class MeetingThreadService {
 
     private MeetingRepository meetingRepository;
 
+
+    /**
+     * Thread to check meetings in an intervall.
+     *
+     * @param meetingService    service to gain access to the meetingdb.
+     * @param meetingRepository the repository to gain/save etc. the meeting.
+     */
     @Autowired
-    public MeetingThreadService(MeetingService meetingService, MeetingRepository meetingRepository) {
+    public MeetingThreadService(final MeetingService meetingService, final MeetingRepository meetingRepository) {
 
         this.meetingService = meetingService;
         this.meetingRepository = meetingRepository;
@@ -51,33 +60,31 @@ public class MeetingThreadService {
 
     /**
      * Checks every meeting and either sends confirmation email or deletes them.
+     *
      * @throws InterruptedException in case of an Exception.
      */
     @Async
     public void checkMeetings() throws InterruptedException {
         while (true) {
-            System.out.println("Thread running");
-            ArrayList<Meeting> meetings = new ArrayList<>();
-            LocalDateTime now = LocalDateTime.now();
+            final ArrayList<Meeting> meetings = new ArrayList<>();
+            final LocalDateTime now = LocalDateTime.now();
 
             meetingService.findByConfirmed(false).forEach(meetings::add);
-            for (Meeting meeting : meetings) {
-                LocalDateTime meetingstart = meeting.getStartAt();
-                long diff = Duration.between(now, meetingstart).toMinutes();
+            for (final Meeting meeting : meetings) {
+                final LocalDateTime meetingstart = meeting.getStartAt();
+                final long diff = Duration.between(now, meetingstart).toMinutes();
                 if (diff <= 30 && !meeting.isConfirmemail()) {
-                    User user = meeting.getOwner();
+                    final User user = meeting.getOwner();
                     sendConfirmationEmail(user, meeting);
-                    System.out.println(meeting.getTitle() + ": Email wird verschickt!");
                 } else if (diff < 0 && !meeting.isConfirmed()) {
                     meetingService.deleteByMeetingId(meeting.getMeetingId());
-                    System.out.println(meeting.getTitle() + " wird geloescht!");
                 }
             }
-            Thread.sleep(3000);
+            Thread.sleep(30000);
         }
     }
 
-    private void sendConfirmationEmail(User user, Meeting meeting) throws MailException {
+    private void sendConfirmationEmail(final User user, final Meeting meeting) throws MailException {
         meeting.setConfirmemail(true);
         meetingRepository.save(meeting);
         meetingService.sendConfirmationEmail(user, meeting);

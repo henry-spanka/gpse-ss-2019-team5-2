@@ -9,7 +9,6 @@ import java.util.UUID;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
-import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.ConfirmationTokenRepository;
@@ -27,17 +26,14 @@ public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
-    private final ConfirmationTokenRepository confirmationTokenRepository;
     private final MailService mailService;
 
     @Autowired
     public MeetingServiceImpl(final MeetingRepository meetingRepository,
                               final ParticipantRepository participantRepository,
-                              final ConfirmationTokenRepository confirmationTokenRepository,
                               final MailService mailService) {
         this.meetingRepository = meetingRepository;
         this.participantRepository = participantRepository;
-        this.confirmationTokenRepository = confirmationTokenRepository;
         this.mailService = mailService;
     }
 
@@ -110,7 +106,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart) {
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(final LocalDateTime start, final LocalDateTime end, final Iterable<Participant> meetingpart) {
         return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 
@@ -120,12 +116,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtWithUser(User user) {
-        List<Meeting> finalMeetings = new ArrayList<>();
+    public Iterable<Meeting> findByStartAtWithUser(final User user) {
+        final List<Meeting> finalMeetings = new ArrayList<>();
 
-        List<Meeting> meetings = (List) findByStartAt();
+        final List<Meeting> meetings = (List) findByStartAt();
         for (int i = 0; i < meetings.size(); i++) {
-            List<Participant> participants = meetings.get(i).getParticipants();
+            final List<Participant> participants = meetings.get(i).getParticipants();
             for (int j = 0; j < participants.size(); j++) {
                 if (participants.get(j).isUser()) {
                     if (participants.get(j).getUser().getUserId().equals(user.getUserId())) {
@@ -139,12 +135,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void deleteByMeetingId(UUID id) {
+    public void deleteByMeetingId(final UUID id) {
         meetingRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<Meeting> findByConfirmed(boolean bool) {
+    public Iterable<Meeting> findByConfirmed(final boolean bool) {
         return meetingRepository.findByConfirmed(bool);
     }
 
@@ -186,7 +182,6 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void sendConfirmationEmail(final User user, final Meeting meeting) {
-        UUID meetingid = meeting.getMeetingId();
 
         final ModelAndView modelAndView = new ModelAndView("email/confirm-meeting", "meeting", meeting);
         modelAndView.addObject("meetingid", meeting);
