@@ -171,15 +171,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting validateMeetingFromToken(final UUID token) throws InvalidConfirmationTokenException {
-        final ConfirmationToken confirmationToken = confirmationTokenRepository.findById(token)
-        .orElseThrow(() -> new InvalidConfirmationTokenException("The token " + token + " is invalid."));
+    public Meeting confirmMeeting(final UUID meetingId) {
+        final Meeting meeting = getMeetingById(meetingId);
 
-        final Meeting meeting = confirmationToken.getMeeting();
         meeting.setConfirmed(true);
-        confirmationTokenRepository.delete(confirmationToken);
 
-        return meeting;
+        return meetingRepository.save(meeting);
     }
 
     /**

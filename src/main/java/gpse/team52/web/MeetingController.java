@@ -124,14 +124,12 @@ public class MeetingController {
      * @return Redirects to the confirmed page to inform the user.
      */
     @GetMapping("/meeting-confirmed")
-    public ModelAndView confirmMeeting(final @RequestParam("token") String token) {
+    public ModelAndView confirmMeeting(final @RequestParam("token") String meetingId) {
         final ModelAndView modelAndView = new ModelAndView("meeting-confirmed");
-        try {
-            final Meeting meeting = meetingService.validateMeetingFromToken(UUID.fromString(token));
-            modelAndView.addObject("error", false);
-        } catch (InvalidConfirmationTokenException | IllegalArgumentException e) {
-            modelAndView.addObject("error", true);
-        }
+        final Meeting meeting = meetingService.getMeetingById(meetingId);
+        meeting.setConfirmed(true);
+        meetingService.confirmMeeting(UUID.fromString(meetingId));
+        modelAndView.addObject("error", false);
 
         return modelAndView;
     }
