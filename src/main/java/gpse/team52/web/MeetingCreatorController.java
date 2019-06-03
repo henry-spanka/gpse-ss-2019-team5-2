@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import gpse.team52.contract.MeetingService;
-import gpse.team52.contract.RoomFinderService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
+import gpse.team52.contract.*;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
@@ -43,6 +40,9 @@ public class MeetingCreatorController {
 
     @Autowired
     private RoomFinderService roomFinderService;
+
+    @Autowired
+    private LocationService locationService;
 
     /**
      * Creates a new meeting from the user selected input.
@@ -108,7 +108,7 @@ public class MeetingCreatorController {
 
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject("locations", roomService.getAllLocations());
+        modelAndView.addObject("locations", locationService.getAllLocations());
         modelAndView.addObject("equipments", roomService.getAllEquipment());
 
         return modelAndView;

@@ -19,10 +19,6 @@ public interface RoomService {
 
     Room update(Room room);
 
-    Iterable<Location> getAllLocations();
-
-    Optional<Location> getLocation(String name);
-
     Iterable<Room> getAllRooms();
 
     Optional<Room> getRoom(UUID roomID);
