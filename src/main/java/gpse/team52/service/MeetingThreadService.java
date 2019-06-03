@@ -47,24 +47,26 @@ public class MeetingThreadService {
 
     @Async
     public void checkMeetings() throws InterruptedException {
-        ArrayList<Meeting> meetings = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now();
+        while (true) {
+            ArrayList<Meeting> meetings = new ArrayList<>();
+            LocalDateTime now = LocalDateTime.now();
 
-        meetingService.findByConfirmed(false).forEach(meetings::add);
-        for (Meeting meeting : meetings) {
-            LocalDateTime meetingstart = meeting.getStartAt();
-            long diff = Duration.between(now, meetingstart).toMinutes();
-            if (diff == 30) {
-                User user = meeting.getOwner();
-                sendConfirmationEmail(user, meeting);
-                System.out.println(meeting.getTitle() + ": Email wird verschickt!");
-            } else if (diff < 0 && !meeting.isConfirmed()) {
-                meetingService.deleteByMeetingId(meeting.getMeetingId());
-                System.out.println(meeting.getTitle() + " wird geloescht!");
+            meetingService.findByConfirmed(false).forEach(meetings::add);
+            for (Meeting meeting : meetings) {
+                LocalDateTime meetingstart = meeting.getStartAt();
+                long diff = Duration.between(now, meetingstart).toMinutes();
+                if (diff == 30) {
+                    User user = meeting.getOwner();
+                    sendConfirmationEmail(user, meeting);
+                    System.out.println(meeting.getTitle() + ": Email wird verschickt!");
+                } else if (diff < 0 && !meeting.isConfirmed()) {
+                    meetingService.deleteByMeetingId(meeting.getMeetingId());
+                    System.out.println(meeting.getTitle() + " wird geloescht!");
+                }
             }
+            Thread.sleep(60000);
+            System.out.println("Thread running");
         }
-        Thread.sleep(60000);
-        System.out.println("Thread running");
     }
 
     private void sendConfirmationEmail(User user, Meeting meeting) throws MailException {
