@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
         .authorizeRequests()
-        .antMatchers("/", "/register", "/confirm-account", "/recoverpw", "/webjars/**").permitAll()
+        .antMatchers("/", "/register", "/confirm-account", "/recoverpw", "/webjars/**", "/forgotpasswordsetnew").permitAll()
         .antMatchers(H2_CONSOLE_URL_MATCHER).hasRole("ADMIN")
         .anyRequest().authenticated()
         .and().headers().frameOptions().sameOrigin()
