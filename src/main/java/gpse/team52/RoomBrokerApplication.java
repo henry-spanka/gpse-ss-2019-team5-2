@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 
 
-
 /**
  * Run Spring Boot.
  */

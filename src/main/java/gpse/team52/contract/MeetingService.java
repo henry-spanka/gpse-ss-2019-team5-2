@@ -10,6 +10,7 @@ import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.exception.ExternalUserIsIncompleteException;
+import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 
@@ -35,6 +36,10 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
+    void deleteByMeetingId(UUID id);
+
+    Iterable<Meeting> findByConfirmed(boolean bool);
+
     Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
 
 
@@ -44,4 +49,8 @@ public interface MeetingService {
 
     Meeting addParticipants(Meeting meeting, List<Participant> participants)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
+
+    void confirmMeeting(UUID meetingId);
+
+    void sendConfirmationEmail(User user, Meeting meeting);
 }

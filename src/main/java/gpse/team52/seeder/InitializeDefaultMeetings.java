@@ -109,8 +109,8 @@ public class InitializeDefaultMeetings {
         roomService.update(room2);
 
         final Meeting meeting1 = new Meeting("Daily Scum");
-        meeting1.setStartAt(LocalDateTime.of(2019, 5, 27, 10, 15));
-        meeting1.setEndAt(LocalDateTime.of(2019, 5, 27, 11, 45));
+        meeting1.setStartAt(LocalDateTime.of(2019, 6, 3, 11, 24));
+        meeting1.setEndAt(LocalDateTime.of(2019, 6, 3, 11, 45));
         meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
