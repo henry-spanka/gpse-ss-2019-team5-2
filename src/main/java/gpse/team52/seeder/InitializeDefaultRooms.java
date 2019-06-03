@@ -2,8 +2,10 @@ package gpse.team52.seeder;
 
 import javax.annotation.PostConstruct;
 
+import gpse.team52.contract.EquipmentService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
+import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
 import gpse.team52.exception.EmailExistsException;
@@ -21,6 +23,7 @@ public class InitializeDefaultRooms {
     private static final String DEFAULT_PASSWORD = "rooms";
     private final UserService userService;
     private final RoomService roomService;
+    private final EquipmentService equipmentService;
 
     /**
      * Constructor for the used services.
@@ -30,9 +33,10 @@ public class InitializeDefaultRooms {
      */
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
-                                  final RoomService roomService) {
+                                  final RoomService roomService, final EquipmentService equipmentService) {
         this.userService = userService;
         this.roomService = roomService;
+        this.equipmentService = equipmentService;
     }
 
     /**
@@ -69,6 +73,21 @@ public class InitializeDefaultRooms {
         "layoutBlue");
         roomService.createRoom(20, 2, "bf20@example.de", bielefeld, "Bielefeld20",
         "layoutBlue");
+        // ------------------------ Use Case -----------------
+        final Location ratingen = roomService.getLocation("Ratingen").orElseThrow();
+        final Location mumbai = roomService.getLocation("Mumbai").orElseThrow();
+        Room rt = roomService.createRoom(60, 10, "ratingen@example.de", ratingen, "Ratingen", "layoutBlue");
+        Room rt2 = roomService.createRoom(45, 10, "ratingen2@example.de", ratingen, "RatingenExtra", "layoutBlue");
+        Room mb = roomService.createRoom(10, 0, "mumbai@example.de", mumbai, "Mumbai", "layoutRed");
+        final Equipment projektor = equipmentService.createEquipment("projektor");
+        final Equipment telco = equipmentService.createEquipment("telkoanlage");
+        rt.addEquipment(telco, projektor);
+        rt2.addEquipment(telco, projektor);
+        mb.addEquipment(telco);
+        roomService.update(rt);
+        roomService.update(rt2);
+        roomService.update(mb);
+
         //TODO add equipment
 
         roomService.update(roomA);

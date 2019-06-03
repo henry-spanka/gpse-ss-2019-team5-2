@@ -12,8 +12,6 @@ import gpse.team52.validator.LocationsHaveParticipants;
  * Validates that for each location a number of participants exists.
  */
 public class LocationsHaveParticipantsValidator implements ConstraintValidator<LocationsHaveParticipants, Object> {
-    private boolean hasErrors = false;
-
     @Override
     public void initialize(final LocationsHaveParticipants constraintAnnotation) {
     }
@@ -24,15 +22,19 @@ public class LocationsHaveParticipantsValidator implements ConstraintValidator<L
 
         final Map<String, Integer> participants = creationForm.getParticipants();
 
+        boolean hasErrors = false;
+
         if (creationForm.getLocations() != null) {
             for (final String locationId : creationForm.getLocations()) {
                 if (participants == null || !participants.containsKey(locationId)) {
                     addConstraintViolation(context, "participants[" + locationId + "]");
+                    hasErrors = true;
                 } else {
                     final Integer value = participants.get(locationId);
 
                     if (value == null || value <= 0) {
                         addConstraintViolation(context, "participants[" + locationId + "]");
+                        hasErrors = true;
                     }
                 }
             }
@@ -45,7 +47,5 @@ public class LocationsHaveParticipantsValidator implements ConstraintValidator<L
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
         .addPropertyNode(node).addConstraintViolation();
-
-        hasErrors = true;
     }
 }
