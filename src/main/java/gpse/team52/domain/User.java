@@ -5,12 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
@@ -53,7 +48,7 @@ public class User implements UserDetails { //NOPMD
 
     @Getter
     @Setter
-    @Column
+    @Column(nullable = true)
     private String location;
 
     @Getter

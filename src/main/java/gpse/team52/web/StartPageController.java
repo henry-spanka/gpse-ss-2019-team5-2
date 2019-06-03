@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import gpse.team52.contract.LocationService;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.ParticipantService;
+import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
@@ -34,6 +36,9 @@ public class StartPageController {
     private MeetingService meetingService;
     @Autowired
     private ParticipantService participantService;
+
+    @Autowired
+    private LocationService locationService;
 
 
     public StartPageController(final MeetingService meetingService) {
@@ -128,6 +133,24 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
+        final ArrayList<Location> locNames = new ArrayList<Location>();
+        locationService.getAllLocations().forEach(locNames::add);
+        String userLoc = user.getLocation();
+        if(userLoc==null) {
+            userLoc = "Bielefeld";
+            Location uLoc = null;
+            for (int i = 0; i < locNames.size(); i++) {
+                if (locNames.get(i).equals(userLoc)) {
+                    uLoc = locNames.get(i);
+                    long timediff = (long) uLoc.getTimeoffset();
+                    modelAndView.addObject("timeZone", timediff);
+
+                }
+
+            }
+        }
+
+
 
         return modelAndView;
     }

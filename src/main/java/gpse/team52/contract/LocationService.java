@@ -8,5 +8,7 @@ public interface LocationService {
 
     Location createLocation(Location location);
 
+    Location createLocation(String name, int time);
+
     Iterable<Location> getAllLocations();
 }

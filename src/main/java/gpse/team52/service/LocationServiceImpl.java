@@ -16,8 +16,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location createLocation(String name) {
+        return createLocation(name, 0);
+    }
+
+    @Override
+    public Location createLocation(String name, int time) {
         final Location location = new Location(name);
-        return  createLocation(location);
+        return createLocation(location);
     }
 
     @Override

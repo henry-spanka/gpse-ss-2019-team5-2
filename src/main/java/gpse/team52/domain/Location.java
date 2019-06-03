@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -28,6 +29,11 @@ public class Location {
     @Getter
     @Column
     private String name;
+
+    @Getter
+    @Setter
+    @Column
+    private int timeoffset = 0;
 
     public Location(final String name) {
         this.name = name;
