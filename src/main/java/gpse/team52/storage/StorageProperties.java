@@ -11,7 +11,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "../gpse-ss-2019-team5-2/src/main/resources/static/pictures";
+    private String location = "./src/main/resources/static/pictures";
 
     public String getLocation() {
         return location;
