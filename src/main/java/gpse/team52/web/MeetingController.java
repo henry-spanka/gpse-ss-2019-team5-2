@@ -15,7 +15,6 @@ import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import gpse.team52.exception.ExternalUserIsIncompleteException;
-import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingAddParticipantsForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +119,7 @@ public class MeetingController {
 
     /**
      * Confirms a meeting via email token.
-     * @param token Given token via email.
+     * @param meetingId Given meeting token via email.
      * @return Redirects to the confirmed page to inform the user.
      */
     @GetMapping("/meeting-confirmed")

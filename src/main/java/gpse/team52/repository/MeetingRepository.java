@@ -16,7 +16,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
 
-    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant>meetingpart);
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
 
     Iterable<Meeting> findByOrderByStartAtAsc();
 

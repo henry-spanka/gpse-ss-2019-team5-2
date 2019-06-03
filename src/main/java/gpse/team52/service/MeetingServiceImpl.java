@@ -171,12 +171,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting confirmMeeting(final UUID meetingId) {
+    public void confirmMeeting(final UUID meetingId) {
         final Meeting meeting = getMeetingById(meetingId);
 
         meeting.setConfirmed(true);
-
-        return meetingRepository.save(meeting);
     }
 
     /**

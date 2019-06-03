@@ -50,7 +50,7 @@ public interface MeetingService {
     Meeting addParticipants(Meeting meeting, List<Participant> participants)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
 
-    Meeting confirmMeeting(final UUID meetingId);
+    void confirmMeeting(UUID meetingId);
 
     void sendConfirmationEmail(User user, Meeting meeting);
 }
