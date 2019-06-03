@@ -1,6 +1,7 @@
 package gpse.team52.web;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import gpse.team52.Command.CreateUserCmd;
 import gpse.team52.contract.LocationService;
@@ -69,7 +70,11 @@ public class EditProfileController {
 
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
-        user.setLocation(createUserCmd.getLocation());
+        if(createUserCmd.getLocation()!=null) {
+            TimeZone.setDefault(TimeZone.getTimeZone(createUserCmd.getLocation()));
+            user.setLocation(createUserCmd.getLocation());
+        }
+
         userService.updateUser(user);
         return new ModelAndView("redirect:/profile");
     }
