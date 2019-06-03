@@ -175,6 +175,7 @@ public class MeetingServiceImpl implements MeetingService {
         final Meeting meeting = getMeetingById(meetingId);
 
         meeting.setConfirmed(true);
+        meetingRepository.save(meeting);
     }
 
     /**

@@ -3,6 +3,7 @@ package gpse.team52.service;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
+import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Async;
@@ -20,10 +21,13 @@ public class MeetingThreadService {
 
     private ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 
+    private MeetingRepository meetingRepository;
+
     @Autowired
-    public MeetingThreadService(MeetingService meetingService) {
+    public MeetingThreadService(MeetingService meetingService, MeetingRepository meetingRepository) {
 
         this.meetingService = meetingService;
+        this.meetingRepository = meetingRepository;
         taskExecutor.setCorePoolSize(2);
         taskExecutor.setMaxPoolSize(2);
         taskExecutor.setThreadNamePrefix("MeetingCheck");
@@ -63,18 +67,19 @@ public class MeetingThreadService {
                 if (diff <= 30 && !meeting.isConfirmemail()) {
                     User user = meeting.getOwner();
                     sendConfirmationEmail(user, meeting);
-                    meeting.setConfirmemail(true);
                     System.out.println(meeting.getTitle() + ": Email wird verschickt!");
                 } else if (diff < 0 && !meeting.isConfirmed()) {
                     meetingService.deleteByMeetingId(meeting.getMeetingId());
                     System.out.println(meeting.getTitle() + " wird geloescht!");
                 }
             }
-            Thread.sleep(30000);
+            Thread.sleep(3000);
         }
     }
 
     private void sendConfirmationEmail(User user, Meeting meeting) throws MailException {
+        meeting.setConfirmemail(true);
+        meetingRepository.save(meeting);
         meetingService.sendConfirmationEmail(user, meeting);
     }
 }
