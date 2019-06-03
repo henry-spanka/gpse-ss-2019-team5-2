@@ -4,8 +4,6 @@ import gpse.team52.service.DBFileStorageServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +11,6 @@ import gpse.team52.storage.StorageProperties;
 import gpse.team52.contract.DBFileStorageService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import java.util.concurrent.Executor;
 
 
 /**
@@ -21,7 +18,6 @@ import java.util.concurrent.Executor;
  */
 @SpringBootApplication
 @EnableJpaRepositories
-@EnableAsync
 @EnableTransactionManagement
 @EnableConfigurationProperties(StorageProperties.class)
 public class RoomBrokerApplication {
