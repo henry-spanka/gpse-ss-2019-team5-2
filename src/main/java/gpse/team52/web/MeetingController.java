@@ -69,11 +69,11 @@ public class MeetingController {
                                        @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,
                                        final Authentication authentication) {
-        final Meeting meeting = meetingService.getMeetingById(id);
+        Meeting meeting = meetingService.getMeetingById(id);
         if (action.equals("add")) {
             if (!bindingResult.hasErrors()) {
                 try {
-                    addAllParticipants(meeting, addParticipants);
+                    meeting = addAllParticipants(meeting, addParticipants);
                 } catch (ParticipantAlreadyExistsException e) {
                     bindingResult.rejectValue("participants", "meeting.participants.exists", e.getMessage());
                 } catch (ExternalUserIsIncompleteException e) {
@@ -154,7 +154,7 @@ public class MeetingController {
         return modelAndView;
     }
 
-    private void addAllParticipants(final Meeting meeting, final MeetingAddParticipantsForm form)
+    private Meeting addAllParticipants(final Meeting meeting, final MeetingAddParticipantsForm form)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException {
         final List<Participant> participants = new ArrayList<>();
 
@@ -170,7 +170,7 @@ public class MeetingController {
             }
         }
 
-        meetingService.addParticipants(meeting, participants);
+        return meetingService.addParticipants(meeting, participants);
     }
 
     private void addExistingParticipants(final List<Participant> participants, final List<String> userList) {
