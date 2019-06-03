@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -8,6 +9,8 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="/webjars/font-awesome/5.8.1/css/all.min.css" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/webjars/bootstrap-select/1.13.8/css/bootstrap-select.min.css" crossorigin="anonymous">
 
         <title>Roomed</title>
         <style>
@@ -24,10 +27,53 @@
                 background: #4B0082;
                 color: #ffffff;
             }
+
+            .btn-primary:hover,
+            .btn-primary:focus,
+            .btn-primary:active,
+            .btn-primary.active,
+            .btn-primary:checked,
+            .btn-primary.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
+            .btn-custom {
+                background: #4B0082;
+                color: #ffffff;
+            }
+
+            .btn-custom:hover,
+            .btn-custom:focus,
+            .btn-custom:active,
+            .btn-custom.active,
+            .btn-custom:checked,
+            .btn-custom.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
+            .btn-bottom {
+                background: #4B0082;
+                color: #ffffff;
+                margin-top:95%;
+            }
+
+            .btn-bottom:hover,
+            .btn-bottom:focus,
+            .btn-bottom:active,
+            .btn-bottom.active,
+            .btn-bottom:checked,
+            .btn-bottom.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
         </style>
     </head>
     <body>
-        <div th:replace="layout/nav :: logged-in"></div>
+        <div sec:authorize="isAuthenticated()" th:replace="layout/nav :: logged-in"></div>
+        <div sec:authorize="!isAuthenticated()" th:replace="layout/nav :: logged-out"></div>
 
         <main role="main">
             <div class="container-fluid pt-5" layout:fragment="content">
@@ -42,5 +88,7 @@
         <script src="/webjars/jquery/3.3.1-2/jquery.slim.min.js" crossorigin="anonymous"></script>
         <script src="/webjars/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="/webjars/bootstrap-select/1.13.8/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
+        <th:block layout:fragment="script"></th:block>
     </body>
 </html>

@@ -1,13 +1,19 @@
 package gpse.team52.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 //TODO: - set attributes correct for database
@@ -18,9 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
 // - unit tests for functions submit, cancel, back
 // - submit data for real at last submit step
 // - add equipment
-// - merge into develop and fix any f problems
+// - Belegungsplan für Räume
 // - (get back from last step and detailed information with rooms still selected)
-
 
 /**
  * Room Entity.
@@ -64,6 +69,7 @@ public class Room {
      * Name of a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false) //TODO nullable should be false!
     private String roomName;
 
@@ -75,10 +81,17 @@ public class Room {
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
 
+    /**
+     * Meetings held in this room.
+     */
+    @Getter
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<MeetingRoom> meetings;
 
     //TODO schauen ob layout klappt
-    @Column(name = "layout")
-    private byte[] layout;
+    @Getter
+    @Column(nullable = false)
+    private String layoutName;
 
     @Getter
     @ManyToMany(targetEntity = Equipment.class)
@@ -90,30 +103,44 @@ public class Room {
 
     /**
      * Constructor for a room.
-     * @param seats Define number of seats
+     *
+     * @param seats           Define number of seats
      * @param expandableSeats Define number of optional seats
-     * @param email Email address of the room
-     * @param location Location of the room
-     * @param roomName
+     * @param email           Email address of the room
+     * @param location        Location of the room
+     * @param roomName        Name of the room
+     * @param layoutName      Layout of the room
      */
     public Room(final int seats, final int expandableSeats,
-                final String email, final Location location, String roomName) {
+                final String email, final Location location, final String roomName, final String layoutName) {
+        //TODO Konstruktor mit Raumnamen und LayoutNamen am Schluss, ich versuche das überall zu fixen
+        // kann sein, dass ich was übersehe
         this.seats = seats;
         this.expandableSeats = expandableSeats;
         this.roomEmail = email;
         this.location = location;
+        this.layoutName = layoutName;
         this.roomName = roomName;
     }
 
-    public void addEquipment(Equipment equipment) {
+    public void addEquipment(final Equipment equipment) {
         this.equipment.add(equipment);
     }
 
-    public void addEquipment(List<Equipment> equipment) {
+    public void addEquipment(final List<Equipment> equipment) {
         this.equipment.addAll(equipment);
     }
 
-    public void addEquipment(Equipment... equipments) {
+    public void addEquipment(final Equipment... equipments) {
         addEquipment(Arrays.asList(equipments));
+    }
+
+    /*TODO: passt der pfad?
+    TODO: pfad zu ressources passend einfügen
+    TODO: wie wird es in die html geladen?
+    TODO: im controller anpassen das er das da tut
+     */
+    public String getLayoutPath() {
+        return "static/pictures/layout/" + layoutName + ".png";
     }
 }

@@ -1,5 +1,6 @@
 package gpse.team52.contract;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import gpse.team52.domain.User;
@@ -83,4 +84,9 @@ public interface UserService extends UserDetailsService {
     User updateUser(User user);
 
     User setUserNewPassword(User user, String password);
+
+    Optional<User> getUserById(UUID id);
+
+    Optional<User> getUserById(String id);
+
 }

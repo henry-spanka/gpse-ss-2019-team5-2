@@ -22,14 +22,14 @@ public class Location {
     @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", nullable = true, updatable = false, columnDefinition = "BINARY(16)")
     private UUID locationId;
 
     @Getter
     @Column
     private String name;
 
-    public Location(String name) {
+    public Location(final String name) {
         this.name = name;
     }
 }

@@ -1,7 +1,9 @@
 package gpse.team52.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
+import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
@@ -103,6 +105,8 @@ public class UserServiceImpl implements UserService {
             user.addRole(role);
         }
 
+
+
         return userRepository.save(user);
     }
 
@@ -203,5 +207,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Iterable<User> getAllUsers() { return userRepository.findAll(); }
+    public Optional<User> getUserById(final UUID id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> getUserById(final String id) {
+        return getUserById(UUID.fromString(id));
+    }
+
+    @Override
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
+
+
+    }
 }
