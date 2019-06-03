@@ -2,8 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/main}">
 <body>
 <div layout:fragment="content">
-    <div class = "text-center">
-        <img th:src="@{'static/pictures/'+${pbPic}}"/>
+    <div class="text-center">
+        <div th:if="${pbPic!=null}">
+            <img th:src="@{'static/pictures/'+${pbPic}}"/>
+        </div>
+        <div th:unless="${pbPic!=null}">
+            <Strong Insert Profile Picture></Strong>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-5 p-2 mx-auto text-center">
