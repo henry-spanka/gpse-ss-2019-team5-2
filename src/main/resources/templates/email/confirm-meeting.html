@@ -9,8 +9,8 @@
             <p>As an owner you have to confirm your upcomming meeting.</p>
             <p>Otherwise your meeting will be deleted.</p>
             <hr>
-            <!--/*@thymesVar id="token" type="gpse.team52.domain.ConfirmationToken"*/-->
-            <a class="mb-0" th:href="${@environment.getRequiredProperty('app.url')} + @{~/meeting-confirmed(token=${token.getToken()})}">Confirm Meeting</a>
+            <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
+            <a class="mb-0" th:href="${@environment.getRequiredProperty('app.url')} + @{~/meeting-confirmed(meeting=${meeting.getMeetingId()})}">Confirm Meeting</a>
         </div>
     </div>
 </div>

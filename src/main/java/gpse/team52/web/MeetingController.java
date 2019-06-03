@@ -94,14 +94,6 @@ public class MeetingController {
 
     }
 
-    @PostMapping("/meeting/{id]")
-    public ModelAndView activateMeeting(@PathVariable("id") final String id) {
-        final Meeting meeting = meetingService.getMeetingById(id);
-        meeting.setConfirmed(true);
-
-        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
-    }
-
     /**
      * Deletes a participant from the meeting.
      *
@@ -123,7 +115,7 @@ public class MeetingController {
      * @return Redirects to the confirmed page to inform the user.
      */
     @GetMapping("/meeting-confirmed")
-    public ModelAndView confirmMeeting(final @RequestParam("token") String meetingId) {
+    public ModelAndView confirmMeeting(final @RequestParam("meeting") String meetingId) {
         final ModelAndView modelAndView = new ModelAndView("meeting-confirmed");
         final Meeting meeting = meetingService.getMeetingById(meetingId);
         meeting.setConfirmed(true);

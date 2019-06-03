@@ -92,6 +92,14 @@ public class Meeting {
     private String description;
 
     /**
+     * Boolean if a confirmation email was already send.
+     */
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private boolean confirmemail = false;
+
+    /**
      * The rooms where meetings are held.
      */
     @Getter

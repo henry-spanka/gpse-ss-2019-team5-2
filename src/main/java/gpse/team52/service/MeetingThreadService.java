@@ -45,9 +45,14 @@ public class MeetingThreadService {
         });
     }
 
+    /**
+     * Checks every meeting and either sends confirmation email or deletes them.
+     * @throws InterruptedException in case of an Exception.
+     */
     @Async
     public void checkMeetings() throws InterruptedException {
         while (true) {
+            System.out.println("Thread running");
             ArrayList<Meeting> meetings = new ArrayList<>();
             LocalDateTime now = LocalDateTime.now();
 
@@ -55,17 +60,17 @@ public class MeetingThreadService {
             for (Meeting meeting : meetings) {
                 LocalDateTime meetingstart = meeting.getStartAt();
                 long diff = Duration.between(now, meetingstart).toMinutes();
-                if (diff == 30) {
+                if (diff <= 30 && !meeting.isConfirmemail()) {
                     User user = meeting.getOwner();
                     sendConfirmationEmail(user, meeting);
+                    meeting.setConfirmemail(true);
                     System.out.println(meeting.getTitle() + ": Email wird verschickt!");
                 } else if (diff < 0 && !meeting.isConfirmed()) {
                     meetingService.deleteByMeetingId(meeting.getMeetingId());
                     System.out.println(meeting.getTitle() + " wird geloescht!");
                 }
             }
-            Thread.sleep(60000);
-            System.out.println("Thread running");
+            Thread.sleep(30000);
         }
     }
 

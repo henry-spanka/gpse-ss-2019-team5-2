@@ -185,12 +185,10 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void sendConfirmationEmail(final User user, final Meeting meeting) {
-        final ConfirmationToken confirmationToken = new ConfirmationToken(user);
-
-        confirmationTokenRepository.save(confirmationToken);
+        UUID meetingid = meeting.getMeetingId();
 
         final ModelAndView modelAndView = new ModelAndView("email/confirm-meeting", "meeting", meeting);
-        modelAndView.addObject("token", confirmationToken);
+        modelAndView.addObject("meetingid", meeting);
 
         mailService.sendEmailTemplateToUser(user, "Meeting Confirmation", modelAndView);
     }
