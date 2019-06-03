@@ -50,7 +50,7 @@ public class MeetingCreatorController {
      * @param bindingResult Result of the validation.
      * @param authentication User Authentication context.
      * @param sessionStatus Session status.
-     * @return Redirects to start on success otherwise shows room selection view.
+     * @return Redirects to the meeting on success otherwise shows room selection view.
      */
     @PostMapping("/createMeeting/confirm")
     public ModelAndView bookMeeting(
@@ -61,10 +61,10 @@ public class MeetingCreatorController {
         if (!bindingResult.hasErrors()) {
             try {
                 final User user = (User) authentication.getPrincipal();
-                createMeeting(meeting, user);
+                Meeting createdMeeting = createMeeting(meeting, user);
                 sessionStatus.setComplete();
 
-                return new ModelAndView("redirect:/");
+                return new ModelAndView("redirect:/meeting/" + createdMeeting.getMeetingId().toString());
             } catch (NoRoomAvailableException e) {
                 bindingResult.rejectValue("rooms", "meeting.create.noRoomsAvailable", e.getMessage());
             }
