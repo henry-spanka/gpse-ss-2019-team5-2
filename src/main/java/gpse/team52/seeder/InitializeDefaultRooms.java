@@ -28,6 +28,11 @@ public class InitializeDefaultRooms {
     private final LocationService locationService;
 
     /**
+     * Required to make it dependent on InitializeDefaultMeetings.
+     */
+    private final InitializeDefaultMeetings initializeDefaultMeetings;
+
+    /**
      * Constructor for the used services.
      *
      * @param userService Service for user
@@ -35,11 +40,13 @@ public class InitializeDefaultRooms {
      */
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
-                                  final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService) {
+                                  final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+                                  final InitializeDefaultMeetings initializeDefaultMeetings) {
         this.userService = userService;
         this.roomService = roomService;
         this.equipmentService = equipmentService;
         this.locationService = locationService;
+        this.initializeDefaultMeetings = initializeDefaultMeetings;
     }
 
     /**
