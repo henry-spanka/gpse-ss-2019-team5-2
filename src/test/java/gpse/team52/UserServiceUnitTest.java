@@ -19,6 +19,7 @@ import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import gpse.team52.repository.ConfirmationTokenRepository;
+import gpse.team52.repository.ForgotPasswordTokenRepository;
 import gpse.team52.repository.UserRepository;
 import gpse.team52.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,9 @@ class UserServiceUnitTest {
     private ConfirmationTokenRepository confirmationTokenRepository;
 
     @Mock
+    private ForgotPasswordTokenRepository forgotPasswordTokenRepository;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -56,7 +60,8 @@ class UserServiceUnitTest {
 
     @BeforeEach
     public void setUp() {
-        userService = new UserServiceImpl(userRepository, confirmationTokenRepository, passwordEncoder, mailService);
+
+        userService = new UserServiceImpl(userRepository, confirmationTokenRepository, forgotPasswordTokenRepository, passwordEncoder, mailService);
 
         userRegistrationForm = new UserRegistrationForm();
         userRegistrationForm.setFirstName("Test");

@@ -65,6 +65,7 @@ public class User implements UserDetails { //NOPMD
     @Getter
     private String email;
 
+    @Setter
     @Getter
     @Column(nullable = false)
     private String password;

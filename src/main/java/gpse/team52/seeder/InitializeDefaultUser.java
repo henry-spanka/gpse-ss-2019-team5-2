@@ -45,13 +45,51 @@ public class InitializeDefaultUser {
         form.setPassword(DEFAULT_PASSWORD);
         form.setPasswordConfirm(DEFAULT_PASSWORD);
 
-
         try {
             userService.createUser(form, true, "ROLE_ADMIN");
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
         }
 
+
+        form.setFirstName("Markus");
+        form.setLastName("G.");
+        form.setEmail("markus.gaffke124@capgeminitest.org");
+        form.setUsername("mgaffke");
+        form.setPassword(DEFAULT_PASSWORD);
+        form.setPasswordConfirm(DEFAULT_PASSWORD);
+
+        try {
+            userService.createUser(form, true, "ROLE_ADMIN");
+        } catch (UsernameExistsException | EmailExistsException e) {
+
+        }
+
+        form.setFirstName("Markus");
+        form.setLastName("C.");
+        form.setEmail("markus.c124@capgeminitest.org");
+        form.setUsername("markusc");
+        form.setPassword(DEFAULT_PASSWORD);
+        form.setPasswordConfirm(DEFAULT_PASSWORD);
+
+        try {
+            userService.createUser(form, true, "ROLE_ADMIN");
+        } catch (UsernameExistsException | EmailExistsException e) {
+
+        }
+
+        form.setFirstName("Marie-Sophie");
+        form.setLastName("B.");
+        form.setEmail("marie12412421@capgeminitest.org");
+        form.setUsername("mborat");
+        form.setPassword(DEFAULT_PASSWORD);
+        form.setPasswordConfirm(DEFAULT_PASSWORD);
+
+        try {
+            userService.createUser(form, true, "ROLE_ADMIN");
+        } catch (UsernameExistsException | EmailExistsException e) {
+
+        }
 
     }
 }

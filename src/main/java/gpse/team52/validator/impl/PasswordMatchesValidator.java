@@ -3,6 +3,7 @@ package gpse.team52.validator.impl;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import gpse.team52.contract.HasPassword;
 import gpse.team52.form.UserRegistrationForm;
 import gpse.team52.validator.PasswordMatches;
 
@@ -17,7 +18,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-        final UserRegistrationForm userForm = (UserRegistrationForm) obj;
+        final HasPassword userForm = (HasPassword) obj;
 
         if (userForm.getPassword() == null || userForm.getPasswordConfirm() == null) {
             return false;
