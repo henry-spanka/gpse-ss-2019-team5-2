@@ -29,8 +29,9 @@ public class RoomBrokerApplication {
         @Bean
         CommandLineRunner init(DBFileStorageService dbFileStorageService) {
             return (args) -> {
-                dbFileStorageService.deleteAll();
-                dbFileStorageService.init();
+                // This doesnt work properly.
+                /*dbFileStorageService.deleteAll();
+                dbFileStorageService.init();*/
             };
         }
 
