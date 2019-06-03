@@ -36,6 +36,10 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
+    void deleteByMeetingId(UUID id);
+
+    Iterable<Meeting> findByConfirmed(boolean bool);
+
     Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
 
 
@@ -48,5 +52,5 @@ public interface MeetingService {
 
     Meeting validateMeetingFromToken(UUID token) throws InvalidConfirmationTokenException;
 
-    void sendVerificationEmail(User user, Meeting meeting);
+    void sendConfirmationEmail(User user, Meeting meeting);
 }

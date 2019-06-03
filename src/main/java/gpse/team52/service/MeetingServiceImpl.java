@@ -138,6 +138,16 @@ public class MeetingServiceImpl implements MeetingService {
         return finalMeetings;
     }
 
+    @Override
+    public void deleteByMeetingId(UUID id) {
+        meetingRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Meeting> findByConfirmed(boolean bool) {
+        return meetingRepository.findByConfirmed(bool);
+    }
+
     /**
      * Add a list of participants to a meeting.
      *
@@ -179,7 +189,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @param meeting The meeting to confirm.
      */
     @Override
-    public void sendVerificationEmail(final User user, final Meeting meeting) {
+    public void sendConfirmationEmail(final User user, final Meeting meeting) {
         final ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         confirmationTokenRepository.save(confirmationToken);

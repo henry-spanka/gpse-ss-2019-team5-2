@@ -20,6 +20,10 @@ public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
 
     Iterable<Meeting> findByOrderByStartAtAsc();
 
+    void deleteByMeetingId(UUID id);
+
+    Iterable<Meeting> findByConfirmed(boolean bool);
+
     @Query("SELECT r FROM Meeting m JOIN m.rooms r WHERE m.startAt <= :endAt AND m.endAt >= :startAt")
     List<MeetingRoom> getMeetingRoomMappingInTimeFrame(@Param("startAt") LocalDateTime startAt,
                                                        @Param("endAt") LocalDateTime endAt);
