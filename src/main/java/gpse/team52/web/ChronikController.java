@@ -1,12 +1,10 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.MeetingService;
-<<<<<<< HEAD
-import gpse.team52.contract.RoomService;
-=======
+
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
->>>>>>> origin/release-v0.3.0
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

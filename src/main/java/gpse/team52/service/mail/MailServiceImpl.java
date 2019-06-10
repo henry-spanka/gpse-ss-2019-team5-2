@@ -48,7 +48,7 @@ public class MailServiceImpl implements MailService {
      * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
-    public void sendEmailMessage(String email, final String subject, final String message, final boolean html) {
+   /* public void sendEmailMessage(String email, final String subject, final String message, final boolean html) {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(env.getRequiredProperty("mail.from"));
@@ -58,7 +58,7 @@ public class MailServiceImpl implements MailService {
         };
 
         mailSender.send(messagePreparator);
-    }
+    }*/
     public void sendEmailMessage (final String mail, final String subject, final String message, final boolean html)
     throws MailException {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
