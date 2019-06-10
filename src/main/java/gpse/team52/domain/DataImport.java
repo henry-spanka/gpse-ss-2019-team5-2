@@ -61,9 +61,7 @@ public class DataImport {
             BufferedReader inBuffer = new BufferedReader(reader);
             String line = null;
             Boolean isFirstLineHeader = true;
-
-
-            while ((line = inBuffer.readLine()) != null) {
+                        while ((line = inBuffer.readLine()) != null) {
                 if(isFirstLineHeader){
                     isFirstLineHeader=false;
 
