@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Position entity.
+ */
 @Entity
 @NoArgsConstructor
 public class Position {

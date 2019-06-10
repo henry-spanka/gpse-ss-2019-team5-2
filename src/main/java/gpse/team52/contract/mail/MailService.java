@@ -1,5 +1,6 @@
 package gpse.team52.contract.mail;
 
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.mail.MailException;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,21 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public interface MailService {
     /**
-     * Sends an email to the users email address.
-     * @param user The user to send the mail to (their email).
+     * Sends an email to the given email address.
+     *
+     * @param email   The email to send the mail to.
      * @param subject The email subject.
      * @param message The message (body).
-     * @param html Whether the content type should be html or plain text.
+     * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
+    void sendEmailMessage(String email, final String subject, final String message, final boolean html) throws MailException;
+
+
     void sendEmailMessageToUser(User user, String subject, String message, boolean html) throws MailException;
 
-    /**
-     * Sends an email to the users email address from Thymeleaf templates.
-     * @param user The User to send the mail to (their email).
-     * @param subject The email subject.
-     * @param template The Thymeleaf ModelAndView object.
-     * @throws MailException Thrown if the message could not be sent.
-     */
     void sendEmailTemplateToUser(User user, String subject, ModelAndView template) throws MailException;
+
+    void sendEmailTemplate(final Participant participant, final String subject, final ModelAndView template) throws MailException;
 }

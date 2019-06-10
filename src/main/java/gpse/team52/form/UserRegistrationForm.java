@@ -2,6 +2,7 @@ package gpse.team52.form;
 
 import javax.validation.constraints.NotBlank;
 
+import gpse.team52.contract.HasPassword;
 import gpse.team52.validator.PasswordMatches;
 import gpse.team52.validator.ValidEmail;
 import gpse.team52.validator.ValidPassword;
@@ -12,7 +13,7 @@ import lombok.Setter;
  * User Registration Form from which a valid user can be registered.
  */
 @PasswordMatches
-public class UserRegistrationForm {
+public class UserRegistrationForm implements HasPassword {
     @NotBlank
     @Getter
     @Setter

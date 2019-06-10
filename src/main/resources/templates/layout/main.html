@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -52,10 +53,27 @@
                 color: #ffffff;
             }
 
+            .btn-bottom {
+                background: #4B0082;
+                color: #ffffff;
+                margin-top:95%;
+            }
+
+            .btn-bottom:hover,
+            .btn-bottom:focus,
+            .btn-bottom:active,
+            .btn-bottom.active,
+            .btn-bottom:checked,
+            .btn-bottom.checked {
+                background-color: #270b35;
+                color: #ffffff;
+            }
+
         </style>
     </head>
     <body>
-        <div th:replace="layout/nav :: logged-in"></div>
+        <div sec:authorize="isAuthenticated()" th:replace="layout/nav :: logged-in"></div>
+        <div sec:authorize="!isAuthenticated()" th:replace="layout/nav :: logged-out"></div>
 
         <main role="main">
             <div class="container-fluid pt-5" layout:fragment="content">

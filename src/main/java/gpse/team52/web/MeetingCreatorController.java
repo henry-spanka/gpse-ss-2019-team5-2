@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import gpse.team52.contract.MeetingService;
-import gpse.team52.contract.RoomFinderService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
+import gpse.team52.contract.*;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
@@ -44,13 +41,16 @@ public class MeetingCreatorController {
     @Autowired
     private RoomFinderService roomFinderService;
 
+    @Autowired
+    private LocationService locationService;
+
     /**
      * Creates a new meeting from the user selected input.
      * @param meeting The meeting form which contains all the meeting information.
      * @param bindingResult Result of the validation.
      * @param authentication User Authentication context.
      * @param sessionStatus Session status.
-     * @return Redirects to start on success otherwise shows room selection view.
+     * @return Redirects to the meeting on success otherwise shows room selection view.
      */
     @PostMapping("/createMeeting/confirm")
     public ModelAndView bookMeeting(
@@ -61,10 +61,10 @@ public class MeetingCreatorController {
         if (!bindingResult.hasErrors()) {
             try {
                 final User user = (User) authentication.getPrincipal();
-                createMeeting(meeting, user);
+                Meeting createdMeeting = createMeeting(meeting, user);
                 sessionStatus.setComplete();
 
-                return new ModelAndView("redirect:/");
+                return new ModelAndView("redirect:/meeting/" + createdMeeting.getMeetingId().toString());
             } catch (NoRoomAvailableException e) {
                 bindingResult.rejectValue("rooms", "meeting.create.noRoomsAvailable", e.getMessage());
             }
@@ -108,7 +108,7 @@ public class MeetingCreatorController {
 
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject("locations", roomService.getAllLocations());
+        modelAndView.addObject("locations", locationService.getAllLocations());
         modelAndView.addObject("equipments", roomService.getAllEquipment());
 
         return modelAndView;

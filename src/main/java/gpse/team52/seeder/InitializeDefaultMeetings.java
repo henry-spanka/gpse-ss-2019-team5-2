@@ -4,10 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
-import gpse.team52.contract.EquipmentService;
-import gpse.team52.contract.MeetingService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
+import gpse.team52.contract.*;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
@@ -34,6 +31,11 @@ public class InitializeDefaultMeetings {
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
+    private final LocationService locationService;
+    /**
+     * Required to make it dependent on InitializeDefaultLocations.
+     */
+    private final InitializeDefaultLocations initializeDefaultLocations;
 
     /**
      * Constructor for the used services.
@@ -45,11 +47,14 @@ public class InitializeDefaultMeetings {
     @Autowired
     public InitializeDefaultMeetings(
     final MeetingService meetingService, final UserService userService,
-    final RoomService roomService, final EquipmentService equipmentService) {
+    final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+    final InitializeDefaultLocations initializeDefaultLocations) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.roomService = roomService;
         this.equipmentService = equipmentService;
+        this.locationService = locationService;
+        this.initializeDefaultLocations = initializeDefaultLocations;
     }
 
     /**
@@ -92,17 +97,17 @@ public class InitializeDefaultMeetings {
             return;
         }
 
-        final Location location1 = roomService.getLocation("Bielefeld").orElseThrow();
-        final Location location2 = roomService.getLocation("Gütersloh").orElseThrow();
+        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
 
         final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
         final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
         "layoutRed");
 
-        final Equipment equipment1 = equipmentService.createEquipment("whiteboard");
-        final Equipment equipment2 = equipmentService.createEquipment("beamer");
-        final Equipment equipment3 = equipmentService.createEquipment("flipchart");
+        final Equipment equipment1 = equipmentService.createEquipment("Whiteboard");
+        final Equipment equipment2 = equipmentService.createEquipment("Beamer");
+        final Equipment equipment3 = equipmentService.createEquipment("Flipchart");
         room1.addEquipment(equipment1, equipment2, equipment3);
         room2.addEquipment(equipment3);
 
@@ -110,8 +115,8 @@ public class InitializeDefaultMeetings {
         roomService.update(room2);
 
         final Meeting meeting1 = new Meeting("Daily Scum");
-        meeting1.setStartAt(LocalDateTime.of(2019, 5, 24, 10, 15));
-        meeting1.setEndAt(LocalDateTime.of(2019, 5, 24, 11, 45));
+        meeting1.setStartAt(LocalDateTime.of(2019, 6, 3, 11, 24));
+        meeting1.setEndAt(LocalDateTime.of(2019, 6, 3, 11, 45));
         meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));

@@ -4,6 +4,7 @@ import javax.mail.internet.MimeMessage;
 
 import gpse.team52.contract.mail.MailContentBuilder;
 import gpse.team52.contract.mail.MailService;
+import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -39,21 +40,19 @@ public class MailServiceImpl implements MailService {
     }
 
     /**
-     * Sends an email to the users email address.
+     * Sends an email to the given email address.
      *
-     * @param user    The user to send the mail to (their email).
+     * @param email   The email to send the mail to.
      * @param subject The email subject.
      * @param message The message (body).
      * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
-    @Override
-    public void sendEmailMessageToUser(final User user, final String subject, final String message, final boolean html)
-    throws MailException {
+    public void sendEmailMessage(String email, final String subject, final String message, final boolean html) {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(env.getRequiredProperty("mail.from"));
-            messageHelper.setTo(user.getEmail());
+            messageHelper.setTo(email);
             messageHelper.setSubject(subject);
             messageHelper.setText(message, html);
         };
@@ -73,9 +72,21 @@ public class MailServiceImpl implements MailService {
         mailSender.send(messagePreparator);
     }
 
+
+    @Override
+    public void sendEmailMessageToUser(final User user, final String subject, final String message, final boolean html)
+    throws MailException {
+        sendEmailMessage(user.getEmail(), subject, message, html);
+    }
+
     @Override
     public void sendEmailTemplateToUser(final User user, final String subject, final ModelAndView template)
     throws MailException {
         sendEmailMessageToUser(user, subject, mailContentBuilder.build(template), true);
+    }
+
+    @Override
+    public void sendEmailTemplate(final Participant participant, final String subject, final ModelAndView template) throws MailException {
+        sendEmailMessage(participant.getEmail(), subject, mailContentBuilder.build(template), true);
     }
 }

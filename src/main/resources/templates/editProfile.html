@@ -4,24 +4,42 @@
 <div layout:fragment="content">
     <form th:action="@{/editProfile}"
           th:object="${createUserCmd}"
+          enctype="multipart/form-data"
           method="post">
         <div class="row">
             <div class="col-md-5 p-2 mx-auto text-center">
-                <label for="firstname">Firstname:</label>
-                <input type="text" id="firstname" th:field="*{firstname}"/>
+                <label for ="firstname">Firstname:</label>
+                <input type = "text" id ="firstname" th:field ="*{firstname}"/>
                 <p>
-                    <label for="lastname">Lastname:</label>
-                    <input type="text" id="lastname" th:field="*{lastname}"/>
+                    <label for = "lastname">Lastname:</label>
+                    <input type="text" id ="lastname" th:field ="*{lastname}"/>
                 </p>
                 <p>
-                    <input type="submit" value="Save&Exit"/>
+                <div class="col-md-7 p-2 mx-auto text-center">
+                    <select class="form-control" th:field="*{location}">
+                        <option value="">Select Location</option>
+                        <option th:each="loc : ${locationNames}"
+                                th:value="${loc.name}"
+                                th:text="${loc.name}"
+
+                        </option>
+                    </select>
+
+                <input type="file" name="file" accept="image/jpeg/png"/>
+                <p>
+                    Upload a picture for your profile
+                </p>
+
+
+            </div>
+                </p>
+                <p>
+                    <input type = "submit" value = "Save&Exit"/>
                 </p>
             </div>
         </div>
-    </form>
 </div>
+
+</form>
 </body>
 </html>
-
-
-

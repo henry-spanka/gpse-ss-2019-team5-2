@@ -1,29 +1,40 @@
 package gpse.team52.web;
 
-import gpse.team52.contract.MeetingService;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.core.Authentication;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.ParticipantService;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.Authentication;
+
 
 /**
  * Responsible for managing the start page for each individual user.
  */
 @Controller
 public class StartPageController {
+    private static final String MONDAY = "MON";
+    private static final String TUESDAY = "TUE";
+    private static final String WEDNESDAY = "WED";
+    private static final String THURSDAY = "THU";
+    private static final String FRIDAY = "FRI";
+    private static final String SATURDAY = "SAT";
+    private static final String SUNDAY = "SUN";
+
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private ParticipantService participantService;
+
 
     public StartPageController(final MeetingService meetingService) {
         this.meetingService = meetingService;
@@ -31,73 +42,87 @@ public class StartPageController {
 
     /**
      * Show the start page to the user.
+     * Filters meetings based on logged in user and adjust the days based on the current day.
      *
      * @return Start Page ModelAndView Object.
      */
     @GetMapping("/start")
-    public ModelAndView showStart(@RequestParam(defaultValue = "0") int page, Authentication authentication) {
-        ModelAndView modelAndView = new ModelAndView("startpage");
-        User user = (User) authentication.getPrincipal();
+    public ModelAndView showStart(final Authentication authentication) {
+        final ModelAndView modelAndView = new ModelAndView("startpage");
+        final User user = (User) authentication.getPrincipal();
 
-        LocalDate today = LocalDate.now();
-        LocalDateTime starttoday = today.atStartOfDay();
-        LocalDateTime endtoday = today.plusDays(1).atStartOfDay();
+        final LocalDate today = LocalDate.now();
+        final LocalDateTime starttoday = today.atStartOfDay();
+        final LocalDateTime endtoday = today.plusDays(1).atStartOfDay();
 
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        LocalDateTime starttomorrow = tomorrow.atStartOfDay();
-        LocalDateTime endtomorrow = tomorrow.plusDays(1).atStartOfDay();
+        final LocalDate tomorrow = LocalDate.now().plusDays(1);
+        final LocalDateTime starttomorrow = tomorrow.atStartOfDay();
+        final LocalDateTime endtomorrow = tomorrow.plusDays(1).atStartOfDay();
 
-        LocalDate aftertomorrow = LocalDate.now().plusDays(2);
-        LocalDateTime startaftertomorrow = aftertomorrow.atStartOfDay();
-        LocalDateTime endaftertomorrow = aftertomorrow.plusDays(1).atStartOfDay();
+        final LocalDate aftertomorrow = LocalDate.now().plusDays(2);
+        final LocalDateTime startaftertomorrow = aftertomorrow.atStartOfDay();
+        final LocalDateTime endaftertomorrow = aftertomorrow.plusDays(1).atStartOfDay();
 
+        final ArrayList<Participant> participants = new ArrayList<>();
+        participantService.findByUser(user).forEach(participants::add);
 
-        ArrayList<Meeting> meetingstoday = new ArrayList<Meeting>();
-        ArrayList<Meeting> meetingstomorrow = new ArrayList<Meeting>();
-        ArrayList<Meeting> meetingsaftertomorrow = new ArrayList<Meeting>();
-        meetingService.findByStartAtBetween(starttoday, endtoday).forEach(meetingstoday::add);
-        meetingService.findByStartAtBetween(starttomorrow, endtomorrow).forEach(meetingstomorrow::add);
-        meetingService.findByStartAtBetween(startaftertomorrow, endaftertomorrow).forEach(meetingsaftertomorrow::add);
+        final ArrayList<Meeting> meetingstoday = new ArrayList<>();
+        final ArrayList<Meeting> meetingstomorrow = new ArrayList<>();
+        final ArrayList<Meeting> meetingsaftertomorrow = new ArrayList<>();
+        meetingService.findByStartAtBetweenAndParticipantsIn(starttoday, endtoday, participants)
+        .forEach(meetingstoday::add);
+        meetingService.findByStartAtBetweenAndParticipantsIn(starttomorrow, endtomorrow, participants)
+        .forEach(meetingstomorrow::add);
+        meetingService.findByStartAtBetweenAndParticipantsIn(startaftertomorrow, endaftertomorrow, participants)
+        .forEach(meetingsaftertomorrow::add);
 
-        //TODO day buttons get bugged when empty meetinglist should be shown
-        modelAndView.addObject("meetings1", meetingstoday);
-        modelAndView.addObject("meetings2", meetingstomorrow);
-        modelAndView.addObject("meetings3", meetingsaftertomorrow);
+        if (!meetingstoday.isEmpty()) {
+            modelAndView.addObject("meetings1", meetingstoday);
+        }
+        if (!meetingstomorrow.isEmpty()) {
+            modelAndView.addObject("meetings2", meetingstomorrow);
+        }
+        if (!meetingsaftertomorrow.isEmpty()) {
+            modelAndView.addObject("meetings3", meetingsaftertomorrow);
+        }
+
+        final String emptyday = "There are no meetings for today!";
+        modelAndView.addObject("emptytday", emptyday);
 
         //dynamic names for upcomming days
         String daytom;
         String dayaftertom;
 
-        DayOfWeek daytomorrow = tomorrow.getDayOfWeek();
+        final DayOfWeek daytomorrow = tomorrow.getDayOfWeek();
 
         switch (daytomorrow) {
             case MONDAY:
-                daytom = "MON";
-                dayaftertom = "TUE";
+                daytom = MONDAY;
+                dayaftertom = TUESDAY;
                 break;
             case TUESDAY:
-                daytom = "TUE";
-                dayaftertom = "WED";
+                daytom = TUESDAY;
+                dayaftertom = WEDNESDAY;
                 break;
             case WEDNESDAY:
-                daytom = "WED";
-                dayaftertom = "THU";
+                daytom = WEDNESDAY;
+                dayaftertom = THURSDAY;
                 break;
             case THURSDAY:
-                daytom = "THU";
-                dayaftertom = "FRI";
+                daytom = THURSDAY;
+                dayaftertom = FRIDAY;
                 break;
             case FRIDAY:
-                daytom = "FRI";
-                dayaftertom = "SAT";
+                daytom = FRIDAY;
+                dayaftertom = SATURDAY;
                 break;
             case SATURDAY:
-                daytom = "SAT";
-                dayaftertom = "SUN";
+                daytom = SATURDAY;
+                dayaftertom = SUNDAY;
                 break;
             default:
-                daytom = "SUN";
-                dayaftertom = "MON";
+                daytom = SUNDAY;
+                dayaftertom = MONDAY;
                 break;
         }
 

@@ -52,11 +52,17 @@ public class User implements UserDetails { //NOPMD
     @Column
     private String location;
 
+    @Getter
+    @Setter
+    @Column
+    private String picture;
+
     @Column(unique = true, nullable = false)
     @Getter
     @Setter
     private String email;
 
+    @Setter
     @Getter
     @Column(nullable = false)
     private String password;

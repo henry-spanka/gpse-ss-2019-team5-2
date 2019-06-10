@@ -19,13 +19,6 @@ public interface RoomService {
 
     Room update(Room room);
 
-    //TODO location in roomService interface??
-    Location createLocation(String name);
-
-    Iterable<Location> getAllLocations();
-
-    Optional<Location> getLocation(String name);
-
     Iterable<Room> getAllRooms();
 
     Optional<Room> getRoom(UUID roomID);

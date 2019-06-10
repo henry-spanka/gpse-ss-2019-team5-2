@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Room display page controller.
+ */
 @Controller
 public class RoomdisplayController {
 
@@ -47,7 +50,7 @@ public class RoomdisplayController {
         //!! TEST !!
         final List<Room> rooms = new ArrayList<>(); // is there no other way to check whether an iterable is empty?
         roomList.forEach(rooms::add);
-        if(rooms.isEmpty()) {
+        if (rooms.isEmpty()) {
             modelAndView.addObject("noRoom", true);
         }
         modelAndView.addObject("roomList", roomList);
@@ -55,14 +58,15 @@ public class RoomdisplayController {
     }
 
     /**
-     * Details for each room
+     * Details for each room.
      * @param roomID room to display details
      * @return Details about specified room
      */
     @GetMapping("/rooms/{roomID}")
     public ModelAndView roomdetails(final @PathVariable("roomID") UUID roomID) {
         final ModelAndView modelAndView = new ModelAndView("roomdetails");
-        final Room room = roomService.getRoom(roomID).orElseThrow(() -> new IllegalArgumentException("No meeting with id: " + roomID + " found"));
+        final Room room = roomService.getRoom(roomID).orElseThrow(()
+        -> new IllegalArgumentException("No meeting with id: " + roomID + " found"));
         // should add some error handling, if the get method fails
 
         modelAndView.addObject("room", room);
@@ -72,7 +76,7 @@ public class RoomdisplayController {
     }
 
     /**
-     * Shows page to confirm selected rooms and parameters of meeting
+     * Shows page to confirm selected rooms and parameters of meeting.
      * @param roomID rooms which are selected
      * @return Page to check and submit data or, in case of error, page with rooms to choose from
      */
@@ -92,7 +96,7 @@ public class RoomdisplayController {
         for (int i = 0; i < chosen.length; i++) {
             chosenRooms.add(roomService.getRoom(UUID.fromString(chosen[i])).orElseThrow());
         }
-        modelAndView.addObject("chosenRooms", chosenRooms);//benötigt, und Meeting auch hinzufügen!
+        modelAndView.addObject("chosenRooms", chosenRooms); //benötigt, und Meeting auch hinzufügen!
         return modelAndView;
     }
     //TODO success message and return to start page

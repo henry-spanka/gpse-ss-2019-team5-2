@@ -37,29 +37,11 @@ public class RoomServiceImpl implements RoomService {
     public Room createRoom(final int seats, final int expandableSeats, final String email, final Location location,
                            final String roomName, final String layoutName) {
         final Room room = new Room(seats, expandableSeats, email, location, roomName, layoutName);
-//TODO hier das auch so übernehmen mit dem Raum Konstruktor, und im RoomService auch
         return roomRepository.save(room);
     }
 
     public Room update(final Room room) {
         return roomRepository.save(room);
-    }
-
-
-    // TODO ? extra service for location ?
-    @Override
-    public Location createLocation(final String name) {
-        final Location location = new Location(name);
-        return locationRepository.save(location);
-    }
-    @Override
-    public Iterable<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
-
-    @Override
-    public Optional<Location> getLocation(final String name) {
-        return locationRepository.findByName(name);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package gpse.team52.contract;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,9 @@ import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
+import gpse.team52.exception.ExternalUserIsIncompleteException;
+import gpse.team52.exception.InvalidConfirmationTokenException;
+import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 
 /**
@@ -34,5 +36,21 @@ public interface MeetingService {
 
     Meeting getMeetingById(String id);
 
-    Iterable<Meeting> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
+    void deleteByMeetingId(UUID id);
+
+    Iterable<Meeting> findByConfirmed(boolean bool);
+
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
+
+
+    Iterable<Meeting> findByStartAt();
+
+    Iterable<Meeting> findByStartAtWithUser(User user);
+
+    Meeting addParticipants(Meeting meeting, List<Participant> participants)
+    throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException;
+
+    void confirmMeeting(UUID meetingId);
+
+    void sendConfirmationEmail(User user, Meeting meeting);
 }
