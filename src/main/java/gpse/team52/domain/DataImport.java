@@ -16,7 +16,6 @@ public class DataImport {
     * when a csv file containing firstname, lastname and mail adress
     * is uploded the person gets an email*/
      public void csvUserImport(String path) {
-
         try {
             FileReader reader = new FileReader(path);
             BufferedReader inBuffer = new BufferedReader(reader);
