@@ -26,7 +26,7 @@ public class DataImport {
                 String[] split =line.split(";");
                 if(split.length!=3){
                     throw new Exception();
-                    
+
                     }
                 final ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
 
