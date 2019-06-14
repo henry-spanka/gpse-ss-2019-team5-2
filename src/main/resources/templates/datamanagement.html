@@ -3,18 +3,18 @@
       layout:decorate="~{layout/main}">
 <head>
     <meta charset="UTF-8">
-    <title>Datamanagement</title>
+    <title>Upload rooms and users</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
         <form th:method="post" th:action="@{/datamanagement}">
-                <div class="form-group">
+               <!-- <div class="form-group">
                     <label for="URL">URL</label>
                     <input type="text" class="form-control" id="URL" name="URL" placeholder="URL">
-                </div>
-            <div class="form-group">
-                <input type="file" name="file" accept="image/jpeg/png"/>
+                </div>-->
+           <div class="form-group">
+                <input type="file" name="file" accept="text/csv"/>
                 <p></p>
                 <p>
 
