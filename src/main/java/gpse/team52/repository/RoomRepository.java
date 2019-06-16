@@ -19,13 +19,4 @@ public interface RoomRepository extends CrudRepository<Room, UUID> {
     + "AND (r.seats + r.expandableSeats)>= :seats ORDER BY r.seats, r.expandableSeats ASC")
     List<Room> findByLocationAndSeatsGreaterThanEqual(@Param("locId") UUID location, @Param("seats") int seats);
 
-    /*
-    //TODO add start, end and date search
-    Iterable<Room> findByEquipmentContaining(List<Equipment> equipment); // so??
-
-    Iterable<Room> findByExpandableSeatsGreaterThanEqual(int expandableSeats); // und macht das hier Sinn,
-    // oder sucht man eh erstmal nach Sitzplätzen und schaut sich dann den entsprechenden Raum genauer an
-    // und vergleicht erwieterbare Sitzplätze?
-     */
-
 }
