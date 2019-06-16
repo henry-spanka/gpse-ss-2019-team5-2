@@ -192,4 +192,9 @@ public class MeetingServiceImpl implements MeetingService {
 
         mailService.sendEmailTemplateToUser(user, "Meeting Confirmation", modelAndView);
     }
+
+    @Override
+    public List<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible) {
+        return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
+    }
 }

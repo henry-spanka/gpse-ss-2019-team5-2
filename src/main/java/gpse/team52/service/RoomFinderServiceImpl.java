@@ -72,7 +72,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end, false) // if meeting shouldn't be rebookable flexibke = false
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexibke = false
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
@@ -92,4 +92,5 @@ public class RoomFinderServiceImpl implements RoomFinderService {
 
         return rooms;
     }
+
 }

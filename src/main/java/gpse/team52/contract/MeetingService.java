@@ -53,4 +53,6 @@ public interface MeetingService {
     void confirmMeeting(UUID meetingId);
 
     void sendConfirmationEmail(User user, Meeting meeting);
+
+    List<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible);
 }

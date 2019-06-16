@@ -1,11 +1,15 @@
 package gpse.team52.web;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.*;
 import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.exception.NoRoomAvailableException;
@@ -116,6 +120,15 @@ public class MeetingCreatorController {
 
     private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
+        ArrayList<Meeting> checkMeetings = new ArrayList<>();
+        LocalDateTime start = meeting.getStartDateTime();
+        LocalDateTime end = meeting.getEndDateTime();
+        boolean flexible = true;
+        meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible)
+        .addAll(checkMeetings);
+        for (Meeting m : checkMeetings) {
+            smartrebooking(m);
+        }
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomFinderService.find(meeting));
 
@@ -133,5 +146,9 @@ public class MeetingCreatorController {
         }
 
         return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
+    }
+
+    private boolean smartrebooking(Meeting meeting) {
+        Set<MeetingRoom> room = meeting.getRooms();
     }
 }
