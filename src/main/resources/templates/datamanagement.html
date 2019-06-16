@@ -9,31 +9,39 @@
 <div layout:fragment="content">
     <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
         <form th:method="post" th:action="@{/datamanagement}">
-               <!-- <div class="form-group">
-                    <label for="URL">URL</label>
-                    <input type="text" class="form-control" id="URL" name="URL" placeholder="URL">
-                </div>-->
-           <div class="form-group">
-                <input type="file" name="file" accept="text/csv"/>
+            <!-- <div class="form-group">
+                 <label for="URL">URL</label>
+                 <input type="text" class="form-control" id="URL" name="URL" placeholder="URL">
+             </div>-->
+            <div class="form-group">
+                <input type="file" name="file" accept="text/comma-separated-values"/>
                 <p></p>
                 <p>
 
-                   Please select a file to upload data.
+                    Please select a csv file to upload data.
 
                 </p>
                 <p></p>
             </div>
-                    <div class="form-group">
-                        <fieldset>
-                            <div class="some-class">
-                                <input type="radio" class="radio" name="x" value="y" id="y"/>
-                                <label for="y">Rooms</label>
-                                <input type="radio" class="radio" name="x" value="z" id="z"/>
-                                <label for="z">User</label>
-                            </div>
-                        </fieldset>
+            <div class="form-group">
+                <fieldset>
+                    <div class="some-class">
+                        <input type="radio" class="radio" name="x" value="y" id="y"/>
+                        <label for="y">Rooms</label>
+                        <input type="radio" class="radio" name="x" value="z" id="z"/>
+                        <label for="z">User</label>
                     </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                </fieldset>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            <!--  <div class="form-group">
+
+                </p>
+                <p>
+                    <input type="submit" value="Save&Exit"/>
+                </p>
+            </div>-->
+
         </form>
     </div>
 </div>
