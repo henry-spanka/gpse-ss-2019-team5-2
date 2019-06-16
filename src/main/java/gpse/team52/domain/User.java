@@ -50,7 +50,7 @@ public class User implements UserDetails { //NOPMD
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name="location_id",referencedColumnName="id",nullable=true,unique=true)
+    @JoinColumn (name="location_id",referencedColumnName="id")
     private Location location;
 
     @Getter

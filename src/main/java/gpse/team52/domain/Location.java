@@ -35,7 +35,7 @@ public class Location {
     @Getter
     @Setter
     @Column
-    private int timeoffset = 0;
+    private long timeoffset;
 
     public Location(final String name) {
         this.name = name;

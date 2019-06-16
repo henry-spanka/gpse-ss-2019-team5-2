@@ -133,23 +133,14 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
-       /* final ArrayList<Location> locNames = new ArrayList<Location>();
-        locationService.getAllLocations().forEach(locNames::add);
-        String userLoc = user.getLocation();
-        if(userLoc==null) {
-            userLoc = "Bielefeld";
-            Location uLoc = null;
-            for (int i = 0; i < locNames.size(); i++) {
-                if (locNames.get(i).equals(userLoc)) {
-                    uLoc = locNames.get(i);
-                    long timediff = (long) uLoc.getTimeoffset();
-                    modelAndView.addObject("timeZone", timediff);
-
-                }
-
-            }
-        }*/
-
+        long NoLoctimediff = 0;
+        if(user.getLocation()!=null) {
+            long timediff = user.getLocation().getTimeoffset();
+            modelAndView.addObject("timeZone", timediff);
+        }
+        else {
+            modelAndView.addObject("timeZone", NoLoctimediff);
+        }
 
 
         return modelAndView;
