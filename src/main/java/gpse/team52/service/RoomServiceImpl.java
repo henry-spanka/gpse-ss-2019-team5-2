@@ -59,11 +59,11 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(roomID);
     }
 
-    @Override
-    public Iterable<Room> getAvailableRooms(final Location location, final int seats, final Date date, final int start,
-                                            final int end, final List<Equipment> equipment) {
-        return roomRepository.findByLocationAndSeatsGreaterThanEqual(location, seats);
-    }
+    //@Override
+    //public Iterable<Room> getAvailableRooms(final Location location, final int seats, final Date date, final int start,
+    //                                        final int end, final List<Equipment> equipment) {
+    //    return roomRepository.findByLocationAndSeatsGreaterThanEqual(location, seats);
+    //}
 
     @Override
     public List<Location> findByLocationId(final List<UUID> uuidList) {

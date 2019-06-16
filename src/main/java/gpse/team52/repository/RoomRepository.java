@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
  * Room repository interface.
  */
 public interface RoomRepository extends CrudRepository<Room, UUID> {
-    List<Room> findByLocationAndSeatsGreaterThanEqual(Location location, int seats); // geht das überhaupt?
+    //List<Room> findByLocationAndSeatsGreaterThanEqual(Location location, int seats); // geht das überhaupt?
 
     @Query("SELECT DISTINCT r FROM Room r WHERE r.location.id = :locId "
     + "AND r.seats >= :seats ORDER BY r.seats, r.expandableSeats ASC")

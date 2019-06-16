@@ -162,5 +162,4 @@ public class Meeting {
     public int getParticipantsNumber() {
         return rooms.stream().mapToInt(item -> item.getParticipants()).sum();
     }
-
 }
