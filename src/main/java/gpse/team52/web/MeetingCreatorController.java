@@ -69,7 +69,6 @@ public class MeetingCreatorController {
                 bindingResult.rejectValue("rooms", "meeting.create.noRoomsAvailable", e.getMessage());
             }
         }
-
         return generateRoomSelectionView(meeting);
     }
 

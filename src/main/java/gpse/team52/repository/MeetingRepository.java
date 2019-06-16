@@ -28,4 +28,5 @@ public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
     List<MeetingRoom> getMeetingRoomMappingInTimeFrame(@Param("startAt") LocalDateTime startAt,
                                                        @Param("endAt") LocalDateTime endAt,
                                                        @Param("flexible") boolean flexible);
+
 }
