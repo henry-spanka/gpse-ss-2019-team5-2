@@ -30,7 +30,13 @@ public class ProfileController {
         modelAndView.addObject("role", user.getAuthorities().toString().
         substring(indexRole +  1, role.length() - 1).toLowerCase());
 
-        modelAndView.addObject("location", user.getLocation());
+        String userLoc = "Please select a location";
+        if(user.getLocation() == null) {
+            modelAndView.addObject("location", userLoc);
+        }
+        else {
+            modelAndView.addObject("location", user.getLocation().getName());
+        }
 
         final String userPicName = user.getPicture();
 

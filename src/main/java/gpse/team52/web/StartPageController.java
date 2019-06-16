@@ -133,7 +133,7 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
-        final ArrayList<Location> locNames = new ArrayList<Location>();
+       /* final ArrayList<Location> locNames = new ArrayList<Location>();
         locationService.getAllLocations().forEach(locNames::add);
         String userLoc = user.getLocation();
         if(userLoc==null) {
@@ -148,7 +148,7 @@ public class StartPageController {
                 }
 
             }
-        }
+        }*/
 
 
 

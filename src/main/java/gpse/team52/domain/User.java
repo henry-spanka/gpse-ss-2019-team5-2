@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @NoArgsConstructor
+
 public class User implements UserDetails { //NOPMD
 
     private static final long serialVersionUID = 7179581269044235932L;
@@ -48,8 +49,9 @@ public class User implements UserDetails { //NOPMD
 
     @Getter
     @Setter
-    @Column(nullable = true)
-    private String location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name="location_id",referencedColumnName="id",nullable=true,unique=true)
+    private Location location;
 
     @Getter
     @Setter
