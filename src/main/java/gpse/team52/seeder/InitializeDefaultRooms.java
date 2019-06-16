@@ -50,11 +50,12 @@ public class InitializeDefaultRooms {
     }
 
     /**
-     * Initializes users to test search for rooms.
+     * Initializes rooms to test search for rooms.
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
+        // this should be in defaultUsers-bla
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Pia");
         form1.setLastName("Hippel");
