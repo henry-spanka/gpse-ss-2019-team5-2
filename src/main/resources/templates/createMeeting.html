@@ -73,28 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
-                    <div><label for="newParticipants">Add Participants</label></div>
-                    <input class="form-control" list="participants" id="newParticipants"
-                           placeholder="<Add new participants>" style="width: 100%" multiple>
-                    <datalist id="participants">
-                        <option th:each="user, iterStat : ${users}" th:value="${user.getFullName()}"></option>
-                    </datalist>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="container" style="margin-top: 25px">
-                    <div><label for="group">Add a Group</label></div>
-                    <input class="form-control" list="groups" id="group" placeholder="<Choose a group>"
-                           style="width: 100%">
-                    <datalist id="groups">
-                        <option value="Group 5.1"></option>
-                        <option value="Group 5.2"></option>
-                    </datalist>
-                </div>
-            </div>
-            <div class="form-row">
+            <div class="form-row mt-4">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Next</button>
                 </div>

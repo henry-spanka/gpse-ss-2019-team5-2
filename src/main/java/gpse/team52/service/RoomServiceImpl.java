@@ -45,16 +45,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Iterable<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
-
-    @Override
-    public Optional<Location> getLocation(final String name) {
-        return locationRepository.findByName(name);
-    }
-
-    @Override
     public Iterable<Room> getAllRooms() {
         return roomRepository.findAll();
     }

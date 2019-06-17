@@ -3,6 +3,7 @@ package gpse.team52.seeder;
 import javax.annotation.PostConstruct;
 
 import gpse.team52.contract.EquipmentService;
+import gpse.team52.contract.LocationService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Equipment;
@@ -24,6 +25,12 @@ public class InitializeDefaultRooms {
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
+    private final LocationService locationService;
+
+    /**
+     * Required to make it dependent on InitializeDefaultMeetings.
+     */
+    private final InitializeDefaultMeetings initializeDefaultMeetings;
 
     /**
      * Constructor for the used services.
@@ -33,10 +40,13 @@ public class InitializeDefaultRooms {
      */
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
-                                  final RoomService roomService, final EquipmentService equipmentService) {
+                                  final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+                                  final InitializeDefaultMeetings initializeDefaultMeetings) {
         this.userService = userService;
         this.roomService = roomService;
         this.equipmentService = equipmentService;
+        this.locationService = locationService;
+        this.initializeDefaultMeetings = initializeDefaultMeetings;
     }
 
     /**
@@ -59,9 +69,9 @@ public class InitializeDefaultRooms {
             return;
         }
 
-        final Location bielefeld = roomService.getLocation("Bielefeld").orElseThrow();
-        final Location guetersloh = roomService.getLocation("Gütersloh").orElseThrow();
-        final Location duesseldorf = roomService.getLocation("Düsseldorf").orElseThrow();
+        final Location bielefeld = locationService.getLocation("Bielefeld").orElseThrow();
+        final Location guetersloh = locationService.getLocation("Gütersloh").orElseThrow();
+        final Location duesseldorf = locationService.getLocation("Düsseldorf").orElseThrow();
 
         final Room roomA = roomService.createRoom(12, 2, "bf@example.de", bielefeld, "Bielefeld12",
         "layoutBlue"); //NOPMD
@@ -73,20 +83,36 @@ public class InitializeDefaultRooms {
         "layoutBlue");
         roomService.createRoom(20, 2, "bf20@example.de", bielefeld, "Bielefeld20",
         "layoutBlue");
+
         // ------------------------ Use Case -----------------
-        final Location ratingen = roomService.getLocation("Ratingen").orElseThrow();
-        final Location mumbai = roomService.getLocation("Mumbai").orElseThrow();
+        final Location ratingen = locationService.getLocation("Ratingen").orElseThrow();
+        final Location mumbai = locationService.getLocation("Mumbai").orElseThrow();
         Room rt = roomService.createRoom(60, 10, "ratingen@example.de", ratingen, "Ratingen", "layoutBlue");
-        Room rt2 = roomService.createRoom(45, 10, "ratingen2@example.de", ratingen, "RatingenExtra", "layoutBlue");
+        Room rt2 = roomService.createRoom(40, 5, "ratingen2@example.de", ratingen, "Ratingen2", "layoutBlue");
+        Room rt3 = roomService.createRoom(100, 20, "ratingen3@example.de", ratingen, "Ratingen3", "layoutBlue");
         Room mb = roomService.createRoom(10, 0, "mumbai@example.de", mumbai, "Mumbai", "layoutRed");
-        final Equipment projektor = equipmentService.createEquipment("projektor");
-        final Equipment telco = equipmentService.createEquipment("telkoanlage");
-        rt.addEquipment(telco, projektor);
-        rt2.addEquipment(telco, projektor);
+        Room mb2 = roomService.createRoom(50, 10, "mumbai2@example.de", mumbai, "Mumbai2", "layoutRed");
+        Room mb3 = roomService.createRoom(22, 23, "mumbai3@example.de", mumbai, "Mumbai3", "layoutRed");
+        Room mb4 = roomService.createRoom(14, 0, "mumbai4@example.de", mumbai, "Mumbai4", "layoutRed");
+
+        final Equipment projektor = equipmentService.createEquipment("Projektor");
+        final Equipment telco = equipmentService.createEquipment("Telefonanlage");
+        Equipment beamer = equipmentService.getEquipment("Beamer").orElseThrow();
+        Equipment whiteboard = equipmentService.getEquipment("Whiteboard").orElseThrow();
+        rt.addEquipment(telco, projektor, beamer, whiteboard);
+        rt2.addEquipment(telco, projektor, beamer);
+        rt3.addEquipment(telco, projektor, beamer);
         mb.addEquipment(telco);
+        mb2.addEquipment(telco, projektor);
+        mb3.addEquipment(telco, beamer, projektor);
+        mb4.addEquipment(telco, whiteboard, beamer);
         roomService.update(rt);
         roomService.update(rt2);
         roomService.update(mb);
+        roomService.update(rt3);
+        roomService.update(mb2);
+        roomService.update(mb3);
+        roomService.update(mb4);
 
         //TODO add equipment
 

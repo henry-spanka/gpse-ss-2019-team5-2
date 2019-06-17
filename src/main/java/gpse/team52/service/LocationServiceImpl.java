@@ -6,6 +6,8 @@ import gpse.team52.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LocationServiceImpl implements LocationService {
 
@@ -31,5 +33,10 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public  Iterable<Location> getAllLocations() { return repository.findAll(); }
+
+    @Override
+    public Optional<Location> getLocation(final String name) {
+        return repository.findByName(name);
+    }
 
 }
