@@ -46,20 +46,18 @@ public class DatamanagementController {
         System.out.println("flubb");
         //check if there is an uploaded file
        if (file != null && !file.isEmpty()) {
-           // dbFileStorageService.store(file);
-           // user.setPicture(file.getOriginalFilename());
+
            System.out.println("hallo");
+           return new ModelAndView("redirect:/start");
         }if (file == null){
-           System.out.println("dong");
-        }/*if(file.isEmpty()){
-           System.out.println("witch is dead");
-        }*/
+
+        }
 
        /*user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         user.setLocation(createUserCmd.getLocation());
         userService.updateUser(user);*/
-        return new ModelAndView("redirect:/start");
+        return new ModelAndView("redirect:/datamanagement");
     }
 }
 
