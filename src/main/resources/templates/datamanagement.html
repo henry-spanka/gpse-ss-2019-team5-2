@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
-        <form th:method="post" th:action="@{/datamanagement}">
+        <form th:method="post" th:action="@{/datamanagement}" enctype="multipart/form-data">
             <!-- <div class="form-group">
                  <label for="URL">URL</label>
                  <input type="text" class="form-control" id="URL" name="URL" placeholder="URL">

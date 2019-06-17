@@ -29,6 +29,7 @@ public class DatamanagementController {
 
     private static String UPLOADED_FOLDER = "C:\\Users\\stell\\Desktop\\UniBielefeld\\SS19";
 
+
     /**
      * Show the datamanagement form to the user.
      *
@@ -40,8 +41,8 @@ public class DatamanagementController {
         return modelAndView;
     }
 
-   /* @PostMapping("/datamanagement")
-    public ModelAndView submitData( @RequestParam(value = "file", required = false) MultipartFile file, RedirectAttributes redirectAttributes) {
+    @PostMapping("/datamanagement")
+    public ModelAndView submitData( @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         System.out.println("flubb");
         //check if there is an uploaded file
        if (file != null && !file.isEmpty()) {
@@ -50,39 +51,14 @@ public class DatamanagementController {
            System.out.println("hallo");
         }if (file == null){
            System.out.println("dong");
-        }*//*if(file.isEmpty()){
+        }/*if(file.isEmpty()){
            System.out.println("witch is dead");
-        }*//*
+        }*/
 
-       *//* user.setFirstname(createUserCmd.getFirstname());
+       /*user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         user.setLocation(createUserCmd.getLocation());
-        userService.updateUser(user);*//*
-        return new ModelAndView("redirect:/start");
-    }*/
-    @PostMapping("/datamanagement")
-    public ModelAndView dataManager(@RequestParam("file") MultipartFile file,
-                                    RedirectAttributes redirectAttributes) {
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return new ModelAndView("redirect:/start");
-        }
-
-        try {
-
-           /* // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-            redirectAttributes.addFlashAttribute("message",
-            "You successfully uploaded '" + file.getOriginalFilename() + "'");*/
-           System.out.println("hallo");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        userService.updateUser(user);*/
         return new ModelAndView("redirect:/start");
     }
 }
