@@ -7,7 +7,24 @@
         <div class="col-md-6 offset-md-3">
             <h4 style="font-weight: bolder;
             text-decoration: underline #4B0082;" class="pt-2">Right Administration</h4>
-
+            <div class="form-group">
+                <label for="user">user:</label>
+                <input type="text" class="form-control" id="user" name="user" placeholder="username">
+            </div>
+            <div class="form-group">
+                <label for="position">position:</label>
+                <div class="form-group">
+                    <fieldset>
+                        <div class="form-control" id="position" name="position">
+                            <input type="checkbox" class="checkbox" name="x" value="y" id="y"/>
+                            <label for="y">Rooms</label>
+                            <input type="checkbox" class="checkbox" name="x" value="z" id="z"/>
+                            <label for="z">User</label>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            </div>
         </div>
     </div>
 </div>

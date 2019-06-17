@@ -28,27 +28,22 @@ public class Position {
     private String positionName;
 
     @Getter
-    @Setter
-    @Column(nullable = false)
-    private String rights;
-
-    @Getter
     @ManyToMany(targetEntity = Right.class)
     @JoinColumn(nullable = false, name = "rightId")
-    private List<Right> right = new ArrayList<>();
+    private List<Right> rights = new ArrayList<>();
 
-    public Position(String positionName, String rights){
+    public Position(String positionName, List <Right> rights){
         this.positionName = positionName;
         this.rights = rights;
     }
 
 
     public void addRight(Right right) {
-        this.right.add(right);
+        this.rights.add(right);
     }
 
     public void addRights(List<Right> rights) {
-        this.right.addAll(rights);
+        this.rights.addAll(rights);
     }
 
     public void addRights(Right... rights) {

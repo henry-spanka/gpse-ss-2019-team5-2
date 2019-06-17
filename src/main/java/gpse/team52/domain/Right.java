@@ -23,11 +23,6 @@ public class Right {
     @Column(unique = true, nullable = false)
     private String rightName;
 
-    @Setter
-    @Getter
-    @ManyToMany(mappedBy = "right")
-    private List<Position> positions = new ArrayList<>();
-
     public Right(String rightName) {
         this.rightName = rightName;
     }
