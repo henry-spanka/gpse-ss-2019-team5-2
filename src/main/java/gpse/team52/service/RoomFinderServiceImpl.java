@@ -84,14 +84,31 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         newCreation.setName(meeting.getTitle());
 
  */
-        // get Rooms in which meeting is held, remove this one from available list
+        // get rooms in which meeting is held, remove this one from available list
+        // currentWhatever = the meeting, room and meetingRoom from meeting which might be able to be moved to another room
         Iterator<MeetingRoom> iterator = set.iterator();
         while (iterator.hasNext()) {
-            MeetingRoom meetingRoom = iterator.next();
-            Room room = meetingRoom.getRoom();
-            if (roomsForNew.containsValue(room)) {
-                // TODO test if meeting coul be held in another room
-                //  if meeting with the same timespan is held in a room in which the new meeting could fit
+            MeetingRoom currentMeetingRoom = iterator.next();
+            Room currentRoom = currentMeetingRoom.getRoom();
+
+            // TODO idee: ueber location des raumes nach key location suchen und in der zugehoerigen raumliste nach raum suchen
+            if (roomsForNew.containsValue(currentRoom)) { // geht das? das enthaelt als values ja eig Listen und nicht einzelne Raeume
+                UUID currentLocationId = currentRoom.getLocation().getLocationId();
+
+                // find rooms similar to findMatchingRooms method
+                for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
+                    final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
+                    .collect(Collectors.toList());
+                    if (equipmentList.containsAll(currentRoom.getEquipment())) {
+                        // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
+                        // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
+                        rooms.add(room);
+                    }
+                }
+                filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
+                //TODO right now cascading is not avoided
+                // remove room in which meeting is currently held from list
+                // check if more than 24h before rebooking
             }
         }
         return rooms;
