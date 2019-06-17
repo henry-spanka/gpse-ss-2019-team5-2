@@ -219,7 +219,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
 
-
+    @Override
+    public Optional<User> findUserByICalToken(UUID token) {
+        return userRepository.findByICalToken(token);
     }
 }
