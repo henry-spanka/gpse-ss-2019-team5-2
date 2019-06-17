@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  * User entity.
  */
 @Entity
-@NoArgsConstructor
 
 public class User implements UserDetails { //NOPMD
 
@@ -75,6 +74,10 @@ public class User implements UserDetails { //NOPMD
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    @Getter
+    @Column(nullable = true, unique = true)
+    private UUID iCalToken;
+
     /**
      * Create a user from a registration form.
      *
@@ -82,11 +85,20 @@ public class User implements UserDetails { //NOPMD
      * @param password The encoded password for the user.
      */
     public User(final UserRegistrationForm form, final String password) {
+        this();
+
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
         this.password = password;
+    }
+
+    /**
+     * Create a new user entity with a random iCalToken.
+     */
+    public User() {
+        this.iCalToken = UUID.randomUUID();
     }
 
     @Override
