@@ -5,10 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.RoomFinderService;
-import gpse.team52.domain.Equipment;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
-import gpse.team52.domain.Room;
+import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
@@ -74,14 +71,28 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     @Override
-    public List<Room> findBest(final Meeting meeting) throws NoRoomAvailableException{
+    public List<Room> findBest(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException{
         final List<Room> rooms = new ArrayList<>();
         Set<MeetingRoom> set = meeting.getRooms() ;
-        // get Rooms in which meeting is held
+/*
+        MeetingCreationForm newCreation = new MeetingCreationForm();
+        // setting values to create new meeting
+        newCreation.setStartTime(meeting.getStartAt().toLocalTime());
+        newCreation.setEndTime(meeting.getEndAt().toLocalTime());
+        newCreation.setStartDate(meeting.getStartAt().toLocalDate());
+        newCreation.setEndDate(meeting.getEndAt().toLocalDate());
+        newCreation.setName(meeting.getTitle());
+
+ */
+        // get Rooms in which meeting is held, remove this one from available list
         Iterator<MeetingRoom> iterator = set.iterator();
         while (iterator.hasNext()) {
             MeetingRoom meetingRoom = iterator.next();
             Room room = meetingRoom.getRoom();
+            if (roomsForNew.containsValue(room)) {
+                // TODO test if meeting coul be held in another room
+                //  if meeting with the same timespan is held in a room in which the new meeting could fit
+            }
         }
         return rooms;
     }

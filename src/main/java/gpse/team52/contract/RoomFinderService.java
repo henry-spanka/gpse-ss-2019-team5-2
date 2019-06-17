@@ -3,6 +3,7 @@ package gpse.team52.contract;
 import java.util.List;
 import java.util.Map;
 
+import gpse.team52.domain.Meeting;
 import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Room;
 import gpse.team52.exception.NoRoomAvailableException;
@@ -16,5 +17,5 @@ public interface RoomFinderService {
 
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 
-    List<Room> findBest(MeetingRoom meetingRoom) throws NoRoomAvailableException;
+    List<Room> findBest(Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException;
 }

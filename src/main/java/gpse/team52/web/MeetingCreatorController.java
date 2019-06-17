@@ -1,17 +1,11 @@
 package gpse.team52.web;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.*;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
-import gpse.team52.domain.Room;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,14 +116,15 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         LocalDateTime start = meeting.getStartDateTime();
         LocalDateTime end = meeting.getEndDateTime();
+        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
         boolean flexible = true;
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible)
         .addAll(checkMeetings);
         for (Meeting m : checkMeetings) {
-            smartrebooking(m); //TODO remove room if not rebookable
+            smartrebooking(m, roomsForNew); //TODO remove room if not rebookable
         }
         modelAndView.addObject("meeting", meeting);
-        modelAndView.addObject("rooms", roomFinderService.find(meeting));
+        modelAndView.addObject("rooms", roomsForNew);
 
         return modelAndView;
     }
@@ -147,21 +142,9 @@ public class MeetingCreatorController {
         return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
     }
 
-    private boolean smartrebooking(Meeting meeting) {
-        Set<MeetingRoom> room = meeting.getRooms();
-        MeetingCreationForm newCreation = new MeetingCreationForm();
-        // setting values to create new meeting
-        newCreation.setStartTime(meeting.getStartAt().toLocalTime());
-        newCreation.setEndTime(meeting.getEndAt().toLocalTime());
-        newCreation.setStartDate(meeting.getStartAt().toLocalDate());
-        newCreation.setEndDate(meeting.getEndAt().toLocalDate());
-        newCreation.setName(meeting.getTitle());
-        //newCreation.setParticipants(meeting.getParticipants());
-
-        MeetingRoom meetingRoom; // TODO room in which meeting is currently held
+    private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
         try {
-            List<Room> rooms = roomFinderService.findBest(newCreation);
-            rooms.remove(meetingRoom);
+            List<Room> rooms = roomFinderService.findBest(meeting, roomsForNew);
             if (rooms.isEmpty()) {
                 return false;
             }
