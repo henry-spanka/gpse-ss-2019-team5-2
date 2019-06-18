@@ -92,6 +92,10 @@ public class User implements UserDetails { //NOPMD
         lastname = form.getLastName();
         email = form.getEmail();
         this.password = password;
+
+        if (form.getLocation() != null) {
+            location = form.getLocation();
+        }
     }
 
     /**

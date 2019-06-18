@@ -154,4 +154,33 @@ public class Meeting {
         return rooms.stream().mapToInt(item -> item.getParticipants()).sum();
     }
 
+    /**
+     * Get startAt with timezone offset.
+     */
+    public LocalDateTime getStartAt(long offset) {
+        return getStartAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getStartAt(User user) {
+        if (user.getLocation() != null) {
+            return getStartAt(user.getLocation().getTimeoffset());
+        }
+
+        return getStartAt();
+    }
+
+    /**
+     * Get endAt with timezone offset.
+     */
+    public LocalDateTime getEndAt(long offset) {
+        return getEndAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getEndAt(User user) {
+        if (user.getLocation() != null) {
+            return getEndAt(user.getLocation().getTimeoffset());
+        }
+
+        return getEndAt();
+    }
 }

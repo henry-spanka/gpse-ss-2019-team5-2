@@ -133,16 +133,6 @@ public class MeetingController {
                                                      final MeetingAddParticipantsForm form) {
         final ModelAndView modelAndView = new ModelAndView("meeting");
 
-        long NoLoctimediff = 0;
-        if(user.getLocation()!=null) {
-            long timediff = user.getLocation().getTimeoffset();
-            modelAndView.addObject("timeZone", timediff);
-        }
-        else {
-            modelAndView.addObject("timeZone", NoLoctimediff);
-        }
-
-
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("user", user);
         modelAndView.addObject("regUsers", userService.getAllUsers());

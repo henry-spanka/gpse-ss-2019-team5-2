@@ -63,6 +63,9 @@ public class InitializeDefaultMeetings {
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
+        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
+
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Julius");
         form1.setLastName("Ellermann");
@@ -70,6 +73,7 @@ public class InitializeDefaultMeetings {
         form1.setUsername("jellermann");
         form1.setPassword(DEFAULT_PASSWORD);
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
+        form1.setLocation(location1);
 
         User user1;
 
@@ -87,6 +91,7 @@ public class InitializeDefaultMeetings {
         form2.setUsername("ldyballa");
         form2.setPassword(DEFAULT_PASSWORD);
         form2.setPasswordConfirm(DEFAULT_PASSWORD);
+        form2.setLocation(location2);
 
         User user2;
 
@@ -96,9 +101,6 @@ public class InitializeDefaultMeetings {
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
         }
-
-        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
-        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
 
         final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
