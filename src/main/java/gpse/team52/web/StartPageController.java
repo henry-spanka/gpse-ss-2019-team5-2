@@ -8,15 +8,14 @@ import java.util.ArrayList;
 import gpse.team52.contract.LocationService;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.ParticipantService;
-import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.core.Authentication;
 
 
 /**
@@ -134,11 +133,10 @@ public class StartPageController {
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
         long NoLoctimediff = 0;
-        if(user.getLocation()!=null) {
+        if (user.getLocation() != null) {
             long timediff = user.getLocation().getTimeoffset();
             modelAndView.addObject("timeZone", timediff);
-        }
-        else {
+        } else {
             modelAndView.addObject("timeZone", NoLoctimediff);
         }
 

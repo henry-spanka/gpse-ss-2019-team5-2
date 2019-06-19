@@ -11,7 +11,6 @@ import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
-import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +121,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(final LocalDateTime start, final LocalDateTime end, final Iterable<Participant> meetingpart) {
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(final LocalDateTime start,
+                                                                   final LocalDateTime end,
+                                                                   final Iterable<Participant> meetingpart) {
         return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 
@@ -140,7 +141,7 @@ public class MeetingServiceImpl implements MeetingService {
             final List<Participant> participants = meetings.get(i).getParticipants();
             for (int j = 0; j < participants.size(); j++) {
                 if (participants.get(j).isUser()) {
-                    if (participants.get(j).getUser().getUserId().equals(user.getUserId())) {
+                    if (participants.get(j).getUser().getUserId().toString().equals(user.getUserId().toString())) {
                         finalMeetings.add(meetings.get(i));
                         break;
                     }
@@ -197,7 +198,7 @@ public class MeetingServiceImpl implements MeetingService {
     /**
      * Send a confirmation email to the user's email address.
      *
-     * @param user The User is the owner.
+     * @param user    The User is the owner.
      * @param meeting The meeting to confirm.
      */
     @Override

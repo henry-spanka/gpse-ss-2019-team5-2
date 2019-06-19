@@ -74,7 +74,8 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendEmailTemplate(final Participant participant, final String subject, final ModelAndView template) throws MailException {
+    public void sendEmailTemplate(final Participant participant, final String subject,
+                                  final ModelAndView template) throws MailException {
         sendEmailMessage(participant.getEmail(), subject, mailContentBuilder.build(template), true);
     }
 }

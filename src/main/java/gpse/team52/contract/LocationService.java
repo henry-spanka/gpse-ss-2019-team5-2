@@ -1,8 +1,8 @@
 package gpse.team52.contract;
 
-import gpse.team52.domain.Location;
-
 import java.util.Optional;
+
+import gpse.team52.domain.Location;
 
 public interface LocationService {
 
