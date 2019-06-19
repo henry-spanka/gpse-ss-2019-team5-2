@@ -1,22 +1,13 @@
 package gpse.team52.domain;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 
-import lombok.Setter;
 import lombok.Getter;
-import org.apache.commons.compress.utils.IOUtils;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -105,11 +96,13 @@ public class Room {
 
     /**
      * Constructor for a room.
-     * @param seats Define number of seats
+     *
+     * @param seats           Define number of seats
      * @param expandableSeats Define number of optional seats
-     * @param email Email address of the room
-     * @param location Location of the room
-     * @param roomName Name of the room
+     * @param email           Email address of the room
+     * @param location        Location of the room
+     * @param roomName        Name of the room
+     * @param layoutName      Layout of the room
      */
     public Room(final int seats, final int expandableSeats,
                 final String email, final Location location, final String roomName, final String layoutName) {
@@ -123,15 +116,15 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public void addEquipment(Equipment equipment) {
+    public void addEquipment(final Equipment equipment) {
         this.equipment.add(equipment);
     }
 
-    public void addEquipment(List<Equipment> equipment) {
+    public void addEquipment(final List<Equipment> equipment) {
         this.equipment.addAll(equipment);
     }
 
-    public void addEquipment(Equipment... equipments) {
+    public void addEquipment(final Equipment... equipments) {
         addEquipment(Arrays.asList(equipments));
     }
 
@@ -140,9 +133,4 @@ public class Room {
     TODO: wie wird es in die html geladen?
     TODO: im controller anpassen das er das da tut
      */
-    /*
-     public String getLayoutPath(){
-        return "/resources/static/pictures/layout/" + layoutName + ".png";
-    }
-    */
 }

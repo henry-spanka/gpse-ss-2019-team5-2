@@ -1,5 +1,6 @@
 package gpse.team52.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +12,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface LocationRepository extends CrudRepository<Location, UUID> {
     Optional<Location> findByName(String name);
+    List<Location> findAllByLocationIdIn(List<UUID> uuidList);
 }

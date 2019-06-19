@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
-import gpse.team52.contract.EquipmentService;
-import gpse.team52.contract.MeetingService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
-import gpse.team52.domain.*;
+import gpse.team52.contract.*;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Location;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
@@ -23,10 +25,17 @@ public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
 
+    private static final String DEFAULT_USER_ROLE = "ROLE_USER";
+
     private final MeetingService meetingService;
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
+    private final LocationService locationService;
+    /**
+     * Required to make it dependent on InitializeDefaultLocations.
+     */
+    private final InitializeDefaultLocations initializeDefaultLocations;
 
     /**
      * Constructor for the used services.
@@ -38,11 +47,14 @@ public class InitializeDefaultMeetings {
     @Autowired
     public InitializeDefaultMeetings(
     final MeetingService meetingService, final UserService userService,
-    final RoomService roomService, final EquipmentService equipmentService) {
+    final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+    final InitializeDefaultLocations initializeDefaultLocations) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.roomService = roomService;
         this.equipmentService = equipmentService;
+        this.locationService = locationService;
+        this.initializeDefaultLocations = initializeDefaultLocations;
     }
 
     /**
@@ -51,6 +63,9 @@ public class InitializeDefaultMeetings {
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
+        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
+
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Julius");
         form1.setLastName("Ellermann");
@@ -58,11 +73,12 @@ public class InitializeDefaultMeetings {
         form1.setUsername("jellermann");
         form1.setPassword(DEFAULT_PASSWORD);
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
+        form1.setLocation(location1);
 
         User user1;
 
         try {
-            user1 = userService.createUser(form1, true, "ROLE_USER"); //NOPMD
+            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE);
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
@@ -75,50 +91,48 @@ public class InitializeDefaultMeetings {
         form2.setUsername("ldyballa");
         form2.setPassword(DEFAULT_PASSWORD);
         form2.setPasswordConfirm(DEFAULT_PASSWORD);
+        form2.setLocation(location2);
 
         User user2;
 
         try {
-            user2 = userService.createUser(form2, true, "ROLE_USER"); //NOPMD
+            user2 = userService.createUser(form2, true, DEFAULT_USER_ROLE);
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
         }
 
-        Location location1 = roomService.getLocation("Bielefeld").orElseThrow();
-        Location location2 = roomService.getLocation("Gütersloh").orElseThrow();
-
-        Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
+        final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
-        Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
+        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
         "layoutRed");
 
-        Equipment equipment1 = equipmentService.createEquipment("whiteboard");
-        Equipment equipment2 = equipmentService.createEquipment("beamer");
-        Equipment equipment3 = equipmentService.createEquipment("flipchart");
+        final Equipment equipment1 = equipmentService.createEquipment("Whiteboard");
+        final Equipment equipment2 = equipmentService.createEquipment("Beamer");
+        final Equipment equipment3 = equipmentService.createEquipment("Flipchart");
         room1.addEquipment(equipment1, equipment2, equipment3);
         room2.addEquipment(equipment3);
 
         roomService.update(room1);
         roomService.update(room2);
 
-        final Meeting meeting1 = new Meeting("Tolles Meeting");
-        meeting1.setStartAt(LocalDateTime.of(2019, 5, 10, 10, 15));
-        meeting1.setEndAt(LocalDateTime.of(2019, 5, 10, 11, 45));
-        meeting1.setDescription("Tolle Beschreibung");
+        final Meeting meeting1 = new Meeting("Daily Scum");
+        meeting1.setStartAt(LocalDateTime.of(2019, 6, 3, 11, 24));
+        meeting1.setEndAt(LocalDateTime.of(2019, 6, 3, 11, 45));
+        meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
 
-        final Meeting meeting2 = new Meeting("Nicht so tolles Meeting");
-        meeting2.setStartAt(LocalDateTime.of(2019, 5, 11, 14, 0));
-        meeting2.setEndAt(LocalDateTime.of(2019, 5, 11, 15, 0));
-        meeting2.setDescription("Nicht so tolle Beschreibung");
+        final Meeting meeting2 = new Meeting("Budget Meeting");
+        meeting2.setStartAt(LocalDateTime.of(2019, 5, 25, 14, 0));
+        meeting2.setEndAt(LocalDateTime.of(2019, 5, 25, 15, 0));
+        meeting2.setDescription("Budget evaluation with coe");
         meeting2.setOwner(user2);
         meeting2.addParticipant(new Participant(user2));
 
-        final Meeting meeting3 = new Meeting("Geheimes Meeting");
-        meeting3.setStartAt(LocalDateTime.of(2019, 5, 12, 23, 0));
-        meeting3.setEndAt(LocalDateTime.of(2019, 5, 12, 23, 30));
+        final Meeting meeting3 = new Meeting("Weekly Review");
+        meeting3.setStartAt(LocalDateTime.of(2019, 5, 26, 23, 0));
+        meeting3.setEndAt(LocalDateTime.of(2019, 5, 26, 23, 30));
         meeting3.setOwner(user1);
         meeting3.addParticipant(new Participant(user1));
         meeting3.addParticipant(new Participant("externerkunde@example.de",
@@ -129,5 +143,6 @@ public class InitializeDefaultMeetings {
         meetingService.createMeeting(meeting2, room2, 18);
 
         meetingService.createMeeting(meeting3, room1, 3);
+
     }
 }

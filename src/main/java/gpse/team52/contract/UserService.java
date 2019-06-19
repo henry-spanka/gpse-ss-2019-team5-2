@@ -1,5 +1,6 @@
 package gpse.team52.contract;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import gpse.team52.domain.User;
@@ -58,6 +59,14 @@ public interface UserService extends UserDetailsService {
      */
     void sendVerificationEmail(User user);
 
+
+    /**
+     * Send a password reset email to the user's email address.
+     *
+     * @param email The User which password to reset.
+     */
+    void sendPasswordResetEmail(String email);
+
     /**
      * Validate a users account by the token sent to their email address.
      * This function will also remove the token from the database.
@@ -68,8 +77,18 @@ public interface UserService extends UserDetailsService {
      */
     User validateUserFromToken(UUID token) throws InvalidConfirmationTokenException;
 
+    User findUserFromPasswordResetToken(UUID token) throws InvalidConfirmationTokenException;
+
     Iterable<User> getAllUsers();
 
     User updateUser(User user);
+
+    User setUserNewPassword(User user, String password);
+
+    Optional<User> getUserById(UUID id);
+
+    Optional<User> getUserById(String id);
+
+    Optional<User> findUserByICalToken(UUID token);
 
 }

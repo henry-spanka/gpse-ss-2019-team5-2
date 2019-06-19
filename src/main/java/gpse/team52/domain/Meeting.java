@@ -4,7 +4,15 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -68,12 +76,28 @@ public class Meeting {
     private String title;
 
     /**
+     * Boolean if room is confirmed, otherwise it will be canceled.
+     */
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private boolean confirmed = false;
+
+    /**
      * Description of the meeting.
      */
     @Getter
     @Setter
     @Column
     private String description;
+
+    /**
+     * Boolean if a confirmation email was already send.
+     */
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private boolean confirmemail = false;
 
     /**
      * The rooms where meetings are held.
@@ -84,6 +108,7 @@ public class Meeting {
 
     /**
      * Constructor for Meeting with parameters.
+     *
      * @param title Title of the meeting
      */
     public Meeting(final String title) {
@@ -92,6 +117,7 @@ public class Meeting {
 
     /**
      * Calculates duration of the meeting.
+     *
      * @return
      */
     @SuppressWarnings("checkstyle:magicnumber")
@@ -101,6 +127,7 @@ public class Meeting {
 
     /**
      * Add a new participant to a meeting.
+     *
      * @param participant The participant that is added
      */
     public void addParticipant(final Participant participant) {
@@ -110,6 +137,7 @@ public class Meeting {
 
     /**
      * Add a meeting room to this meeting.
+     *
      * @param meetingRoom The Room to be added.
      */
     public void addRoom(final MeetingRoom meetingRoom) {
@@ -119,9 +147,40 @@ public class Meeting {
 
     /**
      * Return the total number of participants.
+     *
      * @return Number of participants.
      */
     public int getParticipantsNumber() {
         return rooms.stream().mapToInt(item -> item.getParticipants()).sum();
+    }
+
+    /**
+     * Get startAt with timezone offset.
+     */
+    public LocalDateTime getStartAt(long offset) {
+        return getStartAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getStartAt(User user) {
+        if (user.getLocation() != null) {
+            return getStartAt(user.getLocation().getTimeoffset());
+        }
+
+        return getStartAt();
+    }
+
+    /**
+     * Get endAt with timezone offset.
+     */
+    public LocalDateTime getEndAt(long offset) {
+        return getEndAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getEndAt(User user) {
+        if (user.getLocation() != null) {
+            return getEndAt(user.getLocation().getTimeoffset());
+        }
+
+        return getEndAt();
     }
 }

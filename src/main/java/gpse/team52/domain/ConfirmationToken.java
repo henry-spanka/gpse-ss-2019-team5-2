@@ -32,8 +32,10 @@ public class ConfirmationToken {
     @JoinColumn(nullable = false, name = "userId")
     private User user;
 
+
     /**
      * Generate a new confirmation token for a user.
+     *
      * @param user The user to generate the token for.
      */
     public ConfirmationToken(final User user) {
@@ -42,7 +44,8 @@ public class ConfirmationToken {
 
     /**
      * Generate a new confirmation token for a user.
-     * @param user The user to generate the token for.
+     *
+     * @param user  The user to generate the token for.
      * @param token The token to use.
      */
     public ConfirmationToken(final User user, final UUID token) {

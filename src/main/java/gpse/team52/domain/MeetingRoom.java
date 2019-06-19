@@ -3,7 +3,12 @@ package gpse.team52.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class MeetingRoom implements Serializable {
+    private static final long serialVersionUID = -6856942505616017100L;
     /**
      * The meeting.
      */
@@ -23,7 +29,7 @@ public class MeetingRoom implements Serializable {
     @EmbeddedId
     @MapsId("meeting_id")
     @JoinColumn(name = "meeting_id")
-    @ManyToOne()
+    @ManyToOne
     private Meeting meeting;
 
     /**
@@ -34,7 +40,7 @@ public class MeetingRoom implements Serializable {
     @EmbeddedId
     @MapsId("room_id")
     @JoinColumn(name = "room_id")
-    @ManyToOne()
+    @ManyToOne
     private Room room;
 
     /**
@@ -50,7 +56,7 @@ public class MeetingRoom implements Serializable {
      * @param room The room.
      * @param participants The number of participants in the given room.
      */
-    public MeetingRoom(Meeting meeting, Room room, int participants) {
+    public MeetingRoom(final Meeting meeting, final Room room, final int participants) {
         this.meeting = meeting;
         this.room = room;
         this.participants = participants;

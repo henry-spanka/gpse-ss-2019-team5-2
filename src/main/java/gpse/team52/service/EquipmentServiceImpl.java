@@ -6,6 +6,11 @@ import gpse.team52.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+/**
+ * Equipment service implementation.
+ */
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
 
@@ -13,13 +18,18 @@ public class EquipmentServiceImpl implements EquipmentService {
     private EquipmentRepository equipmentRepository;
 
     @Override
-    public Equipment createEquipment(String equipmentName) {
-        Equipment equipment = new Equipment(equipmentName);
+    public Equipment createEquipment(final String equipmentName) {
+        final Equipment equipment = new Equipment(equipmentName);
         return equipmentRepository.save(equipment);
     }
 
     @Override
     public Iterable<Equipment> getAllEquipments() {
         return null;
+    }
+
+    @Override
+    public Optional<Equipment> getEquipment(final String name) {
+            return equipmentRepository.findByEquipmentName(name);
     }
 }

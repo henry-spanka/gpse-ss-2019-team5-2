@@ -20,33 +20,49 @@ import org.springframework.security.core.userdetails.UserDetails;
  * User entity.
  */
 @Entity
-@NoArgsConstructor
-public class User implements UserDetails {
+
+public class User implements UserDetails { //NOPMD
 
     private static final long serialVersionUID = 7179581269044235932L;
 
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID userId;
 
+    @Getter
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String firstname;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String lastname;
 
-    @Column(nullable = true)
-    private String location;
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name="location_id",referencedColumnName="id")
+    private Location location;
+
+    @Getter
+    @Setter
+    @Column
+    private String picture;
 
     @Column(unique = true, nullable = false)
     @Getter
     private String email;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String password;
 
@@ -58,6 +74,10 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    @Getter
+    @Column(nullable = true, unique = true)
+    private UUID iCalToken;
+
     /**
      * Create a user from a registration form.
      *
@@ -65,33 +85,30 @@ public class User implements UserDetails {
      * @param password The encoded password for the user.
      */
     public User(final UserRegistrationForm form, final String password) {
+        this();
+
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
         this.password = password;
+
+        if (form.getLocation() != null) {
+            location = form.getLocation();
+        }
+    }
+
+    /**
+     * Create a new user entity with a random iCalToken.
+     */
+    public User() {
+        this.iCalToken = UUID.randomUUID();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
     }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getLocation() {return location;}
-
-
-    public void setLocation(String location) {this.location = location;}
 
     @Override
     public boolean isAccountNonExpired() {
@@ -106,22 +123,6 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getFullName() {
@@ -140,6 +141,4 @@ public class User implements UserDetails {
 
         this.roles.add(role);
     }
-
-
 }
