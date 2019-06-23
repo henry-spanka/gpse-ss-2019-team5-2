@@ -42,35 +42,9 @@ public class EditMeetingController {
     @Autowired
     private RoomFinderService roomFinderService;
 
-
-
-    @GetMapping("/editMeeting")
-    public ModelAndView showCreationForm(final @ModelAttribute("meeting") MeetingCreationForm meeting,
-                                         final @RequestParam(required = false, name = "offset") Integer offset) {
-
-        if (offset != null && meeting.getStartDate() != null) {
-            meeting.addOffsetMinutes(offset);
-
-            return new ModelAndView("redirect:/editMeeting/select");
-        }
-
-        return generateMeetingCreationView(meeting);
-    }
-
-
-    private ModelAndView generateMeetingCreationView(final MeetingCreationForm meeting) {
-        final ModelAndView modelAndView = new ModelAndView("editMeeting");
-
-        modelAndView.addObject("meeting", meeting);
-        modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject("locations", locationService.getAllLocations());
-        modelAndView.addObject("equipments", roomService.getAllEquipment());
-
-        return modelAndView;
-    }
-
     /**
      * returns page to edit meetings.
+     *
      * @param id meetingId
      * @return
      */
@@ -87,68 +61,17 @@ public class EditMeetingController {
         return modelAndView;
     }
 
-
-    @PostMapping("/editMeeting/confirm")
-    public ModelAndView bookMeeting(
+    @PostMapping("/editMeeting/{id}/confirm")
+    public ModelAndView bookEditedMeeting(@PathVariable("id") final String id,
     final @ModelAttribute("meeting")
     @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})
-    MeetingCreationForm meeting,
-    final BindingResult bindingResult, final Authentication authentication, final SessionStatus sessionStatus) {
-        if (!bindingResult.hasErrors()) {
-            try {
-                final User user = (User) authentication.getPrincipal();
-                Meeting createdMeeting = createMeeting(meeting, user);
-                sessionStatus.setComplete();
+    MeetingCreationForm meeting) {
+        editMeeting(meeting, meetingService.getMeetingById(id));
+        return new ModelAndView("redirect:/meeting/" + id);
 
-                return new ModelAndView("redirect:/meeting/" + createdMeeting.getMeetingId().toString());
-            } catch (NoRoomAvailableException e) {
-                bindingResult.rejectValue("rooms", "meeting.create.noRoomsAvailable", e.getMessage());
-            }
-        }
-
-        return generateRoomSelectionView(meeting);
     }
 
-    /**
-     * Shows all available rooms to the user.
-     * @param meeting The meeting form which contains the basic meeting information.
-     * @param bindingResult Result of the validation.
-     * @return Shows room selection view.
-     */
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, path = "/editMeeting/select")
-    public ModelAndView showRoomSelectionForm(
-    final @ModelAttribute("meeting")
-    @Validated(MeetingCreationForm.ValidateMeetingDetails.class) MeetingCreationForm meeting,
-    final BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            meeting.setLocationDetails(roomService.findByLocationIdFromString(meeting.getLocations()));
-
-            return generateRoomSelectionView(meeting);
-        }
-
-        return generateMeetingCreationView(meeting);
-    }
-
-
-    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
-        final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
-        modelAndView.addObject("meeting", meeting);
-        modelAndView.addObject("rooms", roomFinderService.find(meeting));
-
-        return modelAndView;
-    }
-
-    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException {
-        List<Room> rooms;
-
-        if (meeting.getRooms() == null || meeting.noRoomsSelected()) {
-            rooms = roomFinderService.findBest(meeting);
-        } else {
-            rooms = meeting.getRooms().stream()
-            .map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
-        }
-
-        return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
+    private void editMeeting(MeetingCreationForm meeting, Meeting curMeeting) {
+        meetingService.editMeeting(meeting, curMeeting);
     }
 }
-

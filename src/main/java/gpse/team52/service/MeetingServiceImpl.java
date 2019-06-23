@@ -71,6 +71,11 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    public void editMeeting(final MeetingCreationForm meetingForm, final Meeting meeting) {
+        meeting.setTitle(meetingForm.getName());
+    }
+
+    @Override
     public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
                                  final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());

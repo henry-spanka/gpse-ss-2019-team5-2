@@ -4,7 +4,7 @@
 <div layout:fragment="content">
     <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
         <h2>Edit Meeting</h2>
-        <form th:method="post" th:action="@{/editMeeting/select}" th:object="${meeting}">
+        <form th:method="post" th:action="@{/editMeeting/{meeting_id}/confirm(meeting_id=${meeting.getMeetingId()})}" th:object="${meeting}">
             <div class="form-row form-group mt-2">
                 <div class="col-12">
                     <i class="fas fa-signature"></i>
@@ -39,43 +39,6 @@
                 </div>
                 -->
             </div>
-            <!--
-            <div class="form-row form-group">
-                <div class="col-12">
-                    <i class="fas fa-globe-europe"></i>
-                    <label for="locations">Locations</label>
-                    <select id="locations" class="form-control selectpicker" data-live-search="true" th:field="*{locations}"
-                            multiple th:errorclass="is-invalid">
-                        <option th:each="location, iterStat : ${locations}" th:value="${location.getLocationId()}"
-                                th:text="${location.getName()}"></option>
-                    </select>
-                    <div class="invalid-feedback" th:errors="*{locations}"></div>
-                </div>
-            </div>
-            <div th:class="|card mt-4 location-${location.getLocationId()}|" th:each="location : ${locations}"
-                 th:classappend="${meeting.getLocations == null || !meeting.getLocations().contains(location.getLocationId().toString())} ? 'd-none' : ''">
-                <div class="card-header" th:text="|Options for ${location.getName()}|"></div>
-                <div class="card-body form-group form-row">
-                    <div class="col-12 col-md-3">
-                        <i class="fas fa-user"></i>
-                        <label th:for="|participants-${location.getLocationId()}|">Participants</label>
-                        <input class="form-control" type="number" min="1"
-                               th:field="*{participants[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
-                        <div class="invalid-feedback" th:errors="*{participants[__${location.getLocationId()}__]}"></div>
-                    </div>
-                    <div class="col-12 col-md-6 offset-md-3 mt-2 mt-md-0">
-                        <i class="fas fa-chalkboard"></i>
-                        <label th:for="|equipment-${location.getLocationId()}|">Required Equipment</label>
-                        <select th:id="|equipment-${location.getLocationId()}|" class="form-control selectpicker"
-                                data-live-search="true" multiple
-                                th:field="*{equipment[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
-                            <option th:each="equipment : ${equipments}" th:value="${equipment.getEquipmentID()}"
-                                    th:text="${equipment.getEquipmentName()}"></option>
-                        </select>
-                        <div class="invalid-feedback" th:errors="*{equipment[__${location.getLocationId()}__]}"></div>
-                    </div>
-                </div>
-            </div> -->
             <div class="form-row mt-4">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Next</button>

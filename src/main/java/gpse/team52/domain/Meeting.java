@@ -73,6 +73,7 @@ public class Meeting {
      * Title of the meeting.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private String title;
 
