@@ -1,5 +1,9 @@
 package gpse.team52.web;
 
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.User;
 import gpse.team52.exception.InvalidConfirmationTokenException;
@@ -13,9 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.UUID;
-
 /**
  * Responsible for recovering a users password by mail.
  */
@@ -25,11 +26,12 @@ public class ForgotPasswordController {
     /**
      * The userService required.
      */
-    private final UserService userService;//NOPMD
+    private final UserService userService; //NOPMD
 
     /**
-     * Constructor for the userService
-     * @param userService   The corresponding userService used
+     * Constructor for the userService.
+     *
+     * @param userService The corresponding userService used
      */
     @Autowired
     public ForgotPasswordController(final UserService userService) {
@@ -43,15 +45,15 @@ public class ForgotPasswordController {
      */
     @GetMapping("/recoverpw")
     public ModelAndView showRecoverPassword() {
-        final PasswordResetMailForm passwordResetMailForm = new PasswordResetMailForm();//NOPMD
+        final PasswordResetMailForm passwordResetMailForm = new PasswordResetMailForm(); //NOPMD
 
-        return new ModelAndView("forgotpassword", "user", passwordResetMailForm);//NOPMD
+        return new ModelAndView("forgotpassword", "user", passwordResetMailForm); //NOPMD
     }
 
     /**
      * Try to register a user.
      *
-     * @param form   The registration form received from the user.
+     * @param form The registration form received from the user.
      * @return A confirmation or an error.
      */
     @PostMapping("/recoverpw")
@@ -67,10 +69,11 @@ public class ForgotPasswordController {
 
     /**
      * Try to confirm a users account (their email).
+     *
      * @return Confirmation or error page.
      */
     @GetMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPassword(@RequestParam("token") final String token) {//NOPMD
+    public ModelAndView setNewPassword(@RequestParam("token") final String token) { //NOPMD
         final NewPasswordForm form = new NewPasswordForm();
         final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnew", "user", form);
         modelAndView.addObject("token", token);
@@ -85,7 +88,7 @@ public class ForgotPasswordController {
      * @return Forgot password view.
      */
     @PostMapping("/forgotpasswordsetnew")
-    public ModelAndView setNewPasswordConfirm(final @RequestParam("token") String token,//NOPMD
+    public ModelAndView setNewPasswordConfirm(final @RequestParam("token") String token, //NOPMD
                                               @ModelAttribute("user") @Valid final NewPasswordForm form) {
 
         final ModelAndView modelAndView = new ModelAndView("forgotpasswordsetnewconfirm");

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * ICal Controller
+ * ICal Controller.
  */
 @RestController
 public class ICalController {
@@ -56,7 +56,7 @@ public class ICalController {
 
         ICalendar ical = new ICalendar();
 
-        for (Meeting meeting: meetings) {
+        for (Meeting meeting : meetings) {
             VEvent event = new VEvent();
             event.setSummary(meeting.getTitle()).setLanguage("en-us");
             event.setDescription(meeting.getDescription()).setLanguage("en-us");
@@ -71,6 +71,7 @@ public class ICalController {
         responseHeaders.set("Content-Disposition", "inline; filename=\"calendar.ics\"");
         responseHeaders.set("filename", "calendar.ics");
 
-        return ResponseEntity.ok().contentType(MediaType.valueOf("text/calendar")).headers(responseHeaders).body(Biweekly.write(ical).go());
+        return ResponseEntity.ok().contentType(MediaType.valueOf("text/calendar"))
+        .headers(responseHeaders).body(Biweekly.write(ical).go());
     }
 }

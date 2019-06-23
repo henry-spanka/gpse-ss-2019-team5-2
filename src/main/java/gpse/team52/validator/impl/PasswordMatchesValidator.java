@@ -4,7 +4,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import gpse.team52.contract.HasPassword;
-import gpse.team52.form.UserRegistrationForm;
 import gpse.team52.validator.PasswordMatches;
 
 /**

@@ -23,10 +23,10 @@ public class InitializeDefaultLocations {
     public void init() {
 
         locationService.createLocation("Bielefeld", 120);
-        locationService.createLocation("Gütersloh",120);
-        locationService.createLocation("Düsseldorf",120);
-        locationService.createLocation("Ratingen",120);
-        locationService.createLocation("Mumbai",210);
+        locationService.createLocation("Gütersloh", 120);
+        locationService.createLocation("Düsseldorf", 120);
+        locationService.createLocation("Ratingen", 120);
+        locationService.createLocation("Mumbai", 210);
 
     }
 }

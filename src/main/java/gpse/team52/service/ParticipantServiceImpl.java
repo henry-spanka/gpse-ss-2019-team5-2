@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import gpse.team52.contract.ParticipantService;
-import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import gpse.team52.repository.ParticipantRepository;
