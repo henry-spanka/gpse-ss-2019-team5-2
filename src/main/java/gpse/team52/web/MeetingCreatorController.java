@@ -116,6 +116,12 @@ public class MeetingCreatorController {
         return modelAndView;
     }
 
+    /**
+     * Room Selection View
+     * Free Rooms and rebookable rooms get shown #smartrebooking
+     * @param meeting the wanted meeting from the user.
+     * @return A ModelAndView for the RoomSelection View.
+     */
     private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
@@ -147,6 +153,12 @@ public class MeetingCreatorController {
         return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
     }
 
+    /**
+     * Determines alternative rooms for rebookable meetings.
+     * @param meeting the meeting, that needs to be rebooked.
+     * @param roomsForNew possible alternative rooms for given meeting.
+     * @return true, if a alternative room is bookable for the meeting, otherwise false
+     */
     private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
         try {
             List<Room> rooms = roomFinderService.findBest(meeting, roomsForNew);
