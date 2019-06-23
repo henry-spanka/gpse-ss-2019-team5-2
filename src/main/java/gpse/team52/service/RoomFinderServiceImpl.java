@@ -1,6 +1,8 @@
 package gpse.team52.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -74,7 +76,13 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     public List<Room> findBest(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException{
         final List<Room> rooms = new ArrayList<>();
         Set<MeetingRoom> set = meeting.getRooms() ;
-/*
+
+        long timeDif = Duration.between(ZonedDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
+        // if meeting is within next 24h there's no rebooking possible
+        if (timeDif < 24){
+            return null; // null oder leere Liste?
+        }
+        /*
         MeetingCreationForm newCreation = new MeetingCreationForm();
         // setting values to create new meeting
         newCreation.setStartTime(meeting.getStartAt().toLocalTime());
@@ -82,8 +90,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         newCreation.setStartDate(meeting.getStartAt().toLocalDate());
         newCreation.setEndDate(meeting.getEndAt().toLocalDate());
         newCreation.setName(meeting.getTitle());
-
- */
+         */
         // get rooms in which meeting is held, remove this one from available list
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be able to be moved to another room
         Iterator<MeetingRoom> iterator = set.iterator();
@@ -105,10 +112,10 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                         rooms.add(room);
                     }
                 }
-                filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
-                //TODO right now cascading is not avoided
+                filterUnavailableRoomsWithoutCascade(rooms, meeting.getStartAt(), meeting.getEndAt());
+
+                //TODO right now cascading is allowed only once
                 // remove room in which meeting is currently held from list
-                // check if more than 24h before rebooking
             }
         }
         return rooms;
@@ -116,6 +123,13 @@ public class RoomFinderServiceImpl implements RoomFinderService {
 
     private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
         final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexibke = false
+        .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
+
+        rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
+    }
+
+    private void filterUnavailableRoomsWithoutCascade(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end) // if meeting shouldn't be rebookable flexibke = false
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));

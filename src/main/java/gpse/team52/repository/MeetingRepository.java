@@ -29,6 +29,10 @@ public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
                                                        @Param("endAt") LocalDateTime endAt,
                                                        @Param("flexible") boolean flexible);
 
+    @Query("SELECT r FROM Meeting m JOIN m.rooms r WHERE m.startAt <= :endAt AND m.endAt >= :startAt")
+    List<MeetingRoom> getMeetingRoomMappingInTimeFrame(@Param("startAt") LocalDateTime startAt,
+                                                                         @Param("endAt") LocalDateTime endAt);
+
     @Query("SELECT m FROM Meeting m WHERE m.startAt <= :endAt AND m.endAt >= :startAt AND m.flexible = :flexible")
     List<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(@Param("startAt") LocalDateTime startAt,
                                                                          @Param("endAt") LocalDateTime endAt,
