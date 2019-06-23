@@ -13,10 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,7 +73,7 @@ public class MeetingCreatorController {
      * @param bindingResult Result of the validation.
      * @return Shows room selection view.
      */
-    @PostMapping("/createMeeting")
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, path = "/createMeeting/select")
     public ModelAndView showRoomSelectionForm(
     final @ModelAttribute("meeting")
     @Validated(MeetingCreationForm.ValidateMeetingDetails.class) MeetingCreationForm meeting,
@@ -91,7 +88,15 @@ public class MeetingCreatorController {
     }
 
     @GetMapping("/createMeeting")
-    public ModelAndView showCreationForm(final @ModelAttribute("meeting") MeetingCreationForm meeting) {
+    public ModelAndView showCreationForm(final @ModelAttribute("meeting") MeetingCreationForm meeting,
+                                         final @RequestParam(required = false, name = "offset") Integer offset) {
+
+        if (offset != null && meeting.getStartDate() != null) {
+            meeting.addOffsetMinutes(offset);
+
+            return new ModelAndView("redirect:/createMeeting/select");
+        }
+
         return generateMeetingCreationView(meeting);
     }
 

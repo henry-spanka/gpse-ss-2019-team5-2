@@ -4,17 +4,40 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h4 th:text="${room.roomEmail}">Raum</h4>
-            <p th:text="${'seats: ' + room.seats}">Plätze </p>
-            <p th:text="${'other information about the room: extra seats: ' + room.expandableSeats + ', mail: ' +
-            room.roomEmail + ', location: ' + room.location.getName()}">Raumnummer Lage Standort etc.</p>
-            <div th:each="equipment: ${equipmentList}">
-                <p th:text="${'equipment: ' + equipment.getEquipmentName()}">Plätze und
-                    Ausstattung</p>
-            </div>
+            <h4 th:text="${room.roomName}" style="font-weight: bolder;
+            text-decoration: underline #4B0082;" class="pt-2">Raum</h4>
+            <p th:text="${'information about the room:'}" style="font-weight: bolder;font-size: large;
+            text-decoration: underline #4B0082;"></p>
+            <table style="border-collapse: separate;border-spacing: 15px 0;">
+                <tr>
+                    <td style="font-weight: bold; text-decoration: underline;"> seats: </td>
+                    <td th:text="${room.seats}"> seats</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; text-decoration: underline;"> extra seats: </td>
+                    <td th:text="${room.expandableSeats}"> extra seats</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; text-decoration: underline;"> mail: </td>
+                    <td th:text="${room.roomEmail}"> mail</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; text-decoration: underline;"> location: </td>
+                    <td th:text="${room.location.getName()}"> location</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; text-decoration: underline; vertical-align: top;"> equipment: </td>
+                    <td>
+                        <div th:each="equipment: ${equipmentList}">
+                            <div th:text="${equipment.equipmentName}" ></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <img class="pt-3" th:src="'/static/pictures/layout/' + ${room.layoutName} + '.png'">
             <div class="row">
                 <div class="col-md-5 ml-auto">
-                    <a class="btn btn-outline-info" th:href="@{/rooms/}">Back</a>
+                    <a class="btn btn-outline-info" th:href="@{/createMeeting/select}">Back</a>
                 </div>
             </div>
         </div>

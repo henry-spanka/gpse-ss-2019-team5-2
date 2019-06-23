@@ -23,4 +23,11 @@ public interface UserRepository extends CrudRepository<User, UUID> {
      * @return Returns the User (or null) wrapped by the optional container.
      */
     Optional<User> findByEmail(String email);
+
+    /**
+     * Find user by iCal token.
+     * @param token iCal token.
+     * @return Returns the user (or null) wrapped by the optional container.
+     */
+    Optional<User> findByICalToken(UUID token);
 }

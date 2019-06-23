@@ -156,4 +156,23 @@ public class MeetingCreationForm {
 
         return rooms.stream().allMatch(Objects::isNull);
     }
+
+    /**
+     * Add an offset to the time.
+     * @param offset the offset.
+     */
+    public void addOffsetMinutes(Integer offset) {
+        LocalDateTime startDateTime = getStartDateTime();
+        startDateTime = startDateTime.plusMinutes(offset);
+
+        startDate = startDateTime.toLocalDate();
+        startTime = startDateTime.toLocalTime();
+
+        LocalDateTime endDateTime = getEndDateTime();
+        endDateTime = endDateTime.plusMinutes(offset);
+
+        endDate = endDateTime.toLocalDate();
+        endTime = endDateTime.toLocalTime();
+
+    }
 }
