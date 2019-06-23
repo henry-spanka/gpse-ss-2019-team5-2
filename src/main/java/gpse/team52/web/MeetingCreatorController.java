@@ -41,10 +41,11 @@ public class MeetingCreatorController {
 
     /**
      * Creates a new meeting from the user selected input.
-     * @param meeting The meeting form which contains all the meeting information.
-     * @param bindingResult Result of the validation.
+     *
+     * @param meeting        The meeting form which contains all the meeting information.
+     * @param bindingResult  Result of the validation.
      * @param authentication User Authentication context.
-     * @param sessionStatus Session status.
+     * @param sessionStatus  Session status.
      * @return Redirects to the meeting on success otherwise shows room selection view.
      */
     @PostMapping("/createMeeting/confirm")
@@ -69,7 +70,8 @@ public class MeetingCreatorController {
 
     /**
      * Shows all available rooms to the user.
-     * @param meeting The meeting form which contains the basic meeting information.
+     *
+     * @param meeting       The meeting form which contains the basic meeting information.
      * @param bindingResult Result of the validation.
      * @return Shows room selection view.
      */
@@ -87,6 +89,12 @@ public class MeetingCreatorController {
         return generateMeetingCreationView(meeting);
     }
 
+    /**
+     * GetMapping: Creates a ModeAndView for a Creation Form for Meetings.
+     * @param meeting has the given information for the meeting given by the user.
+     * @param offset .
+     * @return a ModelAndView for the CreationForm for the user.
+     */
     @GetMapping("/createMeeting")
     public ModelAndView showCreationForm(final @ModelAttribute("meeting") MeetingCreationForm meeting,
                                          final @RequestParam(required = false, name = "offset") Integer offset) {
@@ -117,8 +125,9 @@ public class MeetingCreatorController {
     }
 
     /**
-     * Room Selection View
-     * Free Rooms and rebookable rooms get shown #smartrebooking
+     * Room Selection View.
+     * Free Rooms and rebookable rooms get shown #smartrebooking.
+     *
      * @param meeting the wanted meeting from the user.
      * @return A ModelAndView for the RoomSelection View.
      */
@@ -155,7 +164,8 @@ public class MeetingCreatorController {
 
     /**
      * Determines alternative rooms for rebookable meetings.
-     * @param meeting the meeting, that needs to be rebooked.
+     *
+     * @param meeting     the meeting, that needs to be rebooked.
      * @param roomsForNew possible alternative rooms for given meeting.
      * @return true, if a alternative room is bookable for the meeting, otherwise false
      */
@@ -165,7 +175,7 @@ public class MeetingCreatorController {
             if (rooms.isEmpty()) {
                 return false;
             }
-        } catch (NoRoomAvailableException e){
+        } catch (NoRoomAvailableException e) {
             return false;
         }
         return true;
