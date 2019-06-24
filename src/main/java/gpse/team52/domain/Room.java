@@ -2,19 +2,12 @@ package gpse.team52.domain;
 
 import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -140,7 +133,4 @@ public class Room {
     TODO: wie wird es in die html geladen?
     TODO: im controller anpassen das er das da tut
      */
-    public String getLayoutPath() {
-        return "static/pictures/layout/" + layoutName + ".png";
-    }
 }

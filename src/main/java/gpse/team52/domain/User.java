@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,7 +48,7 @@ public class User implements UserDetails { //NOPMD
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name="location_id",referencedColumnName="id")
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
     @Getter

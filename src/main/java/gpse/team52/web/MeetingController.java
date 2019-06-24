@@ -94,6 +94,22 @@ public class MeetingController {
 
     }
 
+    @PatchMapping("/meeting/{id}/participant/{pId}")
+    public ModelAndView editParticipant(@PathVariable("id") final String id, @PathVariable("pId") final String pId) {
+        final Meeting meeting = meetingService.getMeetingById(id);
+        Participant participant = participantService.findParticipantById(UUID.fromString(pId)).orElseThrow();
+
+        participant.setNotifiable(!participant.isNotifiable());
+
+        participant = participantService.update(participant);
+
+        if (participant.isNotifiable()) {
+            meetingService.notifyParticipant(meeting, participant);
+        }
+
+        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
+    }
+
     /**
      * Deletes a participant from the meeting.
      *

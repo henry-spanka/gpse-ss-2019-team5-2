@@ -43,6 +43,8 @@ public class InitializeDefaultMeetings {
      * @param userService Service for user
      * @param roomService Service for rooms
      * @param equipmentService Service for equipment
+     * @param locationService
+     * @param initializeDefaultLocations
      */
     @Autowired
     public InitializeDefaultMeetings(
@@ -122,6 +124,7 @@ public class InitializeDefaultMeetings {
         meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
+        meeting1.setConfirmed(true);
 
         final Meeting meeting2 = new Meeting("Budget Meeting");
         meeting2.setStartAt(LocalDateTime.of(2019, 5, 25, 14, 0));
@@ -129,6 +132,7 @@ public class InitializeDefaultMeetings {
         meeting2.setDescription("Budget evaluation with coe");
         meeting2.setOwner(user2);
         meeting2.addParticipant(new Participant(user2));
+        meeting2.setConfirmed(true);
 
         final Meeting meeting3 = new Meeting("Weekly Review");
         meeting3.setStartAt(LocalDateTime.of(2019, 5, 26, 23, 0));
@@ -137,6 +141,7 @@ public class InitializeDefaultMeetings {
         meeting3.addParticipant(new Participant(user1));
         meeting3.addParticipant(new Participant("externerkunde@example.de",
         "Günther", "Schmidt"));
+        meeting3.setConfirmed(true);
 
         meetingService.createMeeting(meeting1, room1, 23);
 

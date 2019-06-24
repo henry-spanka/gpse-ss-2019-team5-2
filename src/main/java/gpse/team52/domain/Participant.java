@@ -75,6 +75,14 @@ public class Participant { //NOPMD
     @JoinColumn(nullable = false, name = "meetingId")
     private Meeting meeting;
 
+    /**
+     * Notify the participant via email.
+     */
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private boolean notifiable = false;
+
 
     public Participant(@NotNull final User user) {
         this.user = user;
