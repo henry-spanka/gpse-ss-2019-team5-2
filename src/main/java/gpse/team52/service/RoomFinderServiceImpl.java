@@ -82,7 +82,6 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     @Override
     public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException {
         final List<Room> rooms = new ArrayList<>();
-        x
         Set<MeetingRoom> set = meeting.getRooms();
         long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
