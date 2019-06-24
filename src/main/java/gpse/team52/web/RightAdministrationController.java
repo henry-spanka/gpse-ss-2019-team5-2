@@ -2,10 +2,13 @@ package gpse.team52.web;
 
 import gpse.team52.contract.PositionService;
 import gpse.team52.contract.RightService;
+import gpse.team52.domain.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class RightAdministrationController {
@@ -23,7 +26,8 @@ public class RightAdministrationController {
     public ModelAndView rights() {
         final ModelAndView modelAndView = new ModelAndView("rightAdministration");
         modelAndView.addObject("positionList", positionService.getAllPositions());
-        modelAndView.addObject("rightList", rightService.getAllRights());
+        /* modelAndView.addObject("rightList", rightService.getAllRights());
+        */
         return modelAndView;
     }
 }
