@@ -92,6 +92,7 @@
                                 <th scope="col"></th>
                                 <th class="pl-2" scope="col"><i class="fas fa-signature"></i></th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -101,6 +102,14 @@
                                     <i class="fas fa-user" th:if="${participant.isUser()}"></i>
                                 </td>
                                 <td scope="row" th:text="${participant.getFullName()}"></td>
+                                <td scope="row">
+                                    <form th:method="patch"
+                                          th:action="@{/meeting/{id}/participant/{pId}(id=${meeting.getMeetingId()},pId=${participant.getParticipantId()})}">
+                                        <button type="submit" class="btn btn-secondary btn-sm py-1 float-right">
+                                            <span class="fa-paper-plane" th:classappend="${participant.isNotifiable() ? 'fas' : 'far'}"></span>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td scope="row">
                                     <form th:method="delete"
                                           th:action="@{/meeting/{id}/participant/{pId}(id=${meeting.getMeetingId()},pId=${participant.getParticipantId()})}">
