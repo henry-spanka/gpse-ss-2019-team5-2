@@ -1,11 +1,12 @@
 package gpse.team52.domain;
 
+import java.util.UUID;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * ConfirmationToken Entity.

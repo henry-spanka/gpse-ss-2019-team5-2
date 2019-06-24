@@ -10,7 +10,6 @@ import gpse.team52.domain.Participant;
 import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.exception.ExternalUserIsIncompleteException;
-import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 
@@ -41,7 +40,8 @@ public interface MeetingService {
 
     Iterable<Meeting> findByConfirmed(boolean bool);
 
-    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start, LocalDateTime end, Iterable<Participant> meetingpart);
+    Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(LocalDateTime start,
+                                                            LocalDateTime end, Iterable<Participant> meetingpart);
 
 
     Iterable<Meeting> findByStartAt();
@@ -54,4 +54,6 @@ public interface MeetingService {
     void confirmMeeting(UUID meetingId);
 
     void sendConfirmationEmail(User user, Meeting meeting);
+
+    void notifyParticipant(Meeting meeting, Participant participant);
 }

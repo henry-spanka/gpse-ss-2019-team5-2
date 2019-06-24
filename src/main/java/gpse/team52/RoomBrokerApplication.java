@@ -1,15 +1,14 @@
 package gpse.team52;
 
-import gpse.team52.service.DBFileStorageServiceImpl;
+import gpse.team52.contract.DBFileStorageService;
+import gpse.team52.storage.StorageProperties;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import gpse.team52.storage.StorageProperties;
-import gpse.team52.contract.DBFileStorageService;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 
 
@@ -29,8 +28,8 @@ public class RoomBrokerApplication {
         @Bean
         CommandLineRunner init(DBFileStorageService dbFileStorageService) {
             return (args) -> {
-                dbFileStorageService.deleteAll();
-                dbFileStorageService.init();
+                //dbFileStorageService.deleteAll();
+                //dbFileStorageService.init();
             };
         }
 

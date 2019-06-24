@@ -7,13 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 
 @Controller
 public class ProfileController {
     /**
-     *
      * @param authentication
      * @return
      */
@@ -29,13 +26,12 @@ public class ProfileController {
         final String role = user.getAuthorities().toString();
         final int indexRole = role.indexOf("_");
         modelAndView.addObject("role", user.getAuthorities().toString().
-        substring(indexRole +  1, role.length() - 1).toLowerCase());
+        substring(indexRole + 1, role.length() - 1).toLowerCase());
 
         String userLoc = "Please select a location";
-        if(user.getLocation() == null) {
+        if (user.getLocation() == null) {
             modelAndView.addObject("location", userLoc);
-        }
-        else {
+        } else {
             modelAndView.addObject("location", user.getLocation().getName());
         }
 
@@ -49,8 +45,6 @@ public class ProfileController {
 
 
     }
-
-
 
 
 }

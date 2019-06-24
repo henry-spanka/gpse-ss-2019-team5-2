@@ -158,6 +158,7 @@ public class Meeting {
 
     /**
      * Get startAt with timezone offset.
+     * @param offset
      */
     public LocalDateTime getStartAt(long offset) {
         return getStartAt().plusMinutes(offset);

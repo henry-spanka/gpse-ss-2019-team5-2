@@ -1,15 +1,9 @@
 package gpse.team52.Convert;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.Base64;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Base64EncDec {
 
@@ -32,7 +26,7 @@ public class Base64EncDec {
         File file = new File(imagePath);
         try (FileInputStream imageInFile = new FileInputStream(file)) {
             // Reading a Image file from file system
-            byte [] imageData = new byte[(int) file.length()];
+            byte[] imageData = new byte[(int) file.length()];
             imageInFile.read(imageData);
             base64Image = Base64.getEncoder().encodeToString(imageData);
         } catch (FileNotFoundException e) {
@@ -63,7 +57,7 @@ public class Base64EncDec {
             fos.write(file.getBytes());
             fos.close();
             return convFile;
-        }catch(Exception e) {}
+        } catch (Exception e) { }
         return  null;
     }
 
