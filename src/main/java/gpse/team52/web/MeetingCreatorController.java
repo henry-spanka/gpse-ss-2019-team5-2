@@ -137,17 +137,18 @@ public class MeetingCreatorController {
         LocalDateTime start = meeting.getStartDateTime();
         LocalDateTime end = meeting.getEndDateTime();
         Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
-        boolean flexible = true;
+
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
-        meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible)
+        meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
         for (Meeting m : checkMeetings) {
             // remove rooms if meeting not rebookable
             if (!smartrebooking(m, roomsForNew)) {
                 Iterator<MeetingRoom> it = m.getRooms().iterator();
                 while (it.hasNext()) {
-                    MeetingRoom mtr = it.next();
-                    roomsForNew.remove(mtr);
+                    Room removeRoom = it.next().getRoom();
+                    List<Room> removeFrom = roomsForNew.get((removeRoom.getLocation().getLocationId()).toString());
+                    removeFrom.remove(removeRoom); // die Obkjekte sind nicht odentisch, auch nit ueber die IDs, aber warum??
                 }
             }
         }

@@ -48,7 +48,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
             .stream().map(UUID::fromString).collect(Collectors.toList());
 
             final List<Room> rooms = findMatchingRooms(locationUuid, meeting.getParticipant(location), equipmentList);
-            filterUnavailableRooms(rooms, meeting.getStartDateTime(), meeting.getEndDateTime()); // TODO !! WithFlexible
+            filterUnavailableRoomsWithFlexible(rooms, meeting.getStartDateTime(), meeting.getEndDateTime()); // TODO !! WithFlexible
 
             result.put(location, rooms);
         }
