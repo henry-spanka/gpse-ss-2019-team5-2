@@ -99,7 +99,10 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addRoom(meetingRoom);
         }
 
-        meeting.addParticipant(new Participant(owner));
+        Participant ownerParticipant = new Participant(owner);
+        ownerParticipant.setNotifiable(true);
+
+        meeting.addParticipant(ownerParticipant);
 
         return createMeeting(meeting);
     }
@@ -179,9 +182,9 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addParticipant(participant);
             participant.setMeeting(meeting);
 
-            ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
-
-            mailService.sendEmailTemplate(participant, "Added to meeting", mailView);
+            if (participant.isNotifiable()) {
+                notifyParticipant(meeting, participant);
+            }
         }
 
         return meetingRepository.save(meeting);
@@ -193,6 +196,18 @@ public class MeetingServiceImpl implements MeetingService {
 
         meeting.setConfirmed(true);
         meetingRepository.save(meeting);
+    }
+
+    /**
+     * Notify a participant via email.
+     * @param meeting The meeting to notify about.
+     * @param participant The participant to notify.
+     */
+    @Override
+    public void notifyParticipant(Meeting meeting, Participant participant) {
+        ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
+
+        mailService.sendEmailTemplate(participant, "You have been added to a meeting", mailView);
     }
 
     /**
