@@ -7,6 +7,7 @@ import gpse.team52.domain.Room;
 import gpse.team52.domain.User;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
+import gpse.team52.form.MeetingEditorForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -28,19 +29,9 @@ import java.util.stream.Collectors;
 public class EditMeetingController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private LocationService locationService;
-
-    @Autowired
     private MeetingService meetingService;
 
-    @Autowired
-    private RoomService roomService;
 
-    @Autowired
-    private RoomFinderService roomFinderService;
 
     /**
      * returns page to edit meetings.
@@ -48,30 +39,28 @@ public class EditMeetingController {
      * @param id meetingId
      * @return
      */
-    @RequestMapping("/meeting/{id}/edit")
+    @GetMapping("/meeting/{id}/edit")
     public ModelAndView editMeeting(@PathVariable("id") final String id) {
         final Meeting meeting = meetingService.getMeetingById(id);
-        System.out.println(meeting);
         ModelAndView modelAndView = new ModelAndView("editMeeting");
         modelAndView.addObject("meeting", meeting);
-        modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject("locations", locationService.getAllLocations());
-        modelAndView.addObject("equipments", roomService.getAllEquipment());
+        final MeetingEditorForm editedMeeting = new MeetingEditorForm();
+        editedMeeting.setName(meeting.getTitle());
+        modelAndView.addObject("editedMeeting",editedMeeting);
 
         return modelAndView;
     }
 
-    @PostMapping("/editMeeting/{id}/confirm")
+    @PatchMapping("/meeting/{id}")
     public ModelAndView bookEditedMeeting(@PathVariable("id") final String id,
-    final @ModelAttribute("meeting")
-    @Validated({MeetingCreationForm.ValidateMeetingDetails.class, MeetingCreationForm.ValidateRoomSelection.class})
-    MeetingCreationForm meeting) {
-        editMeeting(meeting, meetingService.getMeetingById(id));
+    final @ModelAttribute("editedMeeting") @Validated MeetingEditorForm editedMeeting)
+    {
+        final Meeting meeting = meetingService.getMeetingById(id);
+        meeting.setTitle(editedMeeting.getName());
+        meetingService.update(meeting);
+
         return new ModelAndView("redirect:/meeting/" + id);
 
     }
 
-    private void editMeeting(MeetingCreationForm meeting, Meeting curMeeting) {
-        meetingService.editMeeting(meeting, curMeeting);
-    }
 }
