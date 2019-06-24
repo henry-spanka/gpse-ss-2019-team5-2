@@ -30,6 +30,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
 
     /**
      * Find all matching rooms for the MeetingCreationForm request.
+     *
      * @param meeting The MeetingCreationForm.
      * @return Map of rooms for each location.
      */
@@ -73,19 +74,19 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     /**
-     *
-     * @param meeting The meeting which might be rebooked / moved to another room.
+     * @param meeting     The meeting which might be rebooked / moved to another room.
      * @param roomsForNew The rooms which might be possible rooms for the new meeting.
      * @return List of rooms which might be used for the meeting which will be rebooked.
      * @throws NoRoomAvailableException Thrown if no rebooking possible
      */
     @Override
-    public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException{
+    public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException {
         final List<Room> rooms = new ArrayList<>();
-        Set<MeetingRoom> set = meeting.getRooms() ;
-        long timeDif = Duration.between(ZonedDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
+        x
+        Set<MeetingRoom> set = meeting.getRooms();
+        long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
-        if (timeDif < 24){
+        if (timeDif < 24) {
             throw new NoRoomAvailableException("No room available.");
         }
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room

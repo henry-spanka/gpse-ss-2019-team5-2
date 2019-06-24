@@ -211,7 +211,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible) {
+    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible) {
         return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
     }
 }

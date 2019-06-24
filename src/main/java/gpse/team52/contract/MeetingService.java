@@ -51,5 +51,5 @@ public interface MeetingService {
 
     void sendConfirmationEmail(User user, Meeting meeting);
 
-    List<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible);
+    Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible);
 }

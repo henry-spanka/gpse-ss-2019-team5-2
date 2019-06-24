@@ -91,8 +91,9 @@ public class MeetingCreatorController {
 
     /**
      * GetMapping: Creates a ModeAndView for a Creation Form for Meetings.
+     *
      * @param meeting has the given information for the meeting given by the user.
-     * @param offset .
+     * @param offset  .
      * @return a ModelAndView for the CreationForm for the user.
      */
     @GetMapping("/createMeeting")
@@ -133,18 +134,18 @@ public class MeetingCreatorController {
      */
     private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
-        ArrayList<Meeting> checkMeetings = new ArrayList<>();
         LocalDateTime start = meeting.getStartDateTime();
         LocalDateTime end = meeting.getEndDateTime();
         Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
         boolean flexible = true;
+        ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible)
-        .addAll(checkMeetings);
+        .forEach(checkMeetings::add);
         for (Meeting m : checkMeetings) {
             // remove rooms if meeting not rebookable
-            if(!smartrebooking(m, roomsForNew)) {
+            if (!smartrebooking(m, roomsForNew)) {
                 Iterator<MeetingRoom> it = m.getRooms().iterator();
-                while(it.hasNext()) {
+                while (it.hasNext()) {
                     MeetingRoom mtr = it.next();
                     roomsForNew.remove(mtr);
                 }
