@@ -126,7 +126,14 @@ public class MeetingCreatorController {
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible)
         .addAll(checkMeetings);
         for (Meeting m : checkMeetings) {
-            smartrebooking(m, roomsForNew); //TODO remove room if not rebookable
+            // remove rooms if meeting not rebookable
+            if(!smartrebooking(m, roomsForNew)) {
+                Iterator<MeetingRoom> it = m.getRooms().iterator();
+                while(it.hasNext()) {
+                    MeetingRoom mtr = it.next();
+                    roomsForNew.remove(mtr);
+                }
+            }
         }
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomsForNew);
@@ -149,7 +156,7 @@ public class MeetingCreatorController {
 
     private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
         try {
-            List<Room> rooms = roomFinderService.findBest(meeting, roomsForNew);
+            List<Room> rooms = roomFinderService.findOther(meeting, roomsForNew);
             if (rooms.isEmpty()) {
                 return false;
             }

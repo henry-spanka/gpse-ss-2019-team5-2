@@ -17,5 +17,5 @@ public interface RoomFinderService {
 
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 
-    List<Room> findBest(Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException;
+    List<Room> findOther(Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException;
 }

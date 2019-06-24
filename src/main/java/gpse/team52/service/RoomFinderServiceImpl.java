@@ -72,36 +72,32 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         return rooms;
     }
 
+    /**
+     *
+     * @param meeting The meeting which might be rebooked / moved to another room.
+     * @param roomsForNew The rooms which might be possible rooms for the new meeting.
+     * @return List of rooms which might be used for the meeting which will be rebooked.
+     * @throws NoRoomAvailableException Thrown if no rebooking possible
+     */
     @Override
-    public List<Room> findBest(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException{
+    public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException{
         final List<Room> rooms = new ArrayList<>();
         Set<MeetingRoom> set = meeting.getRooms() ;
-
         long timeDif = Duration.between(ZonedDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
         if (timeDif < 24){
-            return null; // null oder leere Liste?
+            throw new NoRoomAvailableException("No room available.");
         }
-        /*
-        MeetingCreationForm newCreation = new MeetingCreationForm();
-        // setting values to create new meeting
-        newCreation.setStartTime(meeting.getStartAt().toLocalTime());
-        newCreation.setEndTime(meeting.getEndAt().toLocalTime());
-        newCreation.setStartDate(meeting.getStartAt().toLocalDate());
-        newCreation.setEndDate(meeting.getEndAt().toLocalDate());
-        newCreation.setName(meeting.getTitle());
-         */
-        // get rooms in which meeting is held, remove this one from available list
-        // currentWhatever = the meeting, room and meetingRoom from meeting which might be able to be moved to another room
+        // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room
         Iterator<MeetingRoom> iterator = set.iterator();
         while (iterator.hasNext()) {
             MeetingRoom currentMeetingRoom = iterator.next();
             Room currentRoom = currentMeetingRoom.getRoom();
-
-            // TODO idee: ueber location des raumes nach key location suchen und in der zugehoerigen raumliste nach raum suchen
-            if (roomsForNew.containsValue(currentRoom)) { // geht das? das enthaelt als values ja eig Listen und nicht einzelne Raeume
-                UUID currentLocationId = currentRoom.getLocation().getLocationId();
-
+            // searching for currentRoom in list of rooms for new meeting
+            // only search for other rooms if meeting is held in a rooms which could be used for new meeting
+            UUID currentLocationId = currentRoom.getLocation().getLocationId();
+            List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
+            if (roomsAtLoc.contains(currentRoom)) {
                 // find rooms similar to findMatchingRooms method
                 for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
                     final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
@@ -112,24 +108,23 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                         rooms.add(room);
                     }
                 }
+                rooms.remove(currentRoom); // remove room in which meeting is currently held from list
                 filterUnavailableRoomsWithoutCascade(rooms, meeting.getStartAt(), meeting.getEndAt());
-
-                //TODO right now cascading is allowed only once
-                // remove room in which meeting is currently held from list
+                // right now cascading is not allowed anymore
             }
         }
         return rooms;
     }
 
     private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexibke = false
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexible = false
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
     }
 
     private void filterUnavailableRoomsWithoutCascade(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end) // if meeting shouldn't be rebookable flexibke = false
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end)
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
