@@ -47,7 +47,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
             .stream().map(UUID::fromString).collect(Collectors.toList());
 
             final List<Room> rooms = findMatchingRooms(locationUuid, meeting.getParticipant(location), equipmentList);
-            filterUnavailableRooms(rooms, meeting.getStartDateTime(), meeting.getEndDateTime());
+            filterUnavailableRooms(rooms, meeting.getStartDateTime(), meeting.getEndDateTime()); // TODO !! WithFlexible
 
             result.put(location, rooms);
         }
@@ -109,21 +109,21 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                     }
                 }
                 rooms.remove(currentRoom); // remove room in which meeting is currently held from list
-                filterUnavailableRoomsWithoutCascade(rooms, meeting.getStartAt(), meeting.getEndAt());
+                filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
                 // right now cascading is not allowed anymore
             }
         }
         return rooms;
     }
 
-    private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
+    private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
         final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexible = false
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
     }
 
-    private void filterUnavailableRoomsWithoutCascade(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
+    private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
         final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end)
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
