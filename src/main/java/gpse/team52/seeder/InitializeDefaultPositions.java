@@ -4,12 +4,10 @@ import gpse.team52.contract.PositionService;
 import gpse.team52.contract.RightService;
 import gpse.team52.domain.Position;
 import gpse.team52.domain.Right;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;

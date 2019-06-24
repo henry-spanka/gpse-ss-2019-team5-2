@@ -6,6 +6,7 @@ import gpse.team52.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Position createPosition(final String positionName, final String rights) {
+    public Position createPosition(final String positionName, final List rights) {
         final Position position = new Position(positionName, rights);
 
         return positionRepository.save(position);

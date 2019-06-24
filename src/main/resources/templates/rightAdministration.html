@@ -15,11 +15,12 @@
                 <label for="position">position:</label>
                 <div class="form-group">
                     <fieldset>
-                        <div class="form-control" id="position" name="position">
-                            <input type="checkbox" class="checkbox" name="x" value="y" id="y"/>
-                            <label for="y">Rooms</label>
-                            <input type="checkbox" class="checkbox" name="x" value="z" id="z"/>
-                            <label for="z">User</label>
+                        <div th:each="position: ${positionList}">
+                            <p th:text="${position.getPositionName()}">Position</p>
+                            <input type="radio" id="position" name="position"
+                                   value=position.getPosition.Name>
+                            <label for="position">
+                            Position</label>
                         </div>
                     </fieldset>
                 </div>

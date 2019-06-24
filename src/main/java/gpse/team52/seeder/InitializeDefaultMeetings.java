@@ -100,10 +100,10 @@ public class InitializeDefaultMeetings {
         final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
         final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
 
-        final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
-        "layoutBlue");
-        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
-        "layoutRed");
+        final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de",
+        location1, "BielefeldRoom", "layoutBlue");
+        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2,
+        "GüterslohRoom", "layoutRed");
 
         final Equipment equipment1 = equipmentService.createEquipment("Whiteboard");
         final Equipment equipment2 = equipmentService.createEquipment("Beamer");

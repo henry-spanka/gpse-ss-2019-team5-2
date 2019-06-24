@@ -35,7 +35,7 @@ public class InitializeDefaultRights {
         final Right right2 = new Right("delete_user");
         final Right right3 = new Right("create_meeting");
         final Right right4 = new Right("delete_meeting");
-        final Right right5 = new Right("delete_meeting");
+        final Right right5 = new Right("update_meeting");
         final Right right6 = new Right("disable_rebook_meeting");
 
         rightService.update(right1);

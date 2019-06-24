@@ -22,9 +22,8 @@ public class RightAdministrationController {
     @GetMapping("/rightAdministration")
     public ModelAndView rights() {
         final ModelAndView modelAndView = new ModelAndView("rightAdministration");
-        /*modelAndView.addObject("positionList", positionService.getAllPositions());
+        modelAndView.addObject("positionList", positionService.getAllPositions());
         modelAndView.addObject("rightList", rightService.getAllRights());
-        */
         return modelAndView;
     }
 }
