@@ -70,6 +70,11 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    public void update(final Meeting meeting) {
+        meetingRepository.save(meeting);
+    }
+
+    @Override
     public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
                                  final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());

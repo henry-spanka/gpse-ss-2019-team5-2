@@ -25,6 +25,7 @@ public interface MeetingService {
 
     Meeting createMeeting(MeetingCreationForm meetingForm, List<Room> rooms,
                           Map<String, Integer> participants, User owner);
+    void update(Meeting meeting);
 
     Iterable<Meeting> getAllMeetings();
 

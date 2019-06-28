@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Meeting Entity.
@@ -72,6 +73,7 @@ public class Meeting {
      * Title of the meeting.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private String title;
 
