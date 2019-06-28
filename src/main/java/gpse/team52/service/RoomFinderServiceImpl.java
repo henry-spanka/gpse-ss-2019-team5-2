@@ -82,21 +82,26 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     @Override
     public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException {
         final List<Room> rooms = new ArrayList<>();
-        Set<MeetingRoom> set = meeting.getRooms();
+        final Set<MeetingRoom> set = meeting.getRooms();
+
+        final Map<String, List<Room>> alternatives = new HashMap<>();
+
         long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
         if (timeDif < 24) {
             throw new NoRoomAvailableException("No room available.");
         }
+
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room
         Iterator<MeetingRoom> iterator = set.iterator();
         while (iterator.hasNext()) {
             MeetingRoom currentMeetingRoom = iterator.next();
             Room currentRoom = currentMeetingRoom.getRoom();
             // searching for currentRoom in list of rooms for new meeting
-            // only search for other rooms if meeting is held in a rooms which could be used for new meeting
+            // only search for other rooms if meeting is held in a room which could be used for new meeting
             UUID currentLocationId = currentRoom.getLocation().getLocationId();
-            List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
+            String curLocIdStr = currentLocationId.toString();
+            List<Room> roomsAtLoc = roomsForNew.get(curLocIdStr);
             if (roomsAtLoc.contains(currentRoom)) {
                 // find rooms similar to findMatchingRooms method
                 for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
@@ -111,6 +116,12 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                 rooms.remove(currentRoom); // remove room in which meeting is currently held from list
                 filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
                 // right now cascading is not allowed anymore
+            }
+            // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
+            if(alternatives.containsKey(curLocIdStr)){
+                alternatives.get(curLocIdStr).addAll(rooms); // wird das geupdated??
+            } else {
+                alternatives.put(curLocIdStr, rooms);
             }
         }
         return rooms;

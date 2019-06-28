@@ -144,12 +144,30 @@ public class MeetingCreatorController {
         for (Meeting m : checkMeetings) {
             // remove rooms if meeting not rebookable
             if (!smartrebooking(m, roomsForNew)) {
+                ArrayList<Room> remRooms = new ArrayList<>();
                 Iterator<MeetingRoom> it = m.getRooms().iterator();
                 while (it.hasNext()) {
                     Room removeRoom = it.next().getRoom();
-                    List<Room> removeFrom = roomsForNew.get((removeRoom.getLocation().getLocationId()).toString());
-                    removeFrom.remove(removeRoom); // die Obkjekte sind nicht odentisch, auch nit ueber die IDs, aber warum??
+                    remRooms.add(removeRoom);
+                    String locationId = removeRoom.getLocation().getLocationId().toString();
+                    List<Room> removeFrom = roomsForNew.get(locationId);
+                    System.out.println(removeFrom.size());
+                    for (Room room : removeFrom) {
+                        if (room.getRoomID() == removeRoom.getRoomID()) {
+                            removeFrom.remove(room);
+                            System.out.println("removed: "+ room);
+                        }
+                    }
+                    removeFrom.remove(removeRoom); // die Obkjekte sind nicht identisch, auch nicht ueber die IDs, aber warum??
+                    System.out.println(removeFrom.size());
+                    roomsForNew.put(locationId, removeFrom);
                 }
+                /*
+                for (Map.Entry<String, List<Room>> entry : roomsForNew.entrySet()) {
+                    entry.getValue().remove(remRooms);
+                }
+                 */
+
             }
         }
         modelAndView.addObject("meeting", meeting);
