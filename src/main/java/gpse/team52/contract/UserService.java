@@ -89,4 +89,6 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> getUserById(String id);
 
+    Optional<User> findUserByICalToken(UUID token);
+
 }

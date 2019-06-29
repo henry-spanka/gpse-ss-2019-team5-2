@@ -37,10 +37,14 @@ public class InitializeDefaultRooms {
      *
      * @param userService Service for user
      * @param roomService Service for rooms
+     * @param equipmentService
+     * @param locationService
+     * @param initializeDefaultMeetings
      */
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
-                                  final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+                                  final RoomService roomService, final EquipmentService equipmentService,
+                                  final LocationService locationService,
                                   final InitializeDefaultMeetings initializeDefaultMeetings) {
         this.userService = userService;
         this.roomService = roomService;

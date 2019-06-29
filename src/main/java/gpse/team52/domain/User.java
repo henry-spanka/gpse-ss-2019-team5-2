@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * User entity.
  */
 @Entity
-@NoArgsConstructor
+
 public class User implements UserDetails { //NOPMD
 
     private static final long serialVersionUID = 7179581269044235932L;
@@ -49,8 +48,9 @@ public class User implements UserDetails { //NOPMD
 
     @Getter
     @Setter
-    @Column
-    private String location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location location;
 
     @Getter
     @Setter
@@ -75,6 +75,10 @@ public class User implements UserDetails { //NOPMD
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    @Getter
+    @Column(nullable = true, unique = true)
+    private UUID iCalToken;
+
     /**
      * Create a user from a registration form.
      *
@@ -82,11 +86,24 @@ public class User implements UserDetails { //NOPMD
      * @param password The encoded password for the user.
      */
     public User(final UserRegistrationForm form, final String password) {
+        this();
+
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
         this.password = password;
+
+        if (form.getLocation() != null) {
+            location = form.getLocation();
+        }
+    }
+
+    /**
+     * Create a new user entity with a random iCalToken.
+     */
+    public User() {
+        this.iCalToken = UUID.randomUUID();
     }
 
     @Override

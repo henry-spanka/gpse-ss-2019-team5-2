@@ -43,6 +43,8 @@ public class InitializeDefaultMeetings {
      * @param userService Service for user
      * @param roomService Service for rooms
      * @param equipmentService Service for equipment
+     * @param locationService
+     * @param initializeDefaultLocations
      */
     @Autowired
     public InitializeDefaultMeetings(
@@ -63,6 +65,9 @@ public class InitializeDefaultMeetings {
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
+        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
+
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Julius");
         form1.setLastName("Ellermann");
@@ -70,6 +75,7 @@ public class InitializeDefaultMeetings {
         form1.setUsername("jellermann");
         form1.setPassword(DEFAULT_PASSWORD);
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
+        form1.setLocation(location1);
 
         User user1;
 
@@ -87,6 +93,7 @@ public class InitializeDefaultMeetings {
         form2.setUsername("ldyballa");
         form2.setPassword(DEFAULT_PASSWORD);
         form2.setPasswordConfirm(DEFAULT_PASSWORD);
+        form2.setLocation(location2);
 
         User user2;
 
@@ -96,9 +103,6 @@ public class InitializeDefaultMeetings {
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;
         }
-
-        final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
-        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
 
         final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
@@ -120,6 +124,7 @@ public class InitializeDefaultMeetings {
         meeting1.setDescription("Scrum XYZ");
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
+        meeting1.setConfirmed(true);
 
         final Meeting meeting2 = new Meeting("Budget Meeting");
         meeting2.setStartAt(LocalDateTime.of(2019, 5, 25, 14, 0));
@@ -127,6 +132,7 @@ public class InitializeDefaultMeetings {
         meeting2.setDescription("Budget evaluation with coe");
         meeting2.setOwner(user2);
         meeting2.addParticipant(new Participant(user2));
+        meeting2.setConfirmed(true);
 
         final Meeting meeting3 = new Meeting("Weekly Review");
         meeting3.setStartAt(LocalDateTime.of(2019, 5, 26, 23, 0));
@@ -135,6 +141,7 @@ public class InitializeDefaultMeetings {
         meeting3.addParticipant(new Participant(user1));
         meeting3.addParticipant(new Participant("externerkunde@example.de",
         "Günther", "Schmidt"));
+        meeting3.setConfirmed(true);
 
         meetingService.createMeeting(meeting1, room1, 23);
 

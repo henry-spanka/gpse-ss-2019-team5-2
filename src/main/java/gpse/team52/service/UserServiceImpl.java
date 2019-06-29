@@ -3,7 +3,6 @@ package gpse.team52.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import gpse.team52.Convert.Base64EncDec;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
@@ -24,8 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.constraints.Email;
-
 /**
  * User Service implementation.
  */
@@ -45,11 +42,12 @@ public class UserServiceImpl implements UserService {
 
     /**
      * User Service implementation.
-     *  @param userRepository              The user data repository.
-     * @param confirmationTokenRepository The confirmation token repository.
+     *
+     * @param userRepository                The user data repository.
+     * @param confirmationTokenRepository   The confirmation token repository.
      * @param forgotPasswordTokenRepository The password reset token repository.
-     * @param passwordEncoder             The password encoder to use.
-     * @param mailService                 The mail service to use.
+     * @param passwordEncoder               The password encoder to use.
+     * @param mailService                   The mail service to use.
      */
     @Autowired
     public UserServiceImpl(
@@ -106,7 +104,6 @@ public class UserServiceImpl implements UserService {
         }
 
 
-
         return userRepository.save(user);
     }
 
@@ -142,8 +139,7 @@ public class UserServiceImpl implements UserService {
             modelAndView.addObject("token", forgotPasswordToken);
 
             mailService.sendEmailTemplateToUser(user, "Password Reset", modelAndView);
-        }
-        catch (EmailNotFoundException e) {
+        } catch (EmailNotFoundException e) {
             System.out.println("No user matching the email adress: " + email);
         }
     }
@@ -219,7 +215,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
 
-
+    @Override
+    public Optional<User> findUserByICalToken(UUID token) {
+        return userRepository.findByICalToken(token);
     }
 }

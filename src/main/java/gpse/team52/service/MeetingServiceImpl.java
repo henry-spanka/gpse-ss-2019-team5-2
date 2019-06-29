@@ -11,7 +11,6 @@ import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
-import gpse.team52.repository.ConfirmationTokenRepository;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,11 +70,32 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    public void update(final Meeting meeting) {
+        meetingRepository.save(meeting);
+    }
+
+    @Override
     public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
                                  final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());
-        meeting.setStartAt(meetingForm.getStartDateTime());
-        meeting.setEndAt(meetingForm.getEndDateTime());
+
+        LocalDateTime startAt = meetingForm.getStartDateTime();
+        LocalDateTime endAt = meetingForm.getEndDateTime();
+
+        /**
+         * This is hacky and probably doesn't work with daylight savings time but it's faster than
+         * replacing all LocalDateTime instances with ZonedDateTime.
+         */
+        if (owner.getLocation() != null) {
+            long timeOffset = owner.getLocation().getTimeoffset();
+            System.out.println(timeOffset);
+
+            startAt = startAt.minusMinutes(timeOffset);
+            endAt = endAt.minusMinutes(timeOffset);
+        }
+
+        meeting.setStartAt(startAt);
+        meeting.setEndAt(endAt);
         meeting.setOwner(owner);
 
         for (final Room room : rooms) {
@@ -84,7 +104,10 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addRoom(meetingRoom);
         }
 
-        meeting.addParticipant(new Participant(owner));
+        Participant ownerParticipant = new Participant(owner);
+        ownerParticipant.setNotifiable(true);
+
+        meeting.addParticipant(ownerParticipant);
 
         return createMeeting(meeting);
     }
@@ -106,7 +129,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(final LocalDateTime start, final LocalDateTime end, final Iterable<Participant> meetingpart) {
+    public Iterable<Meeting> findByStartAtBetweenAndParticipantsIn(final LocalDateTime start,
+                                                                   final LocalDateTime end,
+                                                                   final Iterable<Participant> meetingpart) {
         return meetingRepository.findByStartAtBetweenAndParticipantsIn(start, end, meetingpart);
     }
 
@@ -124,7 +149,7 @@ public class MeetingServiceImpl implements MeetingService {
             final List<Participant> participants = meetings.get(i).getParticipants();
             for (int j = 0; j < participants.size(); j++) {
                 if (participants.get(j).isUser()) {
-                    if (participants.get(j).getUser().getUserId().equals(user.getUserId())) {
+                    if (participants.get(j).getUser().getUserId().toString().equals(user.getUserId().toString())) {
                         finalMeetings.add(meetings.get(i));
                         break;
                     }
@@ -162,9 +187,9 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addParticipant(participant);
             participant.setMeeting(meeting);
 
-            ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
-
-            mailService.sendEmailTemplate(participant, "Added to meeting", mailView);
+            if (participant.isNotifiable()) {
+                notifyParticipant(meeting, participant);
+            }
         }
 
         return meetingRepository.save(meeting);
@@ -179,9 +204,21 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /**
+     * Notify a participant via email.
+     * @param meeting The meeting to notify about.
+     * @param participant The participant to notify.
+     */
+    @Override
+    public void notifyParticipant(Meeting meeting, Participant participant) {
+        ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
+
+        mailService.sendEmailTemplate(participant, "You have been added to a meeting", mailView);
+    }
+
+    /**
      * Send a confirmation email to the user's email address.
      *
-     * @param user The User is the owner.
+     * @param user    The User is the owner.
      * @param meeting The meeting to confirm.
      */
     @Override

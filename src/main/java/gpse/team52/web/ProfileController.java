@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
 @Controller
 public class ProfileController {
     /**
-     *
      * @param authentication
      * @return
      */
@@ -20,6 +18,7 @@ public class ProfileController {
     public ModelAndView profile(final Authentication authentication) {
         final ModelAndView modelAndView = new ModelAndView("profile");
         final User user = (User) authentication.getPrincipal();
+        modelAndView.addObject("user", user);
         modelAndView.addObject("fullName", user.getFirstname() + " " + user.getLastname());
         modelAndView.addObject("email", user.getEmail());
 
@@ -27,15 +26,20 @@ public class ProfileController {
         final String role = user.getAuthorities().toString();
         final int indexRole = role.indexOf("_");
         modelAndView.addObject("role", user.getAuthorities().toString().
-        substring(indexRole +  1, role.length() - 1).toLowerCase());
+        substring(indexRole + 1, role.length() - 1).toLowerCase());
 
-        modelAndView.addObject("location", user.getLocation());
+        String userLoc = "Please select a location";
+        if (user.getLocation() == null) {
+            modelAndView.addObject("location", userLoc);
+        } else {
+            modelAndView.addObject("location", user.getLocation().getName());
+        }
 
         final String userPicName = user.getPicture();
-        if (userPicName != null) {
 
-            modelAndView.addObject("pbPic", userPicName);
-        }
+
+        modelAndView.addObject("pbPic", userPicName);
+
 
         return modelAndView;
 

@@ -3,6 +3,7 @@ package gpse.team52.form;
 import javax.validation.constraints.NotBlank;
 
 import gpse.team52.contract.HasPassword;
+import gpse.team52.domain.Location;
 import gpse.team52.validator.PasswordMatches;
 import gpse.team52.validator.ValidEmail;
 import gpse.team52.validator.ValidPassword;
@@ -45,4 +46,8 @@ public class UserRegistrationForm implements HasPassword {
     @Getter
     @Setter
     private String passwordConfirm;
+
+    @Getter
+    @Setter
+    private Location location;
 }

@@ -7,6 +7,7 @@ import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.User;
+import gpse.team52.repository.LocationRepository;
 import gpse.team52.service.DBFileStorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,9 +30,11 @@ public class EditProfileController {
     private UserService userService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private LocationRepository locationRepository;
+
 
     /**
-     *
      * @param authentication
      * @return
      */
@@ -69,7 +72,17 @@ public class EditProfileController {
 
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
-        user.setLocation(createUserCmd.getLocation());
+        if (createUserCmd.getLocation() != null) {
+            final ArrayList<Location> locNames = new ArrayList<Location>();
+            locationService.getAllLocations().forEach(locNames::add);
+            for (int i = 0; i < locNames.size(); i++) {
+                if (locNames.get(i).getName().equals(createUserCmd.getLocation())) {
+                    user.setLocation(locNames.get(i));
+                }
+            }
+
+        }
+
         userService.updateUser(user);
         return new ModelAndView("redirect:/profile");
     }

@@ -22,11 +22,11 @@ public class InitializeDefaultLocations {
     @PostConstruct
     public void init() {
 
-        locationService.createLocation("Bielefeld");
-        locationService.createLocation("Gütersloh");
-        locationService.createLocation("Düsseldorf");
-        locationService.createLocation("Ratingen");
-        locationService.createLocation("Mumbai");
+        locationService.createLocation("Bielefeld", 120);
+        locationService.createLocation("Gütersloh", 120);
+        locationService.createLocation("Düsseldorf", 120);
+        locationService.createLocation("Ratingen", 120);
+        locationService.createLocation("Mumbai", 210);
 
     }
 }
