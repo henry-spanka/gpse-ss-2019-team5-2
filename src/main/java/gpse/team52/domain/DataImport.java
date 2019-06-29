@@ -12,8 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataImport {
+    private final ArrayList<Candidate> candidateList =new ArrayList<>();
 
     // private final MailServiceImpl mailService = new MailServiceImpl() ;
 
@@ -58,7 +61,7 @@ public class DataImport {
     /*This method handles the import of csv files
      * containing room or User data. It is implied that there is a header*/
 
-    static public void csvImport(final MultipartFile file) {
+     public void csvImport(final MultipartFile file) {
         try {
             Reader reader = new InputStreamReader(file.getInputStream());
             CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).withSkipLines(1).build();
@@ -95,7 +98,8 @@ public class DataImport {
                 room.setRoomEmail(line[7]);
                 System.out.println("A new romm was submitted");
             }else if (line.length==3){          // equals user submitting format
-                System.out.println( "New user");
+                Candidate candidate = new Candidate(line[0], line[1], line[2]);
+                candidateList.add(candidate);
 
             } else {
 

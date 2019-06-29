@@ -31,17 +31,10 @@ public class DatamanagementController {
            //check wich radio btn is enabled is needed
            DataImport dataImport = new DataImport();
            dataImport.csvImport(file);
-
-           System.out.println("hallo");
            return new ModelAndView("redirect:/start");
         }if (file == null){
 
         }
-
-       /*user.setFirstname(createUserCmd.getFirstname());
-        user.setLastname(createUserCmd.getLastname());
-        user.setLocation(createUserCmd.getLocation());
-        userService.updateUser(user);*/
         return new ModelAndView("redirect:/csvImport");
     }
 }

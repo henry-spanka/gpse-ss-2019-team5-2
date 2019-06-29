@@ -4,6 +4,7 @@ import javax.mail.internet.MimeMessage;
 
 import gpse.team52.contract.mail.MailContentBuilder;
 import gpse.team52.contract.mail.MailService;
+import gpse.team52.domain.Candidate;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,23 +43,13 @@ public class MailServiceImpl implements MailService {
     /**
      * Sends an email to the given email address.
      *
-     * @param email   The email to send the mail to.
+     * @param mail   The email to send the mail to.
      * @param subject The email subject.
      * @param message The message (body).
      * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
-   /* public void sendEmailMessage(String email, final String subject, final String message, final boolean html) {
-        final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(env.getRequiredProperty("mail.from"));
-            messageHelper.setTo(email);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(message, html);
-        };
 
-        mailSender.send(messagePreparator);
-    }*/
     public void sendEmailMessage (final String mail, final String subject, final String message, final boolean html)
     throws MailException {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
@@ -70,6 +61,12 @@ public class MailServiceImpl implements MailService {
         };
 
         mailSender.send(messagePreparator);
+    }
+
+    // Sends mail to Candidate
+    public void sendEmailToCAndidate(final Candidate candidate, final String subject,
+                                     final ModelAndView template) throws MailException {
+        sendEmailMessage(candidate.getEmail(), subject, mailContentBuilder.build(template), true);
     }
 
 
