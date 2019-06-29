@@ -7,18 +7,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
-public class DatamanagementController {
+public class CSVUploadController {
 
-    private static String UPLOADED_FOLDER = "C:\\Users\\stell\\Desktop\\UniBielefeld\\SS19";
-
-
-    /**
-     * Show the datamanagement form to the user.
+  /**
+     * Show the CSVUpload  form to the admin.
      *
-     * @return Datamanagement view.
+     * @return CSVUpload view.
      */
     @GetMapping("/csvImport")
-    public ModelAndView showDatamanagement() {
+    public ModelAndView showCSVUpload() {
         final ModelAndView modelAndView = new ModelAndView("csvImport");
         return modelAndView;
     }
@@ -28,7 +25,7 @@ public class DatamanagementController {
 
         //check if there is an uploaded file
        if (file != null && !file.isEmpty()) {
-           //check wich radio btn is enabled is needed
+
            DataImport dataImport = new DataImport();
            dataImport.csvImport(file);
            return new ModelAndView("redirect:/start");
