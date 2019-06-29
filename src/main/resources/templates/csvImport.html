@@ -3,15 +3,15 @@
       layout:decorate="~{layout/main}">
 <head>
     <meta charset="UTF-8">
-    <title>csv upload</title>
+    <title>CSV file Upload</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
-        <form th:method="post" th:action="@{/datamanagement}" enctype="multipart/form-data">
+        <form th:method="post" th:action="@{/csvImport}" enctype="multipart/form-data">
 
             <div class="form-group">
-                <input type="file" name="file" accept="text/csv"/>
+
                 <p></p>
                 <b>
 
@@ -19,18 +19,22 @@
                 <i> It is implied that there is a header in the submitted file.</i>
 
                 <p></p>
-                <p>
-                    Rooms:</p>
+                <b>
+                    Rooms:</b>
                 <p>
                     Location; name; maximum number of persons; equipment; telephone; notes; office; mail address </p>
                 <i>The equipment items shall be separated by comma.</i>
                 <p></p>
-                <p>
-                    User:</p>
+                <b>
+                    User:</b>
                 <p>
                     Firstname; lastname; mail adresss
 
                 </p>
+                <p></p>
+            </div>
+            <input type="file" name="file" accept="text/csv"/>
+            <div>
                 <p></p>
             </div>
 

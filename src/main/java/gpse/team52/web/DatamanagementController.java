@@ -17,13 +17,13 @@ public class DatamanagementController {
      *
      * @return Datamanagement view.
      */
-    @GetMapping("/datamanagement")
+    @GetMapping("/csvImport")
     public ModelAndView showDatamanagement() {
-        final ModelAndView modelAndView = new ModelAndView("datamanagement");
+        final ModelAndView modelAndView = new ModelAndView("csvImport");
         return modelAndView;
     }
 
-    @PostMapping("/datamanagement")
+    @PostMapping("/csvImport")
     public ModelAndView submitData( @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         //check if there is an uploaded file
@@ -42,7 +42,7 @@ public class DatamanagementController {
         user.setLastname(createUserCmd.getLastname());
         user.setLocation(createUserCmd.getLocation());
         userService.updateUser(user);*/
-        return new ModelAndView("redirect:/datamanagement");
+        return new ModelAndView("redirect:/csvImport");
     }
 }
 

@@ -102,8 +102,9 @@ public class DataImport {
                 System.out.println("A new romm was submitted");
             }else if (line.length==3){
                 System.out.println( "New user");
+
             } else {
-                    
+
                     throw new Exception();
                 }
 
