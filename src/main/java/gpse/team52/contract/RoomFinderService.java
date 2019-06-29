@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import gpse.team52.domain.Meeting;
-import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Room;
 import gpse.team52.exception.NoRoomAvailableException;
+import gpse.team52.exception.RebookingImpossibleException;
+import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 
 /**
@@ -17,5 +18,5 @@ public interface RoomFinderService {
 
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 
-    List<Room> findOther(Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException;
+    Map<String, List<Room>> findOther(Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingNotNecessaryException, RebookingImpossibleException;
 }

@@ -2,13 +2,14 @@ package gpse.team52.service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.RoomFinderService;
 import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
+import gpse.team52.exception.RebookingImpossibleException;
+import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.RoomRepository;
@@ -74,59 +75,72 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     /**
-     * @param meeting     The meeting which might be rebooked / moved to another room.
+     * @param meeting The meeting which might be rebooked / moved to another room.
      * @param roomsForNew The rooms which might be possible rooms for the new meeting.
-     * @return List of rooms which might be used for the meeting which will be rebooked.
-     * @throws NoRoomAvailableException Thrown if no rebooking possible
+     * @return A map of the used room with its alternatives
+     * @throws RebookingImpossibleException If time limit exceeded or list for every room is empty
+     * @throws RebookingNotNecessaryException If no rooms of the meeting interfere with the new meeting
      */
     @Override
-    public List<Room> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws NoRoomAvailableException {
-        final List<Room> rooms = new ArrayList<>();
-        final Set<MeetingRoom> set = meeting.getRooms();
-
-        final Map<String, List<Room>> alternatives = new HashMap<>();
+    public Map<String, List<Room>> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingImpossibleException, RebookingNotNecessaryException {
 
         long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
         if (timeDif < 24) {
-            throw new NoRoomAvailableException("No room available.");
+            throw new RebookingImpossibleException("Time limit exceeded.");
         }
 
+        List<Room> rooms;
+        final Set<MeetingRoom> setForOld = meeting.getRooms();
+        final Map<String, List<Room>> alternatives = new HashMap<>(); // RoomID of room which is currently used and its alternatives
+
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room
-        Iterator<MeetingRoom> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            MeetingRoom currentMeetingRoom = iterator.next();
+        Iterator<MeetingRoom> itOld = setForOld.iterator();
+        while (itOld.hasNext()) {
+            boolean roomMightBeUsed = false;
+            rooms = new ArrayList<>(); // reset alternative room list
+            MeetingRoom currentMeetingRoom = itOld.next();
             Room currentRoom = currentMeetingRoom.getRoom();
             // searching for currentRoom in list of rooms for new meeting
             // only search for other rooms if meeting is held in a room which could be used for new meeting
             UUID currentLocationId = currentRoom.getLocation().getLocationId();
-            String curLocIdStr = currentLocationId.toString();
-            List<Room> roomsAtLoc = roomsForNew.get(curLocIdStr);
-            for (Room roomAtLoc : roomsAtLoc) {
-                if (roomAtLoc.getRoomID().equals(currentRoom.getRoomID())) {
-                    // find rooms similar to findMatchingRooms method
-                    for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
-                        final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
-                        .collect(Collectors.toList());
-                        if (equipmentList.containsAll(currentRoom.getEquipment())) {
-                            // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
-                            // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
-                            rooms.add(room);
+            List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
+            if (roomsAtLoc != null) {
+                for (Room roomAtLoc : roomsAtLoc) {
+                    // check if room is included in roomsForNew
+                    if (roomAtLoc.getRoomID().equals(currentRoom.getRoomID())) {
+                        // find rooms similar to findMatchingRooms method
+                        roomMightBeUsed = true;
+                        for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
+                            final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
+                            .collect(Collectors.toList());
+                            if (equipmentList.containsAll(currentRoom.getEquipment())) {
+                                // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
+                                // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
+                                rooms.add(room);
+                            }
                         }
+                        rooms.removeIf((Room room) -> room.getRoomID().equals(currentRoom.getRoomID())); // remove room in which meeting is currently held from list
+                        filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
+                        // right now cascading is not allowed anymore
+                        break; // bc room won't be in the list twice, so no need to compare any more rooms
                     }
-                    rooms.removeIf((Room room) -> room.getRoomID().equals(currentRoom.getRoomID())); // remove room in which meeting is currently held from list
-                    filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
-                    // right now cascading is not allowed anymore
+                }
+                // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
+                // only add if it is included in rooms for new meeting
+                if (roomMightBeUsed) {
+                    if(alternatives.containsKey(currentRoom.getRoomID().toString())){
+                        alternatives.get(currentRoom.getRoomID().toString()).addAll(rooms);
+                    } else {
+                        alternatives.put(currentRoom.getRoomID().toString(), rooms);
+                    }
                 }
             }
-            // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
-            if(alternatives.containsKey(curLocIdStr)){
-                alternatives.get(curLocIdStr).addAll(rooms);
-            } else {
-                alternatives.put(curLocIdStr, rooms);
-            }
         }
-        return rooms;
+        if (alternatives.isEmpty()) {
+            throw new RebookingNotNecessaryException("Rooms do not interfere.");
+        }
+        return alternatives;
     }
 
     private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {

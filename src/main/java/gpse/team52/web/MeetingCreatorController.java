@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import gpse.team52.contract.*;
 import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
+import gpse.team52.exception.RebookingImpossibleException;
+import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import gpse.team52.repository.RoomRepository;
 
 /**
  * Meeting Creator Controller.
@@ -38,6 +42,9 @@ public class MeetingCreatorController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     /**
      * Creates a new meeting from the user selected input.
@@ -144,21 +151,35 @@ public class MeetingCreatorController {
 
         for (Meeting m : checkMeetings) {
             // remove rooms if meeting not rebookable
-            Map<String, List<Room>> alternatives = new HashMap<>();
-
-            if (!smartrebooking(m, roomsForNew)) {
-                ArrayList<Room> remRooms = new ArrayList<>();
+            try {
+                Map<String, List<Room>> alternatives = roomFinderService.findOther(m, roomsForNew);
+                for (Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
+                    if (entry.getValue().isEmpty()) {
+                        // removing a specific room without alternatives
+                        Room room = roomRepository.findById(UUID.fromString(entry.getKey())).orElseThrow();
+                        String locationId = room.getLocation().getLocationId().toString();
+                        List<Room> removeFrom = roomsForNew.get(locationId);
+                        removeFrom.removeIf((Room r) -> r.getRoomID().equals(UUID.fromString(entry.getKey())));
+                        roomsForNew.put(locationId, removeFrom);
+                    }
+                }
+            } catch (RebookingImpossibleException e) {
+                // removing all rooms according to a meeting
+                //ArrayList<Room> remRooms = new ArrayList<>();
                 Iterator<MeetingRoom> it = m.getRooms().iterator();
                 while (it.hasNext()) {
                     Room removeRoom = it.next().getRoom();
-                    remRooms.add(removeRoom);
+                    //remRooms.add(removeRoom);
                     String locationId = removeRoom.getLocation().getLocationId().toString();
                     List<Room> removeFrom = roomsForNew.get(locationId);
                     removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
                     roomsForNew.put(locationId, removeFrom);
                 }
+            } catch (RebookingNotNecessaryException e) {
+                // don't remove anything
             }
         }
+
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomsForNew);
 
@@ -186,15 +207,12 @@ public class MeetingCreatorController {
      * @return true, if a alternative room is bookable for the meeting, otherwise false
      */
     private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
-        try {
-            List<Room> rooms = roomFinderService.findOther(meeting, roomsForNew);
+        List<Room> rooms = new ArrayList<>();
 
-            if (rooms.isEmpty()) {
-                return false;
-            }
-        } catch (NoRoomAvailableException e) {
+        if (rooms.isEmpty()) {
             return false;
         }
+
         return true;
     }
 }
