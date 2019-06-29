@@ -11,25 +11,26 @@
         <form th:method="post" th:action="@{/datamanagement}" enctype="multipart/form-data">
 
             <div class="form-group">
-                <input type="file" name="file" accept="text/csv" />
+                <input type="file" name="file" accept="text/csv"/>
+                <p></p>
+                <b>
+
+                    Please select a csv file and note that certain formats must be adhered to! </b>
                 <p></p>
                 <p>
-
-                    Please select a csv file to upload data.
+                    Rooms:</p>
+                <p>
+                    Location; name; maximum number of persons; equipment; telephone; notes; office; mail address </p>
+                <p></p>
+                <p>
+                    User:</p>
+                <p>
+                    Firstname; lastname; mail adresss
 
                 </p>
                 <p></p>
             </div>
-            <div class="form-group">
-                <fieldset>
-                    <div class="some-class">
-                        <input type="radio" class="radio" name="x" value="y" id="y"/>
-                        <label for="y">Rooms</label>
-                        <input type="radio" class="radio" name="x" value="z" id="z"/>
-                        <label for="z">User</label>
-                    </div>
-                </fieldset>
-            </div>
+
             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit file</button>
 
 
