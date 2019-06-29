@@ -4,7 +4,7 @@ package gpse.team52.domain;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
+
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.service.mail.MailServiceImpl;
 import org.springframework.mail.MailException;
@@ -64,8 +64,7 @@ public class DataImport {
             CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).withSkipLines(1).build();
             String line[] = null;
             while ((line = csvReader.readNext())!= null){
-
-
+            //equals a room file, therefore a new room will be created for every new line
             if (line.length==8) {
 
                 Room room = new Room();
@@ -81,26 +80,21 @@ public class DataImport {
                     room.setSeats(Integer.parseInt(seats[0]));
                     room.setExpandableSeats(Integer.parseInt(seats[1]));
                 }
-                //3 spliting for different equiptment items
 
-                String[] equiptments = line[3].split(",");
-                for (int i = 0; i < equiptments.length; i++) {
+                // spliting for different equipment items
+                String[] equipments = line[3].split(",");
+                for (int i = 0; i < equipments.length; i++) {
                     Equipment equipment = new Equipment();
                     room.addEquipment(equipment);
                     equipment.addRoom(room);
                 }
 
-
                 room.setTelephone(line[4]);
-
-
                 room.setNotes(line[5]);
-
                 room.setOffice(line[6]);
-
                 room.setRoomEmail(line[7]);
                 System.out.println("A new romm was submitted");
-            }else if (line.length==3){
+            }else if (line.length==3){          // equals user submitting format
                 System.out.println( "New user");
 
             } else {
