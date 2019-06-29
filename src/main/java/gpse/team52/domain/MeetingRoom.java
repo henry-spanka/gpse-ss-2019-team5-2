@@ -61,4 +61,7 @@ public class MeetingRoom implements Serializable {
         this.room = room;
         this.participants = participants;
     }
+
+
+
 }
