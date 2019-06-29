@@ -152,36 +152,10 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
-
         for (Meeting m : checkMeetings) {
-            // remove rooms if meeting not rebookable
-            try {
-                Map<String, List<Room>> alternatives = roomFinderService.findOther(m, roomsForNew);
-                for (Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
-                    if (entry.getValue().isEmpty()) {
-                        // removing a specific room without alternatives
-                        Room room = roomRepository.findById(UUID.fromString(entry.getKey())).orElseThrow();
-                        String locationId = room.getLocation().getLocationId().toString();
-                        List<Room> removeFrom = roomsForNew.get(locationId);
-                        removeFrom.removeIf((Room r) -> r.getRoomID().equals(UUID.fromString(entry.getKey())));
-                        roomsForNew.put(locationId, removeFrom);
-                    }
-                }
-            } catch (RebookingImpossibleException e) {
-                // removing all rooms according to a meeting
-                Iterator<MeetingRoom> it = m.getRooms().iterator();
-                while (it.hasNext()) {
-                    Room removeRoom = it.next().getRoom();
-                    String locationId = removeRoom.getLocation().getLocationId().toString();
-                    List<Room> removeFrom = roomsForNew.get(locationId);
-                    removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
-                    roomsForNew.put(locationId, removeFrom);
-                }
-            } catch (RebookingNotNecessaryException e) {
-                // don't remove anything
-            }
+            // check every meeting which lies in time frame and adjust available rooms
+            roomsForNew = smartrebooking(m, roomsForNew);
         }
-
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomsForNew);
 
@@ -202,19 +176,40 @@ public class MeetingCreatorController {
     }
 
     /**
-     * Determines alternative rooms for rebookable meetings.
+     * Determines if there are alternative rooms for rebookable meetings.
      *
-     * @param meeting     the meeting, that needs to be rebooked.
-     * @param roomsForNew possible alternative rooms for given meeting.
-     * @return true, if a alternative room is bookable for the meeting, otherwise false
+     * @param meeting     The meeting that needs to be rebooked.
+     * @param roomsForNew rooms which might be used for the new meeting creation
+     * @return Remaining rooms which can be used for the new meeting
      */
-    private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
-        List<Room> rooms = new ArrayList<>();
-
-        if (rooms.isEmpty()) {
-            return false;
+    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
+        // remove rooms if meeting not rebookable
+        try {
+            Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);
+            for (Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
+                if (entry.getValue().isEmpty()) {
+                    // removing a specific room without alternatives
+                    Room room = roomRepository.findById(UUID.fromString(entry.getKey())).orElseThrow();
+                    String locationId = room.getLocation().getLocationId().toString();
+                    List<Room> removeFrom = roomsForNew.get(locationId);
+                    removeFrom.removeIf((Room r) -> r.getRoomID().equals(UUID.fromString(entry.getKey())));
+                    roomsForNew.put(locationId, removeFrom);
+                }
+            }
+        } catch (RebookingImpossibleException e) {
+            // removing all rooms according to a meeting
+            Iterator<MeetingRoom> it = meeting.getRooms().iterator();
+            while (it.hasNext()) {
+                Room removeRoom = it.next().getRoom();
+                String locationId = removeRoom.getLocation().getLocationId().toString();
+                List<Room> removeFrom = roomsForNew.get(locationId);
+                removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
+                roomsForNew.put(locationId, removeFrom);
+            }
+        } catch (RebookingNotNecessaryException e) {
+            // don't remove anything
         }
-        return true;
+        return roomsForNew;
     }
 
     /**
