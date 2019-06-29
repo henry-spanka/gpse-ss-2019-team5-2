@@ -120,7 +120,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                 }
             }
             // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
-            if(alternatives.containsKey(curLocIdStr)){
+            if (alternatives.containsKey(curLocIdStr)) {
                 alternatives.get(curLocIdStr).addAll(rooms);
             } else {
                 alternatives.put(curLocIdStr, rooms);

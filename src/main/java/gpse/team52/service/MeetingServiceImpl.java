@@ -24,15 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
-    private final ParticipantRepository participantRepository;
     private final MailService mailService;
 
     @Autowired
     public MeetingServiceImpl(final MeetingRepository meetingRepository,
-                              final ParticipantRepository participantRepository,
                               final MailService mailService) {
         this.meetingRepository = meetingRepository;
-        this.participantRepository = participantRepository;
         this.mailService = mailService;
     }
 
@@ -205,7 +202,8 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * Notify a participant via email.
-     * @param meeting The meeting to notify about.
+     *
+     * @param meeting     The meeting to notify about.
      * @param participant The participant to notify.
      */
     @Override

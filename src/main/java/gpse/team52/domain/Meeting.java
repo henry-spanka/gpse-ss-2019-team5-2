@@ -18,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Meeting Entity.
@@ -157,6 +156,15 @@ public class Meeting {
     }
 
     /**
+     * Remove a meeting room from this meeting.
+     * @param meetingRoom The Room to be deleted.
+     */
+    public void removeRoom(final MeetingRoom meetingRoom) {
+        rooms.remove(meetingRoom);
+        meetingRoom.setMeeting(null);
+    }
+
+    /**
      * Return the total number of participants.
      *
      * @return Number of participants.
@@ -167,6 +175,7 @@ public class Meeting {
 
     /**
      * Get startAt with timezone offset.
+     *
      * @param offset
      */
     public LocalDateTime getStartAt(long offset) {

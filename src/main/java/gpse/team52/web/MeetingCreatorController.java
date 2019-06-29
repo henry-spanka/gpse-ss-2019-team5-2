@@ -8,6 +8,7 @@ import gpse.team52.contract.*;
 import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
+import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,9 @@ public class MeetingCreatorController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     /**
      * Creates a new meeting from the user selected input.
@@ -196,5 +200,37 @@ public class MeetingCreatorController {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Rebooks a meeting. It deletes the old room(s) and adds new alternatives.
+     * List should have only even amount of rooms and at least two!
+     *
+     * @param rooms A list of rooms and the meeting. Every odd room in the List is the old room,
+     *              which has to be removed, every even number is the new room.
+     */
+    private void rebook(Meeting meeting, List<Room> rooms) {
+        int counter = 1;
+        int participants = 0;
+        Set<MeetingRoom> roomset = meeting.getRooms();
+        Iterator<MeetingRoom> iterator = roomset.iterator();
+        for (Room r : rooms) {
+            if (counter % 2 != 0) { //odd room = old room
+                while (iterator.hasNext()) {
+                    MeetingRoom meetingRoom = iterator.next();
+                    Room compareroom = meetingRoom.getRoom();
+                    if (r == compareroom) {
+                        participants = meetingRoom.getParticipants(); //Merke Anzahl Teilnehmer
+                        meeting.removeRoom(meetingRoom);
+                        break;
+                    }
+                }
+            } else { //even room = new room
+                final MeetingRoom meetingRoom = new MeetingRoom(meeting, r, participants);
+                meeting.addRoom(meetingRoom);
+            }
+            counter++;
+        }
+        meetingRepository.save(meeting); //Meeting wird aktualisiert.
     }
 }
