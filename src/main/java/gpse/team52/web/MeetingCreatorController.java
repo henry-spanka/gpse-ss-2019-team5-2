@@ -151,23 +151,9 @@ public class MeetingCreatorController {
                     remRooms.add(removeRoom);
                     String locationId = removeRoom.getLocation().getLocationId().toString();
                     List<Room> removeFrom = roomsForNew.get(locationId);
-                    System.out.println(removeFrom.size());
-                    for (Room room : removeFrom) {
-                        if (room.getRoomID() == removeRoom.getRoomID()) {
-                            removeFrom.remove(room);
-                            System.out.println("removed: "+ room);
-                        }
-                    }
-                    removeFrom.remove(removeRoom); // die Obkjekte sind nicht identisch, auch nicht ueber die IDs, aber warum??
-                    System.out.println(removeFrom.size());
+                    removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
                     roomsForNew.put(locationId, removeFrom);
                 }
-                /*
-                for (Map.Entry<String, List<Room>> entry : roomsForNew.entrySet()) {
-                    entry.getValue().remove(remRooms);
-                }
-                 */
-
             }
         }
         modelAndView.addObject("meeting", meeting);
