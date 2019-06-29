@@ -103,10 +103,7 @@ public class DataImport {
             }else if (line.length==3){
                 System.out.println( "New user");
             } else {
-                    System.out.println(line.length);
-                    System.out.println(line[0]);
-                    System.out.println(line[1]);
-
+                    
                     throw new Exception();
                 }
 
