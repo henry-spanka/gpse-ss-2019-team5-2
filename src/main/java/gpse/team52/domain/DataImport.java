@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -103,7 +105,40 @@ public class DataImport {
                     Candidate candidate = new Candidate(line[0], line[1], line[2]);
                     candidateList.add(candidate);
 
-                } else {
+                }else if(line.length == 9) {
+                    Meeting meeting = new Meeting(line[0]);
+                    //owner;room;description
+
+                    //String to LocalDAteTime Parser
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    meeting.setStartAt(LocalDateTime.parse(line[1], formatter));
+
+                    meeting.setEndAt(LocalDateTime.parse(line[2], formatter));
+
+
+                    //parse participants #3
+                    String[] participants = line[3].split(",");
+                    for (int i = 0; i < participants.length ; i++) {
+                       String[] participant = participants[i].split("_");
+                       
+                       Participant participant1 = new Participant(participant[0], participant[1], participant[2]);
+                       meeting.addParticipant(participant1);
+                    }
+                    //look up owner as user --> how?    #4
+                    //meeting.setOwner(line[4]);
+
+                    //parse rooms --> also look up in db by id?     #5
+
+                    meeting.setConfirmed(Boolean.parseBoolean(line[6]));
+
+                    meeting.setDescription(line[7]);
+
+                    System.out.println("Meeting submitted");
+
+
+                }
+                else {
+                    System.out.println(line.length);
 
                     throw new Exception();
                 }

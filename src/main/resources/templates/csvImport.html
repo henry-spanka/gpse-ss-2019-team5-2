@@ -15,7 +15,8 @@
                 <p></p>
                 <b>
 
-                    Please select a csv file and note that certain formats must be adhered to! </b>  <p></p>
+                    Please select a csv file and note that certain formats must be adhered to! </b>
+                <p></p>
                 <i> It is implied that there is a header in the submitted file.</i>
 
                 <p></p>
@@ -31,6 +32,12 @@
                     Firstname; lastname; mail adresss
 
                 </p>
+                <p></p>
+                <b>
+                    Meetings:</b>
+                <p>
+                    title; startdate; enddate; participants; owner; rooms; confirmed; description </p>
+                <i>The equipment items, rooms and participants shall be separated by comma. A participant has to have mail adress, firstname and lastname, separated by _ . The dates should be in the LocalDateTime format.</i>
                 <p></p>
             </div>
             <input type="file" name="file" accept="text/csv"/>
