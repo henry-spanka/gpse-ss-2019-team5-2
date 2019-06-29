@@ -102,24 +102,26 @@ public class RoomFinderServiceImpl implements RoomFinderService {
             UUID currentLocationId = currentRoom.getLocation().getLocationId();
             String curLocIdStr = currentLocationId.toString();
             List<Room> roomsAtLoc = roomsForNew.get(curLocIdStr);
-            if (roomsAtLoc.contains(currentRoom)) {
-                // find rooms similar to findMatchingRooms method
-                for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
-                    final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
-                    .collect(Collectors.toList());
-                    if (equipmentList.containsAll(currentRoom.getEquipment())) {
-                        // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
-                        // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
-                        rooms.add(room);
+            for (Room roomAtLoc : roomsAtLoc) {
+                if (roomAtLoc.getRoomID().equals(currentRoom.getRoomID())) {
+                    // find rooms similar to findMatchingRooms method
+                    for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
+                        final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
+                        .collect(Collectors.toList());
+                        if (equipmentList.containsAll(currentRoom.getEquipment())) {
+                            // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
+                            // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
+                            rooms.add(room);
+                        }
                     }
+                    rooms.removeIf((Room room) -> room.getRoomID().equals(currentRoom.getRoomID())); // remove room in which meeting is currently held from list
+                    filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
+                    // right now cascading is not allowed anymore
                 }
-                rooms.remove(currentRoom); // remove room in which meeting is currently held from list
-                filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
-                // right now cascading is not allowed anymore
             }
             // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
             if(alternatives.containsKey(curLocIdStr)){
-                alternatives.get(curLocIdStr).addAll(rooms); // wird das geupdated??
+                alternatives.get(curLocIdStr).addAll(rooms);
             } else {
                 alternatives.put(curLocIdStr, rooms);
             }

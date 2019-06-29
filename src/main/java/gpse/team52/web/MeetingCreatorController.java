@@ -141,8 +141,11 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
+
         for (Meeting m : checkMeetings) {
             // remove rooms if meeting not rebookable
+            Map<String, List<Room>> alternatives = new HashMap<>();
+
             if (!smartrebooking(m, roomsForNew)) {
                 ArrayList<Room> remRooms = new ArrayList<>();
                 Iterator<MeetingRoom> it = m.getRooms().iterator();
@@ -185,6 +188,7 @@ public class MeetingCreatorController {
     private boolean smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
         try {
             List<Room> rooms = roomFinderService.findOther(meeting, roomsForNew);
+
             if (rooms.isEmpty()) {
                 return false;
             }
