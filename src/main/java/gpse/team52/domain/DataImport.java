@@ -128,9 +128,11 @@ public class DataImport {
                 String[] participants = line[3].split(",");
                 for (int i = 0; i < participants.length; i++) {
                     String[] participant = participants[i].split("_");
+                    
 
                     Participant participant1 = new Participant(participant[0], participant[1], participant[2]);
                     meeting.addParticipant(participant1);
+                    participant1.setMeeting(meeting);
                 }
                 //look up owner as user --> how?    #4
                 //meeting.setOwner(line[4]);
