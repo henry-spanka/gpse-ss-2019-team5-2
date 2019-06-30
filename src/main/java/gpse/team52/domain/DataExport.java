@@ -24,7 +24,7 @@ public class DataExport {
 
     public void writeRoomFile() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\stell\\Documents\\gpse-ss-2019-team5-2\\src\\main\\resources\\templates\\csv\\roomedRooms.csv", true));
-        String string="";
+        String string="Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse";
         for (Room room : roomService.getAllRooms()){
             string=string +room.roomToString()+System.lineSeparator(); }
 
@@ -36,7 +36,7 @@ public class DataExport {
     public void writeUserFile() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\stell\\Documents\\gpse-ss-2019-team5-2\\src\\main\\resources\\templates\\csv\\roomedUsers.csv", true));
-            String string="";
+            String string="username;firstname;lastname;email;role,list";
             for (User user : userService.getAllUsers()){
                 string=string + user.userToString()+System.lineSeparator(); }
 
