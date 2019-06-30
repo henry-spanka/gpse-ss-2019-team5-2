@@ -51,7 +51,7 @@ public class MeetingCreatorController {
     @Autowired
     private MeetingRepository meetingRepository;
 
-    private ArrayList<AlternativeMeetingRoom> alternativeMeetingRooms;
+    private List<AlternativeMeetingRoom> alternativeMeetingRooms = new ArrayList<AlternativeMeetingRoom>();
 
     /**
      * Creates a new meeting from the user selected input.
@@ -151,6 +151,7 @@ public class MeetingCreatorController {
         LocalDateTime start = meeting.getStartDateTime();
         LocalDateTime end = meeting.getEndDateTime();
         Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
+        alternativeMeetingRooms = new ArrayList<>();
 
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
@@ -181,18 +182,20 @@ public class MeetingCreatorController {
             .map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
         }
 
-        for (Room room : rooms) {
-            for (AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
-                Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
-                if(alter.containsKey(room.getRoomID().toString())) {
-                    Meeting m = alternativeMeetingRoom.getMeeting();
-                    Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
-                    List<Room> changeRoom = new ArrayList<>();
-                    changeRoom.add(room);
-                    changeRoom.add(roomAlter);
-                    // just get first entry in alternative room selection to select new room
-                    rebook(m, changeRoom);
-                    break; // bc room won't be there twice
+        if (alternativeMeetingRooms != null) {
+            for (Room room : rooms) {
+                for (AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
+                    Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
+                    if(alter.containsKey(room.getRoomID().toString())) {
+                        Meeting m = alternativeMeetingRoom.getMeeting();
+                        Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
+                        List<Room> changeRoom = new ArrayList<>();
+                        changeRoom.add(room);
+                        changeRoom.add(roomAlter);
+                        // just get first entry in alternative room selection to select new room
+                        rebook(m, changeRoom);
+                        break; // bc room won't be there twice
+                    }
                 }
             }
         }
