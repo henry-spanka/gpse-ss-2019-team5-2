@@ -9,8 +9,7 @@ import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.exception.EmailNotFoundException;
-import gpse.team52.service.mail.MailServiceImpl;
-import net.bytebuddy.matcher.ModifierMatcher;
+
 import org.springframework.mail.MailException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,18 +19,18 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.UUID;
+
 
 
 public class DataImport {
     UserService userService;
     MailService mailService;
-    RoomService roomService;
 
-    public DataImport(UserService userService, MailService mailService, RoomService roomService) {
+
+    public DataImport(UserService userService, MailService mailService) {
         this.userService = userService;
         this.mailService = mailService;
-        this.roomService = roomService;
+
     }
 
     private final ArrayList<Candidate> candidateList = new ArrayList<>();
@@ -64,7 +63,7 @@ public class DataImport {
                 }
 
 
-            } else if (line.length == 7) {
+            } else if (line.length == 7) { //equals meeting format
                 parseMeeting(line);
 
             } else {
@@ -115,6 +114,7 @@ public class DataImport {
         room.setNotes(line[5]);
         room.setOffice(line[6]);
         room.setRoomEmail(line[7]);
+        //System.out.println(room.roomToString());
          }
 
     //this method sends an e mail to the candidates

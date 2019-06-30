@@ -19,8 +19,7 @@ public class CSVUploadController {
     @Autowired
     MailService mailService;
 
-    @Autowired
-    RoomService roomService;
+   
 
     /**
      * Show the CSVUpload  form to the admin.
@@ -39,7 +38,7 @@ public class CSVUploadController {
             //check if there is an uploaded file
             if (file != null && !file.isEmpty()) {
 
-                DataImport dataImport = new DataImport(userService, mailService, roomService);
+                DataImport dataImport = new DataImport(userService, mailService);
                 dataImport.csvImport(file);
 
             }

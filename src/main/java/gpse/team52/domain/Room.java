@@ -147,6 +147,21 @@ public class Room {
         addEquipment(Arrays.asList(equipments));
     }
 
+    public String roomToString() {
+        String equi = "";
+        if (equipment.size() != 0) {
+
+            equi = equipment.get(0).getEquipmentName();
+            for (int i = 1; i < equipment.size(); i++) {
+                equi = equi +"," + equipment.get(i).getEquipmentName();
+
+            }
+        }
+        //Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse
+        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +","+ telephone +","+notes+","+office+","+roomEmail;
+        return room;
+    }
+
     /*TODO: passt der pfad?
     TODO: pfad zu ressources passend einfügen
     TODO: wie wird es in die html geladen?
