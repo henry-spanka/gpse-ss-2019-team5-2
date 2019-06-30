@@ -51,7 +51,7 @@ public class MeetingCreatorController {
     @Autowired
     private MeetingRepository meetingRepository;
 
-    private List<AlternativeMeetingRoom> alternativeMeetingRooms = new ArrayList<AlternativeMeetingRoom>();
+    private List<AlternativeMeetingRoom> alternativeMeetingRooms;
 
     /**
      * Creates a new meeting from the user selected input.
@@ -156,7 +156,6 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
-        alternativeMeetingRooms = null; // just to make sure there's nothing left from last booking
         for (Meeting m : checkMeetings) {
             // check every meeting which lies in time frame and adjust available rooms
             try {
