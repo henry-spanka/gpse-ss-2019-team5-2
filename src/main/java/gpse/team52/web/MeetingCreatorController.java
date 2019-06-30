@@ -263,9 +263,16 @@ public class MeetingCreatorController {
             }
             if (found) {
                 meetingRoom.setRoom(rooms.get(i + 1));
+                //roomRepository.save(rooms.get(i));
+                //roomRepository.save(rooms.get(i + 1));
+
+
+                //Hier passiert der Fehler
+                //SQL Error: insert into meeting_room [...] null is not allowed for column 'ROOM_ID'
+                meetingRepository.save(meeting); //Meeting wird aktualisiert
+
                 i++;
             }
         }
-        meetingRepository.save(meeting); //Meeting wird aktualisiert
     }
 }
