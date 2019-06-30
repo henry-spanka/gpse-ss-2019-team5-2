@@ -158,7 +158,7 @@ public class Room {
             }
         }
         //Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse
-        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +","+ telephone +","+notes+","+office+","+roomEmail;
+        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +";"+ telephone +";"+notes+";"+office+";"+roomEmail;
         return room;
     }
 

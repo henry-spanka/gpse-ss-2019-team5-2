@@ -1,6 +1,8 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.RoomService;
 import gpse.team52.domain.DataExport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,6 +14,9 @@ import java.io.InputStream;
 
 @RestController
 public class CSVExportController {
+
+    @Autowired
+    RoomService roomService;
     /**
      * Show the CSVExport  form to the admin.
      *
@@ -19,7 +24,7 @@ public class CSVExportController {
      */
     @GetMapping("/csvExport")
     public ModelAndView showCSVDownload() {
-        DataExport dataExport = new DataExport();
+        DataExport dataExport = new DataExport(roomService);
         final ModelAndView modelAndView = new ModelAndView("csvExport");
         return modelAndView;
     }
