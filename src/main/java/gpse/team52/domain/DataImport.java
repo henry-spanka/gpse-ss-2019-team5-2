@@ -177,7 +177,7 @@ public class DataImport {
 
         meeting.setDescription(line[6]);
 
-        System.out.println("Meeting submitted");
+        System.out.println(meeting.meetingToString());
 
 
     }

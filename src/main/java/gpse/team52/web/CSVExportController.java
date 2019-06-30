@@ -1,5 +1,6 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.DataExport;
@@ -21,6 +22,9 @@ public class CSVExportController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MeetingService meetingService;
     /**
      * Show the CSVExport  form to the admin.
      *
@@ -28,7 +32,7 @@ public class CSVExportController {
      */
     @GetMapping("/csvExport")
     public ModelAndView showCSVDownload() {
-        DataExport dataExport = new DataExport(roomService, userService);
+        DataExport dataExport = new DataExport(roomService, userService, meetingService);
         final ModelAndView modelAndView = new ModelAndView("csvExport");
         return modelAndView;
     }

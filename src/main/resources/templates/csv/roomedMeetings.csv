@@ -1,0 +1,4 @@
+title;startdate;enddate;participants;owner;confirmed;description
+Daily Scum;2019-06-03 11:24;2019-06-03 11:45;jellermann@example.org_Julius_Ellermann;jellermann@example.org;true;Scrum XYZ
+Budget Meeting;2019-05-25 14:00;2019-05-25 15:00;ldyballan@example.org_Lukas_Dyballa;ldyballan@example.org;true;Budget evaluation with coe
+Weekly Review;2019-05-26 23:00;2019-05-26 23:30;jellermann@example.org_Julius_Ellermann,externerkunde@example.de_Günther_Schmidt;jellermann@example.org;true;-

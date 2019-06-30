@@ -186,4 +186,23 @@ public class Meeting {
 
         return getEndAt();
     }
+
+    public  String meetingToString(){
+
+        //title;startdate;enddate;participants;owner;confirmed;description
+        String participant = "";
+        if (participants.size() !=0){
+            participant = participants.get(0).getEmail()+"_"+participants.get(0).getFirstName()+"_"+participants.get(0).getLastName();
+            for (int i = 1; i < participants.size(); i++) {
+                participant = participant+"," +participants.get(i).getEmail()+"_"+participants.get(i).getFirstName()+"_"+participants.get(i).getLastName();
+            }
+        }
+        String start = startAt.toString().replace("T"," ");
+        String end = endAt.toString().replace("T"," ");
+
+        System.out.println(start);
+        System.out.println(end);
+        String string = title+";"+ start +";"+ end +";"+participant+";"+owner.getEmail()+";"+confirmed+";"+description;
+        return string;
+    }
 }

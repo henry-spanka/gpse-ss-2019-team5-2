@@ -1,3 +1,4 @@
+username;firstname;lastname;email;role,list
 jellermann;Julius;Ellermann;jellermann@example.org;ROLE_USER
 ldyballa;Lukas;Dyballa;ldyballan@example.org;ROLE_USER
 phippel;Pia;Hippel;phippel@example.org;ROLE_USER
