@@ -49,7 +49,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
             .stream().map(UUID::fromString).collect(Collectors.toList());
 
             final List<Room> rooms = findMatchingRooms(locationUuid, meeting.getParticipant(location), equipmentList);
-            filterUnavailableRoomsWithFlexible(rooms, meeting.getStartDateTime(), meeting.getEndDateTime()); 
+            filterUnavailableRoomsWithFlexible(rooms, meeting.getStartDateTime(), meeting.getEndDateTime());
 
             result.put(location, rooms);
         }
@@ -75,10 +75,10 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     /**
-     * @param meeting The meeting which might be rebooked / moved to another room.
+     * @param meeting     The meeting which might be rebooked / moved to another room.
      * @param roomsForNew The rooms which might be possible rooms for the new meeting.
      * @return A map of the used room with its alternatives
-     * @throws RebookingImpossibleException If time limit exceeded or list for every room is empty
+     * @throws RebookingImpossibleException   If time limit exceeded or list for every room is empty
      * @throws RebookingNotNecessaryException If no rooms of the meeting interfere with the new meeting
      */
     @Override
@@ -129,7 +129,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                 // add room(s) according to location to the hashmap, bc rooms are not sorted by location in meetingRoom
                 // only add if it is included in rooms for new meeting
                 if (roomMightBeUsed) {
-                    if(alternatives.containsKey(currentRoom.getRoomID().toString())){
+                    if (alternatives.containsKey(currentRoom.getRoomID().toString())) {
                         alternatives.get(currentRoom.getRoomID().toString()).addAll(rooms);
                     } else {
                         alternatives.put(currentRoom.getRoomID().toString(), rooms);

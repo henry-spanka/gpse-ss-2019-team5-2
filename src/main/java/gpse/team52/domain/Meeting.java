@@ -161,7 +161,6 @@ public class Meeting {
      */
     public void removeRoom(final MeetingRoom meetingRoom) {
         rooms.remove(meetingRoom);
-        meetingRoom.setMeeting(null);
     }
 
     /**

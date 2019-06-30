@@ -185,7 +185,7 @@ public class MeetingCreatorController {
             for (Room room : rooms) {
                 for (AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
                     Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
-                    if(alter.containsKey(room.getRoomID().toString())) {
+                    if (alter.containsKey(room.getRoomID().toString())) {
                         Meeting m = alternativeMeetingRoom.getMeeting();
                         Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
                         List<Room> changeRoom = new ArrayList<>();
@@ -204,6 +204,7 @@ public class MeetingCreatorController {
     /**
      * Determines if there are alternative rooms for rebookable meetings.
      * Stores them in AlternativeMeetingRoom class for later use.
+     *
      * @param meeting     The meeting that needs to be rebooked.
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
@@ -247,27 +248,24 @@ public class MeetingCreatorController {
      *              which has to be removed, every even number is the new room.
      */
     private void rebook(Meeting meeting, List<Room> rooms) {
-        int counter = 1;
-        int participants = 0;
+        boolean found;
+        MeetingRoom meetingRoom = null;
         Set<MeetingRoom> roomset = meeting.getRooms();
         Iterator<MeetingRoom> iterator = roomset.iterator();
-        for (Room r : rooms) {
-            if (counter % 2 != 0) { //odd room = old room
-                while (iterator.hasNext()) {
-                    MeetingRoom meetingRoom = iterator.next();
-                    Room compareroom = meetingRoom.getRoom();
-                    if (r == compareroom) {
-                        participants = meetingRoom.getParticipants(); //Merke Anzahl Teilnehmer
-                        meeting.removeRoom(meetingRoom);
-                        break;
-                    }
+        for (int i = 0; i < rooms.size(); i++) {
+            found = false;
+            while (iterator.hasNext() && !found) {
+                meetingRoom = iterator.next();
+                Room compareroom = meetingRoom.getRoom();
+                if (rooms.get(i).getRoomID().equals(compareroom.getRoomID()) && !found) {
+                    found = true;
                 }
-            } else { //even room = new room
-                final MeetingRoom meetingRoom = new MeetingRoom(meeting, r, participants);
-                meeting.addRoom(meetingRoom);
             }
-            counter++;
+            if (found) {
+                meetingRoom.setRoom(rooms.get(i + 1));
+                i++;
+            }
         }
-        meetingRepository.save(meeting); //Meeting wird aktualisiert.
+        meetingRepository.save(meeting); //Meeting wird aktualisiert
     }
 }
