@@ -5,7 +5,9 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
+import gpse.team52.exception.EmailNotFoundException;
 import gpse.team52.service.mail.MailServiceImpl;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,47 +20,14 @@ import java.util.ArrayList;
 
 
 public class DataImport {
+    UserService userService;
+
+    public DataImport(UserService userService) {
+        this.userService = userService;
+    }
+
     private final ArrayList<Candidate> candidateList = new ArrayList<>();
 
-    // private final MailServiceImpl mailService = new MailServiceImpl() ;
-
-    /*This method handles the import of user files
-     * when a csv file containing firstname, lastname and mail adress
-     * is uploded the person gets an email*/
-    public void csvUserImport(String path) {
-        try {
-            FileReader reader = new FileReader(path);
-            BufferedReader inBuffer = new BufferedReader(reader);
-            String line = null;
-
-
-            while ((line = inBuffer.readLine()) != null) {
-                String[] split = line.split(";");
-                if (split.length != 3) {
-                    throw new Exception();
-
-                }
-                final ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
-
-
-                  /*  @Override
-                    public void sendEmailMessageToUser(User user, String subject, String message, boolean html) throws MailException {
-
-                    }*/
-
-                   /* @Override
-                    public void sendEmailTemplateToUser(User user, String subject, ModelAndView template) throws MailException {
-
-                    }*/
-            }
-
-            // mailService.sendEmailTemplateToUser(user, "Email Verification", modelAndView);
-
-
-        } catch (Exception e) {
-            System.out.println("Required format: csv containing: firstname, lastname, mail with header; seperated by ; ");
-        }
-    }
 
     /*This method handles the import of csv files
      * containing room or User data. It is implied that there is a header*/
@@ -124,18 +93,35 @@ public class DataImport {
                 meeting.setEndAt(LocalDateTime.parse(line[2], formatter));
 
 
-                //parse participants #3
+                //parse participants and check if he is user #3
                 String[] participants = line[3].split(",");
                 for (int i = 0; i < participants.length; i++) {
-                    String[] participant = participants[i].split("_");
-                    
 
-                    Participant participant1 = new Participant(participant[0], participant[1], participant[2]);
+                    String[] participant = participants[i].split("_");
+                    Participant participant1;
+                    try {
+                        User participant2 = userService.loadUserByEmail(participant[0]);
+                        participant1 = new Participant(participant2);
+
+                    } catch (EmailNotFoundException e) {
+                        participant1 = new Participant(participant[0], participant[1], participant[2]);
+
+                    }
                     meeting.addParticipant(participant1);
                     participant1.setMeeting(meeting);
+
+
+
+
                 }
-                //look up owner as user --> how?    #4
-                //meeting.setOwner(line[4]);
+                //If owner User he becomes user, if not there is no owner
+                try {
+                    User owner = userService.loadUserByEmail(line[4]);
+                    meeting.setOwner(owner);
+                } catch (EmailNotFoundException e) {
+                    
+                }
+
 
                 //parse rooms --> also look up in db by id?     #5
 
@@ -159,6 +145,7 @@ public class DataImport {
             }
 
             if (except) {
+                System.out.println(line.length);
                 throw new Exception();
             }
         }
