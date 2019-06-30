@@ -1,6 +1,7 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.RoomService;
+import gpse.team52.contract.UserService;
 import gpse.team52.domain.DataExport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class CSVExportController {
 
     @Autowired
     RoomService roomService;
+
+    @Autowired
+    UserService userService;
     /**
      * Show the CSVExport  form to the admin.
      *
@@ -24,7 +28,7 @@ public class CSVExportController {
      */
     @GetMapping("/csvExport")
     public ModelAndView showCSVDownload() {
-        DataExport dataExport = new DataExport(roomService);
+        DataExport dataExport = new DataExport(roomService, userService);
         final ModelAndView modelAndView = new ModelAndView("csvExport");
         return modelAndView;
     }
