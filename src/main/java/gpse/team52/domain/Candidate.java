@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class Candidate {
         /**
          * Email of candidate.
          */
+        @Email
         @Getter
         @Setter
         @Column(nullable = false)
