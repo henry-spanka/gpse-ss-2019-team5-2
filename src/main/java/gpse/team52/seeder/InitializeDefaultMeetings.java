@@ -43,8 +43,8 @@ public class InitializeDefaultMeetings {
      * @param userService Service for user
      * @param roomService Service for rooms
      * @param equipmentService Service for equipment
-     * @param locationService
-     * @param initializeDefaultLocations
+     * @param locationService Service for location
+     * @param initializeDefaultLocations Default locations to use for rooms and meetings
      */
     @Autowired
     public InitializeDefaultMeetings(
@@ -106,7 +106,7 @@ public class InitializeDefaultMeetings {
 
         final Room room1 = roomService.createRoom(12, 2, "bielefeldroom@example.de", location1, "BielefeldRoom",
         "layoutBlue");
-        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom",
+        final Room room2 = roomService.createRoom(8, 0, "guetersloh@example.de", location2, "GüterslohRoom2",
         "layoutRed");
 
         final Equipment equipment1 = equipmentService.createEquipment("Whiteboard");

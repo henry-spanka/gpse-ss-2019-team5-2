@@ -57,10 +57,10 @@ class FindingAlternativesUnitTest {
     private Meeting meetingRatingen1;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
 
         roomFinderService = new RoomFinderServiceImpl(roomRepository, meetingRepository);
-
+/*
         userRegistrationForm = new UserRegistrationForm();
         userRegistrationForm.setFirstName("Test");
         userRegistrationForm.setLastName("User");
@@ -71,8 +71,10 @@ class FindingAlternativesUnitTest {
 
         testUser = new User(userRegistrationForm, "encoded_pw");
 
-    }
+ */
 
+    }
+/*
     @Test
     public void validUserCanBeFound() throws EmailNotFoundException {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.of(testUser));
@@ -138,8 +140,10 @@ class FindingAlternativesUnitTest {
         assertThatExceptionOfType(UsernameExistsException.class).isThrownBy(() -> userService.createUser(userRegistrationForm, "ROLE_USER"));
     }
 
+ */
+
     @Test
-    public void findAlternativesForOne() {
+    void findAlternativesForOne() {
         String[] result = null;
 
         Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");

@@ -192,7 +192,8 @@ public class MeetingCreatorController {
                         changeRoom.add(room);
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
-                        rebook(m, changeRoom);
+                        //rebook(m, changeRoom);
+                        System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName() + " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
                 }
@@ -257,7 +258,7 @@ public class MeetingCreatorController {
             while (iterator.hasNext() && !found) {
                 meetingRoom = iterator.next();
                 Room compareroom = meetingRoom.getRoom();
-                if (rooms.get(i).getRoomID().equals(compareroom.getRoomID()) && !found) {
+                if (rooms.get(i).getRoomID().equals(compareroom.getRoomID())) {
                     found = true;
                 }
             }
