@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RestController
 public class CSVUploadController {
 
-  /**
+    /**
      * Show the CSVUpload  form to the admin.
      *
      * @return CSVUpload view.
@@ -21,18 +21,22 @@ public class CSVUploadController {
     }
 
     @PostMapping("/csvImport")
-    public ModelAndView submitData( @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public ModelAndView submitData(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        try {
+            //check if there is an uploaded file
+            if (file != null && !file.isEmpty()) {
 
-        //check if there is an uploaded file
-       if (file != null && !file.isEmpty()) {
+                DataImport dataImport = new DataImport();
+                dataImport.csvImport(file);
 
-           DataImport dataImport = new DataImport();
-           dataImport.csvImport(file);
-           return new ModelAndView("redirect:/start");
-        }if (file == null){
-
+            }
+            if (file == null) {
+                return new ModelAndView("redirect:/dataError");
+            }
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/dataError");
         }
-        return new ModelAndView("redirect:/csvImport");
+        return new ModelAndView("redirect:/start");
     }
 }
 

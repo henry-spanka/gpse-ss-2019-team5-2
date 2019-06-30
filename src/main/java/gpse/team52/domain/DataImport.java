@@ -63,107 +63,104 @@ public class DataImport {
     /*This method handles the import of csv files
      * containing room or User data. It is implied that there is a header*/
 
-    public void csvImport(final MultipartFile file) {
-        try {
-            Boolean isUser = false;
-            Boolean except = false;
-            Reader reader = new InputStreamReader(file.getInputStream());
-            CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).withSkipLines(1).build();
-            String line[] = null;
-            while ((line = csvReader.readNext()) != null) {
-                //equals a room file, therefore a new room will be created for every new line
-                if (line.length == 8) {
+    public void csvImport(final MultipartFile file) throws Exception {
 
-                    Room room = new Room();
-                    Location location = new Location(line[0]);
-                    room.setLocation(location);
-                    room.setRoomName(line[1]);
+        Boolean isUser = false;
+        Boolean except = false;
+        Reader reader = new InputStreamReader(file.getInputStream());
+        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).withSkipLines(1).build();
+        String line[] = null;
+        while ((line = csvReader.readNext()) != null) {
+            //equals a room file, therefore a new room will be created for every new line
+            if (line.length == 8) {
 
-                    //number persons split for extra seats
-                    String[] seats = line[2].split("\\+");
-                    if (seats.length == 1) {
-                        room.setSeats(Integer.parseInt(seats[0]));
-                    } else if (seats.length == 2) {
-                        room.setSeats(Integer.parseInt(seats[0]));
-                        room.setExpandableSeats(Integer.parseInt(seats[1]));
-                    }
+                Room room = new Room();
+                Location location = new Location(line[0]);
+                room.setLocation(location);
+                room.setRoomName(line[1]);
 
-                    // spliting for different equipment items
-                    String[] equipments = line[3].split(",");
-                    for (int i = 0; i < equipments.length; i++) {
-                        Equipment equipment = new Equipment();
-                        room.addEquipment(equipment);
-                        equipment.addRoom(room);
-                    }
+                //number persons split for extra seats
+                String[] seats = line[2].split("\\+");
+                if (seats.length == 1) {
+                    room.setSeats(Integer.parseInt(seats[0]));
+                } else if (seats.length == 2) {
+                    room.setSeats(Integer.parseInt(seats[0]));
+                    room.setExpandableSeats(Integer.parseInt(seats[1]));
+                }
 
-                    room.setTelephone(line[4]);
-                    room.setNotes(line[5]);
-                    room.setOffice(line[6]);
-                    room.setRoomEmail(line[7]);
-                    System.out.println("A new romm was submitted");
-                } else if (line.length == 3) {          // equals user submitting format
-                    isUser = true;
+                // spliting for different equipment items
+                String[] equipments = line[3].split(",");
+                for (int i = 0; i < equipments.length; i++) {
+                    Equipment equipment = new Equipment();
+                    room.addEquipment(equipment);
+                    equipment.addRoom(room);
+                }
 
-                    try {
-                        Candidate candidate = new Candidate(line[0], line[1], line[2]);
-                        candidateList.add(candidate);
-                    } catch (Exception e) {
-                        except = true;
-                        continue;
-                    }
+                room.setTelephone(line[4]);
+                room.setNotes(line[5]);
+                room.setOffice(line[6]);
+                room.setRoomEmail(line[7]);
+                System.out.println("A new romm was submitted");
+            } else if (line.length == 3) {          // equals user submitting format
+                isUser = true;
 
-
-                } else if (line.length == 9) {
-                    Meeting meeting = new Meeting(line[0]);
-                    //owner;room;description
-
-                    //String to LocalDAteTime Parser
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                    meeting.setStartAt(LocalDateTime.parse(line[1], formatter));
-
-                    meeting.setEndAt(LocalDateTime.parse(line[2], formatter));
-
-
-                    //parse participants #3
-                    String[] participants = line[3].split(",");
-                    for (int i = 0; i < participants.length; i++) {
-                        String[] participant = participants[i].split("_");
-
-                        Participant participant1 = new Participant(participant[0], participant[1], participant[2]);
-                        meeting.addParticipant(participant1);
-                    }
-                    //look up owner as user --> how?    #4
-                    //meeting.setOwner(line[4]);
-
-                    //parse rooms --> also look up in db by id?     #5
-
-                    meeting.setConfirmed(Boolean.parseBoolean(line[6]));
-
-                    meeting.setDescription(line[7]);
-
-                    System.out.println("Meeting submitted");
-
-
-                } else {
-                    System.out.println(line.length);
-
-                    throw new Exception();
+                try {
+                    Candidate candidate = new Candidate(line[0], line[1], line[2]);
+                    candidateList.add(candidate);
+                } catch (Exception e) {
+                    except = true;
+                    continue;
                 }
 
 
-                if (isUser && candidateList.size() != 0) {
-                    notifyCandidate();
+            } else if (line.length == 9) {
+                Meeting meeting = new Meeting(line[0]);
+                //owner;room;description
 
-                }
+                //String to LocalDAteTime Parser
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                meeting.setStartAt(LocalDateTime.parse(line[1], formatter));
 
-                if (except) {
-                    throw new Exception();
+                meeting.setEndAt(LocalDateTime.parse(line[2], formatter));
+
+
+                //parse participants #3
+                String[] participants = line[3].split(",");
+                for (int i = 0; i < participants.length; i++) {
+                    String[] participant = participants[i].split("_");
+
+                    Participant participant1 = new Participant(participant[0], participant[1], participant[2]);
+                    meeting.addParticipant(participant1);
                 }
+                //look up owner as user --> how?    #4
+                //meeting.setOwner(line[4]);
+
+                //parse rooms --> also look up in db by id?     #5
+
+                meeting.setConfirmed(Boolean.parseBoolean(line[6]));
+
+                meeting.setDescription(line[7]);
+
+                System.out.println("Meeting submitted");
+
+
+            } else {
+                System.out.println(line.length);
+
+                throw new Exception();
             }
-        } catch (
-        Exception e) {
-            System.out.println(" Exception: file is not a csv file or the layout does not fit.");
+
+
+            if (isUser && candidateList.size() != 0) {
+                notifyCandidate();
+
+            }
+
+            if (except) {
+                throw new Exception();
+            }
         }
+
     }
 
     //this method sends an e mail to the candidates

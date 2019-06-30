@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
+        <form th:method="post" th:action="@{/dataError}" enctype="multipart">
+
+            <div class="form-group">
+
+                <p></p>
+                <b>
+
+                    Something has gone wrong. </b>
+                <p></p>
+                <p></p>
+                <b>
+
+                    Please check your file, if it fits the needed format! </b>
+                <p></p>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Try again!</button>
+
+
+        </form>
+    </div>
+</div>
+</body>
+</html>
