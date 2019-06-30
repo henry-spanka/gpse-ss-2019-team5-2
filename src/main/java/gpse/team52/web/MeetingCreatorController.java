@@ -11,6 +11,7 @@ import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
+import gpse.team52.service.RoomFinderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,8 @@ public class MeetingCreatorController {
 
     @Autowired
     private MeetingRepository meetingRepository;
+
+    private ArrayList<AlternativeMeetingRoom> alternativeMeetingRooms;
 
     /**
      * Creates a new meeting from the user selected input.
@@ -152,16 +155,16 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
-        ArrayList<Meeting> changedMeetings = checkMeetings; // meetings which might really be rebooked
+        alternativeMeetingRooms = null; // just to make sure there's nothing left from last booking
         for (Meeting m : checkMeetings) {
             // check every meeting which lies in time frame and adjust available rooms
             try {
                 roomsForNew = smartrebooking(m, roomsForNew);
             } catch (RebookingNotNecessaryException e) {
                 // if meeting doesn't interfere it won't be rebooked
-                changedMeetings.remove(m);
             }
         }
+
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomsForNew);
 
@@ -178,12 +181,27 @@ public class MeetingCreatorController {
             .map(r -> roomService.getRoom(UUID.fromString(r)).orElseThrow()).collect(Collectors.toList());
         }
 
+        for (Room room : rooms) {
+            for (AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
+                Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
+                if(alter.containsKey(room.getRoomID().toString())) {
+                    Meeting m = alternativeMeetingRoom.getMeeting();
+                    Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
+                    List<Room> changeRoom = new ArrayList<>();
+                    changeRoom.add(room);
+                    changeRoom.add(roomAlter);
+                    // just get first entry in alternative room selection to select new room
+                    rebook(m, changeRoom);
+                    break; // bc room won't be there twice
+                }
+            }
+        }
         return meetingService.createMeeting(meeting, rooms, meeting.getParticipants(), user);
     }
 
     /**
      * Determines if there are alternative rooms for rebookable meetings.
-     *
+     * Stores them in AlternativeMeetingRoom class for later use.
      * @param meeting     The meeting that needs to be rebooked.
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
@@ -192,6 +210,8 @@ public class MeetingCreatorController {
         // remove rooms if meeting not rebookable
         try {
             Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);
+            AlternativeMeetingRoom alt = new AlternativeMeetingRoom(meeting, alternatives);
+            alternativeMeetingRooms.add(alt);
             for (Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     // removing a specific room without alternatives
