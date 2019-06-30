@@ -9,6 +9,8 @@ import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.exception.EmailNotFoundException;
 import gpse.team52.service.mail.MailServiceImpl;
+import net.bytebuddy.matcher.ModifierMatcher;
+import org.springframework.mail.MailException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,9 +23,11 @@ import java.util.ArrayList;
 
 public class DataImport {
     UserService userService;
+    MailService mailService;
 
-    public DataImport(UserService userService) {
+    public DataImport(UserService userService, MailService mailService) {
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     private final ArrayList<Candidate> candidateList = new ArrayList<>();
@@ -111,15 +115,13 @@ public class DataImport {
                     participant1.setMeeting(meeting);
 
 
-
-
                 }
                 //If owner User he becomes user, if not there is no owner
                 try {
                     User owner = userService.loadUserByEmail(line[4]);
                     meeting.setOwner(owner);
                 } catch (EmailNotFoundException e) {
-                    
+
                 }
 
 
@@ -154,6 +156,19 @@ public class DataImport {
 
     //this method sends an e mail to the candidates
     public void notifyCandidate() {
+
+        for (int i = 0; i < candidateList.size(); i++) {
+            try {
+                ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
+
+
+                mailService.sendEmailToCAndidate(candidateList.get(i), "You have beeen added to Roomed", modelAndView);
+                System.out.println("MAil sent");
+
+            } catch (MailException e) {
+                continue;
+            }
+        }
 
 
     }

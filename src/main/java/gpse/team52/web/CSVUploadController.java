@@ -1,6 +1,7 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.UserService;
+import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.DataImport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ public class CSVUploadController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MailService mailService;
 
     /**
      * Show the CSVUpload  form to the admin.
@@ -31,7 +35,7 @@ public class CSVUploadController {
             //check if there is an uploaded file
             if (file != null && !file.isEmpty()) {
 
-                DataImport dataImport = new DataImport(userService);
+                DataImport dataImport = new DataImport(userService, mailService);
                 dataImport.csvImport(file);
 
             }

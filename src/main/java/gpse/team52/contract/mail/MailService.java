@@ -1,5 +1,6 @@
 package gpse.team52.contract.mail;
 
+import gpse.team52.domain.Candidate;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.mail.MailException;
@@ -29,4 +30,7 @@ public interface MailService {
 
     void sendEmailTemplate(Participant participant,
                            String subject, ModelAndView template) throws MailException;
+
+     void sendEmailToCAndidate(final Candidate candidate, final String subject,
+                                     final ModelAndView template) throws MailException;
 }
