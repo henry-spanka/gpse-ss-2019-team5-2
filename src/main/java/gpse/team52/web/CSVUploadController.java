@@ -1,5 +1,6 @@
 package gpse.team52.web;
 
+import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.DataImport;
@@ -18,6 +19,9 @@ public class CSVUploadController {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    RoomService roomService;
+
     /**
      * Show the CSVUpload  form to the admin.
      *
@@ -35,7 +39,7 @@ public class CSVUploadController {
             //check if there is an uploaded file
             if (file != null && !file.isEmpty()) {
 
-                DataImport dataImport = new DataImport(userService, mailService);
+                DataImport dataImport = new DataImport(userService, mailService, roomService);
                 dataImport.csvImport(file);
 
             }
