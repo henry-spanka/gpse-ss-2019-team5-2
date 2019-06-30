@@ -32,6 +32,7 @@ public class User implements UserDetails { //NOPMD
     private UUID userId;
 
     @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -58,6 +59,7 @@ public class User implements UserDetails { //NOPMD
 
     @Column(unique = true, nullable = false)
     @Getter
+    @Setter
     private String email;
 
     @Setter
@@ -139,5 +141,20 @@ public class User implements UserDetails { //NOPMD
         }
 
         this.roles.add(role);
+    }
+
+    public String userToString(){
+        String rolesString ="";
+        if (roles.size()!=0){
+        rolesString= roles.get(0);
+            for (int i = 1; i < roles.size(); i++) {
+                rolesString = rolesString+","+roles.get(i);
+            }
+
+        }
+
+        String string = username+";"+firstname+";"+lastname+";"+email+";"+rolesString;
+
+        return string;
     }
 }

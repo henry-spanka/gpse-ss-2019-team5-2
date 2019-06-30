@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV file Upload</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
+        <form th:method="post" th:action="@{/csvImport}" enctype="multipart/form-data">
+
+            <div class="form-group">
+
+                <p></p>
+                <b>
+
+                    Please select a csv file and note that certain formats must be adhered to! </b>
+                <p></p>
+                <i> It is implied that there is a header in the submitted file.</i>
+
+                <p></p>
+                <b>
+                    Rooms:</b>
+                <p>
+                    Location; name; maximum number of persons; equipment; telephone; notes; office; mail address </p>
+                <i>The equipment items shall be separated by comma.</i>
+                <p></p>
+                <b>
+                    User:</b>
+                <p>
+                    Firstname; lastname; mail adresss
+
+                </p>
+                <p></p>
+                <b>
+                    Meetings:</b>
+                <p>
+                    title; startdate; enddate; participants; owner; confirmed; description </p>
+                <i>The equipment items and participants shall be separated by comma. A participant has to have mail adress, firstname and lastname, separated by _ . The dates should be in the LocalDateTime format.</i>
+                <p></p>
+            </div>
+            <input type="file" name="file" accept="text/csv"/>
+            <div>
+                <p></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit file</button>
+
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

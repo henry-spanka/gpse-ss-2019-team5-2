@@ -41,6 +41,7 @@ public class Room {
      * Number of fix seats in a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int seats;
 
@@ -48,6 +49,7 @@ public class Room {
      * Number of optional seats for a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int expandableSeats;
 
@@ -55,6 +57,7 @@ public class Room {
      * Email address of a room.
      */
     @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String roomEmail;
 
@@ -70,6 +73,7 @@ public class Room {
      * Location of the room.
      */
     @Getter
+    @Setter
     @ManyToOne(targetEntity = Location.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
@@ -90,6 +94,21 @@ public class Room {
     @ManyToMany(targetEntity = Equipment.class)
     @JoinColumn(nullable = false, name = "equipmentId")
     private List<Equipment> equipment = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @Column
+    private String telephone;
+
+    @Getter
+    @Setter
+    @Column
+    private String notes;
+
+    @Getter
+    @Setter
+    @Column
+    private String office;
 
     protected Room() {
     }
@@ -126,6 +145,21 @@ public class Room {
 
     public void addEquipment(final Equipment... equipments) {
         addEquipment(Arrays.asList(equipments));
+    }
+
+    public String roomToString() {
+        String equi = "";
+        if (equipment.size() != 0) {
+
+            equi = equipment.get(0).getEquipmentName();
+            for (int i = 1; i < equipment.size(); i++) {
+                equi = equi +"," + equipment.get(i).getEquipmentName();
+
+            }
+        }
+
+        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +";"+ telephone +";"+notes+";"+office+";"+roomEmail;
+        return room;
     }
 
     /*TODO: passt der pfad?

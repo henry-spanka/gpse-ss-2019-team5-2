@@ -1,8 +1,10 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.MeetingService;
+
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,8 +21,11 @@ public class ChronikController {
 
     /**
      * Show upcoming meetings.
+<<<<<<< HEAD
+=======
      *
      * @param authentication Only get meetings where logged in User participates
+>>>>>>> origin/release-v0.3.0
      * @return Chronic View.
      */
     @GetMapping("/chronik")
