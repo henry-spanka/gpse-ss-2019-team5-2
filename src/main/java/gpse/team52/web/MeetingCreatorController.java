@@ -152,9 +152,15 @@ public class MeetingCreatorController {
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
         .forEach(checkMeetings::add);
+        ArrayList<Meeting> changedMeetings = checkMeetings; // meetings which might really be rebooked
         for (Meeting m : checkMeetings) {
             // check every meeting which lies in time frame and adjust available rooms
-            roomsForNew = smartrebooking(m, roomsForNew);
+            try {
+                roomsForNew = smartrebooking(m, roomsForNew);
+            } catch (RebookingNotNecessaryException e) {
+                // if meeting doesn't interfere it won't be rebooked
+                changedMeetings.remove(m);
+            }
         }
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("rooms", roomsForNew);
@@ -182,7 +188,7 @@ public class MeetingCreatorController {
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
      */
-    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) {
+    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingNotNecessaryException {
         // remove rooms if meeting not rebookable
         try {
             Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);
@@ -206,9 +212,8 @@ public class MeetingCreatorController {
                 removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
                 roomsForNew.put(locationId, removeFrom);
             }
-        } catch (RebookingNotNecessaryException e) {
-            // don't remove anything
         }
+
         return roomsForNew;
     }
 
