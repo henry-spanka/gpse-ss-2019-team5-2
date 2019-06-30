@@ -114,7 +114,7 @@ public class DataImport {
         room.setNotes(line[5]);
         room.setOffice(line[6]);
         room.setRoomEmail(line[7]);
-        System.out.println(room.roomToString());
+       // System.out.println(room.roomToString());
          }
 
     //this method sends an e mail to the candidates
@@ -177,7 +177,7 @@ public class DataImport {
 
         meeting.setDescription(line[6]);
 
-        System.out.println(meeting.meetingToString());
+       // System.out.println(meeting.meetingToString());
 
 
     }

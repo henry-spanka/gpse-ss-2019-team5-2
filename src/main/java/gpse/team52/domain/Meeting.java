@@ -200,8 +200,6 @@ public class Meeting {
         String start = startAt.toString().replace("T"," ");
         String end = endAt.toString().replace("T"," ");
 
-        System.out.println(start);
-        System.out.println(end);
         String string = title+";"+ start +";"+ end +";"+participant+";"+owner.getEmail()+";"+confirmed+";"+description;
         return string;
     }

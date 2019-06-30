@@ -3,7 +3,7 @@ package gpse.team52.domain;
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
-import gpse.team52.contract.mail.MailService;
+
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -22,7 +22,7 @@ public class DataExport {
             writeUserFile();
             writeMeetingFile();
         }catch (IOException e){
-            System.out.println("DAs war wohl nichts");
+
         }
 
     }
