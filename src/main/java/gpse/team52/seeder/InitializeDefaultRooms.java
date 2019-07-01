@@ -1,13 +1,9 @@
 package gpse.team52.seeder;
 
-import javax.annotation.PostConstruct;
-
-import gpse.team52.contract.EquipmentService;
-import gpse.team52.contract.LocationService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
+import gpse.team52.contract.*;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
+import gpse.team52.domain.Role;
 import gpse.team52.domain.Room;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
@@ -15,17 +11,23 @@ import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Initializes Default Meetings in the database.
  */
 @Service
 public class InitializeDefaultRooms {
 
+    private final Role DEFAULT_USER_ROLE;
+
     private static final String DEFAULT_PASSWORD = "rooms";
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
     private final LocationService locationService;
+
+    private final InitializeDefaultRoles initializeDefaultRoles;
 
     /**
      * Required to make it dependent on InitializeDefaultMeetings.
@@ -41,12 +43,16 @@ public class InitializeDefaultRooms {
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
                                   final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+                                  final RoleService roleService, final InitializeDefaultRoles initializeDefaultRoles,
                                   final InitializeDefaultMeetings initializeDefaultMeetings) {
         this.userService = userService;
         this.roomService = roomService;
         this.equipmentService = equipmentService;
         this.locationService = locationService;
+        this.initializeDefaultRoles = initializeDefaultRoles;
         this.initializeDefaultMeetings = initializeDefaultMeetings;
+
+        this.DEFAULT_USER_ROLE = roleService.getByName("ROLE_USER").orElseThrow();
     }
 
     /**
@@ -64,7 +70,7 @@ public class InitializeDefaultRooms {
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
-            userService.createUser(form1, true, "ROLE_USER"); //NOPMD
+            userService.createUser(form1, true, DEFAULT_USER_ROLE); //NOPMD
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             return;
         }

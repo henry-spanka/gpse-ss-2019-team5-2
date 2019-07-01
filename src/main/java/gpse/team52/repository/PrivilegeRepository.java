@@ -1,9 +1,9 @@
 package gpse.team52.repository;
 
-import gpse.team52.domain.Position;
+import gpse.team52.domain.Privilege;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface PositionRepository extends CrudRepository<Position, UUID>{
+public interface PrivilegeRepository extends CrudRepository<Privilege, UUID> {
 }

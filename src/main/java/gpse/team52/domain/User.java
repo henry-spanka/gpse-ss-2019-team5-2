@@ -1,12 +1,5 @@
 package gpse.team52.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.persistence.*;
-
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +8,12 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * User entity.
@@ -72,8 +71,15 @@ public class User implements UserDetails { //NOPMD
     @Column(nullable = false)
     private boolean isEnabled = false;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
+    @Getter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Set<Role> roles = new HashSet<>();
+
+    @Getter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "privilege_id", referencedColumnName = "id")
+    private Set<Privilege> privileges = new HashSet<>();
 
     /**
      * Create a user from a registration form.
@@ -118,11 +124,11 @@ public class User implements UserDetails { //NOPMD
      *
      * @param role The rule to be added.
      */
-    public void addRole(final String role) {
-        if (roles == null) {
-            this.roles = new ArrayList<>();
-        }
-
+    public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public void addPrivilege(Privilege privilege) {
+        this.privileges.add(privilege);
     }
 }

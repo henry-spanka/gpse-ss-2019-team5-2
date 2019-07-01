@@ -59,7 +59,7 @@
                                 <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
                                 <p class="mb-0 font-weight-bold d-inline"
                                    th:text="${meetingRoom.getRoom().getRoomName() + ' | ' + meetingRoom.getRoom().getLocation().getName()}"></p>
-                                <div class="float-right">
+                                <div class="float-privilege">
                                     <i class="fas fa-user"></i>
                                     <!--/*@thymesVar id="meeting" type="gpse.team52.domain.Meeting"*/-->
                                     <p class="d-inline ml-1" th:text="${meetingRoom.getParticipants()}"></p>

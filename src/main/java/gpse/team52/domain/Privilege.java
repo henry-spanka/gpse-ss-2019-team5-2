@@ -2,28 +2,29 @@ package gpse.team52.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
-public class Right {
+public class Privilege {
     @Id
+    @Getter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-    private UUID rightId;
+    private UUID id;
 
     @Getter
     @Column(unique = true, nullable = false)
-    private String rightName;
+    private String name;
 
-    public Right(String rightName) {
-        this.rightName = rightName;
+    public Privilege(String name) {
+        this.name = name;
     }
 }

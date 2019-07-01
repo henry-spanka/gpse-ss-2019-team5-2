@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-11">
                         <p class="font-weight-bold mb-0 d-inline" th:text="${meeting.getTitle()}"></p>
-                        <div class="float-right d-inline"
+                        <div class="float-privilege d-inline"
                              th:if="${meeting.getOwner().getUserId().equals(user.getUserId())}">
                             <a th:href="@{{meeting_id}/edit(meeting_id=${meeting.getMeetingId()})}"
                                class="btn btn-primary btn-sm py-1 mb-1">
@@ -62,7 +62,7 @@
                         <div class="col-11">
                             <p class="mb-0 font-weight-bold d-inline"
                                th:text="${meetingRoom.getRoom().getRoomName() + ' | ' + meetingRoom.getRoom().getLocation().getName()}"></p>
-                            <div class="float-right">
+                            <div class="float-privilege">
                                 <i class="fas fa-user"></i>
                                 <p class="d-inline ml-1" th:text="${meetingRoom.getParticipants()}"></p>
                             </div>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="col-11">
                             <p class="mb-0 font-weight-bold d-inline">Participants</p>
-                            <div class="float-right">
+                            <div class="float-privilege">
                                 <button type="button" class="btn btn-primary btn-sm py-1" data-toggle="modal"
                                         data-target="#addParticipant">
                                     Add
@@ -104,7 +104,7 @@
                                 <td scope="row">
                                     <form th:method="delete"
                                           th:action="@{/meeting/{id}/participant/{pId}(id=${meeting.getMeetingId()},pId=${participant.getParticipantId()})}">
-                                        <button type="submit" class="btn btn-secondary btn-sm py-1 float-right">
+                                        <button class="btn btn-secondary btn-sm py-1 float-privilege" type="submit">
                                             <span class="fas fa-user-times"></span>
                                         </button>
                                     </form>

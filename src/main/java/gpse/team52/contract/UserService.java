@@ -1,8 +1,6 @@
 package gpse.team52.contract;
 
-import java.util.Optional;
-import java.util.UUID;
-
+import gpse.team52.domain.Role;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.EmailNotFoundException;
@@ -11,6 +9,9 @@ import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * User Service Contract.
@@ -25,7 +26,7 @@ public interface UserService extends UserDetailsService {
      * @throws UsernameExistsException Thrown if the username already exists in the database.
      * @throws EmailExistsException    Thrown if the email already exists in the database.
      */
-    User createUser(UserRegistrationForm form, String... roles) throws UsernameExistsException, EmailExistsException;
+    User createUser(UserRegistrationForm form, Role... roles) throws UsernameExistsException, EmailExistsException;
 
     /**
      * Create a new user from a registration form and sends a verification email.
@@ -37,7 +38,7 @@ public interface UserService extends UserDetailsService {
      * @throws UsernameExistsException Thrown if the username already exists in the database.
      * @throws EmailExistsException    Thrown if the email already exists in the database.
      */
-    User createUser(UserRegistrationForm form, boolean enabled, String... roles) throws UsernameExistsException,
+    User createUser(UserRegistrationForm form, boolean enabled, Role... roles) throws UsernameExistsException,
     EmailExistsException;
 
     @Override
