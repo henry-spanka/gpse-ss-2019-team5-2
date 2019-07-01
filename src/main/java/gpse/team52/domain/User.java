@@ -151,18 +151,16 @@ public class User implements UserDetails { //NOPMD
         this.privileges.add(privilege);
     }
 
-    public String userToString(){
-        String rolesString ="";
-        if (roles.size()!=0){
-        rolesString= roles.get(0);
+    public String userToString() {
+        StringBuilder rolesString = new StringBuilder();
+        if (roles.size() != 0) {
+            rolesString = new StringBuilder(roles.toArray(Role[]::new)[0].getName());
             for (int i = 1; i < roles.size(); i++) {
-                rolesString = rolesString+","+roles.get(i);
+                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName());
             }
 
         }
 
-        String string = username+";"+firstname+";"+lastname+";"+email+";"+rolesString;
-
-        return string;
+        return username + ";" + firstname + ";" + lastname + ";" + email + ";" + rolesString;
     }
 }
