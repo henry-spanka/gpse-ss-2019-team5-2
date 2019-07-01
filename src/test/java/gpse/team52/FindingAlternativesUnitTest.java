@@ -2,7 +2,9 @@ package gpse.team52;
 
 
 import gpse.team52.contract.RoomFinderService;
+import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
 import gpse.team52.repository.EquipmentRepository;
@@ -10,11 +12,16 @@ import gpse.team52.repository.LocationRepository;
 import gpse.team52.repository.MeetingRepository;
 import gpse.team52.repository.RoomRepository;
 import gpse.team52.service.RoomFinderServiceImpl;
+import gpse.team52.service.RoomServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,9 +31,12 @@ import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FindingAlternativesUnitTest {
 
     private RoomFinderService roomFinderService;
+    private RoomService roomService;
 
     @Mock
     private RoomRepository roomRepository;
@@ -44,22 +54,39 @@ class FindingAlternativesUnitTest {
     private Room bielefeld2;
     private Room bielefeld3;
 
-    private Room guetersloh1;
-    private Room guetersloh2;
-    private Room guetersloh3;
+    private Room helpup1;
+    private Room helpup2;
+    private Room helpup3;
 
-    private Room ratingen1;
-    private Room ratingen2;
-    private Room ratingen3;
+    private Room lage1;
+    private Room lage2;
+    private Room lage3;
 
     private Meeting meetingBielefeld1;
-    private Meeting meetingGuetersloh1;
-    private Meeting meetingRatingen1;
+    private Meeting meetingHelpup1;
+    private Meeting meetingLage1;
+
+    private Location bielefeld;
+    private Location helpup;
+    private Location lage;
 
     @BeforeEach
     void setUp() {
 
         roomFinderService = new RoomFinderServiceImpl(roomRepository, meetingRepository);
+        roomService = new RoomServiceImpl(roomRepository, locationRepository, equipmentRepository);
+
+        bielefeld = new Location("Bielefeld");
+        helpup = new Location("Helpup");
+        lage = new Location("Lage");
+
+        // seats, extraSeats, mail, location, name, layout
+        bielefeld1 = new Room(10,10,"bf1@example.de", bielefeld, "Bf1", "layoutRed");
+
+        bielefeld2 = new Room(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
+        roomService.createRoom(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
+        roomService.update(bielefeld2);
+
 /*
         userRegistrationForm = new UserRegistrationForm();
         userRegistrationForm.setFirstName("Test");
@@ -74,6 +101,17 @@ class FindingAlternativesUnitTest {
  */
 
     }
+
+    @Test
+    void findAlternativesForOne() {
+        String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
+        Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");
+        // just to test whether test is running right now
+
+        //Iterable<Room> allRooms = roomRepository.findAll();
+        //Assertions.assertThat(allRooms).containsExactlyInAnyOrder(bielefeld1, bielefeld2);
+    }
+
 /*
     @Test
     public void validUserCanBeFound() throws EmailNotFoundException {
@@ -141,12 +179,5 @@ class FindingAlternativesUnitTest {
     }
 
  */
-
-    @Test
-    void findAlternativesForOne() {
-        String[] result = null;
-
-        Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");
-    }
 
 }
