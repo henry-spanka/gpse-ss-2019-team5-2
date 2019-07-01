@@ -56,7 +56,9 @@
                     <div class="col-1">
                         <i class="fas fa-edit"></i>
                     </div>
-                    <div class="col-11" th:text="'Disabled rebook meeting' + ${meeting.getDisableRebookMeeting()}">
+                    <div class="col-11">
+                        Disabled rebook meeting:
+                        <input disabled="disabled" th:checked="${meeting.isDisableRebookMeeting()}" type="checkbox">
                     </div>
                 </div>
             </div>
