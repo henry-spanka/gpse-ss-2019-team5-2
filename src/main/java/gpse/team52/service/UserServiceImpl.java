@@ -24,9 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-import java.util.UUID;
-
 /**
  * User Service implementation.
  */

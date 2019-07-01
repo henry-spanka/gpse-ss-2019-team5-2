@@ -1,5 +1,9 @@
 package gpse.team52.seeder;
 
+import java.time.LocalDateTime;
+
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.*;
 import gpse.team52.domain.*;
 import gpse.team52.exception.EmailExistsException;
@@ -7,9 +11,6 @@ import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 
 /**
  * Initializes Default Meetings in the database.
@@ -35,11 +36,14 @@ public class InitializeDefaultMeetings {
 
     /**
      * Constructor for the used services.
-     * @param meetingService Service for meetings
-     * @param userService Service for user
-     * @param roomService Service for rooms
-     * @param equipmentService Service for equipment
-     * @param locationService Service for location
+     *
+     * @param meetingService             Service for meetings
+     * @param userService                Service for user
+     * @param roomService                Service for rooms
+     * @param equipmentService           Service for equipment
+     * @param locationService            Service for location
+     * @param roleService                Service for role
+     * @param initializeDefaultRoles InitializeDefaultRoles.
      * @param initializeDefaultLocations Default locations to use for rooms and meetings
      */
     @Autowired

@@ -1,16 +1,17 @@
 package gpse.team52.seeder;
 
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.PrivilegeService;
 import gpse.team52.contract.RoleService;
 import gpse.team52.domain.Privilege;
 import gpse.team52.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Set;
 
 /**
  * Initialize default positions in the database.
@@ -25,8 +26,10 @@ public class InitializeDefaultRoles {
 
     /**
      * Constructor for the used services.
-     * @param roleService      Service for positions
-     * @param privilegeService Service for positios
+     *
+     * @param roleService            Service for positions
+     * @param privilegeService       Service for positios
+     * @param initializeDefaultRoles Initialize default roles.
      */
     @Autowired
     public InitializeDefaultRoles(final RoleService roleService,

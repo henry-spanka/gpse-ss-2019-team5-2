@@ -21,6 +21,9 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * DBFileStorageServiceImplementation.
+ */
 @Service
 public class DBFileStorageServiceImpl implements DBFileStorageService {
 

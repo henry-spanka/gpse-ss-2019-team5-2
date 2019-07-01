@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ICalController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MeetingService meetingService;
+    private MeetingService meetingService;
 
     /**
      * Get iCal for a user.

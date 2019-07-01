@@ -147,18 +147,23 @@ public class Room {
         addEquipment(Arrays.asList(equipments));
     }
 
+    /**
+     * Converts a room to a string.
+     * @return String.
+     */
     public String roomToString() {
         String equi = "";
         if (equipment.size() != 0) {
 
             equi = equipment.get(0).getEquipmentName();
             for (int i = 1; i < equipment.size(); i++) {
-                equi = equi +"," + equipment.get(i).getEquipmentName();
+                equi = equi + "," + equipment.get(i).getEquipmentName();
 
             }
         }
 
-        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +";"+ telephone +";"+notes+";"+office+";"+roomEmail;
+        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";" + equi + ";"
+        + telephone + ";" + notes + ";" + office + ";" + roomEmail;
         return room;
     }
 

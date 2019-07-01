@@ -1,13 +1,13 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.PrivilegeService;
 import gpse.team52.domain.Privilege;
 import gpse.team52.repository.PrivilegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Privilege service implementation.
@@ -32,6 +32,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Get all privileges.
+     *
      * @return all privileges.
      */
     @Override
@@ -41,6 +42,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Get optional privilege from privilege Id.
+     *
      * @param privilegeId The privilege Id.
      * @return optional privilege.
      */
@@ -62,6 +64,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Create privilege.
+     *
      * @param privilege The privilege.
      * @return the created privilege.
      */
@@ -72,6 +75,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Update privilege.
+     *
      * @param privilege The privilege.
      * @return the updated privilege.
      */
@@ -82,6 +86,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Delete privilege.
+     *
      * @param privilege The privilege.
      */
     @Override

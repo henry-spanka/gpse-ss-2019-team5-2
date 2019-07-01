@@ -1,14 +1,15 @@
 package gpse.team52.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Role Entity.
@@ -54,7 +55,8 @@ public class Role {
 
     /**
      * Secondary role constructor.
-     * @param name The role name.
+     *
+     * @param name       The role name.
      * @param privileges The role privileges.
      */
     public Role(String name, Set<Privilege> privileges) {

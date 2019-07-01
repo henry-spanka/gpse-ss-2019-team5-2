@@ -70,6 +70,7 @@ public class ForgotPasswordController {
     /**
      * Try to confirm a users account (their email).
      *
+     * @param token Password token.
      * @return Confirmation or error page.
      */
     @GetMapping("/forgotpasswordsetnew")

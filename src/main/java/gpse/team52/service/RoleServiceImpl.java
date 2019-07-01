@@ -1,13 +1,13 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.RoleService;
 import gpse.team52.domain.Role;
 import gpse.team52.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Role service implementation.
@@ -32,6 +32,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Get all roles.
+     *
      * @return all roles.
      */
     @Override
@@ -41,6 +42,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Get optional role from role Id.
+     *
      * @param roleId The role Id.
      * @return optional role.
      */
@@ -51,6 +53,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Get optional role by name.
+     *
      * @param name The role name.
      * @return optional role.
      */
@@ -61,6 +64,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Create role.
+     *
      * @param role The role.
      * @return the created role.
      */
@@ -71,6 +75,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Update role.
+     *
      * @param role The role.
      * @return the updated role.
      */
@@ -81,6 +86,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Delete role.
+     *
      * @param role The role.
      */
     @Override

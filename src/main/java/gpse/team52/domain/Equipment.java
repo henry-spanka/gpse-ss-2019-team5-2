@@ -44,7 +44,7 @@ public class Equipment {
     public Equipment(final String equipmentName) {
         this.equipmentName = equipmentName;
     }
-    public void addRoom(Room room){
+    public void addRoom(Room room) {
         rooms.add(room);
     }
 }

@@ -1,22 +1,19 @@
 package gpse.team52.web;
 
-import gpse.team52.contract.*;
-import gpse.team52.domain.*;
-import gpse.team52.exception.NoRoomAvailableException;
-import gpse.team52.form.MeetingCreationForm;
+import java.util.UUID;
+
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoomService;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
 import gpse.team52.form.MeetingEditorForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Edit meeting controller.
@@ -44,15 +41,21 @@ public class EditMeetingController {
         modelAndView.addObject("meeting", meeting);
         final MeetingEditorForm editedMeeting = new MeetingEditorForm();
         editedMeeting.setName(meeting.getTitle());
-        modelAndView.addObject("editedMeeting",editedMeeting);
+        modelAndView.addObject("editedMeeting", editedMeeting);
 
         return modelAndView;
     }
 
+    /**
+     * Change a meetings title.
+     * @param id The meeting id.
+     * @param editedMeeting MeetingEditorForm.
+     * @return ModelAndView.
+     */
     @PatchMapping("/meeting/{id}")
     public ModelAndView bookEditedMeeting(@PathVariable("id") final String id,
-    final @ModelAttribute("editedMeeting") @Validated MeetingEditorForm editedMeeting)
-    {
+                                          final @ModelAttribute("editedMeeting")
+                                          @Validated MeetingEditorForm editedMeeting) {
         final Meeting meeting = meetingService.getMeetingById(id);
         meeting.setTitle(editedMeeting.getName());
         meetingService.update(meeting);
@@ -61,6 +64,13 @@ public class EditMeetingController {
 
     }
 
+    /**
+     * Replace a meeting room.
+     * @param meetingId The meeting id.
+     * @param roomId Room to be replaced.
+     * @param newRoomId New Room.
+     * @return ModelAndView.
+     */
     @PatchMapping("/meeting/{id}/room/{roomId}")
     public ModelAndView editMeetingRoom(@PathVariable("id") final String meetingId,
                                         @PathVariable("roomId") final String roomId,

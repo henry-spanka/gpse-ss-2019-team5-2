@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
+/**
+ * ProfileController.
+ */
 @Controller
 public class ProfileController {
     /**
-     * @param authentication
-     * @return
+     * @param authentication Authentication.
+     * @return ModelAndView.
      */
     @GetMapping("/profile")
     public ModelAndView profile(final Authentication authentication) {

@@ -1,51 +1,59 @@
 package gpse.team52.domain;
 
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-
-import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.exception.EmailNotFoundException;
-
 import org.springframework.mail.MailException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
-
-
+/**
+ * Data Import class.
+ */
 public class DataImport {
-    UserService userService;
-    MailService mailService;
+    private UserService userService;
+    private MailService mailService;
+
+    private final ArrayList<Candidate> candidateList = new ArrayList<>();
 
 
+    /**
+     * Data Import constructor.
+     * @param userService userService.
+     * @param mailService mailService.
+     */
     public DataImport(UserService userService, MailService mailService) {
         this.userService = userService;
         this.mailService = mailService;
 
     }
 
-    private final ArrayList<Candidate> candidateList = new ArrayList<>();
 
-
-    /*This method handles the import of csv files
-     * containing room or User data. It is implied that there is a header*/
+    /**
+     * This method handles the import of csv files.
+     * @param file the file to import.
+     * @throws Exception Thrown on error.
+     */
 
     public void csvImport(final MultipartFile file) throws Exception {
 
         Boolean isUser = false;
         Boolean except = false;
         Reader reader = new InputStreamReader(file.getInputStream());
-        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).withSkipLines(1).build();
-        String line[] = null;
+        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';')
+        .build()).withSkipLines(1).build();
+        String[] line = null;
         while ((line = csvReader.readNext()) != null) {
             //equals a room file, therefore a new room will be created for every new line
             if (line.length == 8) {
@@ -87,7 +95,7 @@ public class DataImport {
     }
 
     /* Parses String array to room */
-    private void parseRoom(String[] line){
+    private void parseRoom(String[] line) {
         Room room = new Room();
         Location location = new Location(line[0]);
         room.setLocation(location);
@@ -114,8 +122,8 @@ public class DataImport {
         room.setNotes(line[5]);
         room.setOffice(line[6]);
         room.setRoomEmail(line[7]);
-       // System.out.println(room.roomToString());
-         }
+        // System.out.println(room.roomToString());
+    }
 
     //this method sends an e mail to the candidates
     private void notifyCandidate() {
@@ -136,8 +144,8 @@ public class DataImport {
 
     }
 
-   /* Parses line to meeting*/
-    private void parseMeeting(String[] line){
+    /* Parses line to meeting*/
+    private void parseMeeting(String[] line) {
         Meeting meeting = new Meeting(line[0]);
 
         //String to LocalDAteTime Parser
@@ -171,13 +179,13 @@ public class DataImport {
             User owner = userService.loadUserByEmail(line[4]);
             meeting.setOwner(owner);
         } catch (EmailNotFoundException e) {
-
+            //
         }
         meeting.setConfirmed(Boolean.parseBoolean(line[5]));
 
         meeting.setDescription(line[6]);
 
-       // System.out.println(meeting.meetingToString());
+        // System.out.println(meeting.meetingToString());
 
 
     }

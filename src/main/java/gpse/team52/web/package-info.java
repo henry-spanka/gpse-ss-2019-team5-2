@@ -1,4 +1,4 @@
 /**
- * Package, welches Controller udn Command-Objekte enthält.
+ * Package, welches Controller udn command-Objekte enthält.
  */
 package gpse.team52.web;

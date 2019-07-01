@@ -2,7 +2,7 @@ package gpse.team52.web;
 
 import java.util.ArrayList;
 
-import gpse.team52.Command.CreateUserCmd;
+import gpse.team52.command.CreateUserCmd;
 import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Location;
@@ -21,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
+/**
+ * Edit Profile Controller.
+ */
 @Controller
 public class EditProfileController {
 
@@ -35,8 +38,8 @@ public class EditProfileController {
 
 
     /**
-     * @param authentication
-     * @return
+     * @param authentication Authentication.
+     * @return ModelAndView.
      */
     @GetMapping("/editProfile")
     public ModelAndView editProfile(final Authentication authentication) {
@@ -60,6 +63,13 @@ public class EditProfileController {
     }
 
 
+    /**
+     * Edit user profile.
+     * @param user User to edit.
+     * @param createUserCmd user properties.
+     * @param file User avatar.
+     * @return ModelAndView.
+     */
     @PostMapping("/editProfile")
     public ModelAndView editProfile(@AuthenticationPrincipal final User user,
                                     @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,

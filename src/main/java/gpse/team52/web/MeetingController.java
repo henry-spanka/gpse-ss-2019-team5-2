@@ -99,6 +99,12 @@ public class MeetingController {
 
     }
 
+    /**
+     * Change a participant's notification options.
+     * @param id Id of the meeting.
+     * @param pId Id of the participant.
+     * @return Meeting overview page.
+     */
     @PatchMapping("/meeting/{id}/participant/{pId}")
     public ModelAndView editParticipant(@PathVariable("id") final String id, @PathVariable("pId") final String pId) {
         final Meeting meeting = meetingService.getMeetingById(id);

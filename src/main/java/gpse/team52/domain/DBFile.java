@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * DBFile Entity.
+ */
 @Entity
 @Table(name = "files")
 public class DBFile {
@@ -29,6 +32,12 @@ public class DBFile {
 
     }
 
+    /**
+     * DBFile Constructor.
+     * @param fileName Filename.
+     * @param fileType Filetype.
+     * @param data Data.
+     */
     public DBFile(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;

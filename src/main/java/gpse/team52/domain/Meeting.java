@@ -4,26 +4,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import gpse.team52.form.MeetingCreationForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.*;
 
 /**
  * Meeting Entity.
@@ -187,12 +174,17 @@ public class Meeting {
     /**
      * Get startAt with timezone offset.
      *
-     * @param offset
+     * @param offset Offset.
      */
     public LocalDateTime getStartAt(long offset) {
         return getStartAt().plusMinutes(offset);
     }
 
+    /**
+     * get start at time.
+     * @param user User.
+     * @return LocalDateTime.
+     */
     public LocalDateTime getStartAt(User user) {
         if (user.getLocation() != null) {
             return getStartAt(user.getLocation().getTimeoffset());
@@ -203,11 +195,18 @@ public class Meeting {
 
     /**
      * Get endAt with timezone offset.
+     * @param offset Offset.
+     * @return LocalDateTime.
      */
     public LocalDateTime getEndAt(long offset) {
         return getEndAt().plusMinutes(offset);
     }
 
+    /**
+     * get endAt with timezone offset.
+     * @param user User offset.
+     * @return LocalDateTime.
+     */
     public LocalDateTime getEndAt(User user) {
         if (user.getLocation() != null) {
             return getEndAt(user.getLocation().getTimeoffset());
@@ -216,23 +215,34 @@ public class Meeting {
         return getEndAt();
     }
 
+    /**
+     * MeetingToString().
+     * @return Meeting as String.
+     */
     public String meetingToString() {
 
         //title;startdate;enddate;participants;owner;confirmed;description
         String participant = "";
         if (participants.size() != 0) {
-            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_" + participants.get(0).getLastName();
+            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_"
+            + participants.get(0).getLastName();
             for (int i = 1; i < participants.size(); i++) {
-                participant = participant + "," + participants.get(i).getEmail() + "_" + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName();
+                participant = participant + "," + participants.get(i).getEmail() + "_"
+                + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName();
             }
         }
         String start = startAt.toString().replace("T", " ");
         String end = endAt.toString().replace("T", " ");
 
-        String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";" + confirmed + ";" + description;
+        String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";"
+        + confirmed + ";" + description;
         return string;
     }
 
+    /**
+     * Convert a Meeting entity to meeting creation form.
+     * @return MeetingCreationForm.
+     */
     public MeetingCreationForm toMeetingCreationForm() {
         MeetingCreationForm meetingCreationForm = new MeetingCreationForm();
         meetingCreationForm.setStartDate(getStartAt().toLocalDate());
@@ -248,7 +258,10 @@ public class Meeting {
         for (MeetingRoom meetingRoom : getRooms()) {
             if (!locations.contains(meetingRoom.getRoom().getLocation().getLocationId().toString())) {
                 locations.add(meetingRoom.getRoom().getLocation().getLocationId().toString());
-                participants.put(meetingRoom.getRoom().getLocation().getLocationId().toString(), meetingRoom.getParticipants());
+                participants.put(
+                    meetingRoom.getRoom().getLocation().getLocationId().toString(),
+                    meetingRoom.getParticipants()
+                );
                 List<String> equipmentList = new ArrayList<>();
                 for (Equipment item : meetingRoom.getRoom().getEquipment()) {
                     equipmentList.add(item.getEquipmentID().toString());

@@ -1,5 +1,8 @@
 package gpse.team52.exception;
 
+/**
+ * StorageFileNotFoundException.
+ */
 public class StorageFileNotFoundException extends StorageException {
 
     public StorageFileNotFoundException(String message) {

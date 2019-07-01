@@ -1,9 +1,9 @@
 package gpse.team52.contract;
 
-import gpse.team52.domain.Role;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import gpse.team52.domain.Role;
 
 /**
  * Role service.

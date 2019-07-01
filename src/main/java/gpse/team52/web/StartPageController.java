@@ -48,6 +48,7 @@ public class StartPageController {
      * Show the start page to the user.
      * Filters meetings based on logged in user and adjust the days based on the current day.
      *
+     * @param authentication Authentication.
      * @return Start Page ModelAndView Object.
      */
     @GetMapping("/start")
@@ -132,12 +133,12 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
-        long NoLoctimediff = 0;
+        long noLoctimediff = 0;
         if (user.getLocation() != null) {
             long timediff = user.getLocation().getTimeoffset();
             modelAndView.addObject("timeZone", timediff);
         } else {
-            modelAndView.addObject("timeZone", NoLoctimediff);
+            modelAndView.addObject("timeZone", noLoctimediff);
         }
 
 
