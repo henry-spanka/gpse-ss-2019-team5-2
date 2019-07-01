@@ -11,6 +11,7 @@ import gpse.team52.exception.InvalidConfirmationTokenException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class RegisterController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * Show the registration form to the user.
@@ -51,8 +55,25 @@ public class RegisterController {
     @PostMapping("/register")
     public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form,
                                  final BindingResult result) {
-
         if (!result.hasErrors()) {
+            if (environment.containsProperty("register.allowed-domains")) {
+                String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
+
+                if (allowedDomains != null && allowedDomains.length != 0) {
+                    boolean validEmail = false;
+                    for (String domain : allowedDomains) {
+                        if (domain.equals(form.getEmailDomain())) {
+                            validEmail = true;
+                            break;
+                        }
+                    }
+
+                    if (!validEmail) {
+                        result.rejectValue("email", "register.email.invalidDomain");
+                        return new ModelAndView("register");
+                    }
+                }
+            }
             try {
                 final User registeredUser = createUserAccount(form);
 
