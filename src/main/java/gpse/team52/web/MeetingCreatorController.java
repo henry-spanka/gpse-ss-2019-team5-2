@@ -11,7 +11,6 @@ import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
-import gpse.team52.service.RoomFinderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -154,7 +153,7 @@ public class MeetingCreatorController {
         alternativeMeetingRooms = new ArrayList<>();
 
         ArrayList<Meeting> checkMeetings = new ArrayList<>();
-        meetingService.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, true)
+        meetingService.getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(start, end, false)
         .forEach(checkMeetings::add);
         for (Meeting m : checkMeetings) {
             // check every meeting which lies in time frame and adjust available rooms

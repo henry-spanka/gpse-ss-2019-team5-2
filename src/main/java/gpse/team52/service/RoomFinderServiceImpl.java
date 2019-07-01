@@ -145,7 +145,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false) // if meeting shouldn't be rebookable flexible = false
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndDisableRebookMeetingIsTrue(start, end, true) // if meeting shouldn't be rebookable flexible = false
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));

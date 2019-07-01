@@ -121,10 +121,14 @@ public class Meeting {
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private Set<MeetingRoom> rooms = new HashSet<>();
 
+    /**
+     * Boolean if meeting room can be changed.
+     * Can only be changed by specified users. (Admin etc)
+     */
     @Getter
     @Setter
-    @Column
-    private boolean disableRebookMeeting;
+    @Column (nullable = false)
+    private boolean disableRebookMeeting = false;
 
     /**
      * Constructor for Meeting with parameters.

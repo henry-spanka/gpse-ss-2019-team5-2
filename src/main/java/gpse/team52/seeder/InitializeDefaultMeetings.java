@@ -123,7 +123,8 @@ public class InitializeDefaultMeetings {
         meeting1.setStartAt(LocalDateTime.of(2019, 7, 16, 17, 0));
         meeting1.setEndAt(LocalDateTime.of(2019, 7, 16, 18, 0));
         meeting1.setDescription("Scrum XYZ");
-        meeting1.setFlexible(false);
+        //meeting1.setFlexible(false);
+        meeting1.setDisableRebookMeeting(true);
         meeting1.setOwner(user1);
         meeting1.addParticipant(new Participant(user1));
         meeting1.setConfirmed(true);

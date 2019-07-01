@@ -12,7 +12,6 @@ import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
-import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -229,7 +228,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible) {
-        return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
+    public Iterable<Meeting> getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(LocalDateTime start, LocalDateTime end, boolean disableRebookMeeting) {
+        return meetingRepository.getMeetingInTimeFrameAndDisableRebookMeetingIsFalse(start, end, disableRebookMeeting);
     }
 }
