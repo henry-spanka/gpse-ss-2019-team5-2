@@ -52,15 +52,6 @@
                     <div class="col-11" th:text="${meeting.getParticipantsNumber()}">
                     </div>
                 </div>
-                <div class="row no-gutters">
-                    <div class="col-1">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                    <div class="col-11">
-                        Disabled rebook meeting:
-                        <input disabled="disabled" th:checked="${meeting.isDisableRebookMeeting()}" type="checkbox">
-                    </div>
-                </div>
             </div>
             <div class="card-body">
                 <div th:each="meetingRoom, iterStat : ${meeting.getRooms()}">
@@ -73,7 +64,12 @@
                                th:text="${meetingRoom.getRoom().getRoomName() + ' | ' + meetingRoom.getRoom().getLocation().getName()}"></p>
                             <div class="float-right">
                                 <i class="fas fa-user"></i>
-                                <p class="d-inline ml-1" th:text="${meetingRoom.getParticipants()}"></p>
+                                <p class="d-inline ml-1 mr-2" th:text="${meetingRoom.getParticipants()}"></p>
+                                <button type="button" class="btn btn-primary btn-sm py-1" data-toggle="modal"
+                                        th:if="${meeting.getOwner().getUserId().equals(user.getUserId())}"
+                                        th:data-target="${'#change-room-' + iterStat.count}">
+                                    Change
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -138,6 +134,46 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div th:each="meetingRoom, iterStat : ${meeting.getRooms()}">
+        <div class="modal fade" th:id="${'change-room-' + iterStat.count}" tabindex="-1" role="dialog">
+            <form th:method="patch" th:action="@{/meeting/{id}/room/{roomId}(id=${meeting.getMeetingId()},roomId=${meetingRoom.getMeetingRoomId()})}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" th:text="|Change ${meetingRoom.getRoom().getRoomName()}|">Change Room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="pl-2" scope="col"><i class="fas fa-signature"></i></th>
+                                    <th scope="col"><i class="fas fa-users"></i></th>
+                                    <th colspan="1"></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="room : ${availableRooms.get(meetingRoom.getRoom().getLocation().getLocationId().toString())}"
+                                    th:if="${!room.getRoomID().toString().equals(meetingRoom.getRoom().getRoomID().toString())}">
+                                    <th scope="row" class="pl-2" th:text="${room.getRoomName()}"></th>
+                                    <td th:text="${room.getSeats() + ' + ' + room.getExpandableSeats()}"></td>
+                                    <td><button type="submit" name="newroom" th:value="${room.getRoomID().toString()}"
+                                                class="btn btn-block btn-primary p-0 float-right">Use</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <form th:method="post" th:action="@{/meeting/{id}(id=${meeting.getMeetingId()})}" th:object="${addParticipants}">

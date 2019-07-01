@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.ParticipantService;
+import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
@@ -37,6 +38,9 @@ public class MeetingController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoomFinderService roomFinderService;
 
     /**
      * Provides data for the meeting.html.
@@ -153,6 +157,7 @@ public class MeetingController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("regUsers", userService.getAllUsers());
         modelAndView.addObject("addParticipants", form);
+        modelAndView.addObject("availableRooms", roomFinderService.find(meeting.toMeetingCreationForm()));
 
         if (checkOwner(user, meeting)) {
             final boolean isOwner = true;
