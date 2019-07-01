@@ -1,21 +1,20 @@
 package gpse.team52.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
-import gpse.team52.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Meeting Service Implementation.
@@ -79,7 +78,7 @@ public class MeetingServiceImpl implements MeetingService {
         LocalDateTime startAt = meetingForm.getStartDateTime();
         LocalDateTime endAt = meetingForm.getEndDateTime();
 
-        /**
+        /*
          * This is hacky and probably doesn't work with daylight savings time but it's faster than
          * replacing all LocalDateTime instances with ZonedDateTime.
          */
@@ -243,7 +242,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible) {
+    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end,
+                                                                    boolean flexible) {
         return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
     }
 }

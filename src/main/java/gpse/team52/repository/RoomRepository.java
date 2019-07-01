@@ -3,8 +3,6 @@ package gpse.team52.repository;
 import java.util.List;
 import java.util.UUID;
 
-import gpse.team52.domain.Equipment;
-import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

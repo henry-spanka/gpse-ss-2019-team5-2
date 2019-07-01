@@ -8,6 +8,9 @@ import gpse.team52.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * LocationService implementation.
+ */
 @Service
 public class LocationServiceImpl implements LocationService {
 

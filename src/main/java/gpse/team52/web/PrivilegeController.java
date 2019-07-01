@@ -1,5 +1,10 @@
 package gpse.team52.web;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
+
 import gpse.team52.contract.PrivilegeService;
 import gpse.team52.contract.RoleService;
 import gpse.team52.contract.UserService;
@@ -9,10 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Privilege controller.
@@ -42,6 +43,7 @@ public class PrivilegeController {
 
     /**
      * Get all privileges.
+     *
      * @return all privileges.
      */
     @GetMapping

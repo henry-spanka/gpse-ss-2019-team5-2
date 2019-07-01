@@ -3,6 +3,9 @@ package gpse.team52.domain;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * AlternativeMeetingRoom class.
+ */
 public class AlternativeMeetingRoom {
 
     private Meeting meeting;

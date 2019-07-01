@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import gpse.team52.domain.Location;
 
+/**
+ * Location interface.
+ */
 public interface LocationService {
 
     Location createLocation(String name);

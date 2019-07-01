@@ -1,5 +1,8 @@
 package gpse.team52.exception;
 
+/**
+ * StorageException.
+ */
 public class StorageException extends RuntimeException {
 
     public StorageException(String message) {

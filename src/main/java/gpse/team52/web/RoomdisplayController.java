@@ -23,6 +23,9 @@ public class RoomdisplayController {
     @Autowired
     private RoomService roomService;
 
+    /**
+     * RoomDisplayController Constructor.
+     */
     public RoomdisplayController() {
         Location location;
         Date date;

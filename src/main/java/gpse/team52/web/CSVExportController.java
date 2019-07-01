@@ -5,26 +5,26 @@ import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.DataExport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-
+/**
+ * CSV Export Controller.
+ */
 @RestController
 public class CSVExportController {
 
     @Autowired
-    RoomService roomService;
+    private RoomService roomService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MeetingService meetingService;
+    private MeetingService meetingService;
+
     /**
      * Show the CSVExport  form to the admin.
      *
@@ -37,6 +37,10 @@ public class CSVExportController {
         return modelAndView;
     }
 
+    /**
+     * Download CSV File.
+     * @return ModelAndView.
+     */
     @PostMapping("/csvExport")
     public ModelAndView download(/*@PathVariable("file_name") String fileName, HttpServletResponse response*/) {
         /*try {

@@ -1,5 +1,13 @@
 package gpse.team52.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.persistence.*;
+
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +15,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * User entity.
@@ -151,6 +152,10 @@ public class User implements UserDetails { //NOPMD
         this.privileges.add(privilege);
     }
 
+    /**
+     * convert user to string.
+     * @return String.
+     */
     public String userToString() {
         StringBuilder rolesString = new StringBuilder();
         if (roles.size() != 0) {

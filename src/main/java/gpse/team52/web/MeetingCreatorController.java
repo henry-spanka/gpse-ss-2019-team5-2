@@ -11,6 +11,7 @@ import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
+import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import gpse.team52.repository.RoomRepository;
 
 /**
  * Meeting Creator Controller.
@@ -192,7 +191,8 @@ public class MeetingCreatorController {
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
                         rebook(m, changeRoom);
-                        System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName() + " to " + roomAlter.getRoomName());
+                        System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName()
+                        + " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
                 }
@@ -209,7 +209,8 @@ public class MeetingCreatorController {
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
      */
-    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingNotNecessaryException {
+    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew)
+    throws RebookingNotNecessaryException {
         // remove rooms if meeting not rebookable
         try {
             Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);

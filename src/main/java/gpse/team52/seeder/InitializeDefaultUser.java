@@ -1,8 +1,8 @@
 package gpse.team52.seeder;
 
-import gpse.team52.contract.RoleService;
 import javax.annotation.PostConstruct;
 
+import gpse.team52.contract.RoleService;
 import gpse.team52.contract.UserService;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
@@ -10,11 +10,9 @@ import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 
-
-
-/* Initializes the Default User in the database.
+/**
+ * Initialize the default user in the database.
  */
 @Service
 public class InitializeDefaultUser {
@@ -26,6 +24,12 @@ public class InitializeDefaultUser {
 
     private final InitializeDefaultRoles initializeDefaultRoles;
 
+    /**
+     * InitializeDefaultUser Constructor.
+     * @param roleService RoleService.
+     * @param userService UserService.
+     * @param initializeDefaultRoles InitializeDefaultRoles.
+     */
     @Autowired
     public InitializeDefaultUser(final RoleService roleService,
                                  final UserService userService,
@@ -65,7 +69,7 @@ public class InitializeDefaultUser {
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
-
+            //
         }
 
         form.setFirstName("Markus");
@@ -78,7 +82,7 @@ public class InitializeDefaultUser {
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
-
+            //
         }
 
         form.setFirstName("Marie-Sophie");
@@ -91,7 +95,7 @@ public class InitializeDefaultUser {
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
-
+            //
         }
 
     }

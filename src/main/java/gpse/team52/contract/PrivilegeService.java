@@ -1,9 +1,9 @@
 package gpse.team52.contract;
 
-import gpse.team52.domain.Privilege;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import gpse.team52.domain.Privilege;
 
 /**
  * Privileges service.

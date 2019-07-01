@@ -1,11 +1,11 @@
 package gpse.team52.seeder;
 
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.PrivilegeService;
 import gpse.team52.domain.Privilege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Initialize default rights in the database.
@@ -17,6 +17,7 @@ public class InitializeDefaultPrivilege {
 
     /**
      * Constructor for the used services.
+     *
      * @param privilegeService Service for rights
      */
     @Autowired

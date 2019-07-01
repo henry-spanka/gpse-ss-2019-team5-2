@@ -1,27 +1,24 @@
 package gpse.team52.seeder;
 
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.*;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Role;
 import gpse.team52.domain.Room;
-import gpse.team52.exception.EmailExistsException;
-import gpse.team52.exception.UsernameExistsException;
-import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Initializes Default Meetings in the database.
  */
 @Service
 public class InitializeDefaultRooms {
+    private static final String DEFAULT_PASSWORD = "rooms";
 
     private final Role DEFAULT_USER_ROLE;
 
-    private static final String DEFAULT_PASSWORD = "rooms";
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
@@ -37,15 +34,18 @@ public class InitializeDefaultRooms {
     /**
      * Constructor for the used services.
      *
-     * @param userService Service for user
-     * @param roomService Service for rooms
-     * @param equipmentService
-     * @param locationService
-     * @param initializeDefaultMeetings
+     * @param userService               Service for user
+     * @param roomService               Service for rooms
+     * @param equipmentService          Equpiment Service.
+     * @param locationService           Location Service.
+     * @param roleService               Role Service.
+     * @param initializeDefaultRoles    InitializeDefaultRoles.
+     * @param initializeDefaultMeetings InitializeDefaultMeetings.
      */
     @Autowired
     public InitializeDefaultRooms(final UserService userService,
-                                  final RoomService roomService, final EquipmentService equipmentService, final LocationService locationService,
+                                  final RoomService roomService, final EquipmentService equipmentService,
+                                  final LocationService locationService,
                                   final RoleService roleService, final InitializeDefaultRoles initializeDefaultRoles,
                                   final InitializeDefaultMeetings initializeDefaultMeetings) {
         this.userService = userService;

@@ -1,10 +1,13 @@
-package gpse.team52.Convert;
+package gpse.team52.convert;
 
 import java.io.*;
 import java.util.Base64;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Base64 encoder and decoder.
+ */
 public class Base64EncDec {
 
 
@@ -21,6 +24,11 @@ public class Base64EncDec {
         return def;
     }*/
 
+    /**
+     * Encode an Image.
+     * @param imagePath Path to Image.
+     * @return Image in Base64 format.
+     */
     public static String encoder(String imagePath) {
         String base64Image = "";
         File file = new File(imagePath);
@@ -37,6 +45,11 @@ public class Base64EncDec {
         return base64Image;
     }
 
+    /**
+     * Decode an Image.
+     * @param base64Image Image in base64 format.
+     * @param pathFile path to save image.
+     */
     public static void decoder(String base64Image, String pathFile) {
         try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
             // Converting a Base64 String into Image byte array
@@ -49,6 +62,11 @@ public class Base64EncDec {
         }
     }
 
+    /**
+     * Concert Multipart file.
+     * @param file MultipartFile.
+     * @return File.
+     */
     public static File convertToFile(MultipartFile file) {
         try {
             File convFile = new File(file.getOriginalFilename());
@@ -57,7 +75,9 @@ public class Base64EncDec {
             fos.write(file.getBytes());
             fos.close();
             return convFile;
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            //
+        }
         return  null;
     }
 

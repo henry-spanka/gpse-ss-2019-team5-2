@@ -1,10 +1,13 @@
 package gpse.team52.form;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
+/**
+ * MeetingEditorForm.
+ */
 public class MeetingEditorForm {
     @Getter
     @Setter

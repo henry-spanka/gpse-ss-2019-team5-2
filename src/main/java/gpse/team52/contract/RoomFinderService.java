@@ -18,5 +18,6 @@ public interface RoomFinderService {
 
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 
-    Map<String, List<Room>> findOther(Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingNotNecessaryException, RebookingImpossibleException;
+    Map<String, List<Room>> findOther(Meeting meeting, Map<String, List<Room>> roomsForNew)
+    throws RebookingNotNecessaryException, RebookingImpossibleException;
 }

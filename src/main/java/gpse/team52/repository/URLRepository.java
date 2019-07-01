@@ -1,10 +1,11 @@
 package gpse.team52.repository;
 
-import gpse.team52.domain.User;
-
 import java.net.URL;
 import java.util.Optional;
 
+/**
+ * URL repository.
+ */
 public interface URLRepository {
     Optional<URL> findByUsername(String URL);
 }
