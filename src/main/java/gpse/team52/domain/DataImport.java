@@ -47,7 +47,7 @@ public class DataImport {
      * This method handles the import of csv files.
      *
      * @param file the file to import.
-     * @throws Exception Thrown on error.
+     * @throws IOException Thrown on error.
      */
 
     public void csvImport(final MultipartFile file) throws IOException { //NOPMD
