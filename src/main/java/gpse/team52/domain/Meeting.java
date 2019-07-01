@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import gpse.team52.form.MeetingCreationForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -230,5 +231,37 @@ public class Meeting {
 
         String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";" + confirmed + ";" + description;
         return string;
+    }
+
+    public MeetingCreationForm toMeetingCreationForm() {
+        MeetingCreationForm meetingCreationForm = new MeetingCreationForm();
+        meetingCreationForm.setStartDate(getStartAt().toLocalDate());
+        meetingCreationForm.setStartTime(getStartAt().toLocalTime());
+        meetingCreationForm.setEndDate(getEndAt().toLocalDate());
+        meetingCreationForm.setEndTime(getEndAt().toLocalTime());
+        meetingCreationForm.setName(getTitle());
+
+        List<String> locations = new ArrayList<>();
+        Map<String, Integer> participants = new HashMap<>();
+        Map<String, List<String>> equipment = new HashMap<>();
+
+        for (MeetingRoom meetingRoom : getRooms()) {
+            if (!locations.contains(meetingRoom.getRoom().getLocation().getLocationId().toString())) {
+                locations.add(meetingRoom.getRoom().getLocation().getLocationId().toString());
+                participants.put(meetingRoom.getRoom().getLocation().getLocationId().toString(), meetingRoom.getParticipants());
+                List<String> equipmentList = new ArrayList<>();
+                for (Equipment item : meetingRoom.getRoom().getEquipment()) {
+                    equipmentList.add(item.getEquipmentID().toString());
+                }
+
+                equipment.put(meetingRoom.getRoom().getLocation().toString(), equipmentList);
+            }
+        }
+
+        meetingCreationForm.setLocations(locations);
+        meetingCreationForm.setParticipants(participants);
+        meetingCreationForm.setEquipment(equipment);
+
+        return meetingCreationForm;
     }
 }

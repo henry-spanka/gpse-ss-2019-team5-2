@@ -1,10 +1,7 @@
 package gpse.team52.web;
 
 import gpse.team52.contract.*;
-import gpse.team52.domain.Meeting;
-import gpse.team52.domain.Participant;
-import gpse.team52.domain.Room;
-import gpse.team52.domain.User;
+import gpse.team52.domain.*;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.form.MeetingEditorForm;
@@ -31,7 +28,8 @@ public class EditMeetingController {
     @Autowired
     private MeetingService meetingService;
 
-
+    @Autowired
+    private RoomService roomService;
 
     /**
      * returns page to edit meetings.
@@ -61,6 +59,23 @@ public class EditMeetingController {
 
         return new ModelAndView("redirect:/meeting/" + id);
 
+    }
+
+    @PatchMapping("/meeting/{id}/room/{roomId}")
+    public ModelAndView editMeetingRoom(@PathVariable("id") final String meetingId,
+                                        @PathVariable("roomId") final String roomId,
+                                        @RequestParam("newroom") final String newRoomId) {
+        final Meeting meeting = meetingService.getMeetingById(meetingId);
+        final Room newRoom = roomService.getRoom(UUID.fromString(newRoomId)).orElseThrow();
+        for (MeetingRoom meetingRoom : meeting.getRooms()) {
+            if (meetingRoom.getMeetingRoomId().toString().equals(roomId)) {
+                meetingRoom.setRoom(newRoom);
+                meetingService.update(meeting);
+                break;
+            }
+        }
+
+        return new ModelAndView("redirect:/meeting/" + meetingId);
     }
 
 }
