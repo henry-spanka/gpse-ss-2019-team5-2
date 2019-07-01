@@ -50,4 +50,8 @@ public class UserRegistrationForm implements HasPassword {
     @Getter
     @Setter
     private Location location;
+
+    public String getEmailDomain() {
+        return email.substring(email .indexOf("@") + 1);
+    }
 }
