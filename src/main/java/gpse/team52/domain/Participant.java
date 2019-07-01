@@ -90,9 +90,10 @@ public class Participant { //NOPMD
 
     /**
      * Constructor for a participant.
-     * @param email Email of the participant
+     *
+     * @param email     Email of the participant
      * @param firstName First name of the participant
-     * @param lastName Last name of the participant
+     * @param lastName  Last name of the participant
      */
     public Participant(@NotNull final String email, @NotNull final String firstName,
                        @NotNull final String lastName) {
@@ -103,9 +104,10 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for first name.
-     * @return
+     *
+     * @return the first name of the user.
      */
-    public String getFirstName() {
+    String getFirstName() {
         if (firstName == null) {
             return user.getFirstname();
         }
@@ -115,9 +117,10 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for last name.
-     * @return
+     *
+     * @return the last name of the user.
      */
-    public  String getLastName() {
+    String getLastName() {
         if (lastName == null) {
             return user.getLastname();
         }
@@ -127,7 +130,8 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for email.
-     * @return
+     *
+     * @return the email of the user.
      */
     public String getEmail() {
         if (email == null) {

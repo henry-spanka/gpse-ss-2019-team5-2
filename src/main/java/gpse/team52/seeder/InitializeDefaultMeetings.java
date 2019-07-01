@@ -1,5 +1,8 @@
 package gpse.team52.seeder;
 
+import java.time.LocalDateTime;
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.*;
 import gpse.team52.domain.*;
 import gpse.team52.exception.EmailExistsException;
@@ -8,8 +11,6 @@ import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 
 /**
  * Initializes Default Meetings in the database.
@@ -35,11 +36,12 @@ public class InitializeDefaultMeetings {
 
     /**
      * Constructor for the used services.
-     * @param meetingService Service for meetings
-     * @param userService Service for user
-     * @param roomService Service for rooms
-     * @param equipmentService Service for equipment
-     * @param locationService Service for location
+     *
+     * @param meetingService             Service for meetings
+     * @param userService                Service for user
+     * @param roomService                Service for rooms
+     * @param equipmentService           Service for equipment
+     * @param locationService            Service for location
      * @param initializeDefaultLocations Default locations to use for rooms and meetings
      */
     @Autowired
@@ -70,15 +72,24 @@ public class InitializeDefaultMeetings {
         final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
 
         final UserRegistrationForm form1 = new UserRegistrationForm();
+        final UserRegistrationForm form2 = new UserRegistrationForm();
         form1.setFirstName("Julius");
+        form2.setFirstName("Lukas");
         form1.setLastName("Ellermann");
+        form2.setLastName("Dyballa");
         form1.setEmail("jellermann@example.org");
+        form2.setEmail("ldyballan@example.org");
         form1.setUsername("jellermann");
+        form2.setUsername("ldyballa");
         form1.setPassword(DEFAULT_PASSWORD);
+        form2.setPassword(DEFAULT_PASSWORD);
         form1.setPasswordConfirm(DEFAULT_PASSWORD);
+        form2.setPasswordConfirm(DEFAULT_PASSWORD);
         form1.setLocation(location1);
+        form2.setLocation(location2);
 
         User user1;
+        User user2;
 
         try {
             user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE);
@@ -87,16 +98,6 @@ public class InitializeDefaultMeetings {
             return;
         }
 
-        final UserRegistrationForm form2 = new UserRegistrationForm();
-        form2.setFirstName("Lukas");
-        form2.setLastName("Dyballa");
-        form2.setEmail("ldyballan@example.org");
-        form2.setUsername("ldyballa");
-        form2.setPassword(DEFAULT_PASSWORD);
-        form2.setPasswordConfirm(DEFAULT_PASSWORD);
-        form2.setLocation(location2);
-
-        User user2;
 
         try {
             user2 = userService.createUser(form2, true, DEFAULT_USER_ROLE);

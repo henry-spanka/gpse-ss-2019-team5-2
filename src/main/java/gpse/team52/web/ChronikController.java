@@ -21,11 +21,8 @@ public class ChronikController {
 
     /**
      * Show upcoming meetings.
-<<<<<<< HEAD
-=======
      *
      * @param authentication Only get meetings where logged in User participates
->>>>>>> origin/release-v0.3.0
      * @return Chronic View.
      */
     @GetMapping("/chronik")

@@ -139,7 +139,7 @@ public class Meeting {
     /**
      * Calculates duration of the meeting.
      *
-     * @return
+     * @return The duration of the meeting.
      */
     @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {
@@ -187,12 +187,19 @@ public class Meeting {
     /**
      * Get startAt with timezone offset.
      *
-     * @param offset
+     * @param offset The offset between timezones.
      */
     public LocalDateTime getStartAt(long offset) {
         return getStartAt().plusMinutes(offset);
     }
 
+
+    /**
+     * Method to return the start of the meeting with the given timezone offset.
+     *
+     * @param user the given user.
+     * @return A new start time for the timezone.
+     */
     public LocalDateTime getStartAt(User user) {
         if (user.getLocation() != null) {
             return getStartAt(user.getLocation().getTimeoffset());
@@ -204,10 +211,16 @@ public class Meeting {
     /**
      * Get endAt with timezone offset.
      */
-    public LocalDateTime getEndAt(long offset) {
+    LocalDateTime getEndAt(long offset) {
         return getEndAt().plusMinutes(offset);
     }
 
+    /**
+     * Get endAt with timezone offset.
+     *
+     * @param user the given user.
+     * @return A new end time for the timezone.
+     */
     public LocalDateTime getEndAt(User user) {
         if (user.getLocation() != null) {
             return getEndAt(user.getLocation().getTimeoffset());
@@ -216,7 +229,7 @@ public class Meeting {
         return getEndAt();
     }
 
-    public String meetingToString() {
+    String meetingToString() {
 
         //title;startdate;enddate;participants;owner;confirmed;description
         String participant = "";
@@ -233,6 +246,11 @@ public class Meeting {
         return string;
     }
 
+    /**
+     * Creates a Meeting Creation Form.
+     *
+     * @return a complete Meeting Creation Form.
+     */
     public MeetingCreationForm toMeetingCreationForm() {
         MeetingCreationForm meetingCreationForm = new MeetingCreationForm();
         meetingCreationForm.setStartDate(getStartAt().toLocalDate());

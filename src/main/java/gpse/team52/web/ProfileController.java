@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProfileController {
     /**
-     * @param authentication
-     * @return
+     * @param authentication only the logged in user can access his/her profile.
+     * @return a view for their profile.
      */
     @GetMapping("/profile")
     public ModelAndView profile(final Authentication authentication) {

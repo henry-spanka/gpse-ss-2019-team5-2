@@ -36,9 +36,6 @@ public class StartPageController {
     @Autowired
     private ParticipantService participantService;
 
-    @Autowired
-    private LocationService locationService;
-
 
     public StartPageController(final MeetingService meetingService) {
         this.meetingService = meetingService;
@@ -48,6 +45,7 @@ public class StartPageController {
      * Show the start page to the user.
      * Filters meetings based on logged in user and adjust the days based on the current day.
      *
+     * @param authentication Every user has their unique start page with their meetings.
      * @return Start Page ModelAndView Object.
      */
     @GetMapping("/start")
