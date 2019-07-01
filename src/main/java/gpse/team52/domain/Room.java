@@ -2,19 +2,12 @@ package gpse.team52.domain;
 
 import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+
 
 //TODO: - set attributes correct for database
 // - set little star if room is a favourite
@@ -48,6 +41,7 @@ public class Room {
      * Number of fix seats in a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int seats;
 
@@ -55,6 +49,7 @@ public class Room {
      * Number of optional seats for a room.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private int expandableSeats;
 
@@ -62,6 +57,7 @@ public class Room {
      * Email address of a room.
      */
     @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String roomEmail;
 
@@ -77,6 +73,7 @@ public class Room {
      * Location of the room.
      */
     @Getter
+    @Setter
     @ManyToOne(targetEntity = Location.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "locationId")
     private Location location;
@@ -97,6 +94,21 @@ public class Room {
     @ManyToMany(targetEntity = Equipment.class)
     @JoinColumn(nullable = false, name = "equipmentId")
     private List<Equipment> equipment = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @Column
+    private String telephone;
+
+    @Getter
+    @Setter
+    @Column
+    private String notes;
+
+    @Getter
+    @Setter
+    @Column
+    private String office;
 
     protected Room() {
     }
@@ -135,12 +147,24 @@ public class Room {
         addEquipment(Arrays.asList(equipments));
     }
 
+    public String roomToString() {
+        String equi = "";
+        if (equipment.size() != 0) {
+
+            equi = equipment.get(0).getEquipmentName();
+            for (int i = 1; i < equipment.size(); i++) {
+                equi = equi +"," + equipment.get(i).getEquipmentName();
+
+            }
+        }
+
+        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +";"+ telephone +";"+notes+";"+office+";"+roomEmail;
+        return room;
+    }
+
     /*TODO: passt der pfad?
     TODO: pfad zu ressources passend einfügen
     TODO: wie wird es in die html geladen?
     TODO: im controller anpassen das er das da tut
      */
-    public String getLayoutPath() {
-        return "static/pictures/layout/" + layoutName + ".png";
-    }
 }

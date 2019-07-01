@@ -2,7 +2,6 @@ package gpse.team52.domain;
 
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
  * User entity.
  */
 @Entity
-@NoArgsConstructor
 
 public class User implements UserDetails { //NOPMD
 
@@ -34,6 +32,7 @@ public class User implements UserDetails { //NOPMD
     private UUID userId;
 
     @Getter
+    @Setter
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -50,7 +49,7 @@ public class User implements UserDetails { //NOPMD
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name="location_id",referencedColumnName="id")
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
     @Getter
@@ -60,6 +59,7 @@ public class User implements UserDetails { //NOPMD
 
     @Column(unique = true, nullable = false)
     @Getter
+    @Setter
     private String email;
 
     @Setter
@@ -83,6 +83,10 @@ public class User implements UserDetails { //NOPMD
     @JoinColumn(name = "privilege_id", referencedColumnName = "id")
     private Set<Privilege> privileges = new HashSet<>();
 
+    @Getter
+    @Column(nullable = true, unique = true)
+    private UUID iCalToken;
+
     /**
      * Create a user from a registration form.
      *
@@ -90,11 +94,24 @@ public class User implements UserDetails { //NOPMD
      * @param password The encoded password for the user.
      */
     public User(final UserRegistrationForm form, final String password) {
+        this();
+
         username = form.getUsername();
         firstname = form.getFirstName();
         lastname = form.getLastName();
         email = form.getEmail();
         this.password = password;
+
+        if (form.getLocation() != null) {
+            location = form.getLocation();
+        }
+    }
+
+    /**
+     * Create a new user entity with a random iCalToken.
+     */
+    public User() {
+        this.iCalToken = UUID.randomUUID();
     }
 
     @Override
@@ -132,5 +149,20 @@ public class User implements UserDetails { //NOPMD
 
     public void addPrivilege(Privilege privilege) {
         this.privileges.add(privilege);
+    }
+
+    public String userToString(){
+        String rolesString ="";
+        if (roles.size()!=0){
+        rolesString= roles.get(0);
+            for (int i = 1; i < roles.size(); i++) {
+                rolesString = rolesString+","+roles.get(i);
+            }
+
+        }
+
+        String string = username+";"+firstname+";"+lastname+";"+email+";"+rolesString;
+
+        return string;
     }
 }

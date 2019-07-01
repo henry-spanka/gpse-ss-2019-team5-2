@@ -1,7 +1,6 @@
 package gpse.team52.web;
 
 import java.util.ArrayList;
-import java.util.TimeZone;
 
 import gpse.team52.Command.CreateUserCmd;
 import gpse.team52.contract.LocationService;
@@ -32,12 +31,10 @@ public class EditProfileController {
     @Autowired
     private LocationService locationService;
     @Autowired
-    private  LocationRepository locationRepository;
-
+    private LocationRepository locationRepository;
 
 
     /**
-     *
      * @param authentication
      * @return
      */
@@ -75,11 +72,11 @@ public class EditProfileController {
 
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
-        if(createUserCmd.getLocation()!=null) {
+        if (createUserCmd.getLocation() != null) {
             final ArrayList<Location> locNames = new ArrayList<Location>();
             locationService.getAllLocations().forEach(locNames::add);
             for (int i = 0; i < locNames.size(); i++) {
-                if(locNames.get(i).getName().equals(createUserCmd.getLocation())) {
+                if (locNames.get(i).getName().equals(createUserCmd.getLocation())) {
                     user.setLocation(locNames.get(i));
                 }
             }

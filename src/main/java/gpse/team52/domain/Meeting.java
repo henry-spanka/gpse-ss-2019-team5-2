@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Meeting Entity.
@@ -72,6 +73,7 @@ public class Meeting {
      * Title of the meeting.
      */
     @Getter
+    @Setter
     @Column(nullable = false)
     private String title;
 
@@ -154,4 +156,51 @@ public class Meeting {
         return rooms.stream().mapToInt(item -> item.getParticipants()).sum();
     }
 
+    /**
+     * Get startAt with timezone offset.
+     * @param offset
+     */
+    public LocalDateTime getStartAt(long offset) {
+        return getStartAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getStartAt(User user) {
+        if (user.getLocation() != null) {
+            return getStartAt(user.getLocation().getTimeoffset());
+        }
+
+        return getStartAt();
+    }
+
+    /**
+     * Get endAt with timezone offset.
+     */
+    public LocalDateTime getEndAt(long offset) {
+        return getEndAt().plusMinutes(offset);
+    }
+
+    public LocalDateTime getEndAt(User user) {
+        if (user.getLocation() != null) {
+            return getEndAt(user.getLocation().getTimeoffset());
+        }
+
+        return getEndAt();
+    }
+
+    public  String meetingToString(){
+
+        //title;startdate;enddate;participants;owner;confirmed;description
+        String participant = "";
+        if (participants.size() !=0){
+            participant = participants.get(0).getEmail()+"_"+participants.get(0).getFirstName()+"_"+participants.get(0).getLastName();
+            for (int i = 1; i < participants.size(); i++) {
+                participant = participant+"," +participants.get(i).getEmail()+"_"+participants.get(i).getFirstName()+"_"+participants.get(i).getLastName();
+            }
+        }
+        String start = startAt.toString().replace("T"," ");
+        String end = endAt.toString().replace("T"," ");
+
+        String string = title+";"+ start +";"+ end +";"+participant+";"+owner.getEmail()+";"+confirmed+";"+description;
+        return string;
+    }
 }

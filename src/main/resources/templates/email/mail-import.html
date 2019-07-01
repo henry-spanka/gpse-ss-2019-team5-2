@@ -1,0 +1,33 @@
+<!doctype html>
+<!--<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/main}">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-4 offset-md-4">
+        <div class="alert alert-secondary" role="alert">
+            &lt;!&ndash;/*@thymesVar id="user" type="gpse.team52.domain.User"*/&ndash;&gt;
+            <h4 class="alert-heading" th:text="|Hello here will be the firstname|"></h4>
+            <p>You have been added to the Roomed Application.</p>
+            <p>Please click the link to register!</p>
+            <hr>
+
+            &lt;!&ndash; link to register. Possibly with the mail adress already filled out/&ndash;&gt;
+
+            &lt;!&ndash;/*@thymesVar id="token" type="gpse.team52.domain.ConfirmationToken"*/&ndash;&gt;
+            <a class="mb-0" th:href="${@environment.getRequiredProperty('app.url')} + @{~/confirm-account(token=${token.getToken()})}">Verify Email</a>
+        </div>
+    </div>
+-->
+<!--</div>-->
+<p>
+    Hello,
+</p>
+<p> you have been submitted to Roomed. If you want to register you can press:</p>
+<p></p>
+<b>http://localhost:8080/register</b>
+<p></p>
+<p> Best wishes,</p>
+<p> Your Roomed Team</p>
+</body>
+</html>

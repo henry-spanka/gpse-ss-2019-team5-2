@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV file Download</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mt-4 mt-md-5 col-md-6 offset-md-3">
+        <form th:method="post" th:action="@{/csvExport}" enctype="multipart/form-data">
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Download</button>
+            <!--
+                    <p>Click on the w3schools logo to download the image:
+                    <p>
+
+                        <a href="/csv/exampleMeeting2.csv" download>
+                            exampleMeeting2.csv
+                        </a>
+
+                    <p><b>Note:</b> The download attribute is not supported in Edge version 12, IE, Safari 10 (and earlier), or
+                        Opera version 12 (and earlier).</p>-->
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

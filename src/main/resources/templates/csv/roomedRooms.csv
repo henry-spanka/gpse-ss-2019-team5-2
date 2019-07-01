@@ -1,0 +1,15 @@
+Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse
+Bielefeld;BielefeldRoom;12+2;Whiteboard,Beamer,Flipchart;null;null;null;bielefeldroom@example.de
+Gütersloh;GüterslohRoom;8+0;Flipchart;null;null;null;guetersloh@example.de
+Bielefeld;Bielefeld12;12+2;;null;null;null;bf@example.de
+Gütersloh;GüterslohRoom;8+0;;null;null;null;gt@example.de
+Düsseldorf;DüsseldorfRoom;20+0;;null;null;null;dd@example.org
+Bielefeld;Bielefeld1;1+2;;null;null;null;bf1@example.de
+Bielefeld;Bielefeld20;20+2;;null;null;null;bf20@example.de
+Ratingen;Ratingen;60+10;Telefonanlage,Projektor,Beamer,Whiteboard;null;null;null;ratingen@example.de
+Ratingen;Ratingen2;40+5;Telefonanlage,Projektor,Beamer;null;null;null;ratingen2@example.de
+Ratingen;Ratingen3;100+20;Telefonanlage,Projektor,Beamer;null;null;null;ratingen3@example.de
+Mumbai;Mumbai;10+0;Telefonanlage;null;null;null;mumbai@example.de
+Mumbai;Mumbai2;50+10;Telefonanlage,Projektor;null;null;null;mumbai2@example.de
+Mumbai;Mumbai3;22+23;Telefonanlage,Beamer,Projektor;null;null;null;mumbai3@example.de
+Mumbai;Mumbai4;14+0;Telefonanlage,Whiteboard,Beamer;null;null;null;mumbai4@example.de

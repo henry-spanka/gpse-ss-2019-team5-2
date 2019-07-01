@@ -1,6 +1,8 @@
 package gpse.team52.seeder;
 
 import gpse.team52.contract.RoleService;
+import javax.annotation.PostConstruct;
+
 import gpse.team52.contract.UserService;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;

@@ -1,5 +1,6 @@
 package gpse.team52.contract.mail;
 
+import gpse.team52.domain.Candidate;
 import gpse.team52.domain.Participant;
 import gpse.team52.domain.User;
 import org.springframework.mail.MailException;
@@ -19,12 +20,17 @@ public interface MailService {
      * @param html    Whether the content type should be html or plain text.
      * @throws MailException Thrown if the message could not be sent.
      */
-    void sendEmailMessage(String email, final String subject, final String message, final boolean html) throws MailException;
+    void sendEmailMessage(String email, String subject,
+                          String message, boolean html) throws MailException;
 
 
     void sendEmailMessageToUser(User user, String subject, String message, boolean html) throws MailException;
 
     void sendEmailTemplateToUser(User user, String subject, ModelAndView template) throws MailException;
 
-    void sendEmailTemplate(final Participant participant, final String subject, final ModelAndView template) throws MailException;
+    void sendEmailTemplate(Participant participant,
+                           String subject, ModelAndView template) throws MailException;
+
+     void sendEmailToCAndidate(final Candidate candidate, final String subject,
+                                     final ModelAndView template) throws MailException;
 }

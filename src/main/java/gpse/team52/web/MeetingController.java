@@ -94,6 +94,22 @@ public class MeetingController {
 
     }
 
+    @PatchMapping("/meeting/{id}/participant/{pId}")
+    public ModelAndView editParticipant(@PathVariable("id") final String id, @PathVariable("pId") final String pId) {
+        final Meeting meeting = meetingService.getMeetingById(id);
+        Participant participant = participantService.findParticipantById(UUID.fromString(pId)).orElseThrow();
+
+        participant.setNotifiable(!participant.isNotifiable());
+
+        participant = participantService.update(participant);
+
+        if (participant.isNotifiable()) {
+            meetingService.notifyParticipant(meeting, participant);
+        }
+
+        return new ModelAndView("redirect:/meeting/" + meeting.getMeetingId());
+    }
+
     /**
      * Deletes a participant from the meeting.
      *
@@ -132,16 +148,6 @@ public class MeetingController {
     private ModelAndView generateMeetingOverviewView(final Meeting meeting, final User user,
                                                      final MeetingAddParticipantsForm form) {
         final ModelAndView modelAndView = new ModelAndView("meeting");
-
-        long NoLoctimediff = 0;
-        if(user.getLocation()!=null) {
-            long timediff = user.getLocation().getTimeoffset();
-            modelAndView.addObject("timeZone", timediff);
-        }
-        else {
-            modelAndView.addObject("timeZone", NoLoctimediff);
-        }
-
 
         modelAndView.addObject("meeting", meeting);
         modelAndView.addObject("user", user);
