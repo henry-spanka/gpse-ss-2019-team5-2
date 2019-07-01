@@ -1,11 +1,5 @@
 package gpse.team52.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.*;
@@ -15,6 +9,12 @@ import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Meeting Service Implementation.
@@ -93,6 +93,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStartAt(startAt);
         meeting.setEndAt(endAt);
         meeting.setOwner(owner);
+        meeting.setDisableRebookMeeting(meetingForm.isDisableRebookMeeting());
 
         for (final Room room : rooms) {
             final MeetingRoom meetingRoom = new MeetingRoom(meeting, room, //NOPMD
