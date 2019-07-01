@@ -104,7 +104,7 @@ class FindingAlternativesUnitTest {
 
     @Test
     void findAlternativesForOne() {
-        String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
+        final String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
         Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");
         // just to test whether test is running right now
 

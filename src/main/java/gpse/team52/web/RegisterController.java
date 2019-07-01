@@ -60,11 +60,11 @@ public class RegisterController {
                                  final BindingResult result) {
         if (!result.hasErrors()) {
             if (environment.containsProperty("register.allowed-domains")) {
-                String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
+                final String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
 
                 if (allowedDomains != null && allowedDomains.length != 0) {
                     boolean validEmail = false;
-                    for (String domain : allowedDomains) {
+                    for (final String domain : allowedDomains) {
                         if (domain.equals(form.getEmailDomain())) {
                             validEmail = true;
                             break;

@@ -83,18 +83,18 @@ public class InitializeDefaultRooms {
         // ------------------------ Use Case -----------------
         final Location ratingen = locationService.getLocation("Ratingen").orElseThrow();
         final Location mumbai = locationService.getLocation("Mumbai").orElseThrow();
-        Room rt = roomService.createRoom(60, 10, "ratingen@example.de", ratingen, "Ratingen", "layoutBlue");
-        Room rt2 = roomService.createRoom(40, 5, "ratingen2@example.de", ratingen, "Ratingen2", "layoutBlue");
-        Room rt3 = roomService.createRoom(100, 20, "ratingen3@example.de", ratingen, "Ratingen3", "layoutBlue");
-        Room mb = roomService.createRoom(10, 0, "mumbai@example.de", mumbai, "Mumbai", "layoutRed");
-        Room mb2 = roomService.createRoom(50, 10, "mumbai2@example.de", mumbai, "Mumbai2", "layoutRed");
-        Room mb3 = roomService.createRoom(22, 23, "mumbai3@example.de", mumbai, "Mumbai3", "layoutRed");
-        Room mb4 = roomService.createRoom(14, 0, "mumbai4@example.de", mumbai, "Mumbai4", "layoutRed");
+        final Room rt = roomService.createRoom(60, 10, "ratingen@example.de", ratingen, "Ratingen", "layoutBlue");
+        final Room rt2 = roomService.createRoom(40, 5, "ratingen2@example.de", ratingen, "Ratingen2", "layoutBlue");
+        final Room rt3 = roomService.createRoom(100, 20, "ratingen3@example.de", ratingen, "Ratingen3", "layoutBlue");
+        final Room mb = roomService.createRoom(10, 0, "mumbai@example.de", mumbai, "Mumbai", "layoutRed");
+        final Room mb2 = roomService.createRoom(50, 10, "mumbai2@example.de", mumbai, "Mumbai2", "layoutRed");
+        final Room mb3 = roomService.createRoom(22, 23, "mumbai3@example.de", mumbai, "Mumbai3", "layoutRed");
+        final Room mb4 = roomService.createRoom(14, 0, "mumbai4@example.de", mumbai, "Mumbai4", "layoutRed");
 
         final Equipment projektor = equipmentService.createEquipment("Projektor");
         final Equipment telco = equipmentService.createEquipment("Telefonanlage");
-        Equipment beamer = equipmentService.getEquipment("Beamer").orElseThrow();
-        Equipment whiteboard = equipmentService.getEquipment("Whiteboard").orElseThrow();
+        final Equipment beamer = equipmentService.getEquipment("Beamer").orElseThrow();
+        final Equipment whiteboard = equipmentService.getEquipment("Whiteboard").orElseThrow();
         rt.addEquipment(telco, projektor, beamer, whiteboard);
         rt2.addEquipment(telco, projektor, beamer);
         rt3.addEquipment(telco, projektor, beamer);

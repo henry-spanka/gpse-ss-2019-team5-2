@@ -85,7 +85,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     public Map<String, List<Room>> findOther(final Meeting meeting, final Map<String, List<Room>> roomsForNew)
     throws RebookingImpossibleException, RebookingNotNecessaryException {
 
-        long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
+        final long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
         if (timeDif < 24) {
             throw new RebookingImpossibleException("Time limit exceeded.");
@@ -98,18 +98,18 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         final Map<String, List<Room>> alternatives = new HashMap<>();
 
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room
-        Iterator<MeetingRoom> itOld = setForOld.iterator();
+        final Iterator<MeetingRoom> itOld = setForOld.iterator();
         while (itOld.hasNext()) {
             boolean roomMightBeUsed = false;
             rooms = new ArrayList<>(); // reset alternative room list
-            MeetingRoom currentMeetingRoom = itOld.next();
-            Room currentRoom = currentMeetingRoom.getRoom();
+            final MeetingRoom currentMeetingRoom = itOld.next();
+            final Room currentRoom = currentMeetingRoom.getRoom();
             // searching for currentRoom in list of rooms for new meeting
             // only search for other rooms if meeting is held in a room which could be used for new meeting
-            UUID currentLocationId = currentRoom.getLocation().getLocationId();
-            List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
+            final UUID currentLocationId = currentRoom.getLocation().getLocationId();
+            final List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
             if (roomsAtLoc != null) {
-                for (Room roomAtLoc : roomsAtLoc) {
+                for (final Room roomAtLoc : roomsAtLoc) {
                     // check if room is included in roomsForNew
                     if (roomAtLoc.getRoomID().equals(currentRoom.getRoomID())) {
                         // find rooms similar to findMatchingRooms method

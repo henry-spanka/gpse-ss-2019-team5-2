@@ -83,7 +83,7 @@ public class MeetingServiceImpl implements MeetingService {
          * replacing all LocalDateTime instances with ZonedDateTime.
          */
         if (owner.getLocation() != null) {
-            long timeOffset = owner.getLocation().getTimeoffset();
+            final long timeOffset = owner.getLocation().getTimeoffset();
             System.out.println(timeOffset);
 
             startAt = startAt.minusMinutes(timeOffset);
@@ -101,7 +101,7 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addRoom(meetingRoom);
         }
 
-        Participant ownerParticipant = new Participant(owner);
+        final Participant ownerParticipant = new Participant(owner);
         ownerParticipant.setNotifiable(true);
 
         meeting.addParticipant(ownerParticipant);
@@ -208,7 +208,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void notifyParticipant(final Meeting meeting, final Participant participant) {
-        ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
+        final ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
 
         mailService.sendEmailTemplate(participant, "You have been added to a meeting", mailView);
     }
@@ -221,7 +221,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void notifyParticipantAboutLocationChange(final Meeting meeting, final Participant participant) {
-        ModelAndView mailView = new ModelAndView("email/meeting-location-changed.html", "meeting", meeting);
+        final ModelAndView mailView = new ModelAndView("email/meeting-location-changed.html", "meeting", meeting);
 
         mailService.sendEmailTemplate(participant, "Meeting location changed", mailView);
     }

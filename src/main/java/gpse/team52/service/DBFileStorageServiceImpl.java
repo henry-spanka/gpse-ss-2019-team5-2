@@ -36,7 +36,7 @@ public class DBFileStorageServiceImpl implements DBFileStorageService {
 
     @Override
     public void store(final MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        final String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
@@ -76,8 +76,8 @@ public class DBFileStorageServiceImpl implements DBFileStorageService {
     @Override
     public Resource loadAsResource(final String filename) {
         try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
+            final Path file = load(filename);
+            final Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {

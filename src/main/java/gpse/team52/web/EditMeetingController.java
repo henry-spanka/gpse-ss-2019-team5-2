@@ -37,7 +37,7 @@ public class EditMeetingController {
     @GetMapping("/meeting/{id}/edit")
     public ModelAndView editMeeting(@PathVariable("id") final String id) {
         final Meeting meeting = meetingService.getMeetingById(id);
-        ModelAndView modelAndView = new ModelAndView("editMeeting");
+        final ModelAndView modelAndView = new ModelAndView("editMeeting");
         modelAndView.addObject("meeting", meeting);
         final MeetingEditorForm editedMeeting = new MeetingEditorForm();
         editedMeeting.setName(meeting.getTitle());
@@ -77,12 +77,12 @@ public class EditMeetingController {
                                         @RequestParam("newroom") final String newRoomId) {
         final Meeting meeting = meetingService.getMeetingById(meetingId);
         final Room newRoom = roomService.getRoom(UUID.fromString(newRoomId)).orElseThrow();
-        for (MeetingRoom meetingRoom : meeting.getRooms()) {
+        for (final MeetingRoom meetingRoom : meeting.getRooms()) {
             if (meetingRoom.getMeetingRoomId().toString().equals(roomId)) {
                 meetingRoom.setRoom(newRoom);
                 meetingService.update(meeting);
 
-                for (Participant participant : meeting.getParticipants()) {
+                for (final Participant participant : meeting.getParticipants()) {
                     if (participant.isNotifiable()) {
                         meetingService.notifyParticipantAboutLocationChange(meeting, participant);
                     }

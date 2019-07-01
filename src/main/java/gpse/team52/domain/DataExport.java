@@ -41,10 +41,10 @@ public class DataExport {
      * @throws IOException Thrown on IO error.
      */
     public void writeRoomFile() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("roomedRooms.csv", true));
+        final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedRooms.csv", true));
         String string = "Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse"
         + System.lineSeparator();
-        for (Room room : roomService.getAllRooms()) {
+        for (final Room room : roomService.getAllRooms()) {
             string = string + room.roomToString() + System.lineSeparator();
         }
 
@@ -58,10 +58,10 @@ public class DataExport {
      */
     public void writeUserFile() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("roomedUsers.csv", true));
+            final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedUsers.csv", true));
             String string = "username;firstname;lastname;email;role,list"
             + System.lineSeparator();
-            for (User user : userService.getAllUsers()) {
+            for (final User user : userService.getAllUsers()) {
                 string = string + user.userToString() + System.lineSeparator();
             }
 
@@ -79,9 +79,9 @@ public class DataExport {
      */
     public void writeMeetingFile() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("roomedMeetings.csv", true));
+            final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedMeetings.csv", true));
             String string = "title;startdate;enddate;participants;owner;confirmed;description" + System.lineSeparator();
-            for (Meeting meeting : meetingService.getAllMeetings()) {
+            for (final Meeting meeting : meetingService.getAllMeetings()) {
                 string = string + meeting.meetingToString() + System.lineSeparator();
             }
 

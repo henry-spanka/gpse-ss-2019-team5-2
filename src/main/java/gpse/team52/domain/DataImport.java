@@ -50,8 +50,8 @@ public class DataImport {
 
         Boolean isUser = false;
         Boolean except = false;
-        Reader reader = new InputStreamReader(file.getInputStream());
-        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';')
+        final Reader reader = new InputStreamReader(file.getInputStream());
+        final CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';')
         .build()).withSkipLines(1).build();
         String[] line = null;
         while ((line = csvReader.readNext()) != null) {
@@ -63,7 +63,7 @@ public class DataImport {
                 isUser = true;
 
                 try {
-                    Candidate candidate = new Candidate(line[0], line[1], line[2]);
+                    final Candidate candidate = new Candidate(line[0], line[1], line[2]);
                     candidateList.add(candidate);
                 } catch (Exception e) {
                     except = true;
@@ -96,13 +96,13 @@ public class DataImport {
 
     /* Parses String array to room */
     private void parseRoom(final String[] line) {
-        Room room = new Room();
-        Location location = new Location(line[0]);
+        final Room room = new Room();
+        final Location location = new Location(line[0]);
         room.setLocation(location);
         room.setRoomName(line[1]);
 
         //number persons split for extra seats
-        String[] seats = line[2].split("\\+");
+        final String[] seats = line[2].split("\\+");
         if (seats.length == 1) {
             room.setSeats(Integer.parseInt(seats[0]));
         } else if (seats.length == 2) {
@@ -111,9 +111,9 @@ public class DataImport {
         }
 
         // spliting for different equipment items
-        String[] equipments = line[3].split(",");
+        final String[] equipments = line[3].split(",");
         for (int i = 0; i < equipments.length; i++) {
-            Equipment equipment = new Equipment();
+            final Equipment equipment = new Equipment();
             room.addEquipment(equipment);
             equipment.addRoom(room);
         }
@@ -130,7 +130,7 @@ public class DataImport {
 
         for (int i = 0; i < candidateList.size(); i++) {
             try {
-                ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
+                final ModelAndView modelAndView = new ModelAndView("email/mail-import.html");
 
 
                 mailService.sendEmailToCAndidate(candidateList.get(i), "You have beeen added to Roomed", modelAndView);
@@ -146,23 +146,23 @@ public class DataImport {
 
     /* Parses line to meeting*/
     private void parseMeeting(final String[] line) {
-        Meeting meeting = new Meeting(line[0]);
+        final Meeting meeting = new Meeting(line[0]);
 
         //String to LocalDAteTime Parser
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         meeting.setStartAt(LocalDateTime.parse(line[1], formatter));
 
         meeting.setEndAt(LocalDateTime.parse(line[2], formatter));
 
 
         //parse participants and check if he is user #3
-        String[] participants = line[3].split(",");
+        final String[] participants = line[3].split(",");
         for (int i = 0; i < participants.length; i++) {
 
-            String[] participant = participants[i].split("_");
+            final String[] participant = participants[i].split("_");
             Participant participant1;
             try {
-                User participant2 = userService.loadUserByEmail(participant[0]);
+                final User participant2 = userService.loadUserByEmail(participant[0]);
                 participant1 = new Participant(participant2);
 
             } catch (EmailNotFoundException e) {
@@ -176,7 +176,7 @@ public class DataImport {
         }
         //If owner User he becomes user, if not there is no owner
         try {
-            User owner = userService.loadUserByEmail(line[4]);
+            final User owner = userService.loadUserByEmail(line[4]);
             meeting.setOwner(owner);
         } catch (EmailNotFoundException e) {
             //

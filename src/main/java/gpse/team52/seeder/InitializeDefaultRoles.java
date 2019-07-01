@@ -45,12 +45,12 @@ public class InitializeDefaultRoles {
      */
     @PostConstruct
     public void init() {
-        Iterable<Privilege> privileges = this.privilegeService.getAll();
-        Hashtable<String, Privilege> hashtable = new Hashtable<>();
-        for (Privilege privilege : privileges) {
+        final Iterable<Privilege> privileges = this.privilegeService.getAll();
+        final Hashtable<String, Privilege> hashtable = new Hashtable<>();
+        for (final Privilege privilege : privileges) {
             hashtable.put(privilege.getName(), privilege);
         }
-        Set<Privilege> allPrivileges = new HashSet<>(hashtable.values());
+        final Set<Privilege> allPrivileges = new HashSet<>(hashtable.values());
 
         roleService.create(new Role("ROLE_ADMIN", allPrivileges));
         roleService.create(new Role("ROLE_STUDENT", Set.of(hashtable.get("create_meeting"))));

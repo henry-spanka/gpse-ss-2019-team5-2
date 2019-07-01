@@ -32,7 +32,7 @@ public class CSVExportController {
      */
     @GetMapping("/csvExport")
     public ModelAndView showCSVDownload() {
-        DataExport dataExport = new DataExport(roomService, userService, meetingService);
+        final DataExport dataExport = new DataExport(roomService, userService, meetingService);
         final ModelAndView modelAndView = new ModelAndView("csvExport");
         return modelAndView;
     }

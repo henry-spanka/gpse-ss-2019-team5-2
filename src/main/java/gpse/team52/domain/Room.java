@@ -162,7 +162,7 @@ public class Room {
             }
         }
 
-        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";" + equi + ";"
+        final String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";" + equi + ";"
         + telephone + ";" + notes + ";" + office + ";" + roomEmail;
         return room;
     }

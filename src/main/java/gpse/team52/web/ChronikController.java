@@ -30,7 +30,7 @@ public class ChronikController {
         final User user = (User) authentication.getPrincipal();
 
         //Iterable<Meeting> meetings = meetingService.findByStartAt();
-        Iterable<Meeting> meetings = meetingService.findByStartAtWithUser(user);
+        final Iterable<Meeting> meetings = meetingService.findByStartAtWithUser(user);
 
         modelAndView.addObject("meetings", meetings);
 

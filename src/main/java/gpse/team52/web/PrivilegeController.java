@@ -78,7 +78,7 @@ public class PrivilegeController {
     @PostMapping(value = "/role")
     public ModelAndView updatePrivilegesForRole(final @RequestParam String roleName,
                                                 final @RequestParam Set<String> privileges) {
-        Role role = roleService.getByName(roleName).orElseThrow();
+        final Role role = roleService.getByName(roleName).orElseThrow();
         role.setPrivileges(privileges.stream().map(name ->
         privilegeService.getByName(name).orElseThrow(EntityNotFoundException::new)).collect(Collectors.toSet()));
         roleService.update(role);
@@ -110,7 +110,7 @@ public class PrivilegeController {
     @PostMapping(value = "/user")
     public ModelAndView updatePrivilegesForUser(final @RequestParam String username,
                                                 final @RequestParam Set<String> privileges) {
-        User user = userService.loadUserByUsername(username);
+        final User user = userService.loadUserByUsername(username);
         user.setPrivileges(privileges.stream().map(name ->
         privilegeService.getByName(name).orElseThrow(EntityNotFoundException::new)).collect(Collectors.toSet()));
         userService.updateUser(user);

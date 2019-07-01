@@ -133,9 +133,9 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
-        long noLoctimediff = 0;
+        final long noLoctimediff = 0;
         if (user.getLocation() != null) {
-            long timediff = user.getLocation().getTimeoffset();
+            final long timediff = user.getLocation().getTimeoffset();
             modelAndView.addObject("timeZone", timediff);
         } else {
             modelAndView.addObject("timeZone", noLoctimediff);

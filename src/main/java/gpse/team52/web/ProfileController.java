@@ -31,7 +31,7 @@ public class ProfileController {
         modelAndView.addObject("role", user.getAuthorities().toString().
         substring(indexRole + 1, role.length() - 1).toLowerCase());
 
-        String userLoc = "Please select a location";
+        final String userLoc = "Please select a location";
         if (user.getLocation() == null) {
             modelAndView.addObject("location", userLoc);
         } else {

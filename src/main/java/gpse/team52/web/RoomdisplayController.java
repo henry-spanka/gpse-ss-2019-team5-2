@@ -27,12 +27,12 @@ public class RoomdisplayController {
      * RoomDisplayController Constructor.
      */
     public RoomdisplayController() {
-        Location location;
-        Date date;
-        List<Equipment> equipment;
-        int start;
-        int end;
-        int seats;
+        final Location location;
+        final Date date;
+        final List<Equipment> equipment;
+        final int start;
+        final int end;
+        final int seats;
     }
 
 

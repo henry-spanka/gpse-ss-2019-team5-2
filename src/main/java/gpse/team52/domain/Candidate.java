@@ -85,7 +85,7 @@ public class Candidate {
             return false;
         }
 
-        Candidate candidate = (Candidate) o;
+        final Candidate candidate = (Candidate) o;
         return Objects.equals(candidateId, candidate.candidateId)
         && Objects.equals(email, candidate.email)
         && Objects.equals(firstName, candidate.firstName)

@@ -48,7 +48,7 @@ public class CSVUploadController {
             //check if there is an uploaded file
             if (file != null && !file.isEmpty()) {
 
-                DataImport dataImport = new DataImport(userService, mailService);
+                final DataImport dataImport = new DataImport(userService, mailService);
                 dataImport.csvImport(file);
 
             }

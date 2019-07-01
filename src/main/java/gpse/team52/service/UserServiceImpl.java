@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendPasswordResetEmail(final String email) {
         try {
-            User user = loadUserByEmail(email);
+            final User user = loadUserByEmail(email);
 
             System.out.println("Sending password reset mail to " + user.getFirstname());
 
