@@ -55,4 +55,6 @@ public interface MeetingService {
     Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible);
 
     void notifyParticipant(Meeting meeting, Participant participant);
+
+    void notifyParticipantAboutLocationChange(Meeting meeting, Participant participant);
 }

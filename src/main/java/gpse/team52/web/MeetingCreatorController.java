@@ -274,5 +274,15 @@ public class MeetingCreatorController {
                 i++;
             }
         }
+
+        // Refresh meeting
+        meeting = meetingService.getMeetingById(meeting.getMeetingId());
+        for (Participant participant : meeting.getParticipants()) {
+            System.out.println(participant.isNotifiable());
+            if (participant.isNotifiable()) {
+                meetingService.notifyParticipantAboutLocationChange(meeting, participant);
+            }
+        }
+
     }
 }

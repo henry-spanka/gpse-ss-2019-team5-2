@@ -93,6 +93,7 @@ public class MeetingController {
 
         if (action.equals("confirm")) {
             meeting.setConfirmed(true);
+            meetingService.update(meeting);
         }
         return generateMeetingOverviewView(meeting, (User) authentication.getPrincipal());
 

@@ -215,6 +215,19 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /**
+     * Notify a participant via email about location change.
+     *
+     * @param meeting     The meeting to notify about.
+     * @param participant The participant to notify.
+     */
+    @Override
+    public void notifyParticipantAboutLocationChange(Meeting meeting, Participant participant) {
+        ModelAndView mailView = new ModelAndView("email/meeting-location-changed.html", "meeting", meeting);
+
+        mailService.sendEmailTemplate(participant, "Meeting location changed", mailView);
+    }
+
+    /**
      * Send a confirmation email to the user's email address.
      *
      * @param user    The User is the owner.
