@@ -17,11 +17,14 @@
                 <div class="col-8">
                     <i class="fas fa-hourglass-start"></i>
                     <label for="startDate">Start Date</label>
-                    <input class="form-control" type="date" id="startDate" th:field="*{startDate}" th:errorclass="is-invalid">
+                    <input class="form-control" id="startDate" th:errorclass="is-invalid" th:field="*{startDate}"
+                           type="date">
                     <div class="invalid-feedback" th:errors="*{startDate}"></div>
                 </div>
                 <div class="col-4 align-self-end">
-                    <input class="form-control" type="time" id="startTime" th:field="*{startTime}" value="now" th:errorclass="is-invalid">
+                    <input class="form-control" id="startTime" th:errorclass="is-invalid" th:field="*{startTime}"
+                           type="time"
+                           value="now">
                     <div class="invalid-feedback" th:errors="*{startTime}"></div>
                 </div>
             </div>
@@ -29,11 +32,14 @@
                 <div class="col-8">
                     <i class="fas fa-hourglass-end"></i>
                     <label for="endDate">End Date</label>
-                    <input class="form-control" type="date" id="endDate" th:field="*{endDate}" th:errorclass="is-invalid">
+                    <input class="form-control" id="endDate" th:errorclass="is-invalid" th:field="*{endDate}"
+                           type="date">
                     <div class="invalid-feedback" th:errors="*{endDate}"></div>
                 </div>
                 <div class="col-4 align-self-end">
-                    <input class="form-control" type="time" id="endTime" value="now" th:field="*{endTime}" th:errorclass="is-invalid">
+                    <input class="form-control" id="endTime" th:errorclass="is-invalid" th:field="*{endTime}"
+                           type="time"
+                           value="now">
                     <div class="invalid-feedback" th:errors="*{endTime}"></div>
                 </div>
             </div>
@@ -41,7 +47,8 @@
                 <div class="col-12">
                     <i class="fas fa-globe-europe"></i>
                     <label for="locations">Locations</label>
-                    <select id="locations" class="form-control selectpicker" data-live-search="true" th:field="*{locations}"
+                    <select class="form-control selectpicker" data-live-search="true" id="locations"
+                            th:field="*{locations}"
                             multiple th:errorclass="is-invalid">
                         <option th:each="location, iterStat : ${locations}" th:value="${location.getLocationId()}"
                                 th:text="${location.getName()}"></option>
@@ -58,7 +65,8 @@
                         <label th:for="|participants-${location.getLocationId()}|">Participants</label>
                         <input class="form-control" type="number" min="1"
                                th:field="*{participants[__${location.getLocationId()}__]}" th:errorclass="is-invalid">
-                        <div class="invalid-feedback" th:errors="*{participants[__${location.getLocationId()}__]}"></div>
+                        <div class="invalid-feedback"
+                             th:errors="*{participants[__${location.getLocationId()}__]}"></div>
                     </div>
                     <div class="col-12 col-md-6 offset-md-3 mt-2 mt-md-0">
                         <i class="fas fa-chalkboard"></i>
@@ -71,6 +79,15 @@
                         </select>
                         <div class="invalid-feedback" th:errors="*{equipment[__${location.getLocationId()}__]}"></div>
                     </div>
+                </div>
+            </div>
+            <div class="form-row mt-4">
+                <div class="col-12">
+                    <i class="fas fa-edit"></i>
+                    <label for="name">Disable rebook meeting</label>
+                    <input class="form-control" id="disableRebookMeeting" th:errorclass="is-invalid"
+                           th:field="*{disableRebookMeeting}" type="checkbox">
+                    <div class="invalid-feedback" th:errors="*{disableRebookMeeting}"></div>
                 </div>
             </div>
             <div class="form-row mt-4">

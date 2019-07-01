@@ -1,24 +1,14 @@
 package gpse.team52.domain;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Meeting Entity.
@@ -107,6 +97,11 @@ public class Meeting {
     @Getter
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private Set<MeetingRoom> rooms = new HashSet<>();
+
+    @Getter
+    @Setter
+    @Column
+    private boolean disableRebookMeeting;
 
     /**
      * Constructor for Meeting with parameters.

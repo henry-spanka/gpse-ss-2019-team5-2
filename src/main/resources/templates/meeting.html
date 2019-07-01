@@ -52,6 +52,13 @@
                     <div class="col-11" th:text="${meeting.getParticipantsNumber()}">
                     </div>
                 </div>
+                <div class="row no-gutters">
+                    <div class="col-1">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="col-11" th:text="'Disabled rebook meeting' + ${meeting.getDisableRebookMeeting()}">
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div th:each="meetingRoom, iterStat : ${meeting.getRooms()}">
