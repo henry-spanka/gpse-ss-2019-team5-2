@@ -126,7 +126,7 @@ public class Meeting {
     /**
      * Calculates duration of the meeting.
      *
-     * @return
+     * @return Duration as int.
      */
     @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {

@@ -11,10 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @RestController
 public class DataErrorController {
-    @GetMapping("/dataError")
     /**
      * CSV Error Upload.
      */
+    @GetMapping("/dataError")
     public ModelAndView errorCSVUpload() {
         final ModelAndView modelAndView = new ModelAndView("dataError");
         return modelAndView;

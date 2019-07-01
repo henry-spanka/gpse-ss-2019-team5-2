@@ -32,7 +32,7 @@ public class EditMeetingController {
      * returns page to edit meetings.
      *
      * @param id meetingId
-     * @return
+     * @return ModelAndView.
      */
     @GetMapping("/meeting/{id}/edit")
     public ModelAndView editMeeting(@PathVariable("id") final String id) {

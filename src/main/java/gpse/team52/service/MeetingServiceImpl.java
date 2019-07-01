@@ -78,7 +78,7 @@ public class MeetingServiceImpl implements MeetingService {
         LocalDateTime startAt = meetingForm.getStartDateTime();
         LocalDateTime endAt = meetingForm.getEndDateTime();
 
-        /**
+        /*
          * This is hacky and probably doesn't work with daylight savings time but it's faster than
          * replacing all LocalDateTime instances with ZonedDateTime.
          */

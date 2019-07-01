@@ -103,7 +103,7 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for first name.
-     * @return
+     * @return String.
      */
     public String getFirstName() {
         if (firstName == null) {
@@ -115,7 +115,7 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for last name.
-     * @return
+     * @return String.
      */
     public  String getLastName() {
         if (lastName == null) {
@@ -127,7 +127,7 @@ public class Participant { //NOPMD
 
     /**
      * Custom getter for email.
-     * @return
+     * @return String.
      */
     public String getEmail() {
         if (email == null) {
