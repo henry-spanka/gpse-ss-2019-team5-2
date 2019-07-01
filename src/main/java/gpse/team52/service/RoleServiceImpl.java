@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
      * @return optional role.
      */
     @Override
-    public Optional<Role> get(UUID roleId) {
+    public Optional<Role> get(final UUID roleId) {
         return roleRepository.findById(roleId);
     }
 
@@ -58,7 +58,7 @@ public class RoleServiceImpl implements RoleService {
      * @return optional role.
      */
     @Override
-    public Optional<Role> getByName(String name) {
+    public Optional<Role> getByName(final String name) {
         return roleRepository.findByName(name);
     }
 
@@ -69,7 +69,7 @@ public class RoleServiceImpl implements RoleService {
      * @return the created role.
      */
     @Override
-    public Role create(Role role) {
+    public Role create(final Role role) {
         return roleRepository.save(role);
     }
 
@@ -80,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
      * @return the updated role.
      */
     @Override
-    public Role update(Role role) {
+    public Role update(final Role role) {
         return roleRepository.save(role);
     }
 
@@ -90,7 +90,7 @@ public class RoleServiceImpl implements RoleService {
      * @param role The role.
      */
     @Override
-    public void delete(Role role) {
+    public void delete(final Role role) {
         roleRepository.delete(role);
     }
 }

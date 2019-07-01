@@ -47,7 +47,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @return optional privilege.
      */
     @Override
-    public Optional<Privilege> get(UUID privilegeId) {
+    public Optional<Privilege> get(final UUID privilegeId) {
         return privilegeRepository.findById(privilegeId);
     }
 
@@ -58,7 +58,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @return optional privilege.
      */
     @Override
-    public Optional<Privilege> getByName(String name) {
+    public Optional<Privilege> getByName(final String name) {
         return privilegeRepository.findByName(name);
     }
 
@@ -69,7 +69,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @return the created privilege.
      */
     @Override
-    public Privilege create(Privilege privilege) {
+    public Privilege create(final Privilege privilege) {
         return privilegeRepository.save(privilege);
     }
 
@@ -80,7 +80,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @return the updated privilege.
      */
     @Override
-    public Privilege update(Privilege privilege) {
+    public Privilege update(final Privilege privilege) {
         return privilegeRepository.save(privilege);
     }
 
@@ -90,7 +90,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @param privilege The privilege.
      */
     @Override
-    public void delete(Privilege privilege) {
+    public void delete(final Privilege privilege) {
         privilegeRepository.delete(privilege);
     }
 }

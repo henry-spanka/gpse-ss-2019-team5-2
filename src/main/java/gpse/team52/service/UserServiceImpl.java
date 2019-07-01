@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(
     final UserRepository userRepository,
     final ConfirmationTokenRepository confirmationTokenRepository,
-    ForgotPasswordTokenRepository forgotPasswordTokenRepository, final PasswordEncoder passwordEncoder,
+    final ForgotPasswordTokenRepository forgotPasswordTokenRepository, final PasswordEncoder passwordEncoder,
     final MailService mailService) {
         this.userRepository = userRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(final String email) {
         try {
             User user = loadUserByEmail(email);
 
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User setUserNewPassword(User user, String password) {
+    public User setUserNewPassword(final User user, final String password) {
         final String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
         return userRepository.save(user);
@@ -219,7 +219,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserByICalToken(UUID token) {
+    public Optional<User> findUserByICalToken(final UUID token) {
         return userRepository.findByICalToken(token);
     }
 }

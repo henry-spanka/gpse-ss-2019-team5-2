@@ -18,7 +18,7 @@ public class StorageProperties {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         this.location = location;
     }
 

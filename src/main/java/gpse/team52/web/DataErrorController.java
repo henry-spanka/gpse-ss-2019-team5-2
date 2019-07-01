@@ -26,7 +26,7 @@ public class DataErrorController {
      * @return ModelAndView.
      */
     @PostMapping("/dataError")
-    public ModelAndView solveError(RedirectAttributes redirectAttributes) {
+    public ModelAndView solveError(final RedirectAttributes redirectAttributes) {
         try {
             return new ModelAndView("redirect:/csvImport");
         } catch (Exception e) {

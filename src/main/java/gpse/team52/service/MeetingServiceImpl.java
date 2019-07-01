@@ -207,7 +207,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @param participant The participant to notify.
      */
     @Override
-    public void notifyParticipant(Meeting meeting, Participant participant) {
+    public void notifyParticipant(final Meeting meeting, final Participant participant) {
         ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
 
         mailService.sendEmailTemplate(participant, "You have been added to a meeting", mailView);
@@ -220,7 +220,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @param participant The participant to notify.
      */
     @Override
-    public void notifyParticipantAboutLocationChange(Meeting meeting, Participant participant) {
+    public void notifyParticipantAboutLocationChange(final Meeting meeting, final Participant participant) {
         ModelAndView mailView = new ModelAndView("email/meeting-location-changed.html", "meeting", meeting);
 
         mailService.sendEmailTemplate(participant, "Meeting location changed", mailView);
@@ -242,8 +242,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end,
-                                                                    boolean flexible) {
+    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(final LocalDateTime start, final LocalDateTime end,
+                                                                    final boolean flexible) {
         return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
     }
 }

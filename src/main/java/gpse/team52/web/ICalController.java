@@ -39,7 +39,7 @@ public class ICalController {
      * @return calendar in iCal format.
      */
     @GetMapping("/ical/{token}")
-    public ResponseEntity getICalForToken(@PathVariable("token") UUID token) {
+    public ResponseEntity getICalForToken(final @PathVariable("token") UUID token) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

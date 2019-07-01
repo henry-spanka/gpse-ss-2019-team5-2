@@ -176,7 +176,7 @@ public class Meeting {
      *
      * @param offset Offset.
      */
-    public LocalDateTime getStartAt(long offset) {
+    public LocalDateTime getStartAt(final long offset) {
         return getStartAt().plusMinutes(offset);
     }
 
@@ -185,7 +185,7 @@ public class Meeting {
      * @param user User.
      * @return LocalDateTime.
      */
-    public LocalDateTime getStartAt(User user) {
+    public LocalDateTime getStartAt(final User user) {
         if (user.getLocation() != null) {
             return getStartAt(user.getLocation().getTimeoffset());
         }
@@ -198,7 +198,7 @@ public class Meeting {
      * @param offset Offset.
      * @return LocalDateTime.
      */
-    public LocalDateTime getEndAt(long offset) {
+    public LocalDateTime getEndAt(final long offset) {
         return getEndAt().plusMinutes(offset);
     }
 
@@ -207,7 +207,7 @@ public class Meeting {
      * @param user User offset.
      * @return LocalDateTime.
      */
-    public LocalDateTime getEndAt(User user) {
+    public LocalDateTime getEndAt(final User user) {
         if (user.getLocation() != null) {
             return getEndAt(user.getLocation().getTimeoffset());
         }

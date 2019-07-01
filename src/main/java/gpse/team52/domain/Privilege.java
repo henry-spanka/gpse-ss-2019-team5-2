@@ -41,7 +41,7 @@ public class Privilege {
      *
      * @param name The privilege name.
      */
-    public Privilege(String name) {
+    public Privilege(final String name) {
         this.name = name;
     }
 }

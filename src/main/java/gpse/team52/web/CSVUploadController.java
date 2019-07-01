@@ -43,7 +43,7 @@ public class CSVUploadController {
      * @return ModelAndView.
      */
     @PostMapping("/csvImport")
-    public ModelAndView submitData(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public ModelAndView submitData(final @RequestParam("file") MultipartFile file, final RedirectAttributes redirectAttributes) {
         try {
             //check if there is an uploaded file
             if (file != null && !file.isEmpty()) {

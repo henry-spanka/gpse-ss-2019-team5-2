@@ -11,7 +11,7 @@ public class AlternativeMeetingRoom {
     private Meeting meeting;
     private Map<String, List<Room>> alternatives;
 
-    public AlternativeMeetingRoom(Meeting m, Map<String, List<Room>> alter) {
+    public AlternativeMeetingRoom(final Meeting m, final Map<String, List<Room>> alter) {
         meeting = m;
         alternatives = alter;
     }

@@ -68,7 +68,7 @@ public class MeetingController {
      */
     @PostMapping("/meeting/{id}")
     public ModelAndView addParticipant(@PathVariable("id") final String id,
-                                       @RequestParam(value = "action") String action,
+                                       final @RequestParam(value = "action") String action,
                                        @ModelAttribute("addParticipants")
                                        @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,

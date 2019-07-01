@@ -22,19 +22,19 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location createLocation(String name) {
+    public Location createLocation(final String name) {
         return createLocation(name, 0);
     }
 
     @Override
-    public Location createLocation(String name, long time) {
+    public Location createLocation(final String name, final long time) {
         final Location location = new Location(name);
         location.setTimeoffset(time);
         return createLocation(location);
     }
 
     @Override
-    public Location createLocation(Location location) {
+    public Location createLocation(final Location location) {
         return repository.save(location);
     }
 

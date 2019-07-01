@@ -22,7 +22,7 @@ public class DataExport {
      * @param userService Userservice.
      * @param meetingService Meetingservice.
      */
-    public DataExport(RoomService roomService, UserService userService, MeetingService meetingService) {
+    public DataExport(final RoomService roomService, final UserService userService, final MeetingService meetingService) {
         this.meetingService = meetingService;
         this.roomService = roomService;
         this.userService = userService;

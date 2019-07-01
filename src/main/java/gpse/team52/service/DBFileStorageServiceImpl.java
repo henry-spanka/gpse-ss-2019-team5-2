@@ -30,12 +30,12 @@ public class DBFileStorageServiceImpl implements DBFileStorageService {
     private final Path rootLocation;
 
     @Autowired
-    public DBFileStorageServiceImpl(StorageProperties properties) {
+    public DBFileStorageServiceImpl(final StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(final MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -69,12 +69,12 @@ public class DBFileStorageServiceImpl implements DBFileStorageService {
     }
 
     @Override
-    public Path load(String filename) {
+    public Path load(final String filename) {
         return rootLocation.resolve(filename);
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(final String filename) {
         try {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());

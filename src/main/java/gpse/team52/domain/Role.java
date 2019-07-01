@@ -49,7 +49,7 @@ public class Role {
      *
      * @param name The role name.
      */
-    public Role(String name) {
+    public Role(final String name) {
         this.name = name;
     }
 
@@ -59,7 +59,7 @@ public class Role {
      * @param name       The role name.
      * @param privileges The role privileges.
      */
-    public Role(String name, Set<Privilege> privileges) {
+    public Role(final String name, final Set<Privilege> privileges) {
         this.name = name;
         this.privileges = privileges;
     }

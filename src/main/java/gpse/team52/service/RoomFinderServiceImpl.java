@@ -82,7 +82,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
      * @throws RebookingNotNecessaryException If no rooms of the meeting interfere with the new meeting
      */
     @Override
-    public Map<String, List<Room>> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew)
+    public Map<String, List<Room>> findOther(final Meeting meeting, final Map<String, List<Room>> roomsForNew)
     throws RebookingImpossibleException, RebookingNotNecessaryException {
 
         long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()

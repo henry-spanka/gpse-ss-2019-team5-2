@@ -209,7 +209,7 @@ public class MeetingCreatorController {
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
      */
-    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew)
+    private Map<String, List<Room>> smartrebooking(final Meeting meeting, final Map<String, List<Room>> roomsForNew)
     throws RebookingNotNecessaryException {
         // remove rooms if meeting not rebookable
         try {
@@ -248,7 +248,7 @@ public class MeetingCreatorController {
      * @param rooms A list of rooms and the meeting. Every odd room in the List is the old room,
      *              which has to be removed, every even number is the new room.
      */
-    private void rebook(Meeting meeting, List<Room> rooms) {
+    private void rebook(Meeting meeting, final List<Room> rooms) {
         boolean found;
         MeetingRoom meetingRoom = null;
         Set<MeetingRoom> roomset = meeting.getRooms();

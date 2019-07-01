@@ -172,7 +172,7 @@ public class MeetingCreationForm {
      *
      * @param offset the offset.
      */
-    public void addOffsetMinutes(Integer offset) {
+    public void addOffsetMinutes(final Integer offset) {
         LocalDateTime startDateTime = getStartDateTime();
         startDateTime = startDateTime.plusMinutes(offset);
 

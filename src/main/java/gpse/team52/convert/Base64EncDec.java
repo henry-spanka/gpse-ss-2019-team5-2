@@ -29,7 +29,7 @@ public class Base64EncDec {
      * @param imagePath Path to Image.
      * @return Image in Base64 format.
      */
-    public static String encoder(String imagePath) {
+    public static String encoder(final String imagePath) {
         String base64Image = "";
         File file = new File(imagePath);
         try (FileInputStream imageInFile = new FileInputStream(file)) {
@@ -50,7 +50,7 @@ public class Base64EncDec {
      * @param base64Image Image in base64 format.
      * @param pathFile path to save image.
      */
-    public static void decoder(String base64Image, String pathFile) {
+    public static void decoder(final String base64Image, final String pathFile) {
         try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
             // Converting a Base64 String into Image byte array
             byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
@@ -67,7 +67,7 @@ public class Base64EncDec {
      * @param file MultipartFile.
      * @return File.
      */
-    public static File convertToFile(MultipartFile file) {
+    public static File convertToFile(final MultipartFile file) {
         try {
             File convFile = new File(file.getOriginalFilename());
             convFile.createNewFile();

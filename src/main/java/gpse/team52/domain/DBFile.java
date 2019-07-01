@@ -38,7 +38,7 @@ public class DBFile {
      * @param fileType Filetype.
      * @param data Data.
      */
-    public DBFile(String fileName, String fileType, byte[] data) {
+    public DBFile(final String fileName, final String fileType, final byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;

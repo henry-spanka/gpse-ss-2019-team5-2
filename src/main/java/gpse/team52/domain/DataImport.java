@@ -33,7 +33,7 @@ public class DataImport {
      * @param userService userService.
      * @param mailService mailService.
      */
-    public DataImport(UserService userService, MailService mailService) {
+    public DataImport(final UserService userService, final MailService mailService) {
         this.userService = userService;
         this.mailService = mailService;
 
@@ -95,7 +95,7 @@ public class DataImport {
     }
 
     /* Parses String array to room */
-    private void parseRoom(String[] line) {
+    private void parseRoom(final String[] line) {
         Room room = new Room();
         Location location = new Location(line[0]);
         room.setLocation(location);
@@ -145,7 +145,7 @@ public class DataImport {
     }
 
     /* Parses line to meeting*/
-    private void parseMeeting(String[] line) {
+    private void parseMeeting(final String[] line) {
         Meeting meeting = new Meeting(line[0]);
 
         //String to LocalDAteTime Parser
