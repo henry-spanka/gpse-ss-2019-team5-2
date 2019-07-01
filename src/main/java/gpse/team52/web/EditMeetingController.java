@@ -71,6 +71,12 @@ public class EditMeetingController {
             if (meetingRoom.getMeetingRoomId().toString().equals(roomId)) {
                 meetingRoom.setRoom(newRoom);
                 meetingService.update(meeting);
+
+                for (Participant participant : meeting.getParticipants()) {
+                    if (participant.isNotifiable()) {
+                        meetingService.notifyParticipantAboutLocationChange(meeting, participant);
+                    }
+                }
                 break;
             }
         }
