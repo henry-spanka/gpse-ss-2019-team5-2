@@ -3,6 +3,7 @@ package gpse.team52;
 import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
+import gpse.team52.domain.Role;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.EmailNotFoundException;
@@ -24,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class UserServiceUnitTest {
+class UserServiceUnitTest { //NOPMD
     private UserService userService;
 
     @Mock
@@ -57,6 +59,7 @@ class UserServiceUnitTest {
     private MailService mailService;
 
     private User testUser;
+    private Role testRole;
     private UserRegistrationForm userRegistrationForm;
 
     private static final String USERNAME = "testuser";
@@ -76,6 +79,7 @@ class UserServiceUnitTest {
         userRegistrationForm.setPasswordConfirm("mysecretpassword");
 
         testUser = new User(userRegistrationForm, "encoded_pw");
+        testRole = new Role("ROLE_USER", new HashSet<>());
     }
 
     @Test
@@ -130,6 +134,7 @@ class UserServiceUnitTest {
         when(userRepository.save(any())).then(returnsFirstArg());
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.empty());
         when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.empty());
+        when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(testRole));
 
         final User user = userService.createUser(userRegistrationForm, roleRepository.findByName("ROLE_USER").orElseThrow());
 
@@ -144,6 +149,7 @@ class UserServiceUnitTest {
     @Test
     public void userCannotBeRegisteredIfEmailExists() {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.of(testUser));
+        when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(testRole));
 
         assertThatExceptionOfType(EmailExistsException.class).isThrownBy(() -> userService.createUser(userRegistrationForm, roleRepository.findByName("ROLE_USER").orElseThrow()));
     }
@@ -152,6 +158,7 @@ class UserServiceUnitTest {
     public void userCannotBeRegisteredIfUsernameExists() {
         when(userRepository.findByEmail(userRegistrationForm.getEmail())).thenReturn(Optional.empty());
         when(userRepository.findByUsername(userRegistrationForm.getUsername())).thenReturn(Optional.of(testUser));
+        when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(testRole));
 
         assertThatExceptionOfType(UsernameExistsException.class).isThrownBy(() -> userService.createUser(userRegistrationForm, roleRepository.findByName("ROLE_USER").orElseThrow()));
     }

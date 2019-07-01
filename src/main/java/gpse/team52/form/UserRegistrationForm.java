@@ -52,6 +52,6 @@ public class UserRegistrationForm implements HasPassword {
     private Location location;
 
     public String getEmailDomain() {
-        return email.substring(email .indexOf("@") + 1);
+        return email.substring(email .indexOf("@") + 1); //NOPMD
     }
 }

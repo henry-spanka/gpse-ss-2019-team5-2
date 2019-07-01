@@ -47,7 +47,7 @@ public class ICalController {
         User user;
 
         try {
-            user = userService.findUserByICalToken(token).orElseThrow();
+            user = userService.findUserByICalToken(token).orElseThrow(); //NOPMD
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -57,7 +57,7 @@ public class ICalController {
         final ICalendar ical = new ICalendar();
 
         for (final Meeting meeting : meetings) {
-            final VEvent event = new VEvent();
+            final VEvent event = new VEvent(); //NOPMD
             event.setSummary(meeting.getTitle()).setLanguage("en-us");
             event.setDescription(meeting.getDescription()).setLanguage("en-us");
             event.setDateStart(Date.from(meeting.getStartAt().toInstant(ZoneOffset.ofHours(2))));

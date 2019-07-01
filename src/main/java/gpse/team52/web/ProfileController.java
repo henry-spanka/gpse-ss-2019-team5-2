@@ -27,11 +27,11 @@ public class ProfileController {
 
         // Only get the Role name after the "_"
         final String role = user.getAuthorities().toString();
-        final int indexRole = role.indexOf("_");
-        modelAndView.addObject("role", user.getAuthorities().toString().
+        final int indexRole = role.indexOf("_"); //NOPMD
+        modelAndView.addObject("role", user.getAuthorities().toString(). //NOPMD
         substring(indexRole + 1, role.length() - 1).toLowerCase());
 
-        final String userLoc = "Please select a location";
+        final String userLoc = "Please select a location"; //NOPMD
         if (user.getLocation() == null) {
             modelAndView.addObject("location", userLoc);
         } else {

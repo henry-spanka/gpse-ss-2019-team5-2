@@ -33,7 +33,7 @@ public class CSVUploadController {
     @GetMapping("/csvImport")
     public ModelAndView showCSVUpload() {
         final ModelAndView modelAndView = new ModelAndView("csvImport");
-        return modelAndView;
+        return modelAndView; //NOPMD
     }
 
     /**
@@ -55,7 +55,7 @@ public class CSVUploadController {
             if (file == null) {
                 return new ModelAndView("redirect:/dataError");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //NOPMD
             return new ModelAndView("redirect:/dataError");
         }
         return new ModelAndView("redirect:/start");

@@ -231,13 +231,13 @@ public class Meeting {
     public String meetingToString() {
 
         //title;startdate;enddate;participants;owner;confirmed;description
-        String participant = "";
-        if (participants.size() != 0) {
-            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_"
-            + participants.get(0).getLastName();
+        String participant = ""; //NOPMD
+        if (!participants.isEmpty()) {
+            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_" //NOPMD
+            + participants.get(0).getLastName(); //NOPMD
             for (int i = 1; i < participants.size(); i++) {
-                participant = participant + "," + participants.get(i).getEmail() + "_"
-                + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName();
+                participant = participant + "," + participants.get(i).getEmail() + "_" //NOPMD
+                + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName(); //NOPMD
             }
         }
         final String start = startAt.toString().replace("T", " ");
@@ -245,14 +245,14 @@ public class Meeting {
 
         final String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";"
         + confirmed + ";" + description;
-        return string;
+        return string; //NOPMD
     }
 
     /**
      * Convert a Meeting entity to meeting creation form.
      * @return MeetingCreationForm.
      */
-    public MeetingCreationForm toMeetingCreationForm() {
+    public MeetingCreationForm toMeetingCreationForm() { //NOPMD
         final MeetingCreationForm meetingCreationForm = new MeetingCreationForm();
         meetingCreationForm.setStartDate(getStartAt().toLocalDate());
         meetingCreationForm.setStartTime(getStartAt().toLocalTime());
@@ -271,7 +271,7 @@ public class Meeting {
                     meetingRoom.getRoom().getLocation().getLocationId().toString(),
                     meetingRoom.getParticipants()
                 );
-                final List<String> equipmentList = new ArrayList<>();
+                final List<String> equipmentList = new ArrayList<>(); //NOPMD
                 for (final Equipment item : meetingRoom.getRoom().getEquipment()) {
                     equipmentList.add(item.getEquipmentID().toString());
                 }

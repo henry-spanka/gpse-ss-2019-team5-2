@@ -52,7 +52,7 @@ public class StartPageController {
      * @return Start Page ModelAndView Object.
      */
     @GetMapping("/start")
-    public ModelAndView showStart(final Authentication authentication) {
+    public ModelAndView showStart(final Authentication authentication) { //NOPMD
         final ModelAndView modelAndView = new ModelAndView("startpage");
         final User user = (User) authentication.getPrincipal();
 
@@ -133,7 +133,7 @@ public class StartPageController {
 
         modelAndView.addObject("tomorrow", daytom);
         modelAndView.addObject("aftertomorrow", dayaftertom);
-        final long noLoctimediff = 0;
+        final long noLoctimediff = 0; //NOPMD
         if (user.getLocation() == null) {
             modelAndView.addObject("timeZone", noLoctimediff);
         } else {

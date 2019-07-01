@@ -79,7 +79,7 @@ public class PrivilegeController {
      * @param privileges The privileges.
      * @return redirect to the privileges pages.
      */
-    @PostMapping(value = "/role")
+    @PostMapping("/role")
     public ModelAndView updatePrivilegesForRole(final @RequestParam String roleName,
                                                 final @RequestParam Set<String> privileges) {
         final Role role = roleService.getByName(roleName).orElseThrow();
@@ -111,7 +111,7 @@ public class PrivilegeController {
      * @param privileges The privileges.
      * @return redirect to the privileges pages.
      */
-    @PostMapping(value = "/user")
+    @PostMapping("/user")
     public ModelAndView updatePrivilegesForUser(final @RequestParam String username,
                                                 final @RequestParam Set<String> privileges) {
         final User user = userService.loadUserByUsername(username);

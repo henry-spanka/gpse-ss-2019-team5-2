@@ -9,7 +9,6 @@ import gpse.team52.contract.RoomService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
-import gpse.team52.domain.Role;
 import gpse.team52.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InitializeDefaultRooms {
-    private static final String DEFAULT_PASSWORD = "rooms";
-
-    private final Role DEFAULT_USER_ROLE;
 
     private final UserService userService;
     private final RoomService roomService;
@@ -59,7 +55,7 @@ public class InitializeDefaultRooms {
         this.initializeDefaultRoles = initializeDefaultRoles;
         this.initializeDefaultMeetings = initializeDefaultMeetings;
 
-        this.DEFAULT_USER_ROLE = roleService.getByName("ROLE_USER").orElseThrow();
+        roleService.getByName("ROLE_USER").orElseThrow();
     }
 
     /**

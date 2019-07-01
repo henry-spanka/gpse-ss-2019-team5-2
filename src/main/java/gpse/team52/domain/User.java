@@ -164,11 +164,11 @@ public class User implements UserDetails { //NOPMD
      * @return String.
      */
     public String userToString() {
-        StringBuilder rolesString = new StringBuilder();
-        if (roles.size() != 0) {
+        StringBuilder rolesString = new StringBuilder(); //NOPMD
+        if (!roles.isEmpty()) {
             rolesString = new StringBuilder(roles.toArray(Role[]::new)[0].getName());
             for (int i = 1; i < roles.size(); i++) {
-                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName());
+                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName()); //NOPMD
             }
 
         }

@@ -56,14 +56,14 @@ public class RegisterController {
      * @return A confirmation or an error.
      */
     @PostMapping("/register")
-    public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form,
+    public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form, //NOPMD
                                  final BindingResult result) {
         if (!result.hasErrors()) {
             if (environment.containsProperty("register.allowed-domains")) {
                 final String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
 
-                if (allowedDomains != null && allowedDomains.length != 0) {
-                    boolean validEmail = false;
+                if (allowedDomains != null && allowedDomains.length != 0) { //NOPMD
+                    boolean validEmail = false; //NOPMD
                     for (final String domain : allowedDomains) {
                         if (domain.equals(form.getEmailDomain())) {
                             validEmail = true;

@@ -67,10 +67,10 @@ public class MeetingThreadService {
      * @throws InterruptedException in case of an Exception.
      */
     @Async
-    public void checkMeetings() throws InterruptedException {
+    public void checkMeetings() throws InterruptedException { //NOPMD
         while (true) {
-            final ArrayList<Meeting> meetings = new ArrayList<>();
-            final LocalDateTime now = LocalDateTime.now();
+            final ArrayList<Meeting> meetings = new ArrayList<>(); //NOPMD
+            final LocalDateTime now = LocalDateTime.now(); //NOPMD
 
             meetingService.findByConfirmed(false).forEach(meetings::add);
             for (final Meeting meeting : meetings) {

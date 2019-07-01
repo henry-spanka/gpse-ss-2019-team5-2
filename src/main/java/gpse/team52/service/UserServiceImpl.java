@@ -130,8 +130,6 @@ public class UserServiceImpl implements UserService {
         try {
             final User user = loadUserByEmail(email);
 
-            System.out.println("Sending password reset mail to " + user.getFirstname());
-
             final ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken(user);
 
             forgotPasswordTokenRepository.save(forgotPasswordToken);
@@ -140,8 +138,8 @@ public class UserServiceImpl implements UserService {
             modelAndView.addObject("token", forgotPasswordToken);
 
             mailService.sendEmailTemplateToUser(user, "Password Reset", modelAndView);
-        } catch (EmailNotFoundException e) {
-            System.out.println("No user matching the email adress: " + email);
+        } catch (EmailNotFoundException e) { //NOPMD
+            //
         }
     }
 
@@ -177,10 +175,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User setUserNewPassword(final User user, final String password) {
+    public void setUserNewPassword(final User user, final String password) {
         final String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     private boolean emailExists(final String email) {

@@ -2,6 +2,7 @@ package gpse.team52.seeder;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -22,31 +23,31 @@ public class InitializeDefaultRoles {
     private final RoleService roleService;
     private final PrivilegeService privilegeService;
 
-    private final InitializeDefaultPrivilege initializeDefaultRoles;
+    private final InitializeDefaultPrivilege initializeDefaultPrivilege;
 
     /**
      * Constructor for the used services.
      *
      * @param roleService            Service for positions
      * @param privilegeService       Service for positios
-     * @param initializeDefaultRoles Initialize default roles.
+     * @param initializeDefaultPrivilege Initialize default roles.
      */
     @Autowired
     public InitializeDefaultRoles(final RoleService roleService,
                                   final PrivilegeService privilegeService,
-                                  final InitializeDefaultPrivilege initializeDefaultRoles) {
+                                  final InitializeDefaultPrivilege initializeDefaultPrivilege) {
         this.roleService = roleService;
         this.privilegeService = privilegeService;
-        this.initializeDefaultRoles = initializeDefaultRoles;
+        this.initializeDefaultPrivilege = initializeDefaultPrivilege;
     }
 
     /**
      * Initializes privileges to test.
      */
     @PostConstruct
-    public void init() {
+    public void init() { //NOPMD
         final Iterable<Privilege> privileges = this.privilegeService.getAll();
-        final Hashtable<String, Privilege> hashtable = new Hashtable<>();
+        final Map<String, Privilege> hashtable = new Hashtable<>();
         for (final Privilege privilege : privileges) {
             hashtable.put(privilege.getName(), privilege);
         }

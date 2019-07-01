@@ -75,12 +75,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
+    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms, //NOPMD
                                  final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());
 
-        LocalDateTime startAt = meetingForm.getStartDateTime();
-        LocalDateTime endAt = meetingForm.getEndDateTime();
+        LocalDateTime startAt = meetingForm.getStartDateTime(); //NOPMD
+        LocalDateTime endAt = meetingForm.getEndDateTime(); //NOPMD
 
         /*
          * This is hacky and probably doesn't work with daylight savings time but it's faster than
@@ -88,7 +88,6 @@ public class MeetingServiceImpl implements MeetingService {
          */
         if (owner.getLocation() != null) {
             final long timeOffset = owner.getLocation().getTimeoffset();
-            System.out.println(timeOffset);
 
             startAt = startAt.minusMinutes(timeOffset);
             endAt = endAt.minusMinutes(timeOffset);
@@ -142,16 +141,16 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtWithUser(final User user) {
+    public Iterable<Meeting> findByStartAtWithUser(final User user) { //NOPMD
         final List<Meeting> finalMeetings = new ArrayList<>();
 
         final List<Meeting> meetings = (List) findByStartAt();
-        for (int i = 0; i < meetings.size(); i++) {
-            final List<Participant> participants = meetings.get(i).getParticipants();
-            for (int j = 0; j < participants.size(); j++) {
-                if (participants.get(j).isUser()) {
-                    if (participants.get(j).getUser().getUserId().toString().equals(user.getUserId().toString())) {
-                        finalMeetings.add(meetings.get(i));
+        for (final Meeting meeting : meetings) {
+            final List<Participant> participants = meeting.getParticipants();
+            for (final Participant participant : participants) {
+                if (participant.isUser()) {
+                    if (participant.getUser().getUserId().toString().equals(user.getUserId().toString())) {
+                        finalMeetings.add(meeting);
                         break;
                     }
                 }
@@ -179,7 +178,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @throws ParticipantAlreadyExistsException Thrown if the participant already exists.
      */
     @Override
-    public Meeting addParticipants(final Meeting meeting, final List<Participant> participants)
+    public Meeting addParticipants(final Meeting meeting, final List<Participant> participants) //NOPMD
     throws ParticipantAlreadyExistsException {
         for (final Participant participant : participants) {
             if (meeting.getParticipants().contains(participant)) {

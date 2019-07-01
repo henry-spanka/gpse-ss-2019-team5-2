@@ -77,11 +77,11 @@ public class EditMeetingController {
      * @return ModelAndView.
      */
     @PatchMapping("/meeting/{id}/room/{roomId}")
-    public ModelAndView editMeetingRoom(@PathVariable("id") final String meetingId,
+    public ModelAndView editMeetingRoom(@PathVariable("id") final String meetingId, //NOPMD
                                         @PathVariable("roomId") final String roomId,
                                         @RequestParam("newroom") final String newRoomId) {
         final Meeting meeting = meetingService.getMeetingById(meetingId);
-        final Room newRoom = roomService.getRoom(UUID.fromString(newRoomId)).orElseThrow();
+        final Room newRoom = roomService.getRoom(UUID.fromString(newRoomId)).orElseThrow(); //NOPMD
         for (final MeetingRoom meetingRoom : meeting.getRooms()) {
             if (meetingRoom.getMeetingRoomId().toString().equals(roomId)) {
                 meetingRoom.setRoom(newRoom);

@@ -77,15 +77,15 @@ public class Candidate {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
 
-        final Candidate candidate = (Candidate) o;
+        final Candidate candidate = (Candidate) object;
         return Objects.equals(candidateId, candidate.candidateId)
         && Objects.equals(email, candidate.email)
         && Objects.equals(firstName, candidate.firstName)

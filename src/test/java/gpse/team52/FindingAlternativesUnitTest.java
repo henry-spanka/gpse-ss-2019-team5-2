@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class FindingAlternativesUnitTest {
+class FindingAlternativesUnitTest { //NOPMD
 
     private RoomFinderService roomFinderService;
     private RoomService roomService;
@@ -60,7 +60,7 @@ class FindingAlternativesUnitTest {
     private Location lage;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //NOPMD
 
         roomFinderService = new RoomFinderServiceImpl(roomRepository, meetingRepository);
         roomService = new RoomServiceImpl(roomRepository, locationRepository, equipmentRepository);
@@ -92,7 +92,7 @@ class FindingAlternativesUnitTest {
     }
 
     @Test
-    void findAlternativesForOne() {
+    void findAlternativesForOne() { //NOPMD
         final String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
         Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");
         // just to test whether test is running right now

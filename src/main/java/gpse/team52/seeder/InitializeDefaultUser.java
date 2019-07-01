@@ -68,7 +68,7 @@ public class InitializeDefaultUser {
 
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
-        } catch (UsernameExistsException | EmailExistsException e) {
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             //
         }
 
@@ -81,7 +81,7 @@ public class InitializeDefaultUser {
 
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
-        } catch (UsernameExistsException | EmailExistsException e) {
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             //
         }
 
@@ -94,7 +94,7 @@ public class InitializeDefaultUser {
 
         try {
             userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
-        } catch (UsernameExistsException | EmailExistsException e) {
+        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             //
         }
 

@@ -18,7 +18,7 @@ public class DataErrorController {
     @GetMapping("/dataError")
     public ModelAndView errorCSVUpload() {
         final ModelAndView modelAndView = new ModelAndView("dataError");
-        return modelAndView;
+        return modelAndView; //NOPMD
     }
 
     /**
@@ -30,7 +30,7 @@ public class DataErrorController {
     public ModelAndView solveError(final RedirectAttributes redirectAttributes) {
         try {
             return new ModelAndView("redirect:/csvImport");
-        } catch (Exception e) {
+        } catch (Exception e) { //NOPMD
             return new ModelAndView("redirect:/csvImport");
         }
     }

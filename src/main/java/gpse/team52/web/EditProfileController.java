@@ -71,7 +71,7 @@ public class EditProfileController {
      * @return ModelAndView.
      */
     @PostMapping("/editProfile")
-    public ModelAndView editProfile(@AuthenticationPrincipal final User user,
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user, //NOPMD
                                     @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
                                     final @RequestParam(value = "file", required = false) MultipartFile file) {
         //check if there is an uploaded pic and change all user info if there is any
@@ -85,9 +85,9 @@ public class EditProfileController {
         if (createUserCmd.getLocation() != null) {
             final ArrayList<Location> locNames = new ArrayList<>();
             locationService.getAllLocations().forEach(locNames::add);
-            for (int i = 0; i < locNames.size(); i++) {
-                if (locNames.get(i).getName().equals(createUserCmd.getLocation())) {
-                    user.setLocation(locNames.get(i));
+            for (final Location location : locNames) {
+                if (location.getName().equals(createUserCmd.getLocation())) {
+                    user.setLocation(location);
                 }
             }
 

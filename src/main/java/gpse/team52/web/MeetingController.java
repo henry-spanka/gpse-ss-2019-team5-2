@@ -74,12 +74,12 @@ public class MeetingController {
      */
     @PostMapping("/meeting/{id}")
     public ModelAndView addParticipant(@PathVariable("id") final String id,
-                                       final @RequestParam(value = "action") String action,
+                                       final @RequestParam("action") String action,
                                        @ModelAttribute("addParticipants")
                                        @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,
                                        final Authentication authentication) {
-        Meeting meeting = meetingService.getMeetingById(id);
+        Meeting meeting = meetingService.getMeetingById(id); //NOPMD
         if (action.equals("add")) {
             if (!bindingResult.hasErrors()) {
                 try {
@@ -190,7 +190,7 @@ public class MeetingController {
 
     private Meeting addAllParticipants(final Meeting meeting, final MeetingAddParticipantsForm form)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException {
-        final List<Participant> participants = new ArrayList<>();
+        final List<Participant> participants = new ArrayList<>(); //NOPMD
 
         if (form.getParticipants() != null) {
             addExistingParticipants(participants, form.getParticipants());
@@ -207,7 +207,7 @@ public class MeetingController {
         return meetingService.addParticipants(meeting, participants);
     }
 
-    private void addExistingParticipants(final List<Participant> participants, final List<String> userList) {
+    private void addExistingParticipants(final List<Participant> participants, final List<String> userList) { //NOPMD
         for (final String userId : userList) {
             final User user = userService.getUserById(userId).orElseThrow();
 
@@ -246,7 +246,7 @@ public class MeetingController {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     private boolean checkConfirmButton(final Meeting meeting) {
-        boolean activate = false;
+        boolean activate = false; //NOPMD
         final LocalDateTime currenttime = LocalDateTime.now();
         final LocalDateTime meetingtime = meeting.getStartAt();
         final long diff = Duration.between(currenttime, meetingtime).toMinutes();

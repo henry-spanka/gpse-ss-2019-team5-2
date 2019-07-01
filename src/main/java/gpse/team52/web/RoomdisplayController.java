@@ -1,13 +1,12 @@
 package gpse.team52.web;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import gpse.team52.contract.RoomService;
 import gpse.team52.domain.Equipment;
-import gpse.team52.domain.Location;
 import gpse.team52.domain.Room;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,23 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Room display page controller.
  */
+@NoArgsConstructor
 @Controller
 public class RoomdisplayController {
 
     @Autowired
     private RoomService roomService;
-
-    /**
-     * RoomDisplayController Constructor.
-     */
-    public RoomdisplayController() {
-        final Location location;
-        final Date date;
-        final List<Equipment> equipment;
-        final int start;
-        final int end;
-        final int seats;
-    }
 
 
     /**

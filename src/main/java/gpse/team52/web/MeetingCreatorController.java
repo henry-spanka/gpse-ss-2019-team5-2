@@ -26,7 +26,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -153,11 +159,11 @@ public class MeetingCreatorController {
      * @param meeting the wanted meeting from the user.
      * @return A ModelAndView for the RoomSelection View.
      */
-    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
+    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) { //NOPMD
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
         final LocalDateTime start = meeting.getStartDateTime();
         final LocalDateTime end = meeting.getEndDateTime();
-        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
+        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting); //NOPMD
         alternativeMeetingRooms = new ArrayList<>();
 
         final ArrayList<Meeting> checkMeetings = new ArrayList<>();
@@ -167,7 +173,7 @@ public class MeetingCreatorController {
             // check every meeting which lies in time frame and adjust available rooms
             try {
                 roomsForNew = smartrebooking(m, roomsForNew);
-            } catch (RebookingNotNecessaryException e) {
+            } catch (RebookingNotNecessaryException e) { //NOPMD
                 // if meeting doesn't interfere it won't be rebooked
             }
         }
@@ -178,7 +184,7 @@ public class MeetingCreatorController {
         return modelAndView;
     }
 
-    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException {
+    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException { //NOPMD
         List<Room> rooms;
 
         if (meeting.getRooms() == null || meeting.noRoomsSelected()) {
@@ -193,14 +199,14 @@ public class MeetingCreatorController {
                 for (final AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
                     final Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
                     if (alter.containsKey(room.getRoomID().toString())) {
-                        final Meeting m = alternativeMeetingRoom.getMeeting();
+                        final Meeting meeting1 = alternativeMeetingRoom.getMeeting();
                         final Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
-                        final List<Room> changeRoom = new ArrayList<>();
+                        final List<Room> changeRoom = new ArrayList<>(); //NOPMD
                         changeRoom.add(room);
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
-                        rebook(m, changeRoom);
-                        System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName()
+                        rebook(meeting1, changeRoom);
+                        System.out.println("Would have rebooked " + meeting1.getTitle() + " from " + room.getRoomName() //NOPMD
                         + " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
@@ -218,7 +224,7 @@ public class MeetingCreatorController {
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
      */
-    private Map<String, List<Room>> smartrebooking(final Meeting meeting, final Map<String, List<Room>> roomsForNew)
+    private Map<String, List<Room>> smartrebooking(final Meeting meeting, final Map<String, List<Room>> roomsForNew) //NOPMD
     throws RebookingNotNecessaryException {
         // remove rooms if meeting not rebookable
         try {
@@ -257,11 +263,11 @@ public class MeetingCreatorController {
      * @param rooms A list of rooms and the meeting. Every odd room in the List is the old room,
      *              which has to be removed, every even number is the new room.
      */
-    private void rebook(Meeting meeting, final List<Room> rooms) {
+    private void rebook(Meeting meeting, final List<Room> rooms) { //NOPMD
         boolean found;
-        MeetingRoom meetingRoom = null;
+        MeetingRoom meetingRoom = null; //NOPMD
         final Set<MeetingRoom> roomset = meeting.getRooms();
-        final Iterator<MeetingRoom> iterator = roomset.iterator();
+        final Iterator<MeetingRoom> iterator = roomset.iterator(); //NOPMD
         for (int i = 0; i < rooms.size(); i++) {
             found = false;
             while (iterator.hasNext() && !found) {
@@ -281,14 +287,13 @@ public class MeetingCreatorController {
                 //SQL Error: insert into meeting_room [...] null is not allowed for column 'ROOM_ID'
                 meetingRepository.save(meeting); //Meeting wird aktualisiert
 
-                i++;
+                i++; //NOPMD
             }
         }
 
         // Refresh meeting
         meeting = meetingService.getMeetingById(meeting.getMeetingId());
         for (final Participant participant : meeting.getParticipants()) {
-            System.out.println(participant.isNotifiable());
             if (participant.isNotifiable()) {
                 meetingService.notifyParticipantAboutLocationChange(meeting, participant);
             }

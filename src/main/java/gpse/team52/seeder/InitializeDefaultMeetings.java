@@ -31,19 +31,19 @@ public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
 
-    private final Role DEFAULT_USER_ROLE;
+    private final Role DEFAULT_USER_ROLE; //NOPMD
 
     private final MeetingService meetingService;
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
     private final LocationService locationService;
-    private final RoleService roleService;
-    private final InitializeDefaultRoles initializeDefaultRoles;
+    private final RoleService roleService; //NOPMD
+    private final InitializeDefaultRoles initializeDefaultRoles; //NOPMD
     /**
      * Required to make it dependent on InitializeDefaultLocations.
      */
-    private final InitializeDefaultLocations initializeDefaultLocations;
+    private final InitializeDefaultLocations initializeDefaultLocations; //NOPMD
 
     /**
      * Constructor for the used services.
@@ -80,9 +80,9 @@ public class InitializeDefaultMeetings {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
-    public void init() {
+    public void init() { //NOPMD
         final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
-        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow(); //NOPMD
 
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Julius");
@@ -96,7 +96,7 @@ public class InitializeDefaultMeetings {
         User user1;
 
         try {
-            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE);
+            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE); //NOPMD
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;

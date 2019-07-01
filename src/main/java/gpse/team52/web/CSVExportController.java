@@ -32,9 +32,9 @@ public class CSVExportController {
      */
     @GetMapping("/csvExport")
     public ModelAndView showCSVDownload() {
-        final DataExport dataExport = new DataExport(roomService, userService, meetingService);
+        final DataExport dataExport = new DataExport(roomService, userService, meetingService); //NOPMD
         final ModelAndView modelAndView = new ModelAndView("csvExport");
-        return modelAndView;
+        return modelAndView; //NOPMD
     }
 
     /**
@@ -55,6 +55,6 @@ public class CSVExportController {
         }*/
 
         final ModelAndView modelAndView = new ModelAndView("csvExport");
-        return modelAndView;
+        return modelAndView; //NOPMD
     }
 }
