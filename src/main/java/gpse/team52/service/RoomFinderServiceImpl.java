@@ -114,7 +114,8 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                         for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
                             final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
                             .collect(Collectors.toList());
-                            if (equipmentList.containsAll(currentRoom.getEquipment())) {
+                            List<UUID> currentEq = currentRoom.getEquipment().stream().map(Equipment::getEquipmentID).collect(Collectors.toList());
+                            if (equipmentList.containsAll(currentEq)) {
                                 // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
                                 // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
                                 rooms.add(room);
