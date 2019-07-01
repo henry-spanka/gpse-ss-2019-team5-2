@@ -1,6 +1,10 @@
 package gpse.team52.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,9 +38,10 @@ public class DBFile {
 
     /**
      * DBFile Constructor.
+     *
      * @param fileName Filename.
      * @param fileType Filetype.
-     * @param data Data.
+     * @param data     Data.
      */
     public DBFile(final String fileName, final String fileType, final byte[] data) {
         this.fileName = fileName;

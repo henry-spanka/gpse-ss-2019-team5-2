@@ -6,7 +6,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.RoomFinderService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Room;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;

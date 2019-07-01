@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import gpse.team52.domain.*;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.ExternalUserIsIncompleteException;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
@@ -25,6 +28,7 @@ public interface MeetingService {
 
     Meeting createMeeting(MeetingCreationForm meetingForm, List<Room> rooms,
                           Map<String, Integer> participants, User owner);
+
     void update(Meeting meeting);
 
     Iterable<Meeting> getAllMeetings();

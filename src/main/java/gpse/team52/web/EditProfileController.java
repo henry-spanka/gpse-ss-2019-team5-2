@@ -54,7 +54,7 @@ public class EditProfileController {
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
         //get All Location and and convert iterable list to an array list of Locations
-        final ArrayList<Location> locNames = new ArrayList<Location>();
+        final ArrayList<Location> locNames = new ArrayList<>();
         locationService.getAllLocations().forEach(locNames::add);
         modelAndView.addObject("locationNames", locNames);
 
@@ -83,7 +83,7 @@ public class EditProfileController {
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         if (createUserCmd.getLocation() != null) {
-            final ArrayList<Location> locNames = new ArrayList<Location>();
+            final ArrayList<Location> locNames = new ArrayList<>();
             locationService.getAllLocations().forEach(locNames::add);
             for (int i = 0; i < locNames.size(); i++) {
                 if (locNames.get(i).getName().equals(createUserCmd.getLocation())) {

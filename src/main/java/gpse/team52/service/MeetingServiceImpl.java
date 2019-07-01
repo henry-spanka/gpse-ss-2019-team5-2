@@ -8,7 +8,11 @@ import java.util.UUID;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.mail.MailService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;

@@ -4,8 +4,19 @@ import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
-import gpse.team52.contract.*;
-import gpse.team52.domain.*;
+import gpse.team52.contract.EquipmentService;
+import gpse.team52.contract.LocationService;
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoleService;
+import gpse.team52.contract.RoomService;
+import gpse.team52.contract.UserService;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Location;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Role;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;

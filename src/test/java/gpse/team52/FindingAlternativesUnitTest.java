@@ -3,7 +3,6 @@ package gpse.team52;
 
 import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.RoomService;
-import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
@@ -20,16 +19,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -81,7 +70,7 @@ class FindingAlternativesUnitTest {
         lage = new Location("Lage");
 
         // seats, extraSeats, mail, location, name, layout
-        bielefeld1 = new Room(10,10,"bf1@example.de", bielefeld, "Bf1", "layoutRed");
+        bielefeld1 = new Room(10, 10, "bf1@example.de", bielefeld, "Bf1", "layoutRed");
 
         bielefeld2 = new Room(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
         roomService.createRoom(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
