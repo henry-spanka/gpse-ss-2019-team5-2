@@ -6,7 +6,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import gpse.team52.contract.RoomFinderService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Room;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;
@@ -35,9 +38,9 @@ public class RoomFinderServiceImpl implements RoomFinderService {
      * @param meeting The MeetingCreationForm.
      * @return Map of rooms for each location.
      */
-    public Map<String, List<Room>> find(final MeetingCreationForm meeting) {
+    public Map<String, List<Room>> find(final MeetingCreationForm meeting) { //NOPMD
         final List<String> locations = meeting.getLocations();
-        final Map<String, List<String>> equipment = meeting.getEquipment();
+        final Map<String, List<String>> equipment = meeting.getEquipment(); //NOPMD
 
         final Map<String, List<Room>> result = new HashMap<>();
 
@@ -58,10 +61,10 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     }
 
     @Override
-    public List<Room> findBest(final MeetingCreationForm meeting) throws NoRoomAvailableException {
-        final List<Room> rooms = new ArrayList<>();
+    public List<Room> findBest(final MeetingCreationForm meeting) throws NoRoomAvailableException { //NOPMD
+        final List<Room> rooms = new ArrayList<>(); //NOPMD
 
-        final Map<String, List<Room>> availableRooms = find(meeting);
+        final Map<String, List<Room>> availableRooms = find(meeting); //NOPMD
 
         try {
             for (final String location : meeting.getLocations()) {
@@ -82,46 +85,54 @@ public class RoomFinderServiceImpl implements RoomFinderService {
      * @throws RebookingNotNecessaryException If no rooms of the meeting interfere with the new meeting
      */
     @Override
-    public Map<String, List<Room>> findOther(final Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingImpossibleException, RebookingNotNecessaryException {
+    public Map<String, List<Room>> findOther(final Meeting meeting, final Map<String, List<Room>> roomsForNew) //NOPMD
+    throws RebookingImpossibleException, RebookingNotNecessaryException {
 
-        long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
+        final long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
         // if meeting is within next 24h there's no rebooking possible
-        if (timeDif < 24) {
+        if (timeDif < 24) { //NOPMD
             throw new RebookingImpossibleException("Time limit exceeded.");
         }
 
         List<Room> rooms;
         final Set<MeetingRoom> setForOld = meeting.getRooms();
-        final Map<String, List<Room>> alternatives = new HashMap<>(); // RoomID of room which is currently used and its alternatives
+
+        // RoomID of room which is currently used and its alternatives
+        final Map<String, List<Room>> alternatives = new HashMap<>();
 
         // currentWhatever = the meeting, room and meetingRoom from meeting which might be moved to another room
-        Iterator<MeetingRoom> itOld = setForOld.iterator();
+        final Iterator<MeetingRoom> itOld = setForOld.iterator();
         while (itOld.hasNext()) {
-            boolean roomMightBeUsed = false;
-            rooms = new ArrayList<>(); // reset alternative room list
-            MeetingRoom currentMeetingRoom = itOld.next();
-            Room currentRoom = currentMeetingRoom.getRoom();
+            boolean roomMightBeUsed = false; //NOPMD
+            rooms = new ArrayList<>(); //NOPMD // reset alternative room list
+            final MeetingRoom currentMeetingRoom = itOld.next();
+            final Room currentRoom = currentMeetingRoom.getRoom();
             // searching for currentRoom in list of rooms for new meeting
             // only search for other rooms if meeting is held in a room which could be used for new meeting
-            UUID currentLocationId = currentRoom.getLocation().getLocationId();
-            List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
+            final UUID currentLocationId = currentRoom.getLocation().getLocationId();
+            final List<Room> roomsAtLoc = roomsForNew.get(currentLocationId.toString());
             if (roomsAtLoc != null) {
-                for (Room roomAtLoc : roomsAtLoc) {
+                for (final Room roomAtLoc : roomsAtLoc) {
                     // check if room is included in roomsForNew
                     if (roomAtLoc.getRoomID().equals(currentRoom.getRoomID())) {
                         // find rooms similar to findMatchingRooms method
                         roomMightBeUsed = true;
-                        for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(currentLocationId, currentMeetingRoom.getParticipants())) {
+                        for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(
+                        currentLocationId, currentMeetingRoom.getParticipants())) {
                             final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
                             .collect(Collectors.toList());
-                            List<UUID> currentEq = currentRoom.getEquipment().stream().map(Equipment::getEquipmentID).collect(Collectors.toList());
-                            if (equipmentList.containsAll(currentEq)) {
-                                // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als noetig enthalten, aber meeting selbst hat kein equipment
+                            final List<UUID> currentEq = currentRoom.getEquipment().stream().map(Equipment::getEquipmentID)
+                            .collect(Collectors.toList());
+                            if (equipmentList.containsAll(currentEq)) { //NOPMD
+                                // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als
+                                // noetig enthalten, aber meeting selbst hat kein equipment
                                 // man sucht dann also moeglicherweise nach mehr equipment als eigentlich gebraucht
                                 rooms.add(room);
                             }
                         }
-                        rooms.removeIf((Room room) -> room.getRoomID().equals(currentRoom.getRoomID())); // remove room in which meeting is currently held from list
+
+                        // remove room in which meeting is currently held from list
+                        rooms.removeIf((Room room) -> room.getRoomID().equals(currentRoom.getRoomID()));
                         filterUnavailableRooms(rooms, meeting.getStartAt(), meeting.getEndAt());
                         // right now cascading is not allowed anymore
                         break; // bc room won't be in the list twice, so no need to compare any more rooms
@@ -144,21 +155,24 @@ public class RoomFinderServiceImpl implements RoomFinderService {
         return alternatives;
     }
 
-    private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrameAndDisableRebookMeetingIsTrue(start, end, true) // if meeting shouldn't be rebookable flexible = false
+    private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start,
+                                                    final LocalDateTime end) {
+        final List<UUID> conflicts = meetingRepository //NOPMD
+        .getMeetingRoomMappingInTimeFrameAndDisableRebookMeetingIsTrue(start, end, true)
+        // if meeting shouldn't be rebookable disableRebooking = true
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
     }
 
     private void filterUnavailableRooms(final List<Room> rooms, final LocalDateTime start, final LocalDateTime end) {
-        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end)
+        final List<UUID> conflicts = meetingRepository.getMeetingRoomMappingInTimeFrame(start, end) //NOPMD
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
     }
 
-    private List<Room> findMatchingRooms(final UUID location, final int seats, final List<UUID> equipment) {
+    private List<Room> findMatchingRooms(final UUID location, final int seats, final List<UUID> equipment) { //NOPMD
         final List<Room> rooms = new ArrayList<>();
 
         for (final Room room : roomRepository.findByLocationAndSeatsGreaterThanEqual(location, seats)) {

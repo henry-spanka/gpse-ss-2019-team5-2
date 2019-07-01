@@ -1,15 +1,27 @@
 package gpse.team52.seeder;
 
-import gpse.team52.contract.*;
-import gpse.team52.domain.*;
+import java.time.LocalDateTime;
+
+import javax.annotation.PostConstruct;
+
+import gpse.team52.contract.EquipmentService;
+import gpse.team52.contract.LocationService;
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoleService;
+import gpse.team52.contract.RoomService;
+import gpse.team52.contract.UserService;
+import gpse.team52.domain.Equipment;
+import gpse.team52.domain.Location;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Role;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 
 /**
  * Initializes Default Meetings in the database.
@@ -19,27 +31,30 @@ public class InitializeDefaultMeetings {
 
     private static final String DEFAULT_PASSWORD = "test";
 
-    private final Role DEFAULT_USER_ROLE;
+    private final Role DEFAULT_USER_ROLE; //NOPMD
 
     private final MeetingService meetingService;
     private final UserService userService;
     private final RoomService roomService;
     private final EquipmentService equipmentService;
     private final LocationService locationService;
-    private final RoleService roleService;
-    private final InitializeDefaultRoles initializeDefaultRoles;
+    private final RoleService roleService; //NOPMD
+    private final InitializeDefaultRoles initializeDefaultRoles; //NOPMD
     /**
      * Required to make it dependent on InitializeDefaultLocations.
      */
-    private final InitializeDefaultLocations initializeDefaultLocations;
+    private final InitializeDefaultLocations initializeDefaultLocations; //NOPMD
 
     /**
      * Constructor for the used services.
-     * @param meetingService Service for meetings
-     * @param userService Service for user
-     * @param roomService Service for rooms
-     * @param equipmentService Service for equipment
-     * @param locationService Service for location
+     *
+     * @param meetingService             Service for meetings
+     * @param userService                Service for user
+     * @param roomService                Service for rooms
+     * @param equipmentService           Service for equipment
+     * @param locationService            Service for location
+     * @param roleService                Service for role
+     * @param initializeDefaultRoles InitializeDefaultRoles.
      * @param initializeDefaultLocations Default locations to use for rooms and meetings
      */
     @Autowired
@@ -65,9 +80,9 @@ public class InitializeDefaultMeetings {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
-    public void init() {
+    public void init() { //NOPMD
         final Location location1 = locationService.getLocation("Bielefeld").orElseThrow();
-        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow();
+        final Location location2 = locationService.getLocation("Gütersloh").orElseThrow(); //NOPMD
 
         final UserRegistrationForm form1 = new UserRegistrationForm();
         form1.setFirstName("Julius");
@@ -81,7 +96,7 @@ public class InitializeDefaultMeetings {
         User user1;
 
         try {
-            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE);
+            user1 = userService.createUser(form1, true, DEFAULT_USER_ROLE); //NOPMD
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
             return;

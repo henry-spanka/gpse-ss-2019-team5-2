@@ -14,15 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import gpse.team52.form.MeetingCreationForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.*;
 
 /**
  * Meeting Entity.
@@ -142,7 +138,7 @@ public class Meeting {
     /**
      * Calculates duration of the meeting.
      *
-     * @return
+     * @return Duration as int.
      */
     @SuppressWarnings("checkstyle:magicnumber")
     public int getDuration() {
@@ -190,13 +186,19 @@ public class Meeting {
     /**
      * Get startAt with timezone offset.
      *
-     * @param offset
+     * @param offset Offset.
+     * @return LocalDateTime.
      */
-    public LocalDateTime getStartAt(long offset) {
+    public LocalDateTime getStartAt(final long offset) {
         return getStartAt().plusMinutes(offset);
     }
 
-    public LocalDateTime getStartAt(User user) {
+    /**
+     * get start at time.
+     * @param user User.
+     * @return LocalDateTime.
+     */
+    public LocalDateTime getStartAt(final User user) {
         if (user.getLocation() != null) {
             return getStartAt(user.getLocation().getTimeoffset());
         }
@@ -206,12 +208,19 @@ public class Meeting {
 
     /**
      * Get endAt with timezone offset.
+     * @param offset Offset.
+     * @return LocalDateTime.
      */
-    public LocalDateTime getEndAt(long offset) {
+    public LocalDateTime getEndAt(final long offset) {
         return getEndAt().plusMinutes(offset);
     }
 
-    public LocalDateTime getEndAt(User user) {
+    /**
+     * get endAt with timezone offset.
+     * @param user User offset.
+     * @return LocalDateTime.
+     */
+    public LocalDateTime getEndAt(final User user) {
         if (user.getLocation() != null) {
             return getEndAt(user.getLocation().getTimeoffset());
         }
@@ -219,20 +228,66 @@ public class Meeting {
         return getEndAt();
     }
 
+    /**
+     * MeetingToString().
+     * @return Meeting as String.
+     */
     public String meetingToString() {
 
         //title;startdate;enddate;participants;owner;confirmed;description
-        String participant = "";
-        if (participants.size() != 0) {
-            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_" + participants.get(0).getLastName();
+        String participant = ""; //NOPMD
+        if (!participants.isEmpty()) {
+            participant = participants.get(0).getEmail() + "_" + participants.get(0).getFirstName() + "_" //NOPMD
+            + participants.get(0).getLastName(); //NOPMD
             for (int i = 1; i < participants.size(); i++) {
-                participant = participant + "," + participants.get(i).getEmail() + "_" + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName();
+                participant = participant + "," + participants.get(i).getEmail() + "_" //NOPMD
+                + participants.get(i).getFirstName() + "_" + participants.get(i).getLastName(); //NOPMD
             }
         }
-        String start = startAt.toString().replace("T", " ");
-        String end = endAt.toString().replace("T", " ");
+        final String start = startAt.toString().replace("T", " ");
+        final String end = endAt.toString().replace("T", " ");
 
-        String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";" + confirmed + ";" + description;
-        return string;
+        final String string = title + ";" + start + ";" + end + ";" + participant + ";" + owner.getEmail() + ";"
+        + confirmed + ";" + description;
+        return string; //NOPMD
+    }
+
+    /**
+     * Convert a Meeting entity to meeting creation form.
+     * @return MeetingCreationForm.
+     */
+    public MeetingCreationForm toMeetingCreationForm() { //NOPMD
+        final MeetingCreationForm meetingCreationForm = new MeetingCreationForm();
+        meetingCreationForm.setStartDate(getStartAt().toLocalDate());
+        meetingCreationForm.setStartTime(getStartAt().toLocalTime());
+        meetingCreationForm.setEndDate(getEndAt().toLocalDate());
+        meetingCreationForm.setEndTime(getEndAt().toLocalTime());
+        meetingCreationForm.setName(getTitle());
+
+        final List<String> locations = new ArrayList<>();
+        final Map<String, Integer> participants = new HashMap<>();
+        final Map<String, List<String>> equipment = new HashMap<>();
+
+        for (final MeetingRoom meetingRoom : getRooms()) {
+            if (!locations.contains(meetingRoom.getRoom().getLocation().getLocationId().toString())) {
+                locations.add(meetingRoom.getRoom().getLocation().getLocationId().toString());
+                participants.put(
+                    meetingRoom.getRoom().getLocation().getLocationId().toString(),
+                    meetingRoom.getParticipants()
+                );
+                final List<String> equipmentList = new ArrayList<>(); //NOPMD
+                for (final Equipment item : meetingRoom.getRoom().getEquipment()) {
+                    equipmentList.add(item.getEquipmentID().toString());
+                }
+
+                equipment.put(meetingRoom.getRoom().getLocation().toString(), equipmentList);
+            }
+        }
+
+        meetingCreationForm.setLocations(locations);
+        meetingCreationForm.setParticipants(participants);
+        meetingCreationForm.setEquipment(equipment);
+
+        return meetingCreationForm;
     }
 }

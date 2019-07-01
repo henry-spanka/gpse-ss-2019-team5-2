@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
      * @throws MailException Thrown if the message could not be sent.
      */
 
-    public void sendEmailMessage (final String mail, final String subject, final String message, final boolean html)
+    public void sendEmailMessage(final String mail, final String subject, final String message, final boolean html)
     throws MailException {
         final MimeMessagePreparator messagePreparator = (MimeMessage mimeMessage) -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);

@@ -26,7 +26,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Optional<Participant> findParticipantById(UUID uuid) {
+    public Optional<Participant> findParticipantById(final UUID uuid) {
         return participantRepository.findById(uuid);
     }
 
@@ -40,7 +40,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Iterable<Participant> findByUser(User user) {
+    public Iterable<Participant> findByUser(final User user) {
         return participantRepository.findByUser(user);
     }
 
@@ -50,7 +50,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Participant update(Participant participant) {
+    public Participant update(final Participant participant) {
         return participantRepository.save(participant);
     }
 }

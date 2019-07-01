@@ -1,14 +1,5 @@
 package gpse.team52.form;
 
-import gpse.team52.domain.Location;
-import gpse.team52.validator.LocationsHaveParticipants;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import gpse.team52.domain.Location;
+import gpse.team52.validator.LocationsHaveParticipants;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Meeting Creation form which contains the basic parameters for creating a meeting.
@@ -130,6 +131,7 @@ public class MeetingCreationForm {
 
     /**
      * Get the number of participants the user has selected for the given location.
+     *
      * @param uuid The location.
      * @return Number of participants.
      */
@@ -145,6 +147,7 @@ public class MeetingCreationForm {
 
     /**
      * Calculates the total number of participants across all locations.
+     *
      * @return Total number of participants.
      */
     public int getTotalParticipants() {
@@ -153,6 +156,7 @@ public class MeetingCreationForm {
 
     /**
      * Are any non-null room values present in the list.
+     *
      * @return boolean.
      */
     public boolean noRoomsSelected() {
@@ -165,16 +169,17 @@ public class MeetingCreationForm {
 
     /**
      * Add an offset to the time.
+     *
      * @param offset the offset.
      */
-    public void addOffsetMinutes(Integer offset) {
-        LocalDateTime startDateTime = getStartDateTime();
+    public void addOffsetMinutes(final Integer offset) {
+        LocalDateTime startDateTime = getStartDateTime(); //NOPMD
         startDateTime = startDateTime.plusMinutes(offset);
 
         startDate = startDateTime.toLocalDate();
         startTime = startDateTime.toLocalTime();
 
-        LocalDateTime endDateTime = getEndDateTime();
+        LocalDateTime endDateTime = getEndDateTime(); //NOPMD
         endDateTime = endDateTime.plusMinutes(offset);
 
         endDate = endDateTime.toLocalDate();

@@ -1,19 +1,28 @@
 package gpse.team52.domain;
 
-import gpse.team52.contract.MeetingService;
-import gpse.team52.contract.RoomService;
-import gpse.team52.contract.UserService;
-
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class DataExport {
-    RoomService roomService;
-    UserService userService;
-    MeetingService meetingService;
-    public DataExport(RoomService roomService, UserService userService, MeetingService meetingService){
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoomService;
+import gpse.team52.contract.UserService;
+
+/**
+ * Data Export class.
+ */
+public final class DataExport {
+    private RoomService roomService;
+    private UserService userService;
+    private MeetingService meetingService;
+
+    /**
+     * Data Export Constructor.
+     * @param roomService Roomservice.
+     * @param userService Userservice.
+     * @param meetingService Meetingservice.
+     */
+    public DataExport(final RoomService roomService, final UserService userService, final MeetingService meetingService) {
         this.meetingService = meetingService;
         this.roomService = roomService;
         this.userService = userService;
@@ -21,53 +30,67 @@ public class DataExport {
             writeRoomFile();
             writeUserFile();
             writeMeetingFile();
-        }catch (IOException e){
-
+        } catch (IOException e) { //NOPMD
+            //
         }
 
     }
 
-    public void writeRoomFile() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\stell\\Documents\\gpse-ss-2019-team5-2\\src\\main\\resources\\templates\\csv\\roomedRooms.csv", true));
-        String string="Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse"+System.lineSeparator();
-        for (Room room : roomService.getAllRooms()){
-            string=string +room.roomToString()+System.lineSeparator(); }
+    /**
+     * writeRoomFile.
+     * @throws IOException Thrown on IO error.
+     */
+    public void writeRoomFile() throws IOException { //NOPMD
+        final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedRooms.csv", true)); //NOPMD
+        String string = "Standort;Name;Max.Personen;Ausstattung;Telephone;Notizen;Office;E-Mailadresse" //NOPMD
+        + System.lineSeparator();
+        for (final Room room : roomService.getAllRooms()) {
+            string = string + room.roomToString() + System.lineSeparator(); // NOPMD
+        }
 
 
         writer.write(string);
         writer.close();
     }
 
-    public void writeUserFile() {
+    /**
+     * writeUserFile.
+     */
+    public void writeUserFile() { //NOPMD
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\stell\\Documents\\gpse-ss-2019-team5-2\\src\\main\\resources\\templates\\csv\\roomedUsers.csv", true));
-            String string="username;firstname;lastname;email;role,list"+System.lineSeparator();
-            for (User user : userService.getAllUsers()){
-                string=string + user.userToString()+System.lineSeparator(); }
+            final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedUsers.csv", true)); //NOPMD
+            String string = "username;firstname;lastname;email;role,list" //NOPMD
+            + System.lineSeparator();
+            for (final User user : userService.getAllUsers()) {
+                string = string + user.userToString() + System.lineSeparator(); //NOPMD
+            }
 
 
             writer.write(string);
             writer.close();
 
-        }catch (IOException e){
-
+        } catch (IOException e) { //NOPMD
+            //
         }
     }
 
-    //
-    public void writeMeetingFile() {
+    /**
+     * writeMeetingFile.
+     */
+    public void writeMeetingFile() { //NOPMD
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\stell\\Documents\\gpse-ss-2019-team5-2\\src\\main\\resources\\templates\\csv\\roomedMeetings.csv", true));
-            String string="title;startdate;enddate;participants;owner;confirmed;description"+System.lineSeparator();
-            for (Meeting meeting : meetingService.getAllMeetings()){
-                string=string + meeting.meetingToString() +System.lineSeparator(); }
+            final BufferedWriter writer = new BufferedWriter(new FileWriter("roomedMeetings.csv", true)); //NOPMD
+            String string = "title;startdate;enddate;participants;owner;confirmed;description" + System.lineSeparator(); //NOPMD
+            for (final Meeting meeting : meetingService.getAllMeetings()) {
+                string = string + meeting.meetingToString() + System.lineSeparator(); //NOPMD
+            }
 
 
             writer.write(string);
             writer.close();
 
-        }catch (IOException e){
-
+        } catch (IOException e) { //NOPMD
+            //
         }
     }
 }

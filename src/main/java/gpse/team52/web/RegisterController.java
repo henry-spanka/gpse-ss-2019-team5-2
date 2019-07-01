@@ -1,5 +1,9 @@
 package gpse.team52.web;
 
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import gpse.team52.contract.RoleService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.User;
@@ -17,9 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
-import java.util.UUID;
 
 /**
  * Responsible for registering a user.
@@ -55,15 +56,15 @@ public class RegisterController {
      * @return A confirmation or an error.
      */
     @PostMapping("/register")
-    public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form,
+    public ModelAndView register(final @ModelAttribute("user") @Valid UserRegistrationForm form, //NOPMD
                                  final BindingResult result) {
         if (!result.hasErrors()) {
             if (environment.containsProperty("register.allowed-domains")) {
-                String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
+                final String[] allowedDomains = environment.getProperty("register.allowed-domains", String[].class);
 
-                if (allowedDomains != null && allowedDomains.length != 0) {
-                    boolean validEmail = false;
-                    for (String domain : allowedDomains) {
+                if (allowedDomains != null && allowedDomains.length != 0) { //NOPMD
+                    boolean validEmail = false; //NOPMD
+                    for (final String domain : allowedDomains) {
                         if (domain.equals(form.getEmailDomain())) {
                             validEmail = true;
                             break;
@@ -94,6 +95,7 @@ public class RegisterController {
 
     /**
      * Try to confirm a users account (their email).
+     *
      * @param token The token sent to their email address.
      * @return Confirmation or error page.
      */

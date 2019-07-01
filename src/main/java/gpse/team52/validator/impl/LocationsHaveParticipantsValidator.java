@@ -17,24 +17,24 @@ public class LocationsHaveParticipantsValidator implements ConstraintValidator<L
     }
 
     @Override
-    public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
+    public boolean isValid(final Object obj, final ConstraintValidatorContext context) { //NOPMD
         final MeetingCreationForm creationForm = (MeetingCreationForm) obj;
 
-        final Map<String, Integer> participants = creationForm.getParticipants();
+        final Map<String, Integer> participants = creationForm.getParticipants(); //NOPMD
 
-        boolean hasErrors = false;
+        boolean hasErrors = false; //NOPMD
 
         if (creationForm.getLocations() != null) {
             for (final String locationId : creationForm.getLocations()) {
                 if (participants == null || !participants.containsKey(locationId)) {
                     addConstraintViolation(context, "participants[" + locationId + "]");
-                    hasErrors = true;
+                    hasErrors = true; //NOPMD
                 } else {
                     final Integer value = participants.get(locationId);
 
                     if (value == null || value <= 0) {
                         addConstraintViolation(context, "participants[" + locationId + "]");
-                        hasErrors = true;
+                        hasErrors = true; //NOPMD
                     }
                 }
             }

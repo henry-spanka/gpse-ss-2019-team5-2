@@ -1,13 +1,13 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.PrivilegeService;
 import gpse.team52.domain.Privilege;
 import gpse.team52.repository.PrivilegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Privilege service implementation.
@@ -32,6 +32,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Get all privileges.
+     *
      * @return all privileges.
      */
     @Override
@@ -41,11 +42,12 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     /**
      * Get optional privilege from privilege Id.
+     *
      * @param privilegeId The privilege Id.
      * @return optional privilege.
      */
     @Override
-    public Optional<Privilege> get(UUID privilegeId) {
+    public Optional<Privilege> get(final UUID privilegeId) {
         return privilegeRepository.findById(privilegeId);
     }
 
@@ -56,36 +58,39 @@ public class PrivilegeServiceImpl implements PrivilegeService {
      * @return optional privilege.
      */
     @Override
-    public Optional<Privilege> getByName(String name) {
+    public Optional<Privilege> getByName(final String name) {
         return privilegeRepository.findByName(name);
     }
 
     /**
      * Create privilege.
+     *
      * @param privilege The privilege.
      * @return the created privilege.
      */
     @Override
-    public Privilege create(Privilege privilege) {
+    public Privilege create(final Privilege privilege) {
         return privilegeRepository.save(privilege);
     }
 
     /**
      * Update privilege.
+     *
      * @param privilege The privilege.
      * @return the updated privilege.
      */
     @Override
-    public Privilege update(Privilege privilege) {
+    public Privilege update(final Privilege privilege) {
         return privilegeRepository.save(privilege);
     }
 
     /**
      * Delete privilege.
+     *
      * @param privilege The privilege.
      */
     @Override
-    public void delete(Privilege privilege) {
+    public void delete(final Privilege privilege) {
         privilegeRepository.delete(privilege);
     }
 }

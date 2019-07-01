@@ -2,7 +2,15 @@ package gpse.team52.domain;
 
 import java.util.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -147,19 +155,24 @@ public class Room {
         addEquipment(Arrays.asList(equipments));
     }
 
+    /**
+     * Converts a room to a string.
+     * @return String.
+     */
     public String roomToString() {
-        String equi = "";
-        if (equipment.size() != 0) {
+        String equi = ""; //NOPMD
+        if (!equipment.isEmpty()) {
 
-            equi = equipment.get(0).getEquipmentName();
+            equi = equipment.get(0).getEquipmentName(); //NOPMD
             for (int i = 1; i < equipment.size(); i++) {
-                equi = equi +"," + equipment.get(i).getEquipmentName();
+                equi = equi + "," + equipment.get(i).getEquipmentName(); //NOPMD
 
             }
         }
 
-        String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";"+equi +";"+ telephone +";"+notes+";"+office+";"+roomEmail;
-        return room;
+        final String room = location.getName() + ";" + roomName + ";" + seats + "+" + expandableSeats + ";" + equi + ";"
+        + telephone + ";" + notes + ";" + office + ";" + roomEmail;
+        return room; //NOPMD
     }
 
     /*TODO: passt der pfad?

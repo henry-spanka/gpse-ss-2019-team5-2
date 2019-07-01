@@ -24,9 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-import java.util.UUID;
-
 /**
  * User Service implementation.
  */
@@ -57,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(
     final UserRepository userRepository,
     final ConfirmationTokenRepository confirmationTokenRepository,
-    ForgotPasswordTokenRepository forgotPasswordTokenRepository, final PasswordEncoder passwordEncoder,
+    final ForgotPasswordTokenRepository forgotPasswordTokenRepository, final PasswordEncoder passwordEncoder,
     final MailService mailService) {
         this.userRepository = userRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
@@ -129,11 +126,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(final String email) {
         try {
-            User user = loadUserByEmail(email);
-
-            System.out.println("Sending password reset mail to " + user.getFirstname());
+            final User user = loadUserByEmail(email);
 
             final ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken(user);
 
@@ -143,8 +138,8 @@ public class UserServiceImpl implements UserService {
             modelAndView.addObject("token", forgotPasswordToken);
 
             mailService.sendEmailTemplateToUser(user, "Password Reset", modelAndView);
-        } catch (EmailNotFoundException e) {
-            System.out.println("No user matching the email adress: " + email);
+        } catch (EmailNotFoundException e) { //NOPMD
+            //
         }
     }
 
@@ -180,10 +175,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User setUserNewPassword(User user, String password) {
+    public void setUserNewPassword(final User user, final String password) {
         final String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     private boolean emailExists(final String email) {
@@ -222,7 +217,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserByICalToken(UUID token) {
+    public Optional<User> findUserByICalToken(final UUID token) {
         return userRepository.findByICalToken(token);
     }
 }

@@ -1,7 +1,6 @@
-package gpse.team52.Command;
+package gpse.team52.command;
 
 import lombok.Getter;
-
 import lombok.Setter;
 
 /**
@@ -12,15 +11,15 @@ public class CreateUserCmd {
 
     @Getter
     @Setter
-    String firstname;
+    private String firstname;
 
     @Getter
     @Setter
-    String lastname;
+    private String lastname;
 
     @Getter
     @Setter
-    String location;
+    private String location;
 
 }
 

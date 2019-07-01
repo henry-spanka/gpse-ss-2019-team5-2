@@ -1,5 +1,20 @@
 package gpse.team52.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +22,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * User entity.
@@ -143,20 +151,24 @@ public class User implements UserDetails { //NOPMD
      *
      * @param role The rule to be added.
      */
-    public void addRole(Role role) {
+    public void addRole(final Role role) {
         this.roles.add(role);
     }
 
-    public void addPrivilege(Privilege privilege) {
+    public void addPrivilege(final Privilege privilege) {
         this.privileges.add(privilege);
     }
 
+    /**
+     * convert user to string.
+     * @return String.
+     */
     public String userToString() {
-        StringBuilder rolesString = new StringBuilder();
-        if (roles.size() != 0) {
+        StringBuilder rolesString = new StringBuilder(); //NOPMD
+        if (!roles.isEmpty()) {
             rolesString = new StringBuilder(roles.toArray(Role[]::new)[0].getName());
             for (int i = 1; i < roles.size(); i++) {
-                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName());
+                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName()); //NOPMD
             }
 
         }

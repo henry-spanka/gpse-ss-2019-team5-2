@@ -4,23 +4,37 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import gpse.team52.contract.*;
-import gpse.team52.domain.*;
+import gpse.team52.contract.LocationService;
+import gpse.team52.contract.MeetingService;
+import gpse.team52.contract.RoomFinderService;
+import gpse.team52.contract.RoomService;
+import gpse.team52.contract.UserService;
+import gpse.team52.domain.AlternativeMeetingRoom;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.NoRoomAvailableException;
 import gpse.team52.exception.RebookingImpossibleException;
 import gpse.team52.exception.RebookingNotNecessaryException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
+import gpse.team52.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import gpse.team52.repository.RoomRepository;
 
 /**
  * Meeting Creator Controller.
@@ -70,7 +84,7 @@ public class MeetingCreatorController {
         if (!bindingResult.hasErrors()) {
             try {
                 final User user = (User) authentication.getPrincipal();
-                Meeting createdMeeting = createMeeting(meeting, user);
+                final Meeting createdMeeting = createMeeting(meeting, user);
                 sessionStatus.setComplete();
 
                 return new ModelAndView("redirect:/meeting/" + createdMeeting.getMeetingId().toString());
@@ -145,21 +159,21 @@ public class MeetingCreatorController {
      * @param meeting the wanted meeting from the user.
      * @return A ModelAndView for the RoomSelection View.
      */
-    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) {
+    private ModelAndView generateRoomSelectionView(final MeetingCreationForm meeting) { //NOPMD
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
-        LocalDateTime start = meeting.getStartDateTime();
-        LocalDateTime end = meeting.getEndDateTime();
-        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting);
+        final LocalDateTime start = meeting.getStartDateTime();
+        final LocalDateTime end = meeting.getEndDateTime();
+        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting); //NOPMD
         alternativeMeetingRooms = new ArrayList<>();
 
-        ArrayList<Meeting> checkMeetings = new ArrayList<>();
+        final ArrayList<Meeting> checkMeetings = new ArrayList<>();
         meetingService.getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(start, end, false)
         .forEach(checkMeetings::add);
-        for (Meeting m : checkMeetings) {
+        for (final Meeting m : checkMeetings) {
             // check every meeting which lies in time frame and adjust available rooms
             try {
                 roomsForNew = smartrebooking(m, roomsForNew);
-            } catch (RebookingNotNecessaryException e) {
+            } catch (RebookingNotNecessaryException e) { //NOPMD
                 // if meeting doesn't interfere it won't be rebooked
             }
         }
@@ -170,7 +184,7 @@ public class MeetingCreatorController {
         return modelAndView;
     }
 
-    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException {
+    private Meeting createMeeting(final MeetingCreationForm meeting, final User user) throws NoRoomAvailableException { //NOPMD
         List<Room> rooms;
 
         if (meeting.getRooms() == null || meeting.noRoomsSelected()) {
@@ -181,18 +195,19 @@ public class MeetingCreatorController {
         }
 
         if (alternativeMeetingRooms != null) {
-            for (Room room : rooms) {
-                for (AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
-                    Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
+            for (final Room room : rooms) {
+                for (final AlternativeMeetingRoom alternativeMeetingRoom : alternativeMeetingRooms) {
+                    final Map<String, List<Room>> alter = alternativeMeetingRoom.getAlternatives();
                     if (alter.containsKey(room.getRoomID().toString())) {
-                        Meeting m = alternativeMeetingRoom.getMeeting();
-                        Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
-                        List<Room> changeRoom = new ArrayList<>();
+                        final Meeting meeting1 = alternativeMeetingRoom.getMeeting();
+                        final Room roomAlter = alter.get(room.getRoomID().toString()).get(0);
+                        final List<Room> changeRoom = new ArrayList<>(); //NOPMD
                         changeRoom.add(room);
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
-                        rebook(m, changeRoom);
-                        System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName() + " to " + roomAlter.getRoomName());
+                        rebook(meeting1, changeRoom);
+                        System.out.println("Would have rebooked " + meeting1.getTitle() + " from " + room.getRoomName() //NOPMD
+                        + " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
                 }
@@ -209,29 +224,30 @@ public class MeetingCreatorController {
      * @param roomsForNew rooms which might be used for the new meeting creation
      * @return Remaining rooms which can be used for the new meeting
      */
-    private Map<String, List<Room>> smartrebooking(Meeting meeting, Map<String, List<Room>> roomsForNew) throws RebookingNotNecessaryException {
+    private Map<String, List<Room>> smartrebooking(final Meeting meeting, final Map<String, List<Room>> roomsForNew) //NOPMD
+    throws RebookingNotNecessaryException {
         // remove rooms if meeting not rebookable
         try {
-            Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);
-            AlternativeMeetingRoom alt = new AlternativeMeetingRoom(meeting, alternatives);
+            final Map<String, List<Room>> alternatives = roomFinderService.findOther(meeting, roomsForNew);
+            final AlternativeMeetingRoom alt = new AlternativeMeetingRoom(meeting, alternatives);
             alternativeMeetingRooms.add(alt);
-            for (Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
+            for (final Map.Entry<String, List<Room>> entry : alternatives.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     // removing a specific room without alternatives
-                    Room room = roomRepository.findById(UUID.fromString(entry.getKey())).orElseThrow();
-                    String locationId = room.getLocation().getLocationId().toString();
-                    List<Room> removeFrom = roomsForNew.get(locationId);
+                    final Room room = roomRepository.findById(UUID.fromString(entry.getKey())).orElseThrow();
+                    final String locationId = room.getLocation().getLocationId().toString();
+                    final List<Room> removeFrom = roomsForNew.get(locationId);
                     removeFrom.removeIf((Room r) -> r.getRoomID().equals(UUID.fromString(entry.getKey())));
                     roomsForNew.put(locationId, removeFrom);
                 }
             }
         } catch (RebookingImpossibleException e) {
             // removing all rooms according to a meeting
-            Iterator<MeetingRoom> it = meeting.getRooms().iterator();
+            final Iterator<MeetingRoom> it = meeting.getRooms().iterator();
             while (it.hasNext()) {
-                Room removeRoom = it.next().getRoom();
-                String locationId = removeRoom.getLocation().getLocationId().toString();
-                List<Room> removeFrom = roomsForNew.get(locationId);
+                final Room removeRoom = it.next().getRoom();
+                final String locationId = removeRoom.getLocation().getLocationId().toString();
+                final List<Room> removeFrom = roomsForNew.get(locationId);
                 removeFrom.removeIf((Room room) -> room.getRoomID().equals(removeRoom.getRoomID()));
                 roomsForNew.put(locationId, removeFrom);
             }
@@ -247,16 +263,16 @@ public class MeetingCreatorController {
      * @param rooms A list of rooms and the meeting. Every odd room in the List is the old room,
      *              which has to be removed, every even number is the new room.
      */
-    private void rebook(Meeting meeting, List<Room> rooms) {
+    private void rebook(Meeting meeting, final List<Room> rooms) { //NOPMD
         boolean found;
-        MeetingRoom meetingRoom = null;
-        Set<MeetingRoom> roomset = meeting.getRooms();
-        Iterator<MeetingRoom> iterator = roomset.iterator();
+        MeetingRoom meetingRoom = null; //NOPMD
+        final Set<MeetingRoom> roomset = meeting.getRooms();
+        final Iterator<MeetingRoom> iterator = roomset.iterator(); //NOPMD
         for (int i = 0; i < rooms.size(); i++) {
             found = false;
             while (iterator.hasNext() && !found) {
                 meetingRoom = iterator.next();
-                Room compareroom = meetingRoom.getRoom();
+                final Room compareroom = meetingRoom.getRoom();
                 if (rooms.get(i).getRoomID().equals(compareroom.getRoomID())) {
                     found = true;
                 }
@@ -271,8 +287,17 @@ public class MeetingCreatorController {
                 //SQL Error: insert into meeting_room [...] null is not allowed for column 'ROOM_ID'
                 meetingRepository.save(meeting); //Meeting wird aktualisiert
 
-                i++;
+                i++; //NOPMD
             }
         }
+
+        // Refresh meeting
+        meeting = meetingService.getMeetingById(meeting.getMeetingId());
+        for (final Participant participant : meeting.getParticipants()) {
+            if (participant.isNotifiable()) {
+                meetingService.notifyParticipantAboutLocationChange(meeting, participant);
+            }
+        }
+
     }
 }

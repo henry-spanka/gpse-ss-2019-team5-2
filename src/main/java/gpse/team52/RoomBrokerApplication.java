@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
-
 /**
  * Run Spring Boot.
  */
@@ -25,14 +24,13 @@ public class RoomBrokerApplication {
         SpringApplication.run(RoomBrokerApplication.class, args);
     }
 
-        @Bean
-        CommandLineRunner init(DBFileStorageService dbFileStorageService) {
-            return (args) -> {
-                //dbFileStorageService.deleteAll();
-                //dbFileStorageService.init();
-            };
-        }
-
+    @Bean
+    public CommandLineRunner init(final DBFileStorageService dbFileStorageService) {
+        return (args) -> {
+            //dbFileStorageService.deleteAll();
+            //dbFileStorageService.init();
+        };
+    }
 
 
 }

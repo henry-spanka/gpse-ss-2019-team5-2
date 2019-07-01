@@ -1,5 +1,8 @@
 package gpse.team52.contract;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.domain.Role;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
@@ -9,9 +12,6 @@ import gpse.team52.exception.UsernameExistsException;
 import gpse.team52.form.UserRegistrationForm;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * User Service Contract.
@@ -84,7 +84,7 @@ public interface UserService extends UserDetailsService {
 
     User updateUser(User user);
 
-    User setUserNewPassword(User user, String password);
+    void setUserNewPassword(User user, String password);
 
     Optional<User> getUserById(UUID id);
 

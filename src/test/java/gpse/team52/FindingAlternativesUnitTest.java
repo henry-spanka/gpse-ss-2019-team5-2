@@ -3,7 +3,6 @@ package gpse.team52;
 
 import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.RoomService;
-import gpse.team52.domain.Equipment;
 import gpse.team52.domain.Location;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Room;
@@ -21,19 +20,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class FindingAlternativesUnitTest {
+class FindingAlternativesUnitTest { //NOPMD
 
     private RoomFinderService roomFinderService;
     private RoomService roomService;
@@ -71,7 +60,7 @@ class FindingAlternativesUnitTest {
     private Location lage;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //NOPMD
 
         roomFinderService = new RoomFinderServiceImpl(roomRepository, meetingRepository);
         roomService = new RoomServiceImpl(roomRepository, locationRepository, equipmentRepository);
@@ -81,7 +70,7 @@ class FindingAlternativesUnitTest {
         lage = new Location("Lage");
 
         // seats, extraSeats, mail, location, name, layout
-        bielefeld1 = new Room(10,10,"bf1@example.de", bielefeld, "Bf1", "layoutRed");
+        bielefeld1 = new Room(10, 10, "bf1@example.de", bielefeld, "Bf1", "layoutRed");
 
         bielefeld2 = new Room(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
         roomService.createRoom(20, 5, "bf2@example.de", bielefeld, "Bf2", "layoutRed");
@@ -103,8 +92,8 @@ class FindingAlternativesUnitTest {
     }
 
     @Test
-    void findAlternativesForOne() {
-        String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
+    void findAlternativesForOne() { //NOPMD
+        final String[] result = {"rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b"};
         Assertions.assertThat(result).containsExactly("rnbqk1nr/1ppp1p1p/p6b/3KpPp1/3P4/8/PPP1P1PP/RNBQ1BNR", "b");
         // just to test whether test is running right now
 

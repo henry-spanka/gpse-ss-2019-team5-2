@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
+/**
+ * ProfileController.
+ */
 @Controller
 public class ProfileController {
     /**
-     * @param authentication
-     * @return
+     * @param authentication Authentication.
+     * @return ModelAndView.
      */
     @GetMapping("/profile")
     public ModelAndView profile(final Authentication authentication) {
@@ -24,11 +27,11 @@ public class ProfileController {
 
         // Only get the Role name after the "_"
         final String role = user.getAuthorities().toString();
-        final int indexRole = role.indexOf("_");
-        modelAndView.addObject("role", user.getAuthorities().toString().
+        final int indexRole = role.indexOf("_"); //NOPMD
+        modelAndView.addObject("role", user.getAuthorities().toString(). //NOPMD
         substring(indexRole + 1, role.length() - 1).toLowerCase());
 
-        String userLoc = "Please select a location";
+        final String userLoc = "Please select a location"; //NOPMD
         if (user.getLocation() == null) {
             modelAndView.addObject("location", userLoc);
         } else {

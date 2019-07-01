@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.ParticipantService;
+import gpse.team52.contract.RoomFinderService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.Participant;
@@ -21,7 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -37,6 +44,9 @@ public class MeetingController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoomFinderService roomFinderService;
 
     /**
      * Provides data for the meeting.html.
@@ -64,12 +74,12 @@ public class MeetingController {
      */
     @PostMapping("/meeting/{id}")
     public ModelAndView addParticipant(@PathVariable("id") final String id,
-                                       @RequestParam(value = "action") String action,
+                                       final @RequestParam("action") String action,
                                        @ModelAttribute("addParticipants")
                                        @Valid final MeetingAddParticipantsForm addParticipants,
                                        final BindingResult bindingResult,
                                        final Authentication authentication) {
-        Meeting meeting = meetingService.getMeetingById(id);
+        Meeting meeting = meetingService.getMeetingById(id); //NOPMD
         if (action.equals("add")) {
             if (!bindingResult.hasErrors()) {
                 try {
@@ -95,6 +105,12 @@ public class MeetingController {
 
     }
 
+    /**
+     * Change a participant's notification options.
+     * @param id Id of the meeting.
+     * @param pId Id of the participant.
+     * @return Meeting overview page.
+     */
     @PatchMapping("/meeting/{id}/participant/{pId}")
     public ModelAndView editParticipant(@PathVariable("id") final String id, @PathVariable("pId") final String pId) {
         final Meeting meeting = meetingService.getMeetingById(id);
@@ -154,6 +170,7 @@ public class MeetingController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("regUsers", userService.getAllUsers());
         modelAndView.addObject("addParticipants", form);
+        modelAndView.addObject("availableRooms", roomFinderService.find(meeting.toMeetingCreationForm()));
 
         if (checkOwner(user, meeting)) {
             final boolean isOwner = true;
@@ -173,7 +190,7 @@ public class MeetingController {
 
     private Meeting addAllParticipants(final Meeting meeting, final MeetingAddParticipantsForm form)
     throws ParticipantAlreadyExistsException, ExternalUserIsIncompleteException {
-        final List<Participant> participants = new ArrayList<>();
+        final List<Participant> participants = new ArrayList<>(); //NOPMD
 
         if (form.getParticipants() != null) {
             addExistingParticipants(participants, form.getParticipants());
@@ -190,7 +207,7 @@ public class MeetingController {
         return meetingService.addParticipants(meeting, participants);
     }
 
-    private void addExistingParticipants(final List<Participant> participants, final List<String> userList) {
+    private void addExistingParticipants(final List<Participant> participants, final List<String> userList) { //NOPMD
         for (final String userId : userList) {
             final User user = userService.getUserById(userId).orElseThrow();
 
@@ -229,7 +246,7 @@ public class MeetingController {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     private boolean checkConfirmButton(final Meeting meeting) {
-        boolean activate = false;
+        boolean activate = false; //NOPMD
         final LocalDateTime currenttime = LocalDateTime.now();
         final LocalDateTime meetingtime = meeting.getStartAt();
         final long diff = Duration.between(currenttime, meetingtime).toMinutes();

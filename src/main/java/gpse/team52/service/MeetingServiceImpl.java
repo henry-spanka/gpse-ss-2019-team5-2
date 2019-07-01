@@ -1,20 +1,24 @@
 package gpse.team52.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import gpse.team52.contract.MeetingService;
 import gpse.team52.contract.mail.MailService;
-import gpse.team52.domain.*;
+import gpse.team52.domain.Meeting;
+import gpse.team52.domain.MeetingRoom;
+import gpse.team52.domain.Participant;
+import gpse.team52.domain.Room;
+import gpse.team52.domain.User;
 import gpse.team52.exception.ParticipantAlreadyExistsException;
 import gpse.team52.form.MeetingCreationForm;
 import gpse.team52.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Meeting Service Implementation.
@@ -71,20 +75,19 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms,
+    public Meeting createMeeting(final MeetingCreationForm meetingForm, final List<Room> rooms, //NOPMD
                                  final Map<String, Integer> participants, final User owner) {
         final Meeting meeting = new Meeting(meetingForm.getName());
 
-        LocalDateTime startAt = meetingForm.getStartDateTime();
-        LocalDateTime endAt = meetingForm.getEndDateTime();
+        LocalDateTime startAt = meetingForm.getStartDateTime(); //NOPMD
+        LocalDateTime endAt = meetingForm.getEndDateTime(); //NOPMD
 
-        /**
+        /*
          * This is hacky and probably doesn't work with daylight savings time but it's faster than
          * replacing all LocalDateTime instances with ZonedDateTime.
          */
         if (owner.getLocation() != null) {
-            long timeOffset = owner.getLocation().getTimeoffset();
-            System.out.println(timeOffset);
+            final long timeOffset = owner.getLocation().getTimeoffset();
 
             startAt = startAt.minusMinutes(timeOffset);
             endAt = endAt.minusMinutes(timeOffset);
@@ -101,7 +104,7 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.addRoom(meetingRoom);
         }
 
-        Participant ownerParticipant = new Participant(owner);
+        final Participant ownerParticipant = new Participant(owner);
         ownerParticipant.setNotifiable(true);
 
         meeting.addParticipant(ownerParticipant);
@@ -138,16 +141,16 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> findByStartAtWithUser(final User user) {
+    public Iterable<Meeting> findByStartAtWithUser(final User user) { //NOPMD
         final List<Meeting> finalMeetings = new ArrayList<>();
 
         final List<Meeting> meetings = (List) findByStartAt();
-        for (int i = 0; i < meetings.size(); i++) {
-            final List<Participant> participants = meetings.get(i).getParticipants();
-            for (int j = 0; j < participants.size(); j++) {
-                if (participants.get(j).isUser()) {
-                    if (participants.get(j).getUser().getUserId().toString().equals(user.getUserId().toString())) {
-                        finalMeetings.add(meetings.get(i));
+        for (final Meeting meeting : meetings) {
+            final List<Participant> participants = meeting.getParticipants();
+            for (final Participant participant : participants) {
+                if (participant.isUser()) {
+                    if (participant.getUser().getUserId().toString().equals(user.getUserId().toString())) {
+                        finalMeetings.add(meeting);
                         break;
                     }
                 }
@@ -175,7 +178,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @throws ParticipantAlreadyExistsException Thrown if the participant already exists.
      */
     @Override
-    public Meeting addParticipants(final Meeting meeting, final List<Participant> participants)
+    public Meeting addParticipants(final Meeting meeting, final List<Participant> participants) //NOPMD
     throws ParticipantAlreadyExistsException {
         for (final Participant participant : participants) {
             if (meeting.getParticipants().contains(participant)) {
@@ -207,10 +210,23 @@ public class MeetingServiceImpl implements MeetingService {
      * @param participant The participant to notify.
      */
     @Override
-    public void notifyParticipant(Meeting meeting, Participant participant) {
-        ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
+    public void notifyParticipant(final Meeting meeting, final Participant participant) {
+        final ModelAndView mailView = new ModelAndView("email/added-to-meeting.html", "meeting", meeting);
 
         mailService.sendEmailTemplate(participant, "You have been added to a meeting", mailView);
+    }
+
+    /**
+     * Notify a participant via email about location change.
+     *
+     * @param meeting     The meeting to notify about.
+     * @param participant The participant to notify.
+     */
+    @Override
+    public void notifyParticipantAboutLocationChange(final Meeting meeting, final Participant participant) {
+        final ModelAndView mailView = new ModelAndView("email/meeting-location-changed.html", "meeting", meeting);
+
+        mailService.sendEmailTemplate(participant, "Meeting location changed", mailView);
     }
 
     /**
@@ -229,7 +245,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(LocalDateTime start, LocalDateTime end, boolean disableRebookMeeting) {
+    public Iterable<Meeting> getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(final LocalDateTime start,
+                                                                                 final LocalDateTime end,
+                                                                                 boolean disableRebookMeeting) {
         return meetingRepository.getMeetingInTimeFrameAndDisableRebookMeetingIsFalse(start, end, disableRebookMeeting);
     }
 }

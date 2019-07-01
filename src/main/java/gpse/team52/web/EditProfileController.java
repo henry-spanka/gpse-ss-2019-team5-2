@@ -2,7 +2,7 @@ package gpse.team52.web;
 
 import java.util.ArrayList;
 
-import gpse.team52.Command.CreateUserCmd;
+import gpse.team52.command.CreateUserCmd;
 import gpse.team52.contract.LocationService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.Location;
@@ -21,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
+/**
+ * Edit Profile Controller.
+ */
 @Controller
 public class EditProfileController {
 
@@ -35,8 +38,8 @@ public class EditProfileController {
 
 
     /**
-     * @param authentication
-     * @return
+     * @param authentication Authentication.
+     * @return ModelAndView.
      */
     @GetMapping("/editProfile")
     public ModelAndView editProfile(final Authentication authentication) {
@@ -51,7 +54,7 @@ public class EditProfileController {
         userCmd.setLastname(user.getLastname());
         modelAndView.addObject("createUserCmd", userCmd);
         //get All Location and and convert iterable list to an array list of Locations
-        final ArrayList<Location> locNames = new ArrayList<Location>();
+        final ArrayList<Location> locNames = new ArrayList<>();
         locationService.getAllLocations().forEach(locNames::add);
         modelAndView.addObject("locationNames", locNames);
 
@@ -60,8 +63,15 @@ public class EditProfileController {
     }
 
 
+    /**
+     * Edit user profile.
+     * @param user User to edit.
+     * @param createUserCmd user properties.
+     * @param file User avatar.
+     * @return ModelAndView.
+     */
     @PostMapping("/editProfile")
-    public ModelAndView editProfile(@AuthenticationPrincipal final User user,
+    public ModelAndView editProfile(@AuthenticationPrincipal final User user, //NOPMD
                                     @ModelAttribute("createUserCmd") final CreateUserCmd createUserCmd,
                                     final @RequestParam(value = "file", required = false) MultipartFile file) {
         //check if there is an uploaded pic and change all user info if there is any
@@ -73,11 +83,11 @@ public class EditProfileController {
         user.setFirstname(createUserCmd.getFirstname());
         user.setLastname(createUserCmd.getLastname());
         if (createUserCmd.getLocation() != null) {
-            final ArrayList<Location> locNames = new ArrayList<Location>();
+            final ArrayList<Location> locNames = new ArrayList<>();
             locationService.getAllLocations().forEach(locNames::add);
-            for (int i = 0; i < locNames.size(); i++) {
-                if (locNames.get(i).getName().equals(createUserCmd.getLocation())) {
-                    user.setLocation(locNames.get(i));
+            for (final Location location : locNames) {
+                if (location.getName().equals(createUserCmd.getLocation())) {
+                    user.setLocation(location);
                 }
             }
 

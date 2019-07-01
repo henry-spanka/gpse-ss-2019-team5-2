@@ -1,13 +1,18 @@
 package gpse.team52.domain;
 
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.UUID;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * Privilege Entity.
@@ -36,11 +41,11 @@ public class Privilege {
     private String name;
 
     /**
-     * Privilege constructor
+     * Privilege constructor.
      *
      * @param name The privilege name.
      */
-    public Privilege(String name) {
+    public Privilege(final String name) {
         this.name = name;
     }
 }

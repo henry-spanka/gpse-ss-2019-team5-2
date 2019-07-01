@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ICalController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MeetingService meetingService;
+    private MeetingService meetingService;
 
     /**
      * Get iCal for a user.
@@ -39,7 +39,7 @@ public class ICalController {
      * @return calendar in iCal format.
      */
     @GetMapping("/ical/{token}")
-    public ResponseEntity getICalForToken(@PathVariable("token") UUID token) {
+    public ResponseEntity getICalForToken(final @PathVariable("token") UUID token) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -47,17 +47,17 @@ public class ICalController {
         User user;
 
         try {
-            user = userService.findUserByICalToken(token).orElseThrow();
+            user = userService.findUserByICalToken(token).orElseThrow(); //NOPMD
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        Iterable<Meeting> meetings = meetingService.findByStartAtWithUser(user);
+        final Iterable<Meeting> meetings = meetingService.findByStartAtWithUser(user);
 
-        ICalendar ical = new ICalendar();
+        final ICalendar ical = new ICalendar();
 
-        for (Meeting meeting : meetings) {
-            VEvent event = new VEvent();
+        for (final Meeting meeting : meetings) {
+            final VEvent event = new VEvent(); //NOPMD
             event.setSummary(meeting.getTitle()).setLanguage("en-us");
             event.setDescription(meeting.getDescription()).setLanguage("en-us");
             event.setDateStart(Date.from(meeting.getStartAt().toInstant(ZoneOffset.ofHours(2))));
@@ -66,7 +66,7 @@ public class ICalController {
             ical.addEvent(event);
         }
 
-        HttpHeaders responseHeaders = new HttpHeaders();
+        final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("charset", "utf-8");
         responseHeaders.set("Content-Disposition", "inline; filename=\"calendar.ics\"");
         responseHeaders.set("filename", "calendar.ics");

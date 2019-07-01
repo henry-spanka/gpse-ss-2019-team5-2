@@ -7,7 +7,6 @@ import java.util.UUID;
 import gpse.team52.domain.Meeting;
 import gpse.team52.domain.MeetingRoom;
 import gpse.team52.domain.Participant;
-import gpse.team52.domain.Room;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -33,7 +32,7 @@ public interface MeetingRepository extends CrudRepository<Meeting, UUID> {
 
     @Query("SELECT r FROM Meeting m JOIN m.rooms r WHERE m.startAt <= :endAt AND m.endAt >= :startAt")
     List<MeetingRoom> getMeetingRoomMappingInTimeFrame(@Param("startAt") LocalDateTime startAt,
-                                                                         @Param("endAt") LocalDateTime endAt);
+                                                       @Param("endAt") LocalDateTime endAt);
 
     @Query("SELECT m FROM Meeting m WHERE m.startAt <= :endAt AND m.endAt >= :startAt AND m.disableRebookMeeting = :disableRebookMeeting")
     Iterable<Meeting> getMeetingInTimeFrameAndDisableRebookMeetingIsFalse(@Param("startAt") LocalDateTime startAt,

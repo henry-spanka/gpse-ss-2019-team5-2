@@ -1,5 +1,8 @@
 package gpse.team52.contract;
 
+/**
+ * HasPassword Validation interface.
+ */
 public interface HasPassword {
 
     String getPassword();

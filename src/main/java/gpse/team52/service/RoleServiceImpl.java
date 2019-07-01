@@ -1,13 +1,13 @@
 package gpse.team52.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import gpse.team52.contract.RoleService;
 import gpse.team52.domain.Role;
 import gpse.team52.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Role service implementation.
@@ -32,6 +32,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Get all roles.
+     *
      * @return all roles.
      */
     @Override
@@ -41,50 +42,55 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Get optional role from role Id.
+     *
      * @param roleId The role Id.
      * @return optional role.
      */
     @Override
-    public Optional<Role> get(UUID roleId) {
+    public Optional<Role> get(final UUID roleId) {
         return roleRepository.findById(roleId);
     }
 
     /**
      * Get optional role by name.
+     *
      * @param name The role name.
      * @return optional role.
      */
     @Override
-    public Optional<Role> getByName(String name) {
+    public Optional<Role> getByName(final String name) {
         return roleRepository.findByName(name);
     }
 
     /**
      * Create role.
+     *
      * @param role The role.
      * @return the created role.
      */
     @Override
-    public Role create(Role role) {
+    public Role create(final Role role) {
         return roleRepository.save(role);
     }
 
     /**
      * Update role.
+     *
      * @param role The role.
      * @return the updated role.
      */
     @Override
-    public Role update(Role role) {
+    public Role update(final Role role) {
         return roleRepository.save(role);
     }
 
     /**
      * Delete role.
+     *
      * @param role The role.
      */
     @Override
-    public void delete(Role role) {
+    public void delete(final Role role) {
         roleRepository.delete(role);
     }
 }

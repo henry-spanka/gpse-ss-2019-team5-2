@@ -31,6 +31,5 @@ public interface MailService {
     void sendEmailTemplate(Participant participant,
                            String subject, ModelAndView template) throws MailException;
 
-     void sendEmailToCAndidate(final Candidate candidate, final String subject,
-                                     final ModelAndView template) throws MailException;
+     void sendEmailToCAndidate(Candidate candidate, String subject, ModelAndView template) throws MailException;
 }

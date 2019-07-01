@@ -1,10 +1,10 @@
 package gpse.team52.repository;
 
-import gpse.team52.domain.Privilege;
-import org.springframework.data.repository.CrudRepository;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import gpse.team52.domain.Privilege;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * Privilege repository.
