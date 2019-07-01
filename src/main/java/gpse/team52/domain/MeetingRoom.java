@@ -2,17 +2,14 @@ package gpse.team52.domain;
 
 
 import java.io.Serializable;
+import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * Room where a meeting is held.
@@ -24,10 +21,16 @@ public class MeetingRoom implements Serializable {
     /**
      * The meeting.
      */
+    @Id
+    @Getter
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", nullable = false, updatable = false,
+    columnDefinition = "BINARY(16)")
+    private UUID meetingRoomId;
+
     @Getter
     @Setter
-    @EmbeddedId
-    @MapsId("meeting_id")
     @JoinColumn(name = "meeting_id")
     @ManyToOne
     private Meeting meeting;
@@ -37,8 +40,6 @@ public class MeetingRoom implements Serializable {
      */
     @Getter
     @Setter
-    @EmbeddedId
-    @MapsId("room_id")
     @JoinColumn(name = "room_id")
     @ManyToOne
     private Room room;
@@ -58,6 +59,11 @@ public class MeetingRoom implements Serializable {
      */
     public MeetingRoom(final Meeting meeting, final Room room, final int participants) {
         this.meeting = meeting;
+        this.room = room;
+        this.participants = participants;
+    }
+
+    public MeetingRoom(final Room room, final int participants) {
         this.room = room;
         this.participants = participants;
     }

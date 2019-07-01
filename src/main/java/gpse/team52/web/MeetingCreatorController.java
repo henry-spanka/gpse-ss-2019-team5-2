@@ -191,7 +191,7 @@ public class MeetingCreatorController {
                         changeRoom.add(room);
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
-                        //rebook(m, changeRoom);
+                        rebook(m, changeRoom);
                         System.out.println("Would have rebooked " + m.getTitle() + " from " + room.getRoomName() + " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
@@ -262,10 +262,10 @@ public class MeetingCreatorController {
                 }
             }
             if (found) {
+                MeetingRoom newMeetingRoom = new MeetingRoom(rooms.get(i + 1), meetingRoom.getParticipants()); //NOPMD
+                //meeting.removeRoom(meetingRoom);
+                //meeting.addRoom(newMeetingRoom);
                 meetingRoom.setRoom(rooms.get(i + 1));
-                //roomRepository.save(rooms.get(i));
-                //roomRepository.save(rooms.get(i + 1));
-
 
                 //Hier passiert der Fehler
                 //SQL Error: insert into meeting_room [...] null is not allowed for column 'ROOM_ID'
