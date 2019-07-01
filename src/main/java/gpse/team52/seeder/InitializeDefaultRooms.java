@@ -59,20 +59,6 @@ public class InitializeDefaultRooms {
     @SuppressWarnings("checkstyle:magicnumber")
     @PostConstruct
     public void init() {
-        // this should be in defaultUsers-bla
-        final UserRegistrationForm form1 = new UserRegistrationForm();
-        form1.setFirstName("Pia");
-        form1.setLastName("Hippel");
-        form1.setEmail("phippel@example.org");
-        form1.setUsername("phippel");
-        form1.setPassword(DEFAULT_PASSWORD);
-        form1.setPasswordConfirm(DEFAULT_PASSWORD);
-
-        try {
-            userService.createUser(form1, true, "ROLE_USER"); //NOPMD
-        } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
-            return;
-        }
 
         final Location bielefeld = locationService.getLocation("Bielefeld").orElseThrow();
         final Location guetersloh = locationService.getLocation("Gütersloh").orElseThrow();
