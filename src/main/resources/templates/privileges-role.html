@@ -1,0 +1,43 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <a href="/privileges"><h4>Zur&uuml;ck</h4></a>
+            <form action="/privileges/role" method="POST">
+                <h4 class="pt-2" style="font-weight: bolder;
+                text-decoration: underline #4B0082;" th:text="${role.getName()}">Role name</h4>
+                <div class="form-group">
+                    <div class="form-group">
+                        <fieldset>
+                            <div class="form-group">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input id="role" name="roleName" th:value="${role.getName()}" type="hidden">
+                                        <div th:each="privilege: ${privileges}">
+                                            <input id="privilege"
+                                                   th:checked="${role.getPrivileges().contains(privilege)}"
+                                                   th:name="privileges"
+                                                   th:value="${privilege.getName()}"
+                                                   type="checkbox">
+                                            <label for="privilege" th:text="${privilege.getName()}">Privilege</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+</script>
+</html>

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * User entity.
@@ -77,6 +78,7 @@ public class User implements UserDetails { //NOPMD
     private Set<Role> roles = new HashSet<>();
 
     @Getter
+    @Setter
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "privilege_id", referencedColumnName = "id")
     private Set<Privilege> privileges = new HashSet<>();
@@ -97,7 +99,7 @@ public class User implements UserDetails { //NOPMD
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+        return AuthorityUtils.createAuthorityList(roles.stream().map(Role::getName).collect(Collectors.joining()));
     }
 
     @Override

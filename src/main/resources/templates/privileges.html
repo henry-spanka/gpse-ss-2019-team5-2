@@ -1,0 +1,50 @@
+<!doctype html>
+<html layout:decorate="~{layout/main}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h4 class="pt-2" style="font-weight: bolder;
+                text-decoration: underline #4B0082;">Privileges</h4>
+            <form action="/privileges/user" method="GET">
+                <div class="form-group">
+                    <label for="user">user:</label>
+                    <input class="form-control" id="user" name="username" placeholder="username" type="text">
+                    <button class="btn btn-primary" type="submit">Edit user</button>
+                </div>
+            </form>
+            <div class="form-group">
+                <div class="form-group">
+                    <fieldset>
+                        <div class="form-group">
+                            <div th:each="role: ${roles}">
+                                <a th:href="'/privileges/role/' + ${role.getName()}">
+                                    <p th:text="${role.getName()}">Role name</p>
+                                </a>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div th:each="privilege: ${privileges}">
+                                            <input disabled="disabled"
+                                                   id="privilege"
+                                                   th:checked="${role.getPrivileges().contains(privilege)}"
+                                                   th:name="${role.getName()}"
+                                                   th:value="${privilege.getName()}" type="checkbox">
+                                            <label for="privilege" th:text="${privilege.getName()}">Privilege</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+</script>
+</html>

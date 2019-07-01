@@ -17,7 +17,6 @@ public class InitializeDefaultPrivilege {
 
     /**
      * Constructor for the used services.
-     *
      * @param privilegeService Service for rights
      */
     @Autowired

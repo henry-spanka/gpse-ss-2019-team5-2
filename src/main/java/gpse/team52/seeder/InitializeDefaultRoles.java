@@ -25,7 +25,6 @@ public class InitializeDefaultRoles {
 
     /**
      * Constructor for the used services.
-     *
      * @param roleService      Service for positions
      * @param privilegeService Service for positios
      */

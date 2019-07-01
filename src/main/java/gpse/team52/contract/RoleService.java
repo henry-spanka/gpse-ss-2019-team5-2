@@ -5,6 +5,9 @@ import gpse.team52.domain.Role;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Role service.
+ */
 public interface RoleService {
     Iterable<Role> getAll();
 
