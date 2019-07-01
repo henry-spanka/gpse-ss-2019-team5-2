@@ -1,9 +1,6 @@
 package gpse.team52.web;
 
-import java.util.UUID;
-
-import javax.validation.Valid;
-
+import gpse.team52.contract.RoleService;
 import gpse.team52.contract.UserService;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
@@ -21,6 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.util.UUID;
+
 /**
  * Responsible for registering a user.
  */
@@ -29,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class RegisterController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private Environment environment;
@@ -112,7 +114,7 @@ public class RegisterController {
 
     private User createUserAccount(final UserRegistrationForm form) throws UsernameExistsException,
     EmailExistsException, MailException {
-        final User user = userService.createUser(form, "ROLE_USER");
+        final User user = userService.createUser(form, roleService.getByName("ROLE_USER").orElseThrow());
         userService.sendVerificationEmail(user);
 
 

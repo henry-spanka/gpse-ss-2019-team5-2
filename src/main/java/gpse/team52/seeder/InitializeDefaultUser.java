@@ -1,5 +1,6 @@
 package gpse.team52.seeder;
 
+import gpse.team52.contract.RoleService;
 import javax.annotation.PostConstruct;
 
 import gpse.team52.contract.UserService;
@@ -9,6 +10,9 @@ import gpse.team52.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
+
 
 /* Initializes the Default User in the database.
  */
@@ -17,11 +21,18 @@ public class InitializeDefaultUser {
 
     private static final String DEFAULT_PASSWORD = "password";
 
+    private final RoleService roleService;
     private final UserService userService;
 
+    private final InitializeDefaultRoles initializeDefaultRoles;
+
     @Autowired
-    public InitializeDefaultUser(final UserService userService) {
+    public InitializeDefaultUser(final RoleService roleService,
+                                 final UserService userService,
+                                 final InitializeDefaultRoles initializeDefaultRoles) {
+        this.roleService = roleService;
         this.userService = userService;
+        this.initializeDefaultRoles = initializeDefaultRoles;
     }
 
     /**
@@ -38,7 +49,7 @@ public class InitializeDefaultUser {
         form.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
-            userService.createUser(form, true, "ROLE_ADMIN");
+            userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) { //NOPMD
             // Not an issue as we only need to create the admin user if it doesn't exist already.
         }
@@ -52,7 +63,7 @@ public class InitializeDefaultUser {
         form.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
-            userService.createUser(form, true, "ROLE_ADMIN");
+            userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
 
         }
@@ -65,7 +76,7 @@ public class InitializeDefaultUser {
         form.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
-            userService.createUser(form, true, "ROLE_ADMIN");
+            userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
 
         }
@@ -78,7 +89,7 @@ public class InitializeDefaultUser {
         form.setPasswordConfirm(DEFAULT_PASSWORD);
 
         try {
-            userService.createUser(form, true, "ROLE_ADMIN");
+            userService.createUser(form, true, roleService.getByName("ROLE_ADMIN").orElseThrow());
         } catch (UsernameExistsException | EmailExistsException e) {
 
         }

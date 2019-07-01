@@ -12,7 +12,7 @@
     }
     body {
       margin-left: 10;
-      margin-right: 10;
+          margin-privilege: 10;
       font:normal 80% arial,helvetica,sanserif;
       background-color:#FFFFFF;
       color:#000000;
@@ -51,7 +51,7 @@
       color: white;
       text-decoration: none;
       padding: 5px;
-      margin-right: 2px;
+          margin-privilege: 2px;
       margin-left: 2px;
       margin-bottom: 0;
     }
@@ -67,10 +67,15 @@
           <img src="http://jakarta.apache.org/images/jakarta-logo.gif" alt="http://jakarta.apache.org" align="left" border="0"/>
           </a-->
         </td>
-            <td class="text-align:right"><h2>CheckStyle Audit</h2></td>
+        <td class="text-align:privilege">
+          <h2>CheckStyle Audit</h2>
+        </td>
             </tr>
             <tr>
-            <td class="text-align:right">Designed for use with <a href='http://checkstyle.sourceforge.net/'>CheckStyle</a> and <a href='http://jakarta.apache.org'>Ant</a>.</td>
+              <td class="text-align:privilege">Designed for use with <a href='http://checkstyle.sourceforge.net/'>
+                CheckStyle
+              </a> and <a href='http://jakarta.apache.org'>Ant</a>.
+              </td>
             </tr>
       </table>
         <hr size="1"/>
@@ -159,8 +164,8 @@
     
   <xsl:template name="alternated-row">
     <xsl:attribute name="class">
-      <xsl:if test="position() mod 2 = 1">a</xsl:if>
-      <xsl:if test="position() mod 2 = 0">b</xsl:if>
+      <xsl:if test="role() mod 2 = 1">a</xsl:if>
+      <xsl:if test="role() mod 2 = 0">b</xsl:if>
     </xsl:attribute>  
   </xsl:template>   
 </xsl:stylesheet>

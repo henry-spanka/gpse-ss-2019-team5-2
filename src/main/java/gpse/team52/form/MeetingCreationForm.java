@@ -1,20 +1,22 @@
 package gpse.team52.form;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import gpse.team52.domain.Location;
 import gpse.team52.validator.LocationsHaveParticipants;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Meeting Creation form which contains the basic parameters for creating a meeting.
@@ -73,6 +75,10 @@ public class MeetingCreationForm {
 
     @Setter
     private List<Location> locationDetails;
+
+    @Getter
+    @Setter
+    private boolean disableRebookMeeting;
 
     /**
      * Validation Group interface.

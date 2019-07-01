@@ -7,6 +7,7 @@ import gpse.team52.contract.UserService;
 import gpse.team52.contract.mail.MailService;
 import gpse.team52.domain.ConfirmationToken;
 import gpse.team52.domain.ForgotPasswordToken;
+import gpse.team52.domain.Role;
 import gpse.team52.domain.User;
 import gpse.team52.exception.EmailExistsException;
 import gpse.team52.exception.EmailNotFoundException;
@@ -22,6 +23,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * User Service implementation.
@@ -77,14 +81,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(final UserRegistrationForm form, final String... roles) throws UsernameExistsException,
+    public User createUser(final UserRegistrationForm form, final Role... roles) throws UsernameExistsException,
     EmailExistsException {
         return createUser(form, false, roles);
     }
 
     @Override
     @SuppressWarnings("checkstyle:multiplestringliterals")
-    public User createUser(final UserRegistrationForm form, final boolean enabled, final String... roles)//NOPMD
+    public User createUser(final UserRegistrationForm form, final boolean enabled, final Role... roles)//NOPMD
     throws UsernameExistsException,
     EmailExistsException {
         if (emailExists(form.getEmail())) {
@@ -99,7 +103,7 @@ public class UserServiceImpl implements UserService {
         final User user = new User(form, encodedPassword);
         user.setEnabled(enabled);
 
-        for (final String role : roles) {
+        for (final Role role : roles) {
             user.addRole(role);
         }
 

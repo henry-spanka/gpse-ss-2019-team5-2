@@ -1,12 +1,5 @@
 package gpse.team52.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.persistence.*;
-
 import gpse.team52.form.UserRegistrationForm;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +7,13 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * User entity.
@@ -72,8 +72,16 @@ public class User implements UserDetails { //NOPMD
     @Column(nullable = false)
     private boolean isEnabled = false;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
+    @Getter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Set<Role> roles = new HashSet<>();
+
+    @Getter
+    @Setter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "privilege_id", referencedColumnName = "id")
+    private Set<Privilege> privileges = new HashSet<>();
 
     @Getter
     @Column(nullable = true, unique = true)
@@ -108,7 +116,7 @@ public class User implements UserDetails { //NOPMD
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+        return AuthorityUtils.createAuthorityList(roles.stream().map(Role::getName).collect(Collectors.joining()));
     }
 
     @Override
@@ -135,26 +143,24 @@ public class User implements UserDetails { //NOPMD
      *
      * @param role The rule to be added.
      */
-    public void addRole(final String role) {
-        if (roles == null) {
-            this.roles = new ArrayList<>();
-        }
-
+    public void addRole(Role role) {
         this.roles.add(role);
     }
 
-    public String userToString(){
-        String rolesString ="";
-        if (roles.size()!=0){
-        rolesString= roles.get(0);
+    public void addPrivilege(Privilege privilege) {
+        this.privileges.add(privilege);
+    }
+
+    public String userToString() {
+        StringBuilder rolesString = new StringBuilder();
+        if (roles.size() != 0) {
+            rolesString = new StringBuilder(roles.toArray(Role[]::new)[0].getName());
             for (int i = 1; i < roles.size(); i++) {
-                rolesString = rolesString+","+roles.get(i);
+                rolesString.append(",").append(roles.toArray(Role[]::new)[i].getName());
             }
 
         }
 
-        String string = username+";"+firstname+";"+lastname+";"+email+";"+rolesString;
-
-        return string;
+        return username + ";" + firstname + ";" + lastname + ";" + email + ";" + rolesString;
     }
 }

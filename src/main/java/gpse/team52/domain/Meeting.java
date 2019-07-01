@@ -19,6 +19,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
+
 /**
  * Meeting Entity.
  */
@@ -116,6 +121,11 @@ public class Meeting {
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private Set<MeetingRoom> rooms = new HashSet<>();
 
+    @Getter
+    @Setter
+    @Column
+    private boolean disableRebookMeeting;
+
     /**
      * Constructor for Meeting with parameters.
      *
@@ -174,7 +184,6 @@ public class Meeting {
 
     /**
      * Get startAt with timezone offset.
-     *
      * @param offset
      */
     public LocalDateTime getStartAt(long offset) {
