@@ -245,8 +245,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(final LocalDateTime start, final LocalDateTime end,
-                                                                    final boolean flexible) {
-        return meetingRepository.getMeetinginTimeFrameAndFlexibleIsTrue(start, end, flexible);
+    public Iterable<Meeting> getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(final LocalDateTime start,
+                                                                                 final LocalDateTime end,
+                                                                                 boolean disableRebookMeeting) {
+        return meetingRepository.getMeetingInTimeFrameAndDisableRebookMeetingIsFalse(start, end, disableRebookMeeting);
     }
 }

@@ -56,7 +56,7 @@ public interface MeetingService {
 
     void sendConfirmationEmail(User user, Meeting meeting);
 
-    Iterable<Meeting> getMeetinginTimeFrameAndFlexibleIsTrue(LocalDateTime start, LocalDateTime end, boolean flexible);
+    Iterable<Meeting> getMeetinginTimeFrameAndDisableRebookMeetingIsFalse(LocalDateTime start, LocalDateTime end, boolean disableRebookMeeting);
 
     void notifyParticipant(Meeting meeting, Participant participant);
 

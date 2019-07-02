@@ -36,9 +36,10 @@ public class RoomFinderServiceImpl implements RoomFinderService {
      * Find all matching rooms for the MeetingCreationForm request.
      *
      * @param meeting The MeetingCreationForm.
+     * @param considerFlex Whether meetings which are allowed to be rebooked should be considered or not
      * @return Map of rooms for each location.
      */
-    public Map<String, List<Room>> find(final MeetingCreationForm meeting) { //NOPMD
+    public Map<String, List<Room>> find(final MeetingCreationForm meeting, boolean considerFlex) { //NOPMD
         final List<String> locations = meeting.getLocations();
         final Map<String, List<String>> equipment = meeting.getEquipment(); //NOPMD
 
@@ -52,8 +53,11 @@ public class RoomFinderServiceImpl implements RoomFinderService {
             .stream().map(UUID::fromString).collect(Collectors.toList());
 
             final List<Room> rooms = findMatchingRooms(locationUuid, meeting.getParticipant(location), equipmentList);
-            filterUnavailableRoomsWithFlexible(rooms, meeting.getStartDateTime(), meeting.getEndDateTime());
-
+            if (considerFlex) {
+                filterUnavailableRoomsWithFlexible(rooms, meeting.getStartDateTime(), meeting.getEndDateTime());
+            } else {
+                filterUnavailableRooms(rooms, meeting.getStartDateTime(), meeting.getEndDateTime());
+            }
             result.put(location, rooms);
         }
 
@@ -64,7 +68,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     public List<Room> findBest(final MeetingCreationForm meeting) throws NoRoomAvailableException { //NOPMD
         final List<Room> rooms = new ArrayList<>(); //NOPMD
 
-        final Map<String, List<Room>> availableRooms = find(meeting); //NOPMD
+        final Map<String, List<Room>> availableRooms = find(meeting, false); //NOPMD
 
         try {
             for (final String location : meeting.getLocations()) {
@@ -88,7 +92,7 @@ public class RoomFinderServiceImpl implements RoomFinderService {
     public Map<String, List<Room>> findOther(final Meeting meeting, final Map<String, List<Room>> roomsForNew) //NOPMD
     throws RebookingImpossibleException, RebookingNotNecessaryException {
 
-        final long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours(); //LocalDateTime.now()
+        final long timeDif = Duration.between(LocalDateTime.now(), meeting.getStartAt()).toHours();
         // if meeting is within next 24h there's no rebooking possible
         if (timeDif < 24) { //NOPMD
             throw new RebookingImpossibleException("Time limit exceeded.");
@@ -121,8 +125,8 @@ public class RoomFinderServiceImpl implements RoomFinderService {
                         currentLocationId, currentMeetingRoom.getParticipants())) {
                             final List<UUID> equipmentList = room.getEquipment().stream().map(Equipment::getEquipmentID)
                             .collect(Collectors.toList());
-                            final List<UUID> currentEq = currentRoom.getEquipment().stream().map(Equipment::getEquipmentID)
-                            .collect(Collectors.toList());
+                            final List<UUID> currentEq = currentRoom.getEquipment().stream()
+                            .map(Equipment::getEquipmentID).collect(Collectors.toList());
                             if (equipmentList.containsAll(currentEq)) { //NOPMD
                                 // Problem: der raum in dem das meeting stattfindet, kann ja mehr equipment als
                                 // noetig enthalten, aber meeting selbst hat kein equipment
@@ -157,9 +161,9 @@ public class RoomFinderServiceImpl implements RoomFinderService {
 
     private void filterUnavailableRoomsWithFlexible(final List<Room> rooms, final LocalDateTime start,
                                                     final LocalDateTime end) {
-        // if meeting shouldn't be rebookable flexible = false
         final List<UUID> conflicts = meetingRepository //NOPMD
-        .getMeetingRoomMappingInTimeFrameAndFlexibleIsFalse(start, end, false)
+        .getMeetingRoomMappingInTimeFrameAndDisableRebookMeetingIsTrue(start, end, true)
+        // if meeting shouldn't be rebookable disableRebooking = true
         .stream().map(r -> r.getRoom().getRoomID()).collect(Collectors.toList());
 
         rooms.removeIf(r -> conflicts.contains(r.getRoomID()));
