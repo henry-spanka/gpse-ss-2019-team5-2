@@ -86,15 +86,6 @@ public class Meeting {
     private boolean confirmed = false;
 
     /**
-     * Boolean if meeting room can be changed.
-     * Can only be changed by specified users. (Admin etc)
-     */
-    @Getter
-    @Setter
-    @Column(nullable = false)
-    private boolean flexible = true;
-
-    /**
      * Description of the meeting.
      */
     @Getter

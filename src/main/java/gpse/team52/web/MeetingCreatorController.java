@@ -206,8 +206,8 @@ public class MeetingCreatorController {
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
                         rebook(meeting1, changeRoom);
-                        System.out.println("Would have rebooked " + meeting1.getTitle() + " from " + room.getRoomName() //NOPMD
-                        + " to " + roomAlter.getRoomName());
+                        //System.out.println("Would have rebooked " + meeting1.getTitle() + " from " + room.getRoomName() //NOPMD
+                        //+ " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
                 }
