@@ -13,6 +13,7 @@ Easy to use Room Management system to schedule meetings within an organization.
         * [Mail Configuration](#Mail-Configuration)
         * [Restricting Domains for self enrollment](#Restricting-Domains-for-self-enrollment)
 2. [Architecture](#Architecture)
+    * [Project Structure](#Project-Structure)
 3. [User Guide](#User-Guide)
     * [Login](#Login)
     * [Logout](#Logout)
@@ -114,11 +115,42 @@ register.allowed-domains = domain1.com,domain2.com
 ```
 
 # Architecture
-Roomed is developed in Java, a multi purpose programming language using Spring as a framework with Thymeleaf as template engine.
+Roomed is developed in Java, a multi-purpose programming language using Spring as a framework with Thymeleaf as templating engine.
 
-Roomed uses Hibernate and H2Database for persisting data.
+Roomed uses Hibernate and H2Database with Spring JPA for persisting data.
 
 The frontend is built using Thymeleaf, Bootstrap, Fontawesome and jQuery.
+
+Roomed follows the MVC architecture, meaning for each web endpoint a controller exists which handles requests. The request is then passed to the business and service layer which performs business logic. The views are rendered in the controller by using a ModelAndView Spring object using the Thymeleaf Layout Dialect for template reuse.
+
+### Project Structure
+Roomed is split into multiple directories and packages.
+
+- codecheck **(Java Checkstyle & PMD Configuration files)**
+- src **(Java source code)**
+    - it/java/gpse/team52 **(Integration tests)**
+    - main/java/gpse **(Application Code)**
+        - command **(Spring DTOs)**
+        - config **(Spring configuration classes)**
+        - contract **(Service definitions/interfaces)**
+        - convert **(Data conversion classes)**
+        - domain **(Database domain entities)**
+        - exception **(Application exceptions)**
+        - form **(Spring DTOs for application requests)**
+        - helper **(Helper classes, e.g. build mail content)**
+        - repository **(Spring JPA Repositories)**
+        - seeder **(Database seeders that run on startup)**
+        - service **(Contract implementations)**
+        - storage **(Storage properties for persisting data to the hard disk)**
+        - validator **(Java Annotation Validator definitions)**
+            - impl **(Java Annotation Validator implementations)**
+        - web **(Spring Web Controllers)**
+    - main/resources **(Application Resources)**
+- static **(static assets such as pictures and files)**
+- [LICENSE](LICENSE) **(copy of Roomed license)**
+- [pom.xml](pom.xml) **(Maven project manifest)**
+- [README.md](README.md) **(this manual)**
+- [Vagrantfile](Vagrantfile) **(Vagrantfile to run MailHog for mailserver testing)**
 
 # User Guide
 This guide is intended for users and administrators of Roomed.
@@ -234,7 +266,10 @@ The owner can and should confirm his/her meeting. The meeting can be confirmed w
 If a user does not confirm the meeting then the meeting will be deleted by the system to open the room for new meetings again.
 
 ##### Rebooking
-Roomed can automatically rebook meetings. If a meeting should not be rebooked you can check the checkbox during [meeting creation](#Create).
+Roomed can automatically rebook meetings to optimize room usage.
+If necessary, Roomed will automatically relace rooms for a meeting with better rooms with same (or more) equipment. Roomed will only rebook if the meeting is not starting in the next 12 hours.
+
+If a meeting should not be rebooked you can check the checkbox during [meeting creation](#Create).
 Participants are automatically notified when rooms are changed via email. To disable these notifications see [Participants](#Participants).
 
 # Admin Guide
