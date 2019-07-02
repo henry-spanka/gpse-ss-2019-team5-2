@@ -170,7 +170,7 @@ public class MeetingController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("regUsers", userService.getAllUsers());
         modelAndView.addObject("addParticipants", form);
-        modelAndView.addObject("availableRooms", roomFinderService.find(meeting.toMeetingCreationForm()));
+        modelAndView.addObject("availableRooms", roomFinderService.find(meeting.toMeetingCreationForm(), false));
 
         if (checkOwner(user, meeting)) {
             final boolean isOwner = true;

@@ -163,7 +163,7 @@ public class MeetingCreatorController {
         final ModelAndView modelAndView = new ModelAndView("selectMeetingRooms");
         final LocalDateTime start = meeting.getStartDateTime();
         final LocalDateTime end = meeting.getEndDateTime();
-        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting); //NOPMD
+        Map<String, List<Room>> roomsForNew = roomFinderService.find(meeting, true); //NOPMD
         alternativeMeetingRooms = new ArrayList<>();
 
         final ArrayList<Meeting> checkMeetings = new ArrayList<>();
@@ -206,8 +206,6 @@ public class MeetingCreatorController {
                         changeRoom.add(roomAlter);
                         // just get first entry in alternative room selection to select new room
                         rebook(meeting1, changeRoom);
-                        //System.out.println("Would have rebooked " + meeting1.getTitle() + " from " + room.getRoomName() //NOPMD
-                        //+ " to " + roomAlter.getRoomName());
                         break; // bc room won't be there twice
                     }
                 }

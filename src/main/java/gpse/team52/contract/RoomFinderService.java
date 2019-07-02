@@ -14,7 +14,7 @@ import gpse.team52.form.MeetingCreationForm;
  * Interface for the room finder.
  */
 public interface RoomFinderService {
-    Map<String, List<Room>> find(MeetingCreationForm meetingCreationForm);
+    Map<String, List<Room>> find(MeetingCreationForm meetingCreationForm, boolean withFlex);
 
     List<Room> findBest(MeetingCreationForm meetingCreationForm) throws NoRoomAvailableException;
 
