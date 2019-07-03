@@ -48,6 +48,11 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setEndAt(end);
         meeting.setOwner(owner);
 
+        final Participant ownerParticipant = new Participant(owner);
+        ownerParticipant.setNotifiable(true);
+
+        meeting.addParticipant(ownerParticipant);
+
         return createMeeting(meeting, room, participants);
     }
 
